@@ -1,5 +1,4 @@
 <template lang="pug">
-h1 App
 router-view
 </template>
 
