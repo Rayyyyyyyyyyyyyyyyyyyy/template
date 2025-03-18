@@ -1,13 +1,7 @@
-<template lang="pug">
-p Home
-</template>
-
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  name: "Home"
-});
+<script setup lang="ts">
 </script>
 
-<style lang="scss" scoped></style>
+<template>
+  <main>
+  </main>
+</template>

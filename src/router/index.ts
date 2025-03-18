@@ -1,22 +1,16 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import RouterNames from "@/router/name";
-
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: "/",
-    name: RouterNames.home,
-    component: () => import("@/views/Home.vue")
-  },
-  {
-    path: "/:catchAll(.*)",
-    name: RouterNames.notFound,
-    component: () => import("@/views/NotFound.vue")
-  }
-];
+import { createRouter, createWebHistory } from 'vue-router'
+import Home from '@/layout/HomeView.vue'
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
-});
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: Home,
+    },
 
-export default router;
+  ],
+})
+
+export default router

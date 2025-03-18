@@ -1,0 +1,22 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "include": [
+    "env.d.ts",
+    "src/**/*",
+    "src/**/*.vue",
+    "src/**/*.json",
+    "src/**/*.ts",
+    "src/**/types/*"
+  ],
+  "exclude": ["src/**/__tests__/*"],
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "tailwind.config.js": ["./tailwind.config.d.ts"]
+    },
+    "types": ["element-plus/global", "vitest/importMeta"]
+  }
+}
