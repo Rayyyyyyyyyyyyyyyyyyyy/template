@@ -1,0 +1,47 @@
+# 開發文件
+src/
+public/
+cypress/
+.vscode/
+.cursor/
+node_modules/
+
+# 配置文件
+*.config.ts
+*.config.js
+tsconfig*.json
+.env*
+.gitignore
+.eslintrc*
+.prettierrc*
+
+# 測試文件
+**/*.spec.ts
+**/*.test.ts
+**/__tests__/
+
+# 文檔和示例
+docs/
+examples/
+demo/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# 日誌
+*.log
+logs/
+
+# 臨時文件
+.tmp/
+.cache/
+.DS_Store
+Thumbs.db
+
+# 只保留 dist 和必要文件
+!dist/
+!package.json
+!README.md
+!LICENSE
