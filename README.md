@@ -13,11 +13,11 @@
 ## 安裝
 
 ```bash
-npm install @your-scope/vue-table-components
+npm install rayyy-vue-table-components
 # 或
-yarn add @your-scope/vue-table-components
+yarn add rayyy-vue-table-components
 # 或
-pnpm add @your-scope/vue-table-components
+pnpm add rayyy-vue-table-components
 ```
 
 ## 使用方法
@@ -26,8 +26,8 @@ pnpm add @your-scope/vue-table-components
 
 ```typescript
 import { createApp } from 'vue'
-import VueTableComponents from '@your-scope/vue-table-components'
-import '@your-scope/vue-table-components/style.css'
+import VueTableComponents from 'rayyy-vue-table-components'
+import 'rayyy-vue-table-components/dist/rayyy-vue-table-components.css'
 
 const app = createApp(App)
 app.use(VueTableComponents)
@@ -46,9 +46,9 @@ app.use(VueTableComponents)
 </template>
 
 <script setup lang="ts">
-import { BaseTable } from '@your-scope/vue-table-components'
-import type { TableColumn, SortChangValue } from '@your-scope/vue-table-components'
-import '@your-scope/vue-table-components/style.css'
+import { BaseTable } from 'rayyy-vue-table-components'
+import type { TableColumn, SortChangValue } from 'rayyy-vue-table-components'
+import 'rayyy-vue-table-components/dist/rayyy-vue-table-components.css'
 
 interface User {
   id: number
