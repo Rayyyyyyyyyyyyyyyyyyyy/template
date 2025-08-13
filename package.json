@@ -1,6 +1,6 @@
 {
   "name": "rayyy-vue-table-components",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Vue 3 + Element Plus 表格組件庫",
   "type": "module",
   "main": "./dist/index.umd.js",
