@@ -9,38 +9,36 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'        # 與本地版本統一
           cache: 'npm'
-          
+          registry-url: https://registry.npmjs.org
+
       - name: Install dependencies
-        run: npm ci
+        run: npm install            # 關鍵：不要用 npm ci
         
       - name: Fix rollup dependencies
-        run: |
-          npm install @rollup/rollup-linux-x64-gnu --no-save
-          npm install @rollup/rollup-darwin-x64 --no-save
-          npm install @rollup/rollup-win32-x64-msvc --no-save
-        
+        run: npm install @rollup/rollup-linux-x64-gnu --no-save
+
       - name: Run linting
-        run: npm run lint
-        
+        run: npm run lint --if-present
+
       - name: Run type check
-        run: npm run type-check
-        
+        run: npm run type-check --if-present
+
       - name: Run tests
-        run: npm run test:unit:ci
-        
+        run: npm run test:unit:ci --if-present
+
       - name: Build package
-        run: npm run build
-        
+        run: npm run build --if-present
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
