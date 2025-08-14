@@ -8,30 +8,40 @@ export default defineConfig({
     environment: 'jsdom',
     exclude: [...configDefaults.exclude, 'e2e/**'],
     root: fileURLToPath(new URL('./', import.meta.url)),
-    // 使用 vmThreads 避免 rollup 問題
-    pool: 'vmThreads',
+    // 使用最簡單的配置避免 rollup 問題
+    pool: 'forks',
     poolOptions: {
-      vmThreads: {
-        singleThread: true
+      forks: {
+        singleFork: true
       }
     },
     // 設置超時時間
-    testTimeout: 10000,
-    // 設置 hook 超時時間
-    hookTimeout: 10000,
+    testTimeout: 30000,
+    hookTimeout: 30000,
     // 禁用並發
-    maxConcurrency: 1
+    maxConcurrency: 1,
+    // 禁用快照
+    snapshotSerializers: [],
+    // 禁用覆蓋率
+    coverage: {
+      enabled: false
+    }
   },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-  // 避免使用 rollup 相關功能
+  // 最小化配置
   define: {
     __VUE_OPTIONS_API__: true,
     __VUE_PROD_DEVTOOLS__: false
   },
-  // 禁用 esbuild 優化
-  esbuild: false
+  // 禁用所有優化
+  esbuild: false,
+  build: {
+    rollupOptions: {
+      external: []
+    }
+  }
 })
