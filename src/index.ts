@@ -29,12 +29,12 @@ export default {
 }
 
 // 支援單個組件安裝（使用類型斷言）
-;(BaseTable as any).install = (app: App) => {
+;(BaseTable as Record<string, unknown>).install = (app: App) => {
   app.component(BaseTable.name || 'BaseTable', BaseTable)
 }
-;(BaseBtn as any).install = (app: App) => {
+;(BaseBtn as Record<string, unknown>).install = (app: App) => {
   app.component(BaseBtn.name || 'BaseBtn', BaseBtn)
 }
-;(BaseDialog as any).install = (app: App) => {
+;(BaseDialog as Record<string, unknown>).install = (app: App) => {
   app.component(BaseDialog.name || 'BaseDialog', BaseDialog)
 }
