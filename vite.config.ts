@@ -30,7 +30,9 @@ export default defineConfig(({ mode }) => {
       ...(isLib ? [
         dts({
           insertTypesEntry: true,
-          copyDtsFiles: true
+          copyDtsFiles: true,
+          include: ['src/**/*'],
+          exclude: ['src/**/*.spec.ts', 'src/**/*.test.ts']
         })
       ] : [])
     ],

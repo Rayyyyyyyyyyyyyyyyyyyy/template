@@ -1,10 +1,12 @@
-declare module '@your-scope/vue-table-components' {
+declare module 'rayyy-vue-table-components' {
   import type { App } from 'vue'
   import type { DefineComponent } from 'vue'
 
-    export function install(app: App, options?: Record<string, unknown>): void
+  export function install(app: App, options?: Record<string, unknown>): void
 
   export const BaseTable: DefineComponent
+  export const BaseBtn: DefineComponent
+  export const BaseDialog: DefineComponent
 
   export * from './types'
 

@@ -12,6 +12,11 @@ const routes = [
         name: ROUTE_NAMES.HOME,
         component: () => import('@/views/HomePage.vue'),
       },
+      {
+        path: ROUTES.DEMO,
+        name: ROUTE_NAMES.DEMO,
+        component: () => import('@/views/DemoPage.vue'),
+      },
     ],
   },
   {

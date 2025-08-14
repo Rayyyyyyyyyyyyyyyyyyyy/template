@@ -1,65 +1,37 @@
-<script setup lang="ts" generic="T extends Record<string, unknown>">
-import type { SortChangValue, TableColumn } from 'src/types'
-import type { TableColumnCtx } from 'element-plus'
-import type { VNode } from 'vue'
-import BaseTable from "@/components/BaseTable.vue";
+<script setup lang="ts">
+import { useRouter } from 'vue-router'
 
-defineProps<{
-  data: T[]
-  columns: TableColumn<T>[]
-  tableTitle?: string
-  propIsEditable?: boolean
-  showSelection?: boolean
-  loading?: boolean
-  showSummary?: boolean
-  showOverFlowTooltip?: boolean
-  summaryMethod?: (param: { columns: TableColumnCtx<Record<string, unknown>>[]; data: T[] }) => (string | VNode)[]
-  sortTableRowClassName?: (data: { row: T; rowIndex: number }) => string
-}>()
+const router = useRouter()
 
-const emit = defineEmits<{
-  (e: 'update:selectRow', value: T[]): void
-  (e: 'click:cell', column: TableColumn<T>, row: T): void
-  (e: 'click:columnSort', data: SortChangValue<T>): void
-}>()
-
-
-const handleSelectionChange = (selectList: T[]) => {
-  emit('update:selectRow', selectList)
-}
-const handleCellClick = (column: TableColumn<T>, row: T) => {
-  emit('click:cell', column, row)
-}
-
-const handleColumnSortChange = (data: SortChangValue<T>) => {
-  emit('click:columnSort', data)
+const goToDemo = () => {
+  router.push('/demo')
 }
 </script>
 
 <template>
-  <div class="data-table-container" data-cy="sort-table">
-
-
-    <base-table
-      v-loading="loading"
-      element-loading-text="數據加載中..."
-      :data="data"
-      :columns="columns"
-      :show-summary="showSummary"
-      :show-over-flow-tooltip="showOverFlowTooltip"
-      :summary-method="summaryMethod"
-      :show-selection="propIsEditable || showSelection"
-      :base-table-row-class-name="sortTableRowClassName"
-      @selection-change="handleSelectionChange"
-      @cell-click="handleCellClick"
-      @column-sort-change="handleColumnSortChange"
-    />
+  <div class="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div class="text-center">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        Vue Table Components
+      </h1>
+      <p class="text-xl text-gray-600 mb-8">
+        基於 Vue 3 + Element Plus 的強大表格組件庫
+      </p>
+      <div class="space-x-4">
+        <button
+          @click="goToDemo"
+          class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          查看示範
+        </button>
+        <a
+          href="https://www.npmjs.com/package/rayyy-vue-table-components"
+          target="_blank"
+          class="inline-block px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+        >
+          安裝套件
+        </a>
+      </div>
+    </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.data-table-container {
-  @apply w-full mb-4;
-}
-
-</style>
