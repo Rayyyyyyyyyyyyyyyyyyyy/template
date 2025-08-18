@@ -44,7 +44,11 @@ echo "✅ 新版本: $NEW_VERSION"
 
 # 6. 創建 git tag
 echo "🏷️  創建 git tag..."
-git tag "v$NEW_VERSION"
+if git tag -l | grep -q "v$NEW_VERSION"; then
+    echo "⚠️  Tag v$NEW_VERSION 已存在，跳過創建"
+else
+    git tag "v$NEW_VERSION"
+fi
 git push origin develop
 git push origin "v$NEW_VERSION"
 
