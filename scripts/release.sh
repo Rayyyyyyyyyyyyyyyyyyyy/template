@@ -44,10 +44,8 @@ echo "✅ 新版本: $NEW_VERSION"
 
 # 6. 創建 git tag
 echo "🏷️  創建 git tag..."
-git add .
-git commit -m "chore: release v$NEW_VERSION"
 git tag "v$NEW_VERSION"
-git push origin main
+git push origin develop
 git push origin "v$NEW_VERSION"
 
 echo "🎉 發布流程完成！"
