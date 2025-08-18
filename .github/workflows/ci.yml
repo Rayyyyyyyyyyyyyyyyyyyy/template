@@ -17,15 +17,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'        # 與本地版本統一
+          node-version: '22'
           cache: 'npm'
           registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
-        run: npm install            # 關鍵：不要用 npm ci
-        
-      - name: Fix rollup dependencies
-        run: npm install @rollup/rollup-linux-x64-gnu --no-save
+        run: npm install
 
       - name: Run linting
         run: npm run lint --if-present
