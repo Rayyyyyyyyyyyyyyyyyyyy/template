@@ -12,11 +12,20 @@
       "import": "./dist/index.es.js",
       "require": "./dist/index.umd.js"
     },
-    "./dist/rayyy-vue-table-components.css": "./dist/rayyy-vue-table-components.css"
+    "./dist/rayyy-vue-table-components.css": "./dist/rayyy-vue-table-components.css",
+    "./types": {
+      "types": "./src/types/index.ts",
+      "import": "./src/types/index.ts"
+    },
+    "./components": {
+      "types": "./src/components/index.ts",
+      "import": "./src/components/index.ts"
+    }
   },
   "files": [
     "dist/*",
     "src/components/*",
+    "src/components/index.ts",
     "src/types/*",
     "README.md"
   ],

@@ -54,8 +54,17 @@ app.use(VueTableComponents)
 </template>
 
 <script setup lang="ts">
+// 方式一：從主模塊導入
 import { BaseTable, BaseBtn, BaseDialog } from 'rayyy-vue-table-components'
 import type { TableColumn, SortChangValue } from 'rayyy-vue-table-components'
+
+// 方式二：單獨導入組件
+import { BaseTable } from 'rayyy-vue-table-components/components'
+import type { TableColumn } from 'rayyy-vue-table-components/types'
+
+// 方式三：單獨導入類型
+import type { SortChangValue } from 'rayyy-vue-table-components/types'
+
 import 'rayyy-vue-table-components/dist/rayyy-vue-table-components.css'
 
 interface User {

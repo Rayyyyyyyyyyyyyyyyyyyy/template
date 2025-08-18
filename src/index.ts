@@ -2,14 +2,15 @@ import type { App } from 'vue'
 import BaseTable from './components/BaseTable.vue'
 import BaseBtn from './components/BaseBtn.vue'
 import BaseDialog from './components/BaseDialog.vue'
-import type * as Types from './types'
 
 // 導出類型
 export * from './types'
-export type { Types }
 
 // 導出組件
 export { BaseTable, BaseBtn, BaseDialog }
+
+// 重新導出組件索引
+export * from './components'
 
 // 組件列表（參考 ElementUI 的做法）
 const components = [BaseTable, BaseBtn, BaseDialog]
