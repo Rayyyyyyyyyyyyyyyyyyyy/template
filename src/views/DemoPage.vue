@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { BaseTable, BaseBtn, BaseDialog } from 'rayyy-vue-table-components'
+import { BaseTable, BaseBtn, BaseDialog } from '@/components'
 import type { TableColumn, SortChangValue } from '@/types'
 import { h } from 'vue'
 
@@ -327,7 +327,7 @@ const simulateLoading = () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50">
+      <div class="min-h-screen bg-navy-10">
     <!-- Header -->
     <header class="bg-white shadow-sm border-b">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -339,14 +339,14 @@ const simulateLoading = () => {
           <div class="flex space-x-4">
             <button
               @click="simulateLoading"
-              class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
             >
               模擬加載
             </button>
             <a
               href="https://www.npmjs.com/package/rayyy-vue-table-components"
               target="_blank"
-              class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              class="px-4 py-2 bg-green text-white rounded-lg hover:bg-green-dark transition-colors"
             >
               查看 NPM
             </a>
@@ -364,7 +364,7 @@ const simulateLoading = () => {
             <h2 class="text-xl font-semibold text-gray-900">用戶管理表格</h2>
             <p class="mt-1 text-gray-600">
               展示選擇列、排序、自定義模板等功能
-              <span v-if="state.selectedUsers.length > 0" class="ml-2 text-blue-600">
+              <span v-if="state.selectedUsers.length > 0" class="ml-2 text-primary">
                 (已選擇 {{ state.selectedUsers.length }} 項)
               </span>
             </p>
@@ -391,7 +391,7 @@ const simulateLoading = () => {
             <h2 class="text-xl font-semibold text-gray-900">產品庫存表格</h2>
             <p class="mt-1 text-gray-600">
               展示格式化、自定義模板、狀態顯示等功能
-              <span v-if="state.selectedProducts.length > 0" class="ml-2 text-blue-600">
+              <span v-if="state.selectedProducts.length > 0" class="ml-2 text-primary">
                 (已選擇 {{ state.selectedProducts.length }} 項)
               </span>
             </p>
@@ -477,7 +477,7 @@ const simulateLoading = () => {
       <!-- 使用說明 -->
       <section class="bg-white rounded-lg shadow-sm border p-6 mt-8">
         <h2 class="text-xl font-semibold text-gray-900 mb-4">快速開始</h2>
-        <div class="bg-gray-50 rounded-lg p-4">
+        <div class="bg-navy-10 rounded-lg p-4">
           <pre class="text-sm text-gray-800"><code># 安裝
 npm install rayyy-vue-table-components
 
@@ -503,7 +503,7 @@ const data = [
     <BaseDialog v-model="state.showDialog" title="示範對話框" sub-title="這是一個示範對話框">
       <div class="space-y-4">
         <p class="text-gray-600">這是一個 BaseDialog 組件的示範，展示了對話框的基本功能。</p>
-        <div class="bg-gray-50 p-4 rounded-lg">
+        <div class="bg-navy-10 p-4 rounded-lg">
           <h4 class="font-semibold mb-2">功能特色：</h4>
           <ul class="text-sm text-gray-600 space-y-1">
             <li>• 響應式寬度設計</li>
@@ -540,7 +540,7 @@ const data = [
 
 /* 自定義表格樣式 */
 :deep(.el-table th) {
-  @apply bg-gray-50 text-gray-700 font-semibold;
+  @apply bg-navy-10 text-gray-700 font-semibold;
 }
 
 :deep(.el-table td) {
@@ -548,10 +548,10 @@ const data = [
 }
 
 :deep(.el-table--striped .el-table__body tr.el-table__row--striped td) {
-  @apply bg-gray-50;
+  @apply bg-navy-10;
 }
 
 :deep(.el-table__body tr:hover > td) {
-  @apply bg-blue-50;
+  @apply bg-primary-20;
 }
 </style>

@@ -20,6 +20,10 @@
     "./components": {
       "types": "./src/components/index.ts",
       "import": "./src/components/index.ts"
+    },
+    "./types/components": {
+      "types": "./src/types/components.d.ts",
+      "import": "./src/types/components.d.ts"
     }
   },
   "files": [
@@ -27,6 +31,7 @@
     "src/components/*",
     "src/components/index.ts",
     "src/types/*",
+    "src/types/components.d.ts",
     "README.md"
   ],
   "keywords": [

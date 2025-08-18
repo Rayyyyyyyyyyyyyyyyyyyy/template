@@ -9,7 +9,7 @@ const goToDemo = () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 flex items-center justify-center">
+  <div class="min-h-screen bg-navy-10 flex items-center justify-center">
     <div class="text-center">
       <h1 class="text-4xl font-bold text-gray-900 mb-4">
         Vue Table Components
@@ -20,16 +20,23 @@ const goToDemo = () => {
       <div class="space-x-4">
         <button
           @click="goToDemo"
-          class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors"
         >
           查看示範
         </button>
         <a
           href="https://www.npmjs.com/package/rayyy-vue-table-components"
           target="_blank"
-          class="inline-block px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+          class="inline-block px-6 py-3 bg-green text-white rounded-lg hover:bg-green-dark transition-colors"
         >
           安裝套件
+        </a>
+        <a
+          href="https://github.com/Rayyyyyyyyyyyyyyyyyyyy/template"
+          target="_blank"
+          class="inline-block px-6 py-3 bg-navy-40 text-white rounded-lg hover:bg-navy-50 transition-colors"
+        >
+          GitHub
         </a>
       </div>
     </div>

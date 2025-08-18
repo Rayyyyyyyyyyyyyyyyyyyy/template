@@ -3,11 +3,26 @@ import BaseTable from './components/BaseTable.vue'
 import BaseBtn from './components/BaseBtn.vue'
 import BaseDialog from './components/BaseDialog.vue'
 
-// 導出類型
+// 導出基礎類型
 export * from './types'
 
 // 導出組件
 export { BaseTable, BaseBtn, BaseDialog }
+
+// 導出組件類型
+export type {
+  BaseTableProps,
+  BaseTableEmits,
+  BaseTableInstance,
+  BaseBtnProps,
+  BaseBtnEmits,
+  BaseBtnInstance,
+  BaseDialogProps,
+  BaseDialogEmits,
+  BaseDialogInstance,
+  PluginOptions,
+  VueTableComponentsPlugin
+} from './types/components'
 
 // 重新導出組件索引
 export * from './components'

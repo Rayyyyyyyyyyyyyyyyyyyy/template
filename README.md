@@ -94,6 +94,117 @@ const handleSortChange = (sortInfo: SortChangValue<User>) => {
 </script>
 ```
 
+## TypeScript 類型支持
+
+本庫提供完整的 TypeScript 類型定義，包括：
+
+### 組件類型
+
+```typescript
+import type {
+  // BaseTable 組件類型
+  BaseTableProps,
+  BaseTableEmits,
+  BaseTableInstance,
+  
+  // BaseBtn 組件類型
+  BaseBtnProps,
+  BaseBtnEmits,
+  BaseBtnInstance,
+  
+  // BaseDialog 組件類型
+  BaseDialogProps,
+  BaseDialogEmits,
+  BaseDialogInstance,
+  
+  // 插件類型
+  PluginOptions,
+  VueTableComponentsPlugin
+} from 'rayyy-vue-table-components/types/components'
+```
+
+### 數據類型
+
+```typescript
+import type {
+  TableColumn,
+  SortChangValue,
+  TableListReq,
+  Pager,
+  MenuItemType,
+  QRCodeResult
+} from 'rayyy-vue-table-components/types'
+```
+
+### 使用示例
+
+```typescript
+// 定義數據類型
+interface User extends Record<string, unknown> {
+  id: number
+  name: string
+  email: string
+  age: number
+  status: 'active' | 'inactive'
+}
+
+// 定義表格列配置
+const userColumns: TableColumn<User>[] = [
+  {
+    prop: 'id',
+    label: 'ID',
+    width: 80,
+    align: 'center'
+  },
+  {
+    prop: 'name',
+    label: '姓名',
+    width: 120
+  },
+  {
+    prop: 'email',
+    label: '郵箱',
+    width: 200
+  },
+  {
+    prop: 'age',
+    label: '年齡',
+    width: 80,
+    align: 'center',
+    sortable: true
+  },
+  {
+    prop: 'status',
+    label: '狀態',
+    width: 100,
+    align: 'center',
+    formatter: (row: User) => row.status === 'active' ? '啟用' : '停用'
+  }
+]
+
+// 表格數據
+const userData: User[] = [
+  { id: 1, name: '張三', email: 'zhangsan@example.com', age: 25, status: 'active' },
+  { id: 2, name: '李四', email: 'lisi@example.com', age: 30, status: 'inactive' }
+]
+
+// BaseTable Props 類型示例
+const tableProps: BaseTableProps<User> = {
+  loading: false,
+  data: userData,
+  columns: userColumns,
+  showSelection: true,
+  showSummary: true,
+  showOverFlowTooltip: true,
+  summaryMethod: ({ columns, data }) => {
+    return ['總計', '', '', data.reduce((sum, user) => sum + user.age, 0).toString(), '']
+  },
+  baseTableRowClassName: ({ row, rowIndex }) => {
+    return row.status === 'active' ? 'active-row' : 'inactive-row'
+  }
+}
+```
+
 ## API
 
 ### BaseTable Props

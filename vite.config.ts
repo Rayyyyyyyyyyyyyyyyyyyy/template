@@ -31,8 +31,10 @@ export default defineConfig(({ mode }) => {
         dts({
           insertTypesEntry: true,
           include: ['src/**/*'],
-          exclude: ['src/**/*.spec.ts', 'src/**/*.test.ts', 'src/**/__tests__/**'],
-          outDir: 'dist'
+          exclude: ['src/**/*.spec.ts', 'src/**/*.test.ts', 'src/**/__tests__/**', 'src/types/usage-examples.ts'],
+          outDir: 'dist',
+          copyDtsFiles: true,
+          tsconfigPath: './tsconfig.app.json'
         })
       ] : [])
     ],
