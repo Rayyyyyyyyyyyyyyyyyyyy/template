@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { BaseTable, BaseBtn, BaseDialog } from '@/components'
+import { BaseTable, BaseBtn, BaseDialog, SortTable, SearchBar } from '@/components'
 import type { TableColumn, SortChangValue } from '@/types'
 import { h } from 'vue'
 
@@ -281,10 +281,14 @@ const productColumns: TableColumn<Product>[] = [
 const state = reactive({
   userLoading: false,
   productLoading: false,
+  sortTableLoading: false,
   selectedUsers: [] as User[],
   selectedProducts: [] as Product[],
+  selectedSortData: [] as User[],
   showDialog: false,
-  showConfirmDialog: false
+  showConfirmDialog: false,
+  searchKeyword: '',
+  filterCount: 3
 })
 
 // 事件處理
@@ -312,6 +316,45 @@ const handleUserCellClick = (column: TableColumn<User>, row: User) => {
 
 const handleProductCellClick = (column: TableColumn<Product>, row: Product) => {
   console.log('點擊產品單元格:', column.label, row)
+}
+
+const handleSortTableSelectionChange = (selection: User[]) => {
+  state.selectedSortData = selection
+  console.log('選中的排序表格數據:', selection)
+}
+
+const handleSortTableCellClick = (column: TableColumn<User>, row: User) => {
+  console.log('點擊排序表格單元格:', column.label, row)
+}
+
+const handleSortTableSortChange = (value: SortChangValue<User>) => {
+  console.log('排序表格排序變更:', value)
+  // 這裡可以實現實際的排序邏輯
+  const { prop, order } = value
+  if (prop && order) {
+    userData.value.sort((a, b) => {
+      const aVal = a[prop] as string | number
+      const bVal = b[prop] as string | number
+      if (order === 'ascending') {
+        return aVal > bVal ? 1 : -1
+      } else {
+        return aVal < bVal ? 1 : -1
+      }
+    })
+  }
+}
+
+const handleSearch = (keyword: string) => {
+  console.log('搜尋關鍵字:', keyword)
+  state.searchKeyword = keyword
+  // 這裡可以實現實際的搜尋邏輯
+  // 例如過濾表格數據
+}
+
+const handleSearchClear = () => {
+  console.log('清除搜尋')
+  state.searchKeyword = ''
+  // 這裡可以重置搜尋結果
 }
 
 // 模擬加載
@@ -410,6 +453,128 @@ const simulateLoading = () => {
           </div>
         </div>
       </section>
+
+      <!-- 排序表格示範 -->
+      <section class="mb-12">
+        <div class="bg-white rounded-lg shadow-sm border">
+          <div class="px-6 py-4 border-b">
+            <h2 class="text-xl font-semibold text-gray-900">排序表格示範</h2>
+            <p class="mt-1 text-gray-600">
+              展示 SortTable 組件的排序功能
+              <span v-if="state.selectedSortData.length > 0" class="ml-2 text-primary">
+                (已選擇 {{ state.selectedSortData.length }} 項)
+              </span>
+            </p>
+          </div>
+          <div class="p-6">
+            <SortTable
+              :data="userData"
+              :columns="userColumns"
+              :loading="state.sortTableLoading"
+              :show-selection="true"
+              :show-over-flow-tooltip="true"
+              @selection-change="handleSortTableSelectionChange"
+              @click:columnSort="handleSortTableSortChange"
+              @click:cell="handleSortTableCellClick"
+            />
+          </div>
+        </div>
+      </section>
+
+             <!-- 搜尋欄示範 -->
+       <section class="mb-12">
+         <div class="bg-white rounded-lg shadow-sm border">
+           <div class="px-6 py-4 border-b">
+             <h2 class="text-xl font-semibold text-gray-900">搜尋欄示範</h2>
+             <p class="mt-1 text-gray-600">展示 SearchBar 組件的搜尋和篩選功能</p>
+           </div>
+           <div class="p-6">
+             <div class="space-y-6">
+               <!-- 基本搜尋欄 -->
+               <div>
+                 <h3 class="text-lg font-medium text-gray-900 mb-3">基本搜尋功能</h3>
+                 <SearchBar
+                   :show-search="true"
+                   :show-filter="false"
+                   @keydown:enter="handleSearch"
+                   @update:clear="handleSearchClear"
+                 />
+               </div>
+
+               <!-- 帶篩選的搜尋欄 -->
+               <div>
+                 <h3 class="text-lg font-medium text-gray-900 mb-3">搜尋 + 篩選功能</h3>
+                 <SearchBar
+                   :show-search="true"
+                   :show-filter="true"
+                   :badge-value="state.filterCount"
+                   @keydown:enter="handleSearch"
+                   @update:clear="handleSearchClear"
+                 >
+                   <template #button>
+                     <BaseBtn type="primary" size="small" class="mr-2">
+                       新增
+                     </BaseBtn>
+                     <BaseBtn type="success" size="small">
+                       匯出
+                     </BaseBtn>
+                   </template>
+                   <template #filterBody>
+                     <div class="p-4 space-y-3">
+                       <div>
+                         <label class="block text-sm font-medium text-gray-700 mb-1">部門</label>
+                         <select class="w-full border border-gray-300 rounded-md px-3 py-2">
+                           <option value="">全部</option>
+                           <option value="engineering">工程部</option>
+                           <option value="design">設計部</option>
+                           <option value="marketing">行銷部</option>
+                         </select>
+                       </div>
+                       <div>
+                         <label class="block text-sm font-medium text-gray-700 mb-1">狀態</label>
+                         <select class="w-full border border-gray-300 rounded-md px-3 py-2">
+                           <option value="">全部</option>
+                           <option value="active">啟用</option>
+                           <option value="inactive">停用</option>
+                           <option value="pending">待處理</option>
+                         </select>
+                       </div>
+                       <div class="flex gap-2 pt-2">
+                         <BaseBtn type="primary" size="small" class="flex-1">確定</BaseBtn>
+                         <BaseBtn type="default" size="small" class="flex-1">重置</BaseBtn>
+                       </div>
+                     </div>
+                   </template>
+                 </SearchBar>
+               </div>
+
+               <!-- 全寬搜尋欄 -->
+               <div>
+                 <h3 class="text-lg font-medium text-gray-900 mb-3">全寬搜尋欄</h3>
+                 <SearchBar
+                   :show-search="true"
+                   :show-filter="false"
+                   :full-input="true"
+                   @keydown:enter="handleSearch"
+                   @update:clear="handleSearchClear"
+                 />
+               </div>
+             </div>
+
+             <div class="mt-6 p-4 bg-navy-10 rounded-lg">
+               <h4 class="font-semibold text-gray-900 mb-2">功能說明：</h4>
+               <ul class="text-sm text-gray-600 space-y-1">
+                 <li>• 支持關鍵字搜尋（按 Enter 鍵觸發）</li>
+                 <li>• 支持清除搜尋內容</li>
+                 <li>• 可選的篩選功能（帶徽章顯示）</li>
+                 <li>• 自定義按鈕區域</li>
+                 <li>• 響應式設計，支持全寬模式</li>
+               </ul>
+             </div>
+           </div>
+         </div>
+       </section>
+
 
       <!-- 按鈕和對話框示範 -->
       <section class="mb-12">

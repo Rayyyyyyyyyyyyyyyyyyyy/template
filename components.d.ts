@@ -8,15 +8,28 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    BaseBtn: typeof import('./src/components/BaseBtn.vue')['default']
+    BaseBtn: typeof import('./src/components/items/BaseBtn.vue')['default']
     BaseDialog: typeof import('./src/components/BaseDialog.vue')['default']
-    BaseTable: typeof import('./src/components/BaseTable.vue')['default']
+    BaseInput: typeof import('./src/components/items/BaseInput.vue')['default']
+    BaseTable: typeof import('./src/components/tables/BaseTable.vue')['default']
+    ElBadge: typeof import('element-plus/es')['ElBadge']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
+    ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDialog: typeof import('element-plus/es')['ElDialog']
+    ElDrawer: typeof import('element-plus/es')['ElDrawer']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
+    ElInput: typeof import('element-plus/es')['ElInput']
+    ElMain: typeof import('element-plus/es')['ElMain']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+    FilterBtn: typeof import('./src/components/items/FilterBtn.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SearchBar: typeof import('./src/components/SearchBar.vue')['default']
+    SortTable: typeof import('./src/components/tables/SortTable.vue')['default']
+    TransferDialog: typeof import('./src/components/transfer/TransferDialog.vue')['default']
+    TransferItem: typeof import('./src/components/transfer/transferItem.vue')['default']
   }
   export interface GlobalDirectives {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

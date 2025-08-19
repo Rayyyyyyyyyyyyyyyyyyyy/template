@@ -44,7 +44,6 @@ const buttonClass = computed(() => {
     :loading="props.loading"
     :text="props.textBtn"
     @click="click"
-    :data-cy="props.dataCy"
   >
     <slot>
       {{ props.text }}

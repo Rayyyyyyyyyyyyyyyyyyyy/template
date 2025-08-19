@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="T extends Record<string, unknown> = Record<string, unknown>">
 import type { VNode } from 'vue'
 import type { TableColumnCtx } from 'element-plus'
-import type { SortChangValue, TableColumn } from 'src/types'
+import type { SortChangValue, TableColumn } from '@/types'
 
 type Props<T extends Record<string, unknown> = Record<string, unknown>> = {
   loading?: boolean
@@ -10,15 +10,11 @@ type Props<T extends Record<string, unknown> = Record<string, unknown>> = {
   showSelection?: boolean
   showSummary?: boolean
   showOverFlowTooltip?: boolean
-  summaryMethod?: (param: { columns: TableColumnCtx<Record<string, unknown>>[]; data: T[] }) => (string | VNode)[]
+  summaryMethod?: (param: {
+    columns: TableColumnCtx<Record<string, unknown>>[]
+    data: T[]
+  }) => (string | VNode)[]
   baseTableRowClassName?: (data: { row: T; rowIndex: number }) => string
-}
-
-type Emits<T extends Record<string, unknown> = Record<string, unknown>> = {
-  (e: 'selection-change', selection: T[]): void
-  (e: 'current-change', currentRow: T): void
-  (e: 'cell-click', column: TableColumn<T>, row: T): void
-  (e: 'column-sort-change', value: SortChangValue<T>): void
 }
 
 // 組件屬性默認值
@@ -29,10 +25,15 @@ const props = withDefaults(defineProps<Props<T>>(), {
   showSummary: false,
   showOverFlowTooltip: false,
   summaryMethod: () => [],
-  baseTableRowClassName: () => ''
+  baseTableRowClassName: () => '',
 })
 
-const emit = defineEmits<Emits<T>>()
+const emit = defineEmits<{
+  (e: 'selection-change', selection: T[]): void
+  (e: 'current-change', currentRow: T): void
+  (e: 'cell-click', column: TableColumn<T>, row: T): void
+  (e: 'column-sort-change', value: SortChangValue<T>): void
+}>()
 
 const handleCellClick = (column: TableColumn<T>, row: T) => {
   emit('cell-click', column, row)
@@ -87,7 +88,7 @@ const onSortChange = (value: SortChangValue<T>) => {
             :is="{
               setup() {
                 return () => column.template?.(row)
-              }
+              },
             }"
           />
           <span v-else-if="column.prop">{{ row[column.prop] }}</span>

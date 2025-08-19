@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useWindowSize } from '@vueuse/core'
+import BaseBtn from '@/components/items/BaseBtn.vue'
 
 const props = defineProps<{
   modelValue: boolean
@@ -23,7 +24,7 @@ const emits = defineEmits<{
 
 const v = computed({
   get: () => props.modelValue,
-  set: (val: boolean) => emits('update:modelValue', val)
+  set: (val: boolean) => emits('update:modelValue', val),
 })
 
 const getWidth = computed(() => {
@@ -68,7 +69,7 @@ const handleSubmit = () => {
       <div
         class="sub-title"
         :class="{
-          'border-b mb-4': typeof subTitle == 'string'
+          'border-b mb-4': typeof subTitle == 'string',
         }"
       >
         {{ subTitle }}
@@ -85,9 +86,8 @@ const handleSubmit = () => {
             is-fill
             @click="handleSubmit"
             :loading="submitLoading"
-            data-cy="dialog-submit-btn"
           />
-          <base-btn text="取消" type="primary" @click="handleCancel" data-cy="dialog-close-btn" />
+          <base-btn text="取消" type="primary" @click="handleCancel" />
         </slot>
       </footer>
     </template>

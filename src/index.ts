@@ -1,6 +1,6 @@
 import type { App } from 'vue'
-import BaseTable from './components/BaseTable.vue'
-import BaseBtn from './components/BaseBtn.vue'
+import BaseTable from './components/tables/BaseTable.vue'
+import BaseBtn from './components/items/BaseBtn.vue'
 import BaseDialog from './components/BaseDialog.vue'
 
 // 導出基礎類型
@@ -21,7 +21,7 @@ export type {
   BaseDialogEmits,
   BaseDialogInstance,
   PluginOptions,
-  VueTableComponentsPlugin
+  VueTableComponentsPlugin,
 } from './types/components'
 
 // 重新導出組件索引
@@ -33,7 +33,7 @@ const components = [BaseTable, BaseBtn, BaseDialog]
 // Vue 插件安裝函數
 export function install(app: App) {
   // 批量註冊組件
-  components.forEach(component => {
+  components.forEach((component) => {
     app.component(component.name || 'BaseTable', component)
   })
 }
@@ -41,7 +41,7 @@ export function install(app: App) {
 // 默認導出（支持 app.use() 語法）
 export default {
   install,
-  ...components
+  ...components,
 }
 
 // 支援單個組件安裝（使用類型斷言）
