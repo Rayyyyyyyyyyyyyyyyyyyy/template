@@ -13,7 +13,7 @@ defineProps<{
   loading?: boolean
   showSummary?: boolean
   showOverFlowTooltip?: boolean
-  summaryMethod?: (param: { columns: TableColumnCtx<T>[]; data: T[] }) => (string | VNode)[]
+  summaryMethod?: (param: { columns: TableColumnCtx<Record<string, unknown>>[]; data: T[] }) => (string | VNode)[]
   sortTableRowClassName?: (data: { row: T; rowIndex: number }) => string
 }>()
 
