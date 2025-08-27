@@ -21,12 +21,17 @@ export default defineConfig(({ mode }) => {
       vue(),
       vueJsx(),
       ...(isLib ? [] : [vueDevTools()]), // 只在開發模式啟用 devtools
-      AutoImport({
-        resolvers: [ElementPlusResolver()],
-      }),
-      Components({
-        resolvers: [ElementPlusResolver()],
-      }),
+      ...(isLib ? [] : [
+        AutoImport({
+          resolvers: [ElementPlusResolver()],
+          imports: ['vue'],
+          dts: false
+        }),
+        Components({
+          resolvers: [ElementPlusResolver()],
+          dts: false
+        })
+      ]),
       ...(isLib ? [
         dts({
           insertTypesEntry: true,
