@@ -12,15 +12,15 @@
     clearable
     @clear="handlerClear"
   >
-    <template v-if="slots.prefix" #prefix>
-      <slot name="prefix" class="h-4" />
+    <template #prefix>
+      <el-icon><Search /></el-icon>
     </template>
-    <template v-if="slots.append" #append><slot name="append" /></template>
   </el-input>
 </template>
 
 <script lang="ts" setup>
-import { computed, useSlots } from 'vue'
+import { computed } from 'vue'
+import { Search } from '@element-plus/icons-vue'
 
 const props = defineProps<{
   modelValue?: string | number | null
@@ -39,8 +39,6 @@ const emits = defineEmits<{
   (e: 'update:modelValue', data: string | number | undefined | null): void
   (e: 'update:clearValue'): void
 }>()
-
-const slots = useSlots()
 
 const v = computed({
   get: () => props.modelValue,

@@ -40,11 +40,7 @@ const clearableClick = () => {
           @keydown.enter="doSearch"
           @update:clearValue="clearableClick"
           class="search-input_inner"
-        >
-          <template #prefix>
-            <el-icon><Search /></el-icon>
-          </template>
-        </base-input>
+        />
       </div>
 
       <div class="filter-customer" v-if="showFilter">
