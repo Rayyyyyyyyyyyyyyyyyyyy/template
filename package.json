@@ -109,6 +109,7 @@
     "postcss": "^8.5.3",
     "postcss-import": "^16.1.0",
     "prettier": "3.5.3",
+    "rollup-plugin-external-globals": "^0.13.0",
     "sass-embedded": "^1.86.0",
     "start-server-and-test": "^2.0.10",
     "tailwindcss": "^3.4.17",

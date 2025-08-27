@@ -40,7 +40,10 @@ export default defineConfig(({ mode }) => {
     ],
     resolve: {
       alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url))
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+        ...(isLib ? {
+          'vue': 'vue/dist/vue.runtime.esm-bundler.js'
+        } : {})
       },
     },
     ...(isLib ? {
@@ -50,12 +53,33 @@ export default defineConfig(({ mode }) => {
           name: 'VueTableComponents',
           fileName: (format) => `index.${format}.js`
         },
-        rollupOptions: {
-          external: ['vue', 'element-plus'],
+                        rollupOptions: {
+          external: [
+            'vue',
+            'element-plus',
+            '@vue/runtime-core',
+            '@vue/runtime-dom',
+            '@vue/shared',
+            '@vue/compiler-sfc',
+            '@vue/compiler-dom',
+            '@vue/compiler-core',
+            '@vue/reactivity',
+            '@vue/ref-transform',
+            '@vueuse/core'
+          ],
           output: {
             globals: {
               vue: 'Vue',
-              'element-plus': 'ElementPlus'
+              'element-plus': 'ElementPlus',
+              '@vue/runtime-core': 'VueRuntimeCore',
+              '@vue/runtime-dom': 'VueRuntimeDom',
+              '@vue/shared': 'VueShared',
+              '@vue/compiler-sfc': 'VueCompilerSfc',
+              '@vue/compiler-dom': 'VueCompilerDom',
+              '@vue/compiler-core': 'VueCompilerCore',
+              '@vue/reactivity': 'VueReactivity',
+              '@vue/ref-transform': 'VueRefTransform',
+              '@vueuse/core': 'VueUse'
             },
             exports: 'named',
             format: 'es'
@@ -64,16 +88,23 @@ export default defineConfig(({ mode }) => {
         define: {
           __VUE_OPTIONS_API__: true,
           __VUE_PROD_DEVTOOLS__: false
-        },
-        resolve: {
-          alias: {
-            'vue': 'vue/dist/vue.runtime.esm-bundler.js'
-          }
-        },
-        optimizeDeps: {
-          exclude: ['vue']
         }
+      },
+            optimizeDeps: {
+        exclude: [
+          'vue',
+          '@vue/runtime-core',
+          '@vue/runtime-dom',
+          '@vue/shared',
+          '@vue/compiler-sfc',
+          '@vue/compiler-dom',
+          '@vue/compiler-core',
+          '@vue/reactivity',
+          '@vue/ref-transform',
+          '@vueuse/core'
+        ]
       }
     } : {})
   }
 })
+
