@@ -1,6 +1,6 @@
 {
   "name": "rayyy-vue-table-components",
-  "version": "1.0.20",
+  "version": "1.0.24",
   "description": "Vue 3 + Element Plus 表格組件庫",
   "type": "module",
   "main": "./dist/index.umd.js",
@@ -79,6 +79,11 @@
   "peerDependencies": {
     "element-plus": "^2.0.0",
     "vue": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "vue": {
+      "optional": false
+    }
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.0",

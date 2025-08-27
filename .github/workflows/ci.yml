@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main, develop ]
+    tags:
+      - 'v*' # 只在推送 v 開頭的 tag 時觸發
+  workflow_dispatch: # 允許手動觸發
 
 jobs:
   test:
