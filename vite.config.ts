@@ -56,7 +56,8 @@ export default defineConfig(({ mode }) => {
             globals: {
               vue: 'Vue',
               'element-plus': 'ElementPlus'
-            }
+            },
+            exports: 'named'
           }
         }
       }

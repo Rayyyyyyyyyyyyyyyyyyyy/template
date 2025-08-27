@@ -53,8 +53,11 @@ function install(app: App) {
   })
 }
 
-// 默認導出（支持 app.use() 語法）
-export default {
+// 導出安裝函數（支持 app.use() 語法）
+export { install }
+
+// 導出默認安裝函數
+const VueTableComponents = {
   install,
   BaseTable,
   BaseBtn,
@@ -63,7 +66,9 @@ export default {
   SearchBar,
   TransferDialog,
   TransferItem,
-} as const
+}
+
+export default VueTableComponents
 
 // 支援單個組件安裝（使用類型斷言）
 ;(BaseTable as unknown as Record<string, unknown>).install = (app: App) => {
