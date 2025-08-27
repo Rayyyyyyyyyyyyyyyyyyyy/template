@@ -63,7 +63,24 @@ export default defineConfig(({ mode }) => {
               'element-plus': 'ElementPlus'
             },
             exports: 'named'
+          },
+          onwarn(warning, warn) {
+            // 忽略某些警告
+            if (warning.code === 'CIRCULAR_DEPENDENCY') return
+            warn(warning)
           }
+        },
+        define: {
+          __VUE_OPTIONS_API__: true,
+          __VUE_PROD_DEVTOOLS__: false
+        },
+        resolve: {
+          alias: {
+            'vue': 'vue/dist/vue.runtime.esm-bundler.js'
+          }
+        },
+        optimizeDeps: {
+          exclude: ['vue']
         }
       }
     } : {})

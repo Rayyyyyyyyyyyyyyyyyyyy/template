@@ -80,6 +80,11 @@
     "element-plus": "^2.0.0",
     "vue": "^3.0.0"
   },
+  "peerDependenciesMeta": {
+    "vue": {
+      "optional": false
+    }
+  },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.0",
     "@types/jsdom": "^21.1.7",
