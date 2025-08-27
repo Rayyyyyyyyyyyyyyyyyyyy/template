@@ -56,8 +56,14 @@ function install(app: App) {
 // 默認導出（支持 app.use() 語法）
 export default {
   install,
-  ...components,
-}
+  BaseTable,
+  BaseBtn,
+  BaseDialog,
+  SortTable,
+  SearchBar,
+  TransferDialog,
+  TransferItem,
+} as const
 
 // 支援單個組件安裝（使用類型斷言）
 ;(BaseTable as unknown as Record<string, unknown>).install = (app: App) => {
