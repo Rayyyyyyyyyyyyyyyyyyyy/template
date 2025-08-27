@@ -13,9 +13,6 @@ export * from './types'
 // 導出工具函數
 export * from './utils/tableHelper'
 
-// 導出組件
-export { BaseTable, BaseBtn, BaseDialog, SortTable, SearchBar, TransferDialog, TransferItem }
-
 // 導出組件類型
 export type {
   BaseTableProps,
@@ -56,7 +53,7 @@ function install(app: App) {
 // 導出安裝函數（支持 app.use() 語法）
 export { install }
 
-// 導出默認安裝函數
+// 創建插件對象
 const VueTableComponents = {
   install,
   BaseTable,
@@ -68,6 +65,7 @@ const VueTableComponents = {
   TransferItem,
 }
 
+// 默認導出（僅用於兼容性）
 export default VueTableComponents
 
 // 支援單個組件安裝（使用類型斷言）

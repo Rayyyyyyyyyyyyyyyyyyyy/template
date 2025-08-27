@@ -57,8 +57,21 @@ export default defineConfig(({ mode }) => {
               vue: 'Vue',
               'element-plus': 'ElementPlus'
             },
-            exports: 'named'
+            exports: 'named',
+            format: 'es'
           }
+        },
+        define: {
+          __VUE_OPTIONS_API__: true,
+          __VUE_PROD_DEVTOOLS__: false
+        },
+        resolve: {
+          alias: {
+            'vue': 'vue/dist/vue.runtime.esm-bundler.js'
+          }
+        },
+        optimizeDeps: {
+          exclude: ['vue']
         }
       }
     } : {})
