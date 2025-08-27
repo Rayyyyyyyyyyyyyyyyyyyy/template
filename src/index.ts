@@ -6,6 +6,9 @@ import BaseDialog from './components/BaseDialog.vue'
 // 導出基礎類型
 export * from './types'
 
+// 導出工具函數
+export * from './utils/tableHelper'
+
 // 導出組件
 export { BaseTable, BaseBtn, BaseDialog }
 

@@ -4,6 +4,7 @@ import { BaseTable, BaseBtn, BaseDialog, SortTable, SearchBar, TransferDialog } 
 import type { TableColumn, SortChangValue } from '@/types'
 import { h } from 'vue'
 import _ from 'lodash'
+import { setActiveColumn } from '@/utils/tableHelper.ts'
 
 // 定義數據類型
 interface User extends Record<string, unknown> {
@@ -177,12 +178,6 @@ const userColumns: TableColumn<User>[] = [
   },
 ]
 let tableColumns = reactive<TableColumn<User>[]>(setActiveColumn(userColumns))
-function setActiveColumn<T>(tableColumns: TableColumn<T>[]) {
-  return tableColumns.map((col) => ({
-    ...col,
-    checkActive: true,
-  }))
-}
 
 // 狀態管理
 const state = reactive({
