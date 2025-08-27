@@ -2,6 +2,10 @@ import type { App } from 'vue'
 import BaseTable from './components/tables/BaseTable.vue'
 import BaseBtn from './components/items/BaseBtn.vue'
 import BaseDialog from './components/BaseDialog.vue'
+import SortTable from './components/tables/SortTable.vue'
+import SearchBar from './components/SearchBar.vue'
+import TransferDialog from './components/transfer/TransferDialog.vue'
+import TransferItem from './components/transfer/transferItem.vue'
 
 // 導出基礎類型
 export * from './types'
@@ -10,7 +14,7 @@ export * from './types'
 export * from './utils/tableHelper'
 
 // 導出組件
-export { BaseTable, BaseBtn, BaseDialog }
+export { BaseTable, BaseBtn, BaseDialog, SortTable, SearchBar, TransferDialog, TransferItem }
 
 // 導出組件類型
 export type {
@@ -31,7 +35,7 @@ export type {
 export * from './components'
 
 // 組件列表（參考 ElementUI 的做法）
-const components = [BaseTable, BaseBtn, BaseDialog]
+const components = [BaseTable, BaseBtn, BaseDialog, SortTable, SearchBar, TransferDialog, TransferItem]
 
 // Vue 插件安裝函數
 function install(app: App) {
@@ -53,4 +57,16 @@ export { install }
 }
 ;(BaseDialog as unknown as Record<string, unknown>).install = (app: App) => {
   app.component(BaseDialog.name || 'BaseDialog', BaseDialog)
+}
+;(SortTable as unknown as Record<string, unknown>).install = (app: App) => {
+  app.component(SortTable.name || 'SortTable', SortTable)
+}
+;(SearchBar as unknown as Record<string, unknown>).install = (app: App) => {
+  app.component(SearchBar.name || 'SearchBar', SearchBar)
+}
+;(TransferDialog as unknown as Record<string, unknown>).install = (app: App) => {
+  app.component(TransferDialog.name || 'TransferDialog', TransferDialog)
+}
+;(TransferItem as unknown as Record<string, unknown>).install = (app: App) => {
+  app.component(TransferItem.name || 'TransferItem', TransferItem)
 }
