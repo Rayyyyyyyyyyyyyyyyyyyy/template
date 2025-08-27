@@ -10,6 +10,7 @@ import '@/assets/base.css'
 import '@/assets/styles/index.css'
 import '@/assets/styles/tailwind.scss'
 import 'element-plus/dist/index.css'
+import '@/assets/styles/element/index.scss'
 
 const app = createApp(App)
 

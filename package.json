@@ -114,6 +114,6 @@
     "vue-tsc": "^2.2.8"
   },
   "dependencies": {
-    "vuedraggable": "^2.24.3"
+    "vuedraggable": "^4.1.0"
   }
 }

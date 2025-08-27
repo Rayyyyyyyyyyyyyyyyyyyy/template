@@ -5,8 +5,8 @@ import draggable from 'vuedraggable'
 import _ from 'lodash'
 import type { CheckboxValueType } from 'element-plus'
 import BaseDialog from '@/components/BaseDialog.vue'
-import TransferItem from '@/components/transfer/transferItem.vue'
 import SearchBar from '@/components/SearchBar.vue'
+import TransferItem from '@/components/transfer/transferItem.vue'
 
 const props = defineProps<{
   modelValue: boolean

@@ -47,7 +47,7 @@ const submitFilter = () => {
     </template>
 
     <div class="flex justify-between items-center pb-5 font-semibold">
-      <div class="text-base">篩選條件</div>
+      <div class="text-base text-black">篩選條件</div>
       <div class="text-base text-primary cursor-pointer" @click="resetValue">重置</div>
     </div>
 
@@ -66,7 +66,7 @@ const submitFilter = () => {
 .filter-btn {
   @apply text-sky-800;
   p {
-    @apply text-black ml-2 font-bold;
+    @apply ml-2 font-bold;
   }
   i {
     @apply text-xl;
