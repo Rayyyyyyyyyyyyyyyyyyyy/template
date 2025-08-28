@@ -26,7 +26,7 @@
       "import": "./src/types/components.d.ts"
     },
     "./utils": {
-      "types": "./src/utils/tableHelper.ts",
+      "types": "./dist/src/utils/tableHelper.d.ts",
       "import": "./src/utils/tableHelper.ts"
     }
   },
@@ -36,6 +36,7 @@
     "src/components/index.ts",
     "src/types/*",
     "src/types/components.d.ts",
+    "src/utils/*",
     "README.md"
   ],
   "keywords": [
