@@ -24,6 +24,10 @@
     "./types/components": {
       "types": "./src/types/components.d.ts",
       "import": "./src/types/components.d.ts"
+    },
+    "./utils": {
+      "types": "./src/utils/tableHelper.ts",
+      "import": "./src/utils/tableHelper.ts"
     }
   },
   "files": [
