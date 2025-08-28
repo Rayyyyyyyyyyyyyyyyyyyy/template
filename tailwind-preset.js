@@ -1,6 +1,57 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [],
+  safelist: [
+    // SortTable 組件類別
+    'sort-table-container',
+    'sort-table-function-bar',
+    'sort-table-settings-btn',
+
+    // FilterBtn 組件類別
+    'filter-btn',
+
+    // TransferItem 組件類別
+    'transfer-item-wrapper',
+    'transfer-arrow-wrapper',
+
+    // TransferDialog 組件類別
+    'transfer-sort-wrapper',
+    'transfer-active-bg',
+    'transfer-active-border',
+
+    // BaseDialog 組件類別
+    'base-dialog-title',
+
+    // 通用類別
+    'cursor-grab',
+    'cursor-grabbing',
+
+    // Primary 顏色類別
+    'bg-primary',
+    'bg-primary-10',
+    'bg-primary-15',
+    'bg-primary-20',
+    'bg-primary-40',
+    'bg-primary-60',
+    'bg-primary-80',
+    'bg-primary-dark',
+    'text-primary',
+    'text-primary-10',
+    'text-primary-15',
+    'text-primary-20',
+    'text-primary-40',
+    'text-primary-60',
+    'text-primary-80',
+    'text-primary-dark',
+    'border-primary',
+    'border-primary-10',
+    'border-primary-15',
+    'border-primary-20',
+    'border-primary-40',
+    'border-primary-60',
+    'border-primary-80',
+    'border-primary-dark',
+  ],
   theme: {
     extend: {
       colors: {
