@@ -1,0 +1,52 @@
+
+.data-table {
+  .el-table__cell {
+    @apply p-0 #{!important};
+    @apply h-10  #{!important};
+
+    .el-tooltip {
+      .cell-content {
+        @apply truncate;
+      }
+    }
+
+  }
+  .is-dismissed{
+    @apply bg-blue-20;
+
+  }
+
+
+  .el-table__header{
+    th {
+      @apply bg-primary-15 #{!important};
+
+      .cell {
+        @apply font-bold text-text text-sm leading-4;
+        font-family: 'Arial Negreta', 'Arial Normal', 'Arial', sans-serif;
+      }
+    }
+
+    th.el-table-fixed-column--left,
+    th.el-table-fixed-column--right {
+      @apply bg-primary-15;
+    }
+  }
+
+  .el-table__footer{
+    .el-table__cell {
+      .cell {
+        @apply font-bold;
+      }
+    }
+
+    .el-table__cell:nth-child(n + 2) {
+      .blue-text {
+        @apply text-blue-10;
+      }
+      .red-text {
+        @apply text-redText;
+      }
+    }
+  }
+}

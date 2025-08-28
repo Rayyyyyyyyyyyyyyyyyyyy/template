@@ -1,0 +1,93 @@
+// 導入 Element Plus 配置
+//@use 'element-plus/theme-chalk/src/mixins/config.scss' as *;
+
+// 聲明變數
+$namespace: 'ep';
+$colors: (
+  'main': (
+    'base': #0072bc,
+    'light-3': #3391c9,
+    'light-5': #66b0d6,
+    'light-7': #99cfe3,
+    'light-8': #b3def0,
+    'light-9': #ccedf7,
+    'dark-2': #005b96
+  )
+);
+
+// 主題變數覆蓋
+:root {
+  // 主色系
+  --main-color: #0072bc;
+  --main-color-light-3: #3391c9;
+  --main-color-light-5: #66b0d6;
+  --main-color-light-7: #99cfe3;
+  --main-color-light-8: #b3def0;
+  --main-color-light-9: #ccedf7;
+  --main-color-dark-2: #005b96;
+  --main-color-border: #606266;
+
+  // 成功色系
+  --el-color-success: #67c23a;
+  --el-color-success-light-3: #85ce61;
+  --el-color-success-light-5: #a3e19d;
+  --el-color-success-light-7: #c1e3d1;
+  --el-color-success-light-8: #d0edc4;
+  --el-color-success-light-9: #e1f3d8;
+  --el-color-success-dark-2: #529b2e;
+
+  // 警告色系
+  --el-color-warning: #e6a23c;
+  --el-color-warning-light-3: #ebb563;
+  --el-color-warning-light-5: #efc48d;
+  --el-color-warning-light-7: #f3d19e;
+  --el-color-warning-light-8: #f5dab1;
+  --el-color-warning-light-9: #faeec5;
+  --el-color-warning-dark-2: #b88230;
+
+  // 危險色系
+  --el-color-danger: #f56c6c;
+  --el-color-danger-light-3: #f78989;
+  --el-color-danger-light-5: #f9a7a7;
+  --el-color-danger-light-7: #fbc4c4;
+  --el-color-danger-light-8: #fcd3d3;
+  --el-color-danger-light-9: #fde2e2;
+  --el-color-danger-dark-2: #c45656;
+
+  // 資訊色系
+  --el-color-info: #909399;
+  --el-color-info-light-3: #a6a9ad;
+  --el-color-info-light-5: #bcbfc4;
+  --el-color-info-light-7: #d3d4d6;
+  --el-color-info-light-8: #dcdfe6;
+  --el-color-info-light-9: #e4e7ed;
+  --el-color-info-dark-2: #73767a;
+
+  // 文字顏色
+  --el-text-color-primary: #303133;
+  --el-text-color-regular: #606266;
+  --el-text-color-secondary: #909399;
+  --el-text-color-placeholder: #a8abb2;
+  --el-text-color-disabled: #c0c4cc;
+
+  // 邊框顏色
+  --el-border-color: #dcdfe6;
+  --el-border-color-light: #e4e7ed;
+  --el-border-color-lighter: #ebeef5;
+  --el-border-color-extra-light: #f2f6fc;
+
+  // 填充顏色
+  --el-fill-color: #f0f2f5;
+  --el-fill-color-light: #f5f7fa;
+  --el-fill-color-lighter: #fafafa;
+  --el-fill-color-extra-light: #fafcff;
+  --el-fill-color-dark: #ebedf0;
+  --el-fill-color-darker: #e6e8eb;
+  --el-fill-color-blank: #ffffff;
+
+  // 陰影
+  --el-box-shadow: 0px 12px 32px 4px rgba(0, 0, 0, 0.04), 0px 8px 20px rgba(0, 0, 0, 0.08);
+  --el-box-shadow-light: 0px 0px 12px rgba(0, 0, 0, 0.12);
+  --el-box-shadow-lighter: 0px 0px 6px rgba(0, 0, 0, 0.12);
+  --el-box-shadow-dark: 0px 16px 48px 16px rgba(0, 0, 0, 0.08), 0px 12px 32px rgba(0, 0, 0, 0.12);
+}
