@@ -110,7 +110,7 @@ const resetFilterColumn = () => {
 const doFilterColumn = (keyword: string) => {
   if (keyword.length > 0) {
     const cloneList = _.cloneDeep(state.localColumns)
-    state.localColumns = cloneList.filter((item) => item.label.includes(keyword))
+    state.localColumns = cloneList.filter((item: any) => item.label.includes(keyword))
   } else {
     resetFilterColumn()
   }

@@ -20,9 +20,9 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "target": "ES2018",
-    "esModuleInterop": false,
-    "allowSyntheticDefaultImports": false,
-    "verbatimModuleSyntax": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "verbatimModuleSyntax": false,
     "declaration": true,
     "skipLibCheck": true,
   }
