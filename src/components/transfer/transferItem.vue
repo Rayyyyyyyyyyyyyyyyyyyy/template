@@ -43,7 +43,7 @@ watch(
 
 <template>
   <div
-    class="item-wrapper"
+    class="border-t px-4 flex items-center justify-between w-full"
     @mouseenter="state.itemOnHover = true"
     @mouseleave="state.itemOnHover = false"
     @mousedown="onMouseDown"
@@ -52,7 +52,7 @@ watch(
   >
     <el-checkbox :label="columnsValue.label" :value="columnsValue.prop" :key="columnsValue.prop" />
 
-    <el-row class="arrow-wrapper" v-if="columnsValue.checkActive">
+    <el-row class="w-28 text-primary-10" v-if="columnsValue.checkActive">
       <el-col :span="6">
         <base-btn
           :icon="Top"
@@ -94,13 +94,4 @@ watch(
 </template>
 
 <style scoped lang="scss">
-.item-wrapper {
-  @apply border-t px-4;
-  @apply flex items-center justify-between w-full;
-
-  .arrow-wrapper {
-    @apply w-28;
-    @apply text-primary-10;
-  }
-}
 </style>

@@ -59,7 +59,7 @@ const handleSubmit = () => {
   >
     <template #header="{ titleId, titleClass }">
       <slot name="customHeader">
-        <p :id="titleId" class="dialog-title" :class="titleClass">
+        <p :id="titleId" class="font-bold text-base" :class="titleClass">
           {{ props.title }}
         </p>
       </slot>
@@ -95,7 +95,4 @@ const handleSubmit = () => {
 </template>
 
 <style scoped>
-.dialog-title {
-  @apply font-bold text-base;
-}
 </style>

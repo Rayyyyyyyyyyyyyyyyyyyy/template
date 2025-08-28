@@ -41,10 +41,10 @@ const handleColumnSortChange = (data: SortChangValue<T>) => {
 </script>
 
 <template>
-  <div class="data-table-container">
-    <div class="table-function-bar">
-      <div class="right">
-        <div class="sett-btn" @click="openTransferDialog">
+  <div class="w-full mb-4">
+    <div class="flex items-center h-12 bg-primary-20 px-1.5 rounded-t justify-end">
+      <div class="flex items-center mr-4">
+        <div class="cursor-pointer text-primary-dark text-xl flex items-center justify-center hover:text-primary-40" @click="openTransferDialog">
           <el-icon><Setting /></el-icon>
         </div>
       </div>
@@ -68,26 +68,4 @@ const handleColumnSortChange = (data: SortChangValue<T>) => {
 </template>
 
 <style scoped lang="scss">
-.data-table-container {
-  @apply w-full mb-4;
-}
-
-.table-function-bar {
-  @apply flex items-center h-12 bg-primary-20 px-1.5 rounded-t;
-  @apply justify-end;
-
-  .right {
-    @apply flex items-center mr-4;
-  }
-
-  .sett-btn {
-    @apply cursor-pointer;
-    @apply text-primary-dark text-xl;
-    @apply flex items-center justify-center;
-
-    &:hover {
-      @apply text-primary-40;
-    }
-  }
-}
 </style>

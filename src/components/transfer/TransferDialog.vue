@@ -128,7 +128,7 @@ const doFilterColumn = (keyword: string) => {
         @keydown:enter="doFilterColumn"
       />
     </div>
-    <div class="sort-wrapper">
+    <div class="border h-96 overflow-auto">
       <el-checkbox v-model="checkAll" class="px-4" @change="handleCheckAllChange">
         欄 ({{ state.checkList.length }}/{{ state.localColumns.length }})
       </el-checkbox>
@@ -141,8 +141,8 @@ const doFilterColumn = (keyword: string) => {
               :columns-index="index"
               :columns-len="state.localColumns.length"
               :class="{
-                'active-border': state.clickItemProp == element.prop,
-                'active-bg': element.checkActive,
+                'bg-primary/10': element.checkActive,
+                'border rounded border-primary-10': state.clickItemProp == element.prop,
               }"
               @mousedown="state.clickItemProp = element.prop"
               @update:toTop="handleItemEvents.toTop(index)"
@@ -158,16 +158,4 @@ const doFilterColumn = (keyword: string) => {
 </template>
 
 <style scoped lang="scss">
-.sort-wrapper {
-  @apply border;
-  @apply h-96 overflow-auto;
-}
-
-.active-bg {
-  @apply bg-primary/10;
-}
-.active-border {
-  @apply border rounded;
-  @apply border-primary-10;
-}
 </style>

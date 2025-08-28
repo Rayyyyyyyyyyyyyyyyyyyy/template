@@ -33,11 +33,11 @@ const submitFilter = () => {
 </script>
 
 <template>
-  <base-btn type="primary" class="filter-btn" @click="onClickBtn">
+  <base-btn type="primary" class="text-sky-800 hover:text-white hover:bg-sky-500 disabled:bg-white disabled:opacity-50 disabled:hover:bg-white" @click="onClickBtn">
     <el-badge :value="badgeValue" class="item" type="primary" v-if="badgeValue && badgeValue > 0">
-      <el-icon><Filter /></el-icon>
+      <el-icon class="text-xl"><Filter /></el-icon>
     </el-badge>
-    <el-icon v-else><Filter /></el-icon>
+    <el-icon v-else class="text-xl"><Filter /></el-icon>
   </base-btn>
   <el-drawer v-model="showDrawer" append-to-body :size="computedDrawerSize">
     <template #header>
@@ -54,38 +54,13 @@ const submitFilter = () => {
     <slot></slot>
 
     <template #footer>
-      <base-btn type="primary" class="filter-btn" @click="submitFilter">
-        <el-icon><Search /></el-icon>
-        <p class="ml-2 text-base">查詢</p>
+      <base-btn type="primary" class="text-sky-800 hover:text-white hover:bg-sky-500 disabled:bg-white disabled:opacity-50 disabled:hover:bg-white" @click="submitFilter">
+        <el-icon class="text-xl"><Search /></el-icon>
+        <p class="ml-2 text-base text-black font-bold hover:text-white disabled:text-black/20">查詢</p>
       </base-btn>
     </template>
   </el-drawer>
 </template>
 
 <style scoped lang="scss">
-.filter-btn {
-  @apply text-sky-800;
-  p {
-    @apply text-black ml-2 font-bold;
-  }
-  i {
-    @apply text-xl;
-  }
-
-  &:hover {
-    @apply text-white bg-sky-500;
-    p {
-      @apply text-white;
-    }
-  }
-  &:disabled {
-    @apply bg-white opacity-50;
-    &:hover {
-      @apply bg-white;
-      p {
-        @apply text-black/20;
-      }
-    }
-  }
-}
 </style>
