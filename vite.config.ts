@@ -18,7 +18,13 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [
-      vue(),
+      vue({
+        template: {
+          compilerOptions: {
+            isCustomElement: (tag) => tag.startsWith('el-'),
+          },
+        },
+      }),
       vueJsx(),
       ...(isLib ? [] : [vueDevTools()]), // 只在開發模式啟用 devtools
       AutoImport({
@@ -67,6 +73,11 @@ export default defineConfig(({ mode }) => {
                   'element-plus': 'ElementPlus',
                 },
                 exports: 'named',
+                format: 'es',
+                generatedCode: {
+                  preset: 'es2015',
+                  constBindings: true,
+                },
               },
               treeshake: { moduleSideEffects: false },
             },
