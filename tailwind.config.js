@@ -11,8 +11,9 @@ module.exports = {
         // 專案可用顏色 (NTT Data)
         primary: {
           DEFAULT: '#6785c1',
-          10: '#f0f3f9', // for element+
-          20: '#e1e7f3',
+          10: '#e0e0e0', // function header background
+          15: '#F5F5F5', // table header background & Dialog title background
+          20: '#E0E0E0', // table Frame background
           40: '#b1c4e4',
           60: '#8facd9',
           80: '#7198ce',
@@ -28,7 +29,11 @@ module.exports = {
           60: '#1d264d',
           70: '#121a38', // on hover/active background color
         },
-        blue: '#0080b1',
+        blue: {
+          DEFAULT: '#238dad',
+          10: '#0072BC', //Hyperlink
+          20: '#d5e4f5',
+        },
         yellow: {
           DEFAULT: '#e6b600',
           10: '#fff9e3',
@@ -38,15 +43,10 @@ module.exports = {
           70: '#ffd63b',
           dark: '#b89200',
         },
-        red: {
-          DEFAULT: '#bc4328',
-          10: '#faebe8',
-          20: '#f5d7d0',
-          30: '#f0c3b9',
-          50: '#e69b8b',
-          70: '#dc745c',
-          light: '#fe617b',
-          dark: '#963620',
+        text: {
+          DEFAULT: '#333',
+          border: '#606266',
+          welcome: '#555',
         },
         green: {
           DEFAULT: '#00b176',
@@ -62,6 +62,9 @@ module.exports = {
         gray: {
           light: '#f4f4f4',
           dark: '#333333',
+        },
+        redText: {
+          DEFAULT: '#ff3636',
         },
       },
       spacing: {
@@ -85,4 +88,4 @@ module.exports = {
     preflight: false,
   },
   plugins: [],
-};
+}
