@@ -43,7 +43,7 @@ watch(
 
 <template>
   <div
-    class="border-t px-4 flex items-center justify-between w-full"
+    class="transfer-item-wrapper"
     @mouseenter="state.itemOnHover = true"
     @mouseleave="state.itemOnHover = false"
     @mousedown="onMouseDown"
@@ -52,7 +52,7 @@ watch(
   >
     <el-checkbox :label="columnsValue.label" :value="columnsValue.prop" :key="columnsValue.prop" />
 
-    <el-row class="w-28 text-primary-10" v-if="columnsValue.checkActive">
+    <el-row class="transfer-arrow-wrapper" v-if="columnsValue.checkActive">
       <el-col :span="6">
         <base-btn
           :icon="Top"

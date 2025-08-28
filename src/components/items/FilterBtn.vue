@@ -33,11 +33,11 @@ const submitFilter = () => {
 </script>
 
 <template>
-  <base-btn type="primary" class="text-sky-800 hover:text-white hover:bg-sky-500 disabled:bg-white disabled:opacity-50 disabled:hover:bg-white" @click="onClickBtn">
+  <base-btn type="primary" class="filter-btn" @click="onClickBtn">
     <el-badge :value="badgeValue" class="item" type="primary" v-if="badgeValue && badgeValue > 0">
-      <el-icon class="text-xl"><Filter /></el-icon>
+      <el-icon><Filter /></el-icon>
     </el-badge>
-    <el-icon v-else class="text-xl"><Filter /></el-icon>
+    <el-icon v-else><Filter /></el-icon>
   </base-btn>
   <el-drawer v-model="showDrawer" append-to-body :size="computedDrawerSize">
     <template #header>
@@ -54,9 +54,9 @@ const submitFilter = () => {
     <slot></slot>
 
     <template #footer>
-      <base-btn type="primary" class="text-sky-800 hover:text-white hover:bg-sky-500 disabled:bg-white disabled:opacity-50 disabled:hover:bg-white" @click="submitFilter">
-        <el-icon class="text-xl"><Search /></el-icon>
-        <p class="ml-2 text-base text-black font-bold hover:text-white disabled:text-black/20">查詢</p>
+      <base-btn type="primary" class="filter-btn" @click="submitFilter">
+        <el-icon><Search /></el-icon>
+        <p class="ml-2 text-base">查詢</p>
       </base-btn>
     </template>
   </el-drawer>

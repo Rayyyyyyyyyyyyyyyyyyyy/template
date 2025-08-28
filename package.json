@@ -13,6 +13,8 @@
       "require": "./dist/index.umd.js"
     },
     "./dist/rayyy-vue-table-components.css": "./dist/rayyy-vue-table-components.css",
+    "./components.css": "./dist/components.css",
+    "./tailwind-preset": "./tailwind-preset.js",
     "./types": {
       "types": "./src/types/index.ts",
       "import": "./src/types/index.ts"
@@ -37,6 +39,7 @@
     "src/types/*",
     "src/types/components.d.ts",
     "src/utils/*",
+    "tailwind-preset.js",
     "README.md"
   ],
   "keywords": [
@@ -45,7 +48,8 @@
     "element-plus",
     "table",
     "components",
-    "typescript"
+    "typescript",
+    "tailwind"
   ],
   "author": "Your Name",
   "license": "MIT",
@@ -116,7 +120,9 @@
     "vitest": "^3.0.8",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
-    "vue-tsc": "^2.2.8"
+    "vue-tsc": "^2.2.8",
+    "vuedraggable": "^4.1.0",
+    "@vueuse/core": "^11.2.0"
   },
   "dependencies": {
     "vuedraggable": "^2.24.3"

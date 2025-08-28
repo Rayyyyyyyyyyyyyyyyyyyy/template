@@ -59,7 +59,7 @@ const handleSubmit = () => {
   >
     <template #header="{ titleId, titleClass }">
       <slot name="customHeader">
-        <p :id="titleId" class="font-bold text-base" :class="titleClass">
+        <p :id="titleId" class="base-dialog-title" :class="titleClass">
           {{ props.title }}
         </p>
       </slot>

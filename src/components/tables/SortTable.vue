@@ -41,10 +41,10 @@ const handleColumnSortChange = (data: SortChangValue<T>) => {
 </script>
 
 <template>
-  <div class="w-full mb-4">
-    <div class="flex items-center h-12 bg-primary-20 px-1.5 rounded-t justify-end">
+  <div class="sort-table-container">
+    <div class="sort-table-function-bar">
       <div class="flex items-center mr-4">
-        <div class="cursor-pointer text-primary-dark text-xl flex items-center justify-center hover:text-primary-40" @click="openTransferDialog">
+        <div class="sort-table-settings-btn" @click="openTransferDialog">
           <el-icon><Setting /></el-icon>
         </div>
       </div>

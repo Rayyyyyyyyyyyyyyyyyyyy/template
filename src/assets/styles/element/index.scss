@@ -17,6 +17,16 @@ $colors: (
 
 // 主題變數覆蓋
 :root {
+  // Tailwind 自定義顏色
+  --color-primary: #6785c1;
+  --color-primary-10: #e0e0e0;
+  --color-primary-15: #F5F5F5;
+  --color-primary-20: #E0E0E0;
+  --color-primary-40: #b1c4e4;
+  --color-primary-60: #8facd9;
+  --color-primary-80: #7198ce;
+  --color-primary-dark: #4566a8;
+
   // 主色系
   --main-color: #0072bc;
   --main-color-light-3: #3391c9;
