@@ -10,13 +10,20 @@
   ],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
-    "moduleResolution": "node",
     "composite": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "tailwind.config.js": ["./tailwind.config.d.ts"]
     },
-    "types": ["element-plus/global", "vitest/importMeta"]
+    "types": ["element-plus/global", "vitest/importMeta"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "target": "ES2018",
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": false,
+    "verbatimModuleSyntax": true,
+    "declaration": true,
+    "skipLibCheck": true,
   }
 }

@@ -31,15 +31,9 @@ export default defineConfig(({ mode }) => {
         ? [
             dts({
               insertTypesEntry: true,
-              include: ['src/**/*'],
-              exclude: [
-                'src/**/*.spec.ts',
-                'src/**/*.test.ts',
-                'src/**/__tests__/**',
-                'src/types/usage-examples.ts',
-              ],
+              include: ['src'],
+              exclude: ['src/**/*.spec.ts', 'src/**/__tests__/**'],
               outDir: 'dist',
-              copyDtsFiles: true,
               tsconfigPath: './tsconfig.app.json',
             }),
           ]
@@ -48,71 +42,41 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
-        ...(isLib
-          ? {
-              vue: 'vue/dist/vue.runtime.esm-bundler.js',
-            }
-          : {}),
       },
+      dedupe: isLib ? [] : ['vue'],
     },
+
     ...(isLib
       ? {
           build: {
             lib: {
               entry: resolve(__dirname, 'src/index.ts'),
-              name: 'VueTableComponents',
-              fileName: (format) => `index.${format}.js`,
+              name: 'RayyyVueTableComponents',
+              formats: ['es', 'umd'],
+              fileName: (format) => (format === 'es' ? 'index.es.js' : 'index.umd.cjs'),
             },
             rollupOptions: {
-              external: [
-                'vue',
-                'element-plus',
-                '@vue/runtime-core',
-                '@vue/runtime-dom',
-                '@vue/shared',
-                '@vue/compiler-sfc',
-                '@vue/compiler-dom',
-                '@vue/compiler-core',
-                '@vue/reactivity',
-                '@vue/ref-transform',
-                '@vueuse/core',
-              ],
+              external: (id) =>
+                /^vue($|\/)/.test(id) ||
+                /^@vue\//.test(id) ||
+                /^element-plus($|\/)/.test(id) ||
+                /^@vueuse\//.test(id),
               output: {
                 globals: {
                   vue: 'Vue',
                   'element-plus': 'ElementPlus',
-                  '@vue/runtime-core': 'VueRuntimeCore',
-                  '@vue/runtime-dom': 'VueRuntimeDom',
-                  '@vue/shared': 'VueShared',
-                  '@vue/compiler-sfc': 'VueCompilerSfc',
-                  '@vue/compiler-dom': 'VueCompilerDom',
-                  '@vue/compiler-core': 'VueCompilerCore',
-                  '@vue/reactivity': 'VueReactivity',
-                  '@vue/ref-transform': 'VueRefTransform',
-                  '@vueuse/core': 'VueUse',
                 },
                 exports: 'named',
-                format: 'es',
               },
+              treeshake: { moduleSideEffects: false },
             },
-            define: {
-              __VUE_OPTIONS_API__: true,
-              __VUE_PROD_DEVTOOLS__: false,
-            },
+            target: 'es2018',
+            sourcemap: true,
+            minify: false, // 元件庫發佈通常不在這裡壓縮，交給使用者專案處理
           },
-          optimizeDeps: {
-            exclude: [
-              'vue',
-              '@vue/runtime-core',
-              '@vue/runtime-dom',
-              '@vue/shared',
-              '@vue/compiler-sfc',
-              '@vue/compiler-dom',
-              '@vue/compiler-core',
-              '@vue/reactivity',
-              '@vue/ref-transform',
-              '@vueuse/core',
-            ],
+          define: {
+            __VUE_OPTIONS_API__: true,
+            __VUE_PROD_DEVTOOLS__: false,
           },
         }
       : {}),
