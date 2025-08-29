@@ -9,6 +9,8 @@
 - 🎯 完整的 TypeScript 類型支持
 - 📱 響應式設計
 - 🔧 高度可配置
+- 🎛️ 可拖拽的列配置對話框
+- 📋 支持表格列的顯示/隱藏和排序
 
 ## 安裝
 
@@ -18,6 +20,18 @@ npm install rayyy-vue-table-components
 yarn add rayyy-vue-table-components
 # 或
 pnpm add rayyy-vue-table-components
+```
+
+### 依賴說明
+
+如果您需要使用 `TransferDialog` 組件，還需要安裝 `vuedraggable` 依賴：
+
+```bash
+npm install vuedraggable
+# 或
+yarn add vuedraggable
+# 或
+pnpm add vuedraggable
 ```
 
 ## 使用方法
@@ -51,15 +65,22 @@ app.use(VueTableComponents)
   <BaseDialog v-model="showDialog" title="確認操作">
     <p>您確定要執行此操作嗎？</p>
   </BaseDialog>
+  
+  <TransferDialog
+    v-model="showTransferDialog"
+    :columns-value="columns"
+    transfer-title="配置表格列"
+    @update:submit="handleTransferSubmit"
+  />
 </template>
 
 <script setup lang="ts">
 // 方式一：從主模塊導入
-import { BaseTable, BaseBtn, BaseDialog } from 'rayyy-vue-table-components'
+import { BaseTable, BaseBtn, BaseDialog, TransferDialog } from 'rayyy-vue-table-components'
 import type { TableColumn, SortChangValue } from 'rayyy-vue-table-components'
 
 // 方式二：單獨導入組件
-import { BaseTable } from 'rayyy-vue-table-components/components'
+import { BaseTable, TransferDialog } from 'rayyy-vue-table-components/components'
 import type { TableColumn } from 'rayyy-vue-table-components/types'
 
 // 方式三：單獨導入類型
@@ -87,9 +108,15 @@ const columns: TableColumn<User>[] = [
 ]
 
 const loading = ref(false)
+const showTransferDialog = ref(false)
 
 const handleSortChange = (sortInfo: SortChangValue<User>) => {
   console.log('排序變更:', sortInfo)
+}
+
+const handleTransferSubmit = (columns: TableColumn<User>[]) => {
+  console.log('TransferDialog 提交的列配置:', columns)
+  // 這裡可以更新表格的列配置
 }
 </script>
 ```
@@ -269,6 +296,22 @@ const tableProps: BaseTableProps<User> = {
 | bodyLoading | `boolean` | `false` | 內容區域加載狀態 |
 | submitLoading | `boolean` | `false` | 提交按鈕加載狀態 |
 
+### TransferDialog Props
+
+| 屬性 | 類型 | 默認值 | 說明 |
+|------|------|--------|------|
+| modelValue | `boolean` | - | 對話框顯示狀態 |
+| columnsValue | `TableColumn<T>[]` | `[]` | 表格列配置 |
+| transferTitle | `string` | `'列配置'` | 對話框標題 |
+| checkAll | `boolean` | `false` | 是否全選 |
+
+### TransferDialog Events
+
+| 事件名 | 參數 | 說明 |
+|--------|------|------|
+| update:submit | `columns: TableColumn<T>[]` | 提交列配置 |
+| update:modelValue | `value: boolean` | 對話框顯示狀態變更 |
+
 ### TableColumn 接口
 
 ```typescript
@@ -306,6 +349,19 @@ npm run test:unit
 # 代碼檢查
 npm run lint
 ```
+
+## 組件列表
+
+| 組件 | 說明 | 依賴 |
+|------|------|------|
+| BaseTable | 基礎表格組件 | - |
+| BaseBtn | 基礎按鈕組件 | - |
+| BaseInput | 基礎輸入組件 | - |
+| FilterBtn | 篩選按鈕組件 | - |
+| BaseDialog | 基礎對話框組件 | - |
+| SortTable | 排序表格組件 | - |
+| SearchBar | 搜尋欄組件 | - |
+| TransferDialog | 列配置對話框組件 | vuedraggable |
 
 ## 許可證
 

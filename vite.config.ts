@@ -63,11 +63,12 @@ export default defineConfig(({ mode }) => {
           fileName: (format) => `index.${format}.js`
         },
         rollupOptions: {
-          external: ['vue', 'element-plus'],
+          external: ['vue', 'element-plus', 'vuedraggable'],
           output: {
             globals: {
               vue: 'Vue',
-              'element-plus': 'ElementPlus'
+              'element-plus': 'ElementPlus',
+              'vuedraggable': 'Vuedraggable'
             }
           }
         }

@@ -6,6 +6,7 @@ import FilterBtn from './components/items/FilterBtn.vue'
 import BaseDialog from './components/BaseDialog.vue'
 import SortTable from './components/tables/SortTable.vue'
 import SearchBar from './components/SearchBar.vue'
+import TransferDialog from './components/transfer/TransferDialog.vue'
 
 // 導入樣式
 import './assets/styles/index.css'
@@ -21,7 +22,8 @@ export {
   FilterBtn,
   BaseDialog,
   SortTable,
-  SearchBar
+  SearchBar,
+  TransferDialog
 }
 
 // 導出組件類型
@@ -50,7 +52,8 @@ const components: any[] = [
   FilterBtn,
   BaseDialog,
   SortTable,
-  SearchBar
+  SearchBar,
+  TransferDialog
 ]
 
 // Vue 插件安裝函數
@@ -88,4 +91,7 @@ export default {
 }
 ;(SearchBar as unknown as Record<string, unknown>).install = (app: App) => {
   app.component(SearchBar.name || 'SearchBar', SearchBar)
+}
+;(TransferDialog as unknown as Record<string, unknown>).install = (app: App) => {
+  app.component(TransferDialog.name || 'TransferDialog', TransferDialog)
 }

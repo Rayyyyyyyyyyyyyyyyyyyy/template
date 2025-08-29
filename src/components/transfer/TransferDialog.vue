@@ -22,6 +22,7 @@ const emit = defineEmits<{
 const dialogVisible = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value),
+
 })
 
 interface State {

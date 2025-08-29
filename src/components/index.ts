@@ -6,6 +6,7 @@ export { default as FilterBtn } from './items/FilterBtn.vue'
 export { default as BaseDialog } from './BaseDialog.vue'
 export { default as SortTable } from './tables/SortTable.vue'
 export { default as SearchBar } from './SearchBar.vue'
+export { default as TransferDialog } from './transfer/TransferDialog.vue'
 
 // 導出組件類型
 export type {
