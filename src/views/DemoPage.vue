@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { BaseTable, BaseBtn, BaseDialog, SortTable, SearchBar } from '@/components'
+import TransferDialog from '@/components/transfer/TransferDialog.vue'
 import type { TableColumn, SortChangValue } from '@/types'
+import { setActiveColumn } from '@/utils/tableHelper'
 import { h } from 'vue'
 
 // 定義數據類型
@@ -130,7 +132,7 @@ const productData = ref<Product[]>([
 ])
 
 // 用戶表格列配置
-const userColumns: TableColumn<User>[] = [
+const userColumns: TableColumn<User>[] = setActiveColumn([
   {
     prop: 'id',
     label: 'ID',
@@ -210,7 +212,7 @@ const userColumns: TableColumn<User>[] = [
     sortable: true,
     formatter: (row: User) => new Date(row.joinDate).toLocaleDateString('zh-TW')
   }
-]
+])
 
 // 產品表格列配置
 const productColumns: TableColumn<Product>[] = [
@@ -287,6 +289,7 @@ const state = reactive({
   selectedSortData: [] as User[],
   showDialog: false,
   showConfirmDialog: false,
+  showTransferDialog: false,
   searchKeyword: '',
   filterCount: 3
 })
@@ -355,6 +358,13 @@ const handleSearchClear = () => {
   console.log('清除搜尋')
   state.searchKeyword = ''
   // 這裡可以重置搜尋結果
+}
+
+// TransferDialog 相關處理
+const handleTransferSubmit = (columns: TableColumn<User>[]) => {
+  console.log('TransferDialog 提交的列配置:', columns)
+  // 這裡可以更新表格的列配置
+  // 例如：userColumns.value = columns
 }
 
 // 模擬加載
@@ -604,6 +614,27 @@ const simulateLoading = () => {
                 填充按鈕
               </BaseBtn>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TransferDialog 示範 -->
+      <section class="mb-12">
+        <div class="bg-white rounded-lg shadow-sm border">
+          <div class="px-6 py-4 border-b">
+            <h2 class="text-xl font-semibold text-gray-900">TransferDialog 示範</h2>
+            <p class="mt-1 text-gray-600">展示 TransferDialog 組件的列配置功能</p>
+          </div>
+          <div class="p-6">
+            <BaseBtn type="primary" @click="state.showTransferDialog = true">
+              打開 TransferDialog
+            </BaseBtn>
+                         <TransferDialog
+               v-model="state.showTransferDialog"
+               :columns-value="userColumns"
+               transfer-title="配置表格列"
+               @update:submit="handleTransferSubmit"
+             />
           </div>
         </div>
       </section>

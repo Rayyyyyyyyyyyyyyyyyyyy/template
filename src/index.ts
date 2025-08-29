@@ -7,6 +7,9 @@ import BaseDialog from './components/BaseDialog.vue'
 import SortTable from './components/tables/SortTable.vue'
 import SearchBar from './components/SearchBar.vue'
 
+// 導入樣式
+import './assets/styles/index.css'
+
 // 導出基礎類型
 export * from './types'
 

@@ -553,3 +553,10 @@ video {
 [hidden]:where(:not([hidden="until-found"])) {
   display: none;
 }
+
+
+/* TransferItem 組件樣式 */
+.transfer-arrow-wrapper {
+  width: 7rem;
+  color: #e0e0e0;
+}

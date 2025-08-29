@@ -12,6 +12,10 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
+// Tailwind CSS
+import tailwindcss from 'tailwindcss'
+import autoprefixer from 'autoprefixer'
+
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const isLib = mode === 'lib'
@@ -41,6 +45,14 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url))
+      },
+    },
+    css: {
+      postcss: {
+        plugins: [
+          tailwindcss,
+          autoprefixer,
+        ],
       },
     },
     ...(isLib ? {
