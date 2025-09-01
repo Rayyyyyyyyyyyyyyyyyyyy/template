@@ -51,11 +51,40 @@ app.use(VueTableComponents)
   <BaseDialog v-model="showDialog" title="確認操作">
     <p>您確定要執行此操作嗎？</p>
   </BaseDialog>
+  
+  <!-- TransferDialog 示例 -->
+  <TransferDialog
+    v-model="showTransferDialog"
+    :columns-value="tableColumns"
+    transfer-title="配置表格列"
+    @update:submit="handleColumnSubmit"
+  >
+    <template #list-container="{ columns, clickItemProp, handleItemEvents, handleMousedown }">
+      <draggable :list="columns" item-key="prop" delay="200">
+        <template #item="{ element, index }">
+          <transfer-item
+            :columns-value="element"
+            :columns-index="index"
+            :columns-len="columns.length"
+            :class="{
+              'transfer-active-bg': element.checkActive,
+              'transfer-active-border': clickItemProp === element.prop,
+            }"
+            @mousedown="handleMousedown(element.prop || '')"
+            @update:toTop="handleItemEvents.toTop(index)"
+            @update:toBottom="handleItemEvents.toBottom(index)"
+            @update:toPre="handleItemEvents.toPre(index)"
+            @update:toNext="handleItemEvents.toNext(index)"
+          />
+        </template>
+      </draggable>
+    </template>
+  </TransferDialog>
 </template>
 
 <script setup lang="ts">
 // 方式一：從主模塊導入
-import { BaseTable, BaseBtn, BaseDialog } from 'rayyy-vue-table-components'
+import { BaseTable, BaseBtn, BaseDialog, TransferDialog, TransferItem } from 'rayyy-vue-table-components'
 import type { TableColumn, SortChangValue } from 'rayyy-vue-table-components'
 
 // 方式二：單獨導入組件
@@ -90,6 +119,14 @@ const loading = ref(false)
 
 const handleSortChange = (sortInfo: SortChangValue<User>) => {
   console.log('排序變更:', sortInfo)
+}
+
+const showTransferDialog = ref(false)
+const tableColumns = ref(columns)
+
+const handleColumnSubmit = (newColumns: TableColumn<User>[]) => {
+  tableColumns.value = newColumns
+  showTransferDialog.value = false
 }
 </script>
 ```
@@ -269,6 +306,36 @@ const tableProps: BaseTableProps<User> = {
 | bodyLoading | `boolean` | `false` | 內容區域加載狀態 |
 | submitLoading | `boolean` | `false` | 提交按鈕加載狀態 |
 
+### TransferDialog Props
+
+| 屬性 | 類型 | 默認值 | 說明 |
+|------|------|--------|------|
+| modelValue | `boolean` | - | 對話框顯示狀態 |
+| columnsValue | `TableColumn<T>[]` | `[]` | 表格列配置 |
+| transferTitle | `string` | - | 對話框標題 |
+
+### TransferDialog Events
+
+| 事件名 | 參數 | 說明 |
+|--------|------|------|
+| update:modelValue | `value: boolean` | 對話框顯示狀態變更 |
+| update:submit | `columns: TableColumn<T>[]` | 提交列配置 |
+
+### TransferDialog Slots
+
+| 插槽名 | 參數 | 說明 |
+|--------|------|------|
+| list-container | `{ columns, clickItemProp, handleItemEvents, handleMousedown }` | 自定義列表容器，支持拖拽功能 |
+
+### TransferItem Props
+
+| 屬性 | 類型 | 默認值 | 說明 |
+|------|------|--------|------|
+| columnsValue | `TableColumn<T>` | - | 列配置對象 |
+| columnsIndex | `number` | - | 列索引 |
+| columnsLen | `number` | - | 總列數 |
+| dialogModalVisible | `boolean` | - | 對話框顯示狀態 |
+
 ### TableColumn 接口
 
 ```typescript
@@ -287,6 +354,123 @@ interface TableColumn<T = Record<string, unknown>> {
   checkActive?: boolean
 }
 ```
+
+## TransferDialog 使用指南
+
+TransferDialog 是一個靈活的表格列配置組件，支持自定義列表容器和拖拽功能。
+
+### 基本使用
+
+```vue
+<template>
+  <TransferDialog
+    v-model="showDialog"
+    :columns-value="columns"
+    transfer-title="配置表格列"
+    @update:submit="handleSubmit"
+  />
+</template>
+
+<script setup lang="ts">
+import { TransferDialog } from 'rayyy-vue-table-components'
+
+const showDialog = ref(false)
+const columns = ref<TableColumn<User>[]>([
+  { prop: 'id', label: 'ID', checkActive: true },
+  { prop: 'name', label: '姓名', checkActive: true },
+  { prop: 'email', label: '郵箱', checkActive: false }
+])
+
+const handleSubmit = (newColumns: TableColumn<User>[]) => {
+  columns.value = newColumns
+  showDialog.value = false
+}
+</script>
+```
+
+### 自定義拖拽功能
+
+```vue
+<template>
+  <TransferDialog
+    v-model="showDialog"
+    :columns-value="columns"
+    transfer-title="配置表格列"
+    @update:submit="handleSubmit"
+  >
+    <template #list-container="{ columns, clickItemProp, handleItemEvents, handleMousedown }">
+      <!-- 使用 vuedraggable 實現拖拽 -->
+      <draggable :list="columns" item-key="prop" delay="200">
+        <template #item="{ element, index }">
+          <transfer-item
+            :columns-value="element"
+            :columns-index="index"
+            :columns-len="columns.length"
+            :class="{
+              'transfer-active-bg': element.checkActive,
+              'transfer-active-border': clickItemProp === element.prop,
+            }"
+            @mousedown="handleMousedown(element.prop || '')"
+            @update:toTop="handleItemEvents.toTop(index)"
+            @update:toBottom="handleItemEvents.toBottom(index)"
+            @update:toPre="handleItemEvents.toPre(index)"
+            @update:toNext="handleItemEvents.toNext(index)"
+          />
+        </template>
+      </draggable>
+    </template>
+  </TransferDialog>
+</template>
+
+<script setup lang="ts">
+import { TransferDialog, TransferItem } from 'rayyy-vue-table-components'
+import draggable from 'vuedraggable'
+</script>
+```
+
+### 靜態列表（無拖拽）
+
+```vue
+<template>
+  <TransferDialog
+    v-model="showDialog"
+    :columns-value="columns"
+    transfer-title="配置表格列"
+    @update:submit="handleSubmit"
+  >
+    <template #list-container="{ columns, clickItemProp, handleItemEvents, handleMousedown }">
+      <!-- 使用靜態列表 -->
+      <div class="transfer-list">
+        <template v-for="(element, index) in columns" :key="element.prop">
+          <transfer-item
+            :columns-value="element"
+            :columns-index="index"
+            :columns-len="columns.length"
+            :class="{
+              'transfer-active-bg': element.checkActive,
+              'transfer-active-border': clickItemProp === element.prop,
+            }"
+            @mousedown="handleMousedown(element.prop || '')"
+            @update:toTop="handleItemEvents.toTop(index)"
+            @update:toBottom="handleItemEvents.toBottom(index)"
+            @update:toPre="handleItemEvents.toPre(index)"
+            @update:toNext="handleItemEvents.toNext(index)"
+          />
+        </template>
+      </div>
+    </template>
+  </TransferDialog>
+</template>
+```
+
+### 功能特色
+
+- ✅ **靈活的列表容器**：通過 slot 自定義列表渲染方式
+- ✅ **可選的拖拽功能**：支持或不支持拖拽排序
+- ✅ **內建排序操作**：上移、下移、置頂、置底
+- ✅ **搜尋過濾**：按列名快速定位
+- ✅ **批量選擇**：全選/取消全選功能
+- ✅ **狀態保持**：記住列的顯示/隱藏狀態
 
 ## 開發
 
