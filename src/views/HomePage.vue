@@ -11,12 +11,8 @@ const goToDemo = () => {
 <template>
   <div class="min-h-screen bg-navy-10 flex items-center justify-center">
     <div class="text-center">
-      <h1 class="text-4xl font-bold text-gray-900 mb-4">
-        Vue Table Components
-      </h1>
-      <p class="text-xl text-gray-600 mb-8">
-        基於 Vue 3 + Element Plus 的強大表格組件庫
-      </p>
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">Vue Table Components</h1>
+      <p class="text-xl text-gray-600 mb-8">基於 Vue 3 + Element Plus 的強大表格組件庫</p>
       <div class="space-x-4">
         <button
           @click="goToDemo"

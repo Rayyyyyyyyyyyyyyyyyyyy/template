@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
-import { BaseTable, BaseBtn, BaseDialog, SortTable, SearchBar } from '@/components'
+import {ref, reactive} from 'vue'
+import {BaseTable, BaseBtn, BaseDialog, SortTable, SearchBar} from '@/components'
 import TransferDialog from '@/components/transfer/TransferDialog.vue'
-import type { TableColumn, SortChangValue } from '@/types'
-import { setActiveColumn } from '@/utils/tableHelper'
-import { h } from 'vue'
+import TransferItem from '@/components/transfer/transferItem.vue'
+import type {TableColumn, SortChangValue} from '@/types'
+import {setActiveColumn} from '@/utils/tableHelper'
+import {h} from 'vue'
+import draggable from 'vuedraggable'
 
-// 定義數據類型
+// ==================== 類型定義 ====================
 interface User extends Record<string, unknown> {
   id: number
   name: string
@@ -28,8 +30,19 @@ interface Product extends Record<string, unknown> {
   isAvailable: boolean
 }
 
-// 用戶數據
-const userData = ref<User[]>([
+// ==================== 常量定義 ====================
+const DEMO_CONSTANTS = {
+  LOADING_DURATION: 2000,
+  DEFAULT_FILTER_COUNT: 3,
+  STATUS_CONFIG: {
+    active: {icon: '●', text: '啟用', class: 'text-green-500 text-lg'},
+    inactive: {icon: '●', text: '停用', class: 'text-red-500 text-lg'},
+    pending: {icon: '○', text: '待處理', class: 'text-yellow-500 text-lg'},
+  },
+} as const
+
+// ==================== 測試數據 ====================
+const DEMO_USER_DATA: User[] = [
   {
     id: 1,
     name: '張小明',
@@ -38,7 +51,7 @@ const userData = ref<User[]>([
     department: '工程部',
     salary: 45000,
     status: 'active',
-    joinDate: '2023-01-15'
+    joinDate: '2023-01-15',
   },
   {
     id: 2,
@@ -48,7 +61,7 @@ const userData = ref<User[]>([
     department: '設計部',
     salary: 52000,
     status: 'active',
-    joinDate: '2022-08-20'
+    joinDate: '2022-08-20',
   },
   {
     id: 3,
@@ -58,7 +71,7 @@ const userData = ref<User[]>([
     department: '行銷部',
     salary: 38000,
     status: 'pending',
-    joinDate: '2024-03-10'
+    joinDate: '2024-03-10',
   },
   {
     id: 4,
@@ -68,7 +81,7 @@ const userData = ref<User[]>([
     department: '工程部',
     salary: 60000,
     status: 'active',
-    joinDate: '2021-12-01'
+    joinDate: '2021-12-01',
   },
   {
     id: 5,
@@ -78,12 +91,11 @@ const userData = ref<User[]>([
     department: '設計部',
     salary: 48000,
     status: 'inactive',
-    joinDate: '2023-06-15'
-  }
-])
+    joinDate: '2023-06-15',
+  },
+]
 
-// 產品數據
-const productData = ref<Product[]>([
+const DEMO_PRODUCT_DATA: Product[] = [
   {
     id: 1,
     name: 'MacBook Pro',
@@ -91,7 +103,7 @@ const productData = ref<Product[]>([
     price: 45000,
     stock: 15,
     rating: 4.8,
-    isAvailable: true
+    isAvailable: true,
   },
   {
     id: 2,
@@ -100,7 +112,7 @@ const productData = ref<Product[]>([
     price: 28000,
     stock: 8,
     rating: 4.6,
-    isAvailable: true
+    isAvailable: true,
   },
   {
     id: 3,
@@ -109,7 +121,7 @@ const productData = ref<Product[]>([
     price: 6500,
     stock: 0,
     rating: 4.7,
-    isAvailable: false
+    isAvailable: false,
   },
   {
     id: 4,
@@ -118,7 +130,7 @@ const productData = ref<Product[]>([
     price: 18000,
     stock: 12,
     rating: 4.5,
-    isAvailable: true
+    isAvailable: true,
   },
   {
     id: 5,
@@ -127,115 +139,100 @@ const productData = ref<Product[]>([
     price: 12000,
     stock: 5,
     rating: 4.4,
-    isAvailable: true
-  }
-])
+    isAvailable: true,
+  },
+]
 
-// 用戶表格列配置
-const userColumns: TableColumn<User>[] = setActiveColumn([
+// ==================== 列配置工廠函數 ====================
+const createUserColumns = (): TableColumn<User>[] =>
+  setActiveColumn([
+    {
+      prop: 'id',
+      label: 'ID',
+      width: 80,
+      align: 'center',
+      sortable: true,
+    },
+    {
+      prop: 'name',
+      label: '姓名',
+      width: 120,
+      align: 'left',
+      sortable: true,
+    },
+    {
+      prop: 'email',
+      label: '郵箱',
+      width: 200,
+      align: 'left',
+      sortable: true,
+    },
+    {
+      prop: 'age',
+      label: '年齡',
+      width: 80,
+      align: 'center',
+      sortable: true,
+    },
+    {
+      prop: 'department',
+      label: '部門',
+      width: 120,
+      align: 'center',
+      sortable: true,
+    },
+    {
+      prop: 'salary',
+      label: '薪資',
+      width: 120,
+      align: 'right',
+      sortable: true,
+      formatter: (row: User) => `$${row.salary.toLocaleString()}`,
+    },
+    {
+      prop: 'status',
+      label: '狀態',
+      width: 100,
+      align: 'center',
+      template: (row: User) => {
+        const statusConfig = DEMO_CONSTANTS.STATUS_CONFIG[row.status]
+        return h('div', {class: 'flex items-center justify-center'}, [
+          h('span', {class: statusConfig.class}, statusConfig.icon),
+          h('span', {class: 'ml-1 text-xs text-gray-500'}, statusConfig.text),
+        ])
+      },
+    },
+    {
+      prop: 'joinDate',
+      label: '入職日期',
+      width: 120,
+      align: 'center',
+      sortable: true,
+      formatter: (row: User) => new Date(row.joinDate).toLocaleDateString('zh-TW'),
+    },
+  ])
+
+const createProductColumns = (): TableColumn<Product>[] => [
   {
     prop: 'id',
     label: 'ID',
     width: 80,
     align: 'center',
-    sortable: true
-  },
-  {
-    prop: 'name',
-    label: '姓名',
-    width: 120,
-    align: 'left',
-    sortable: true
-  },
-  {
-    prop: 'email',
-    label: '郵箱',
-    width: 200,
-    align: 'left',
-    sortable: true
-  },
-  {
-    prop: 'age',
-    label: '年齡',
-    width: 80,
-    align: 'center',
-    sortable: true
-  },
-  {
-    prop: 'department',
-    label: '部門',
-    width: 120,
-    align: 'center',
-    sortable: true
-  },
-  {
-    prop: 'salary',
-    label: '薪資',
-    width: 120,
-    align: 'right',
     sortable: true,
-    formatter: (row: User) => `$${row.salary.toLocaleString()}`
-  },
-  {
-    prop: 'status',
-    label: '狀態',
-    width: 100,
-    align: 'center',
-    template: (row: User) => h('div', {
-      class: 'flex items-center justify-center'
-    }, [
-      h('span', {
-        class: {
-          'text-green-500 text-lg': row.status === 'active',
-          'text-red-500 text-lg': row.status === 'inactive',
-          'text-yellow-500 text-lg': row.status === 'pending'
-        }
-      }, {
-        active: '●',
-        inactive: '●',
-        pending: '○'
-      }[row.status]),
-      h('span', {
-        class: 'ml-1 text-xs text-gray-500'
-      }, {
-        active: '啟用',
-        inactive: '停用',
-        pending: '待處理'
-      }[row.status])
-    ])
-  },
-  {
-    prop: 'joinDate',
-    label: '入職日期',
-    width: 120,
-    align: 'center',
-    sortable: true,
-    formatter: (row: User) => new Date(row.joinDate).toLocaleDateString('zh-TW')
-  }
-])
-
-// 產品表格列配置
-const productColumns: TableColumn<Product>[] = [
-  {
-    prop: 'id',
-    label: 'ID',
-    width: 80,
-    align: 'center',
-    sortable: true
   },
   {
     prop: 'name',
     label: '產品名稱',
     width: 150,
     align: 'left',
-    sortable: true
+    sortable: true,
   },
   {
     prop: 'category',
     label: '分類',
     width: 120,
     align: 'center',
-    sortable: true
+    sortable: true,
   },
   {
     prop: 'price',
@@ -243,7 +240,7 @@ const productColumns: TableColumn<Product>[] = [
     width: 120,
     align: 'right',
     sortable: true,
-    formatter: (row: Product) => `$${row.price.toLocaleString()}`
+    formatter: (row: Product) => `$${row.price.toLocaleString()}`,
   },
   {
     prop: 'stock',
@@ -251,9 +248,14 @@ const productColumns: TableColumn<Product>[] = [
     width: 100,
     align: 'center',
     sortable: true,
-    template: (row: Product) => h('span', {
-      class: row.stock > 0 ? 'text-green-600' : 'text-red-600 font-bold'
-    }, row.stock)
+    template: (row: Product) =>
+      h(
+        'span',
+        {
+          class: row.stock > 0 ? 'text-green-600' : 'text-red-600 font-bold',
+        },
+        row.stock,
+      ),
   },
   {
     prop: 'rating',
@@ -261,48 +263,73 @@ const productColumns: TableColumn<Product>[] = [
     width: 100,
     align: 'center',
     sortable: true,
-    template: (row: Product) => h('div', {
-      class: 'flex items-center justify-center'
-    }, [
-      h('span', { class: 'text-yellow-500' }, '★'),
-      h('span', { class: 'ml-1' }, row.rating.toFixed(1))
-    ])
+    template: (row: Product) =>
+      h(
+        'div',
+        {
+          class: 'flex items-center justify-center',
+        },
+        [
+          h('span', {class: 'text-yellow-500'}, '★'),
+          h('span', {class: 'ml-1'}, row.rating.toFixed(1)),
+        ],
+      ),
   },
   {
     prop: 'isAvailable',
     label: '可購買',
     width: 100,
     align: 'center',
-    template: (row: Product) => h('span', {
-      class: row.isAvailable ? 'text-green-600' : 'text-red-600'
-    }, row.isAvailable ? '是' : '否')
-  }
+    template: (row: Product) =>
+      h(
+        'span',
+        {
+          class: row.isAvailable ? 'text-green-600' : 'text-red-600',
+        },
+        row.isAvailable ? '是' : '否',
+      ),
+  },
 ]
 
-// 狀態管理
+// ==================== 響應式數據 ====================
 const state = reactive({
+  // 數據
+  userData: DEMO_USER_DATA as User[],
+  productData: DEMO_PRODUCT_DATA as Product[],
+  userColumns: createUserColumns() as TableColumn<User>[],
+  productColumns: createProductColumns() as TableColumn<Product>[],
+
+  // 加載狀態
   userLoading: false,
   productLoading: false,
   sortTableLoading: false,
+
+  // 選擇狀態
   selectedUsers: [] as User[],
   selectedProducts: [] as Product[],
   selectedSortData: [] as User[],
+
+  // 對話框狀態
   showDialog: false,
   showConfirmDialog: false,
   showTransferDialog: false,
+
+  // 搜尋狀態
   searchKeyword: '',
-  filterCount: 3
+  filterCount: DEMO_CONSTANTS.DEFAULT_FILTER_COUNT,
 })
 
-// 事件處理
-const handleUserSortChange = (value: SortChangValue<User>) => {
-  console.log('用戶表格排序變更:', value)
+// ==================== 事件處理函數 ====================
+// 統一的日誌處理函數
+const createLogHandler = (prefix: string) => (data: any) => {
+  console.log(`${prefix}:`, data)
 }
 
-const handleProductSortChange = (value: SortChangValue<Product>) => {
-  console.log('產品表格排序變更:', value)
-}
+// 表格排序事件處理
+const handleUserSortChange = createLogHandler('用戶表格排序變更')
+const handleProductSortChange = createLogHandler('產品表格排序變更')
 
+// 表格選擇事件處理
 const handleUserSelectionChange = (selection: User[]) => {
   state.selectedUsers = selection
   console.log('選中的用戶:', selection)
@@ -313,29 +340,24 @@ const handleProductSelectionChange = (selection: Product[]) => {
   console.log('選中的產品:', selection)
 }
 
-const handleUserCellClick = (column: TableColumn<User>, row: User) => {
-  console.log('點擊用戶單元格:', column.label, row)
-}
+// 表格單元格點擊事件處理
+const handleUserCellClick = createLogHandler('點擊用戶單元格')
+const handleProductCellClick = createLogHandler('點擊產品單元格')
 
-const handleProductCellClick = (column: TableColumn<Product>, row: Product) => {
-  console.log('點擊產品單元格:', column.label, row)
-}
-
+// 排序表格事件處理
 const handleSortTableSelectionChange = (selection: User[]) => {
   state.selectedSortData = selection
   console.log('選中的排序表格數據:', selection)
 }
 
-const handleSortTableCellClick = (column: TableColumn<User>, row: User) => {
-  console.log('點擊排序表格單元格:', column.label, row)
-}
+const handleSortTableCellClick = createLogHandler('點擊排序表格單元格')
 
 const handleSortTableSortChange = (value: SortChangValue<User>) => {
   console.log('排序表格排序變更:', value)
-  // 這裡可以實現實際的排序邏輯
-  const { prop, order } = value
+  // 實現實際的排序邏輯
+  const {prop, order} = value
   if (prop && order) {
-    userData.value.sort((a, b) => {
+    state.userData.sort((a, b) => {
       const aVal = a[prop] as string | number
       const bVal = b[prop] as string | number
       if (order === 'ascending') {
@@ -347,11 +369,11 @@ const handleSortTableSortChange = (value: SortChangValue<User>) => {
   }
 }
 
+// 搜尋相關事件處理
 const handleSearch = (keyword: string) => {
   console.log('搜尋關鍵字:', keyword)
   state.searchKeyword = keyword
   // 這裡可以實現實際的搜尋邏輯
-  // 例如過濾表格數據
 }
 
 const handleSearchClear = () => {
@@ -363,8 +385,14 @@ const handleSearchClear = () => {
 // TransferDialog 相關處理
 const handleTransferSubmit = (columns: TableColumn<User>[]) => {
   console.log('TransferDialog 提交的列配置:', columns)
-  // 這裡可以更新表格的列配置
-  // 例如：userColumns.value = columns
+  // 更新用戶表格的列配置
+  state.userColumns.splice(0, state.userColumns.length, ...columns)
+  state.showTransferDialog = false
+}
+
+// 重置用戶表格列配置
+const resetUserColumns = () => {
+  state.userColumns.splice(0, state.userColumns.length, ...createUserColumns())
 }
 
 // 模擬加載
@@ -375,12 +403,12 @@ const simulateLoading = () => {
   setTimeout(() => {
     state.userLoading = false
     state.productLoading = false
-  }, 2000)
+  }, DEMO_CONSTANTS.LOADING_DURATION)
 }
 </script>
 
 <template>
-      <div class="min-h-screen bg-navy-10">
+  <div class="min-h-screen bg-navy-10">
     <!-- Header -->
     <header class="bg-white shadow-sm border-b">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -410,56 +438,89 @@ const simulateLoading = () => {
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <!-- 用戶表格示範 -->
+      <!-- TransferDialog 示範 -->
       <section class="mb-12">
         <div class="bg-white rounded-lg shadow-sm border">
           <div class="px-6 py-4 border-b">
-            <h2 class="text-xl font-semibold text-gray-900">用戶管理表格</h2>
-            <p class="mt-1 text-gray-600">
-              展示選擇列、排序、自定義模板等功能
-              <span v-if="state.selectedUsers.length > 0" class="ml-2 text-primary">
-                (已選擇 {{ state.selectedUsers.length }} 項)
-              </span>
-            </p>
+            <h2 class="text-xl font-semibold text-gray-900">TransferDialog 示範</h2>
+            <p class="mt-1 text-gray-600">展示 TransferDialog 組件的表格列配置功能</p>
           </div>
           <div class="p-6">
-            <BaseTable
-              :data="userData"
-              :columns="userColumns"
-              :loading="state.userLoading"
-              :show-selection="true"
-              :show-over-flow-tooltip="true"
-              @selection-change="handleUserSelectionChange"
-              @column-sort-change="handleUserSortChange"
-              @cell-click="handleUserCellClick"
-            />
-          </div>
-        </div>
-      </section>
+            <div class="flex flex-wrap gap-4 mb-6">
+              <BaseBtn type="primary" @click="state.showTransferDialog = true">
+                配置用戶表格列
+              </BaseBtn>
+              <BaseBtn type="default" @click="resetUserColumns"> 重置列配置</BaseBtn>
+            </div>
 
-      <!-- 產品表格示範 -->
-      <section class="mb-12">
-        <div class="bg-white rounded-lg shadow-sm border">
-          <div class="px-6 py-4 border-b">
-            <h2 class="text-xl font-semibold text-gray-900">產品庫存表格</h2>
-            <p class="mt-1 text-gray-600">
-              展示格式化、自定義模板、狀態顯示等功能
-              <span v-if="state.selectedProducts.length > 0" class="ml-2 text-primary">
-                (已選擇 {{ state.selectedProducts.length }} 項)
-              </span>
-            </p>
-          </div>
-          <div class="p-6">
-            <BaseTable
-              :data="productData"
-              :columns="productColumns"
-              :loading="state.productLoading"
-              :show-selection="true"
-              :show-over-flow-tooltip="true"
-              @selection-change="handleProductSelectionChange"
-              @column-sort-change="handleProductSortChange"
-              @cell-click="handleProductCellClick"
-            />
+            <div class="bg-navy-10 p-4 rounded-lg">
+              <h4 class="font-semibold text-gray-900 mb-2">TransferDialog 功能特色：</h4>
+              <ul class="text-sm text-gray-600 space-y-1">
+                <li>• <strong>拖拽排序：</strong>支持拖拽調整列順序</li>
+                <li>• <strong>批量選擇：</strong>支持全選/取消全選列</li>
+                <li>• <strong>搜尋過濾：</strong>支持按列名搜尋快速定位</li>
+                <li>• <strong>位置調整：</strong>支持上移、下移、置頂、置底操作</li>
+                <li>• <strong>即時預覽：</strong>配置變更即時反映到表格</li>
+                <li>• <strong>狀態保持：</strong>記住列的顯示/隱藏狀態</li>
+              </ul>
+            </div>
+            <div class="my-6">
+              <BaseTable
+                :data="state.userData"
+                :columns="state.userColumns.filter((item) =>item.checkActive )"
+                :loading="state.sortTableLoading"
+                :show-selection="false"
+                :show-over-flow-tooltip="true"
+              />
+            </div>
+
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <h4 class="font-semibold text-yellow-800 mb-2">使用說明：</h4>
+              <ol class="text-sm text-yellow-700 space-y-1">
+                <li>1. 點擊「配置用戶表格列」按鈕打開配置對話框</li>
+                <li>2. 使用搜尋框快速找到需要配置的列</li>
+                <li>3. 勾選/取消勾選來控制列的顯示/隱藏</li>
+                <li>4. <strong>拖拽列項目</strong>或使用方向按鈕調整列順序</li>
+                <li>5. 點擊「確定」保存配置，或點擊「重置列配置」恢復預設</li>
+              </ol>
+              <div class="mt-3 p-3 bg-blue-50 border border-blue-200 rounded">
+                <h5 class="font-medium text-blue-800 mb-1">💡 技術說明：</h5>
+                <p class="text-xs text-blue-700">
+                  TransferDialog 組件已移除 draggable 依賴，通過 slot 機制讓外部使用者可以自定義列表容器。
+                  本示範頁面使用 vuedraggable 實現拖拽功能，您也可以選擇不使用拖拽或使用其他拖拽庫。
+                </p>
+              </div>
+            </div>
+
+
+            <TransferDialog
+              v-model="state.showTransferDialog"
+              :columns-value="state.userColumns"
+              transfer-title="配置用戶表格列"
+              @update:submit="handleTransferSubmit"
+            >
+              <template #list-container="{ columns, clickItemProp, handleItemEvents, handleMousedown }">
+                <draggable :list="columns" item-key="prop" delay="200">
+                  <template #item="{ element, index }">
+                    <transfer-item
+                      :dialog-modal-visible="state.showTransferDialog"
+                      :columns-value="element"
+                      :columns-index="index"
+                      :columns-len="columns.length"
+                      :class="{
+                        'transfer-active-bg': element.checkActive,
+                        'transfer-active-border': clickItemProp === element.prop,
+                      }"
+                      @mousedown="handleMousedown(element.prop)"
+                      @update:toTop="handleItemEvents.toTop(index)"
+                      @update:toBottom="handleItemEvents.toBottom(index)"
+                      @update:toPre="handleItemEvents.toPre(index)"
+                      @update:toNext="handleItemEvents.toNext(index)"
+                    />
+                  </template>
+                </draggable>
+              </template>
+            </TransferDialog>
           </div>
         </div>
       </section>
@@ -478,8 +539,8 @@ const simulateLoading = () => {
           </div>
           <div class="p-6">
             <SortTable
-              :data="userData"
-              :columns="userColumns"
+              :data="state.userData"
+              :columns="state.userColumns"
               :loading="state.sortTableLoading"
               :show-selection="true"
               :show-over-flow-tooltip="true"
@@ -491,100 +552,72 @@ const simulateLoading = () => {
         </div>
       </section>
 
-             <!-- 搜尋欄示範 -->
-       <section class="mb-12">
-         <div class="bg-white rounded-lg shadow-sm border">
-           <div class="px-6 py-4 border-b">
-             <h2 class="text-xl font-semibold text-gray-900">搜尋欄示範</h2>
-             <p class="mt-1 text-gray-600">展示 SearchBar 組件的搜尋和篩選功能</p>
-           </div>
-           <div class="p-6">
-             <div class="space-y-6">
-               <!-- 基本搜尋欄 -->
-               <div>
-                 <h3 class="text-lg font-medium text-gray-900 mb-3">基本搜尋功能</h3>
-                 <SearchBar
-                   :show-search="true"
-                   :show-filter="false"
-                   @keydown:enter="handleSearch"
-                   @update:clear="handleSearchClear"
-                 />
-               </div>
+      <!-- 搜尋欄示範 -->
+      <section class="mb-12">
+        <div class="bg-white rounded-lg shadow-sm border">
+          <div class="px-6 py-4 border-b">
+            <h2 class="text-xl font-semibold text-gray-900">搜尋欄示範</h2>
+            <p class="mt-1 text-gray-600">展示 SearchBar 組件的搜尋和篩選功能</p>
+          </div>
+          <div class="p-6">
+            <div class="space-y-6">
+              <!-- 帶篩選的搜尋欄 -->
+              <div>
+                <h3 class="text-lg font-medium text-gray-900 mb-3">搜尋 + 篩選功能</h3>
+                <SearchBar
+                  :show-search="true"
+                  :show-filter="true"
+                  :badge-value="state.filterCount"
+                  @keydown:enter="handleSearch"
+                  @update:clear="handleSearchClear"
+                >
+                  <template #button>
+                    <BaseBtn type="primary" size="small" class="mr-2"> 新增</BaseBtn>
+                    <BaseBtn type="success" size="small"> 匯出</BaseBtn>
+                  </template>
+                  <template #filterBody>
+                    <div class="p-4 space-y-3">
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">部門</label>
+                        <select class="w-full border border-gray-300 rounded-md px-3 py-2">
+                          <option value="">全部</option>
+                          <option value="engineering">工程部</option>
+                          <option value="design">設計部</option>
+                          <option value="marketing">行銷部</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">狀態</label>
+                        <select class="w-full border border-gray-300 rounded-md px-3 py-2">
+                          <option value="">全部</option>
+                          <option value="active">啟用</option>
+                          <option value="inactive">停用</option>
+                          <option value="pending">待處理</option>
+                        </select>
+                      </div>
+                      <div class="flex gap-2 pt-2">
+                        <BaseBtn type="primary" size="small" class="flex-1">確定</BaseBtn>
+                        <BaseBtn type="default" size="small" class="flex-1">重置</BaseBtn>
+                      </div>
+                    </div>
+                  </template>
+                </SearchBar>
+              </div>
+            </div>
 
-               <!-- 帶篩選的搜尋欄 -->
-               <div>
-                 <h3 class="text-lg font-medium text-gray-900 mb-3">搜尋 + 篩選功能</h3>
-                 <SearchBar
-                   :show-search="true"
-                   :show-filter="true"
-                   :badge-value="state.filterCount"
-                   @keydown:enter="handleSearch"
-                   @update:clear="handleSearchClear"
-                 >
-                   <template #button>
-                     <BaseBtn type="primary" size="small" class="mr-2">
-                       新增
-                     </BaseBtn>
-                     <BaseBtn type="success" size="small">
-                       匯出
-                     </BaseBtn>
-                   </template>
-                   <template #filterBody>
-                     <div class="p-4 space-y-3">
-                       <div>
-                         <label class="block text-sm font-medium text-gray-700 mb-1">部門</label>
-                         <select class="w-full border border-gray-300 rounded-md px-3 py-2">
-                           <option value="">全部</option>
-                           <option value="engineering">工程部</option>
-                           <option value="design">設計部</option>
-                           <option value="marketing">行銷部</option>
-                         </select>
-                       </div>
-                       <div>
-                         <label class="block text-sm font-medium text-gray-700 mb-1">狀態</label>
-                         <select class="w-full border border-gray-300 rounded-md px-3 py-2">
-                           <option value="">全部</option>
-                           <option value="active">啟用</option>
-                           <option value="inactive">停用</option>
-                           <option value="pending">待處理</option>
-                         </select>
-                       </div>
-                       <div class="flex gap-2 pt-2">
-                         <BaseBtn type="primary" size="small" class="flex-1">確定</BaseBtn>
-                         <BaseBtn type="default" size="small" class="flex-1">重置</BaseBtn>
-                       </div>
-                     </div>
-                   </template>
-                 </SearchBar>
-               </div>
-
-               <!-- 全寬搜尋欄 -->
-               <div>
-                 <h3 class="text-lg font-medium text-gray-900 mb-3">全寬搜尋欄</h3>
-                 <SearchBar
-                   :show-search="true"
-                   :show-filter="false"
-                   :full-input="true"
-                   @keydown:enter="handleSearch"
-                   @update:clear="handleSearchClear"
-                 />
-               </div>
-             </div>
-
-             <div class="mt-6 p-4 bg-navy-10 rounded-lg">
-               <h4 class="font-semibold text-gray-900 mb-2">功能說明：</h4>
-               <ul class="text-sm text-gray-600 space-y-1">
-                 <li>• 支持關鍵字搜尋（按 Enter 鍵觸發）</li>
-                 <li>• 支持清除搜尋內容</li>
-                 <li>• 可選的篩選功能（帶徽章顯示）</li>
-                 <li>• 自定義按鈕區域</li>
-                 <li>• 響應式設計，支持全寬模式</li>
-               </ul>
-             </div>
-           </div>
-         </div>
-       </section>
-
+            <div class="mt-6 p-4 bg-navy-10 rounded-lg">
+              <h4 class="font-semibold text-gray-900 mb-2">功能說明：</h4>
+              <ul class="text-sm text-gray-600 space-y-1">
+                <li>• 支持關鍵字搜尋（按 Enter 鍵觸發）</li>
+                <li>• 支持清除搜尋內容</li>
+                <li>• 可選的篩選功能（帶徽章顯示）</li>
+                <li>• 自定義按鈕區域</li>
+                <li>• 響應式設計，支持全寬模式</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <!-- 按鈕和對話框示範 -->
       <section class="mb-12">
@@ -595,102 +628,14 @@ const simulateLoading = () => {
           </div>
           <div class="p-6">
             <div class="flex flex-wrap gap-4 mb-6">
-              <BaseBtn type="primary" @click="state.showDialog = true">
-                打開對話框
-              </BaseBtn>
-              <BaseBtn type="success" @click="state.showConfirmDialog = true">
-                確認對話框
-              </BaseBtn>
-              <BaseBtn type="warning" loading>
-                加載中
-              </BaseBtn>
-              <BaseBtn type="danger" disabled>
-                禁用按鈕
-              </BaseBtn>
-              <BaseBtn type="default" plain>
-                樸素按鈕
-              </BaseBtn>
-              <BaseBtn type="primary" is-fill>
-                填充按鈕
-              </BaseBtn>
+              <BaseBtn type="primary" @click="state.showDialog = true"> 打開對話框</BaseBtn>
+              <BaseBtn type="success" @click="state.showConfirmDialog = true"> 確認對話框</BaseBtn>
+              <BaseBtn type="warning" loading> 加載中</BaseBtn>
+              <BaseBtn type="danger" disabled> 禁用按鈕</BaseBtn>
+              <BaseBtn type="default" plain> 樸素按鈕</BaseBtn>
+              <BaseBtn type="primary" is-fill> 填充按鈕</BaseBtn>
             </div>
           </div>
-        </div>
-      </section>
-
-      <!-- TransferDialog 示範 -->
-      <section class="mb-12">
-        <div class="bg-white rounded-lg shadow-sm border">
-          <div class="px-6 py-4 border-b">
-            <h2 class="text-xl font-semibold text-gray-900">TransferDialog 示範</h2>
-            <p class="mt-1 text-gray-600">展示 TransferDialog 組件的列配置功能</p>
-          </div>
-          <div class="p-6">
-            <BaseBtn type="primary" @click="state.showTransferDialog = true">
-              打開 TransferDialog
-            </BaseBtn>
-                         <TransferDialog
-               v-model="state.showTransferDialog"
-               :columns-value="userColumns"
-               transfer-title="配置表格列"
-               @update:submit="handleTransferSubmit"
-             />
-          </div>
-        </div>
-      </section>
-
-      <!-- 功能說明 -->
-      <section class="bg-white rounded-lg shadow-sm border p-6">
-        <h2 class="text-xl font-semibold text-gray-900 mb-4">功能特色</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="p-4 border rounded-lg">
-            <h3 class="font-semibold text-gray-900 mb-2">🚀 高性能</h3>
-            <p class="text-gray-600 text-sm">基於 Vue 3 Composition API，支持虛擬滾動和懶加載</p>
-          </div>
-          <div class="p-4 border rounded-lg">
-            <h3 class="font-semibold text-gray-900 mb-2">🎨 高度自定義</h3>
-            <p class="text-gray-600 text-sm">支持自定義模板、格式化函數、樣式定制</p>
-          </div>
-          <div class="p-4 border rounded-lg">
-            <h3 class="font-semibold text-gray-900 mb-2">📱 響應式設計</h3>
-            <p class="text-gray-600 text-sm">適配各種螢幕尺寸，移動端友好</p>
-          </div>
-          <div class="p-4 border rounded-lg">
-            <h3 class="font-semibold text-gray-900 mb-2">🔧 TypeScript 支持</h3>
-            <p class="text-gray-600 text-sm">完整的類型定義，開發體驗更佳</p>
-          </div>
-          <div class="p-4 border rounded-lg">
-            <h3 class="font-semibold text-gray-900 mb-2">⚡ 豐富功能</h3>
-            <p class="text-gray-600 text-sm">排序、選擇、分頁、篩選等功能一應俱全</p>
-          </div>
-          <div class="p-4 border rounded-lg">
-            <h3 class="font-semibold text-gray-900 mb-2">🎯 易於使用</h3>
-            <p class="text-gray-600 text-sm">簡潔的 API 設計，快速上手</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- 使用說明 -->
-      <section class="bg-white rounded-lg shadow-sm border p-6 mt-8">
-        <h2 class="text-xl font-semibold text-gray-900 mb-4">快速開始</h2>
-        <div class="bg-navy-10 rounded-lg p-4">
-          <pre class="text-sm text-gray-800"><code># 安裝
-npm install rayyy-vue-table-components
-
-# 使用
-import { BaseTable } from 'rayyy-vue-table-components'
-import 'rayyy-vue-table-components/dist/rayyy-vue-table-components.css'
-
-# 配置
-const columns = [
-  { prop: 'name', label: '姓名', sortable: true },
-  { prop: 'age', label: '年齡', align: 'center' }
-]
-
-const data = [
-  { name: '張三', age: 25 },
-  { name: '李四', age: 30 }
-]</code></pre>
         </div>
       </section>
     </main>

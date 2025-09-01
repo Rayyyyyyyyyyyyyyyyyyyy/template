@@ -1,7 +1,6 @@
 <script setup lang="ts" generic="T = Record<string, unknown>">
 import { computed, reactive, watch } from 'vue'
 import type { TableColumn } from 'src/types'
-import draggable from 'vuedraggable'
 import _ from 'lodash'
 import type { CheckboxValueType } from 'element-plus'
 import BaseDialog from '@/components/BaseDialog.vue'
@@ -34,6 +33,7 @@ const state = reactive<State>({
   clickItemProp: '',
   checkList: props.columnsValue.map((item) => item.prop) as string[],
 })
+
 const handleItemEvents = {
   toTop: (index: number) => {
     if (index <= 0) return
@@ -133,25 +133,35 @@ const doFilterColumn = (keyword: string) => {
         欄 ({{ state.checkList.length }}/{{ state.localColumns.length }})
       </el-checkbox>
       <el-checkbox-group v-model="state.checkList" @change="handleCheckChange">
-        <draggable :list="state.localColumns" item-key="prop" delay="200">
-          <template #item="{ element, index }">
-            <transfer-item
-              :dialog-modal-visible="dialogVisible"
-              :columns-value="element"
-              :columns-index="index"
-              :columns-len="state.localColumns.length"
-              :class="{
-                'transfer-active-bg': element.checkActive,
-                'transfer-active-border': state.clickItemProp == element.prop,
-              }"
-              @mousedown="state.clickItemProp = element.prop"
-              @update:toTop="handleItemEvents.toTop(index)"
-              @update:toBottom="handleItemEvents.toBottom(index)"
-              @update:toPre="handleItemEvents.toPre(index)"
-              @update:toNext="handleItemEvents.toNext(index)"
-            />
-          </template>
-        </draggable>
+        <!-- 自定義列表容器 slot，讓外部可以選擇是否使用 draggable -->
+        <slot
+          name="list-container"
+          :columns="state.localColumns"
+          :click-item-prop="state.clickItemProp"
+          :handle-item-events="handleItemEvents"
+          :handle-mousedown="(prop: string) => state.clickItemProp = prop"
+        >
+          <!-- 默認的靜態列表 -->
+          <div class="max-h-96 overflow-y-auto">
+            <template v-for="(element, index) in state.localColumns" :key="element.prop">
+              <transfer-item
+                :dialog-modal-visible="dialogVisible"
+                :columns-value="element"
+                :columns-index="index"
+                :columns-len="state.localColumns.length"
+                :class="{
+                  'transfer-active-bg': element.checkActive,
+                  'transfer-active-border': state.clickItemProp == element.prop,
+                }"
+                @mousedown="state.clickItemProp = element.prop"
+                @update:toTop="handleItemEvents.toTop(index)"
+                @update:toBottom="handleItemEvents.toBottom(index)"
+                @update:toPre="handleItemEvents.toPre(index)"
+                @update:toNext="handleItemEvents.toNext(index)"
+              />
+            </template>
+          </div>
+        </slot>
       </el-checkbox-group>
     </div>
   </base-dialog>
