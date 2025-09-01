@@ -13,7 +13,6 @@
       "require": "./dist/index.umd.js"
     },
     "./dist/rayyy-vue-table-components.css": "./dist/rayyy-vue-table-components.css",
-    "./components.css": "./dist/components.css",
     "./tailwind-preset": "./tailwind-preset.js",
     "./types": {
       "types": "./src/types/index.ts",

@@ -2,31 +2,7 @@
 module.exports = {
   content: [],
   safelist: [
-    // SortTable 組件類別
-    'sort-table-container',
-    'sort-table-function-bar',
-    'sort-table-settings-btn',
-
-    // FilterBtn 組件類別
-    'filter-btn',
-
-    // TransferItem 組件類別
-    'transfer-item-wrapper',
-    'transfer-arrow-wrapper',
-
-    // TransferDialog 組件類別
-    'transfer-sort-wrapper',
-    'transfer-active-bg',
-    'transfer-active-border',
-
-    // BaseDialog 組件類別
-    'base-dialog-title',
-
-    // 通用類別
-    'cursor-grab',
-    'cursor-grabbing',
-
-    // Primary 顏色類別
+    // 保留必要的顏色類別供 Tailwind 使用
     'bg-primary',
     'bg-primary-10',
     'bg-primary-15',
@@ -51,6 +27,22 @@ module.exports = {
     'border-primary-60',
     'border-primary-80',
     'border-primary-dark',
+    'text-blue-10',
+    'text-redText',
+    'bg-blue-20',
+    'border-b-orange',
+    'border-b-blue-10',
+
+    // 組件樣式類別（現在由 TypeScript 工具提供）
+    'cursor-grab',
+    'cursor-grabbing',
+    'bg-primary/10',
+    'hover:text-primary-40',
+    'text-sky-500',
+    'hover:bg-sky-500',
+    'disabled:bg-white',
+    'disabled:opacity-50',
+    'disabled:text-black/20',
   ],
   theme: {
     extend: {
@@ -128,101 +120,6 @@ module.exports = {
     },
   },
   plugins: [
-    function({ addComponents, theme }) {
-      // 組件級樣式
-      addComponents({
-        // SortTable 組件樣式
-        '.sort-table-container': {
-          width: '100%',
-          marginBottom: '1rem',
-        },
-        '.sort-table-function-bar': {
-          display: 'flex',
-          alignItems: 'center',
-          height: '3rem',
-          backgroundColor: theme('colors.primary.20'),
-          padding: '0 0.375rem',
-          borderTopLeftRadius: '0.25rem',
-          borderTopRightRadius: '0.25rem',
-          justifyContent: 'flex-end',
-        },
-        '.sort-table-settings-btn': {
-          cursor: 'pointer',
-          color: theme('colors.primary.dark'),
-          fontSize: '1.25rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          '&:hover': {
-            color: theme('colors.primary.40'),
-          },
-        },
-
-        // FilterBtn 組件樣式
-        '.filter-btn': {
-          color: '#0ea5e9',
-          '& p': {
-            color: '#000',
-            marginLeft: '0.5rem',
-            fontWeight: 'bold',
-          },
-          '& i': {
-            fontSize: '1.25rem',
-          },
-          '&:hover': {
-            color: '#fff',
-            backgroundColor: '#0ea5e9',
-            '& p': {
-              color: '#fff',
-            },
-          },
-          '&:disabled': {
-            backgroundColor: '#fff',
-            opacity: '0.5',
-            '&:hover': {
-              backgroundColor: '#fff',
-              '& p': {
-                color: 'rgba(0, 0, 0, 0.2)',
-              },
-            },
-          },
-        },
-
-        // TransferItem 組件樣式
-        '.transfer-item-wrapper': {
-          borderTop: '1px solid #e5e7eb',
-          padding: '0 1rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          width: '100%',
-        },
-        '.transfer-arrow-wrapper': {
-          width: '7rem',
-          color: theme('colors.primary.10'),
-        },
-
-        // TransferDialog 組件樣式
-        '.transfer-sort-wrapper': {
-          border: '1px solid #e5e7eb',
-          height: '24rem',
-          overflow: 'auto',
-        },
-        '.transfer-active-bg': {
-          backgroundColor: 'rgba(103, 133, 193, 0.1)',
-        },
-        '.transfer-active-border': {
-          border: '1px solid',
-          borderRadius: '0.25rem',
-          borderColor: theme('colors.primary.10'),
-        },
-
-        // BaseDialog 組件樣式
-        '.base-dialog-title': {
-          fontWeight: 'bold',
-          fontSize: '1rem',
-        },
-      })
-    }
+    // 移除了舊的組件級樣式，現在使用 TypeScript 樣式工具和 Sass 模組
   ],
 }

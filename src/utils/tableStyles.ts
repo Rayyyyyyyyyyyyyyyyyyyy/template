@@ -24,6 +24,32 @@ export const blueText = 'text-blue-10'
 // 紅色文字樣式
 export const redText = 'text-redText'
 
+// SortTable 組件樣式
+export const sortTableContainer = 'w-full mb-4'
+export const sortTableFunctionBar = 'flex items-center h-12 bg-primary-20 px-1.5 rounded-t justify-end'
+export const sortTableSettingsBtn = 'cursor-pointer text-primary-dark text-xl flex items-center justify-center hover:text-primary-40'
+
+// FilterBtn 組件樣式
+export const filterBtn = 'text-sky-500 hover:text-white hover:bg-sky-500 disabled:bg-white disabled:opacity-50'
+export const filterBtnText = 'text-black ml-2 font-bold hover:text-white disabled:text-black/20'
+export const filterBtnIcon = 'text-xl'
+
+// TransferDialog 組件樣式
+export const transferSortWrapper = 'border border-gray-200 h-96 overflow-auto'
+export const transferActiveBg = 'bg-primary/10'
+export const transferActiveBorder = 'border border-primary-10 rounded'
+
+// TransferItem 組件樣式
+export const transferItemWrapper = 'border-t border-gray-200 px-4 flex items-center justify-between w-full'
+export const transferArrowWrapper = 'w-28 text-primary-10'
+
+// BaseDialog 組件樣式
+export const baseDialogTitle = 'font-bold text-base'
+
+// 通用樣式
+export const cursorGrab = 'cursor-grab'
+export const cursorGrabbing = 'cursor-grabbing'
+
 // 組合樣式對象
 export const tableStyles = {
   cell: tableCell,
@@ -33,6 +59,35 @@ export const tableStyles = {
   footer: tableFooter,
   blueText,
   redText,
+} as const
+
+// 組件樣式對象
+export const componentStyles = {
+  // SortTable
+  sortTableContainer,
+  sortTableFunctionBar,
+  sortTableSettingsBtn,
+
+  // FilterBtn
+  filterBtn,
+  filterBtnText,
+  filterBtnIcon,
+
+  // TransferDialog
+  transferSortWrapper,
+  transferActiveBg,
+  transferActiveBorder,
+
+  // TransferItem
+  transferItemWrapper,
+  transferArrowWrapper,
+
+  // BaseDialog
+  baseDialogTitle,
+
+  // 通用
+  cursorGrab,
+  cursorGrabbing,
 } as const
 
 // 完整的 data-table 樣式配置
@@ -49,6 +104,18 @@ export const dataTableConfig = {
   // 文字顏色類名
   blueTextClass: blueText,
   redTextClass: redText,
+} as const
+
+// 完整的組件樣式配置
+export const allComponentStyles = {
+  // 表格樣式
+  ...tableStyles,
+
+  // 組件樣式
+  ...componentStyles,
+
+  // 配置對象
+  dataTableConfig,
 } as const
 
 // 樣式組合函數
@@ -80,4 +147,6 @@ export const createTextClass = (type: 'blue' | 'red' | 'normal' = 'normal') => {
 
 // 導出類型
 export type TableStylesType = typeof tableStyles
+export type ComponentStylesType = typeof componentStyles
 export type DataTableConfigType = typeof dataTableConfig
+export type AllComponentStylesType = typeof allComponentStyles

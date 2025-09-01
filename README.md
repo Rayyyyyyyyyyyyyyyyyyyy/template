@@ -9,6 +9,9 @@
 - 🎯 完整的 TypeScript 類型支持
 - 📱 響應式設計
 - 🔧 高度可配置
+- 🎨 靈活的樣式系統 - 支援多種導入方式
+- 🛠️ 現代化的 Sass 模組系統
+- 💡 TypeScript 樣式工具函數
 
 ## 安裝
 
@@ -20,6 +23,47 @@ yarn add rayyy-vue-table-components
 pnpm add rayyy-vue-table-components
 ```
 
+## 樣式導入
+
+本組件庫提供多種靈活的樣式導入方式，您可以根據項目需求選擇：
+
+### 方式 1：完整樣式導入（推薦）
+
+```typescript
+// main.ts
+import 'element-plus/dist/index.css'
+import 'rayyy-vue-table-components/styles'  // 導入所有組件樣式
+```
+
+或在 CSS/SCSS 文件中：
+
+```scss
+// styles.scss
+@import 'element-plus/dist/index.css';
+@import 'rayyy-vue-table-components/styles';
+```
+
+### 方式 2：Element Plus 主題自定義
+
+```scss
+// styles.scss
+@import 'element-plus/dist/index.css';
+@import 'rayyy-vue-table-components/styles/element';  // 只導入 Element 主題
+```
+
+### 方式 3：TypeScript 樣式工具（推薦用於動態樣式）
+
+```typescript
+// 導入樣式工具函數
+import { tableStyles, createTableCellClass } from 'rayyy-vue-table-components/utils/styles'
+
+// 在組件中使用
+const cellClass = createTableCellClass({ 
+  isDismissed: true, 
+  isHeader: false 
+})
+```
+
 ## 使用方法
 
 ### 全局註冊
@@ -27,7 +71,9 @@ pnpm add rayyy-vue-table-components
 ```typescript
 import { createApp } from 'vue'
 import VueTableComponents from 'rayyy-vue-table-components'
-import 'rayyy-vue-table-components/dist/rayyy-vue-table-components.css'
+
+// 導入樣式（選擇上述任一方式）
+import 'rayyy-vue-table-components/styles'
 
 const app = createApp(App)
 app.use(VueTableComponents)
@@ -94,7 +140,8 @@ import type { TableColumn } from 'rayyy-vue-table-components/types'
 // 方式三：單獨導入類型
 import type { SortChangValue } from 'rayyy-vue-table-components/types'
 
-import 'rayyy-vue-table-components/dist/rayyy-vue-table-components.css'
+// 方式四：導入樣式工具函數
+import { tableStyles, createTableCellClass } from 'rayyy-vue-table-components/utils/styles'
 
 interface User {
   id: number
@@ -173,6 +220,25 @@ import type {
 } from 'rayyy-vue-table-components/types'
 ```
 
+### 樣式工具類型
+
+```typescript
+import type {
+  TableStylesType,
+  DataTableConfigType
+} from 'rayyy-vue-table-components/utils/styles'
+
+// 樣式工具函數
+import {
+  tableStyles,        // 預定義表格樣式對象
+  componentStyles,    // 預定義組件樣式對象
+  allComponentStyles, // 完整的樣式對象
+  dataTableConfig,    // 表格配置對象
+  createTableCellClass, // 動態生成表格單元格樣式
+  createTextClass     // 動態生成文字樣式
+} from 'rayyy-vue-table-components/utils/styles'
+```
+
 ### 使用示例
 
 ```typescript
@@ -240,9 +306,87 @@ const tableProps: BaseTableProps<User> = {
     return row.status === 'active' ? 'active-row' : 'inactive-row'
   }
 }
+
+// 樣式工具使用示例
+const dynamicCellClass = createTableCellClass({
+  isDismissed: user.status === 'inactive',
+  isHeader: false
+})
+
+const textClass = createTextClass('blue') // 'blue' | 'red' | 'normal'
+
+// 在模板中使用預定義樣式
+const cellClasses = [
+  tableStyles.cell,           // 基礎單元格樣式
+  tableStyles.content,        // 內容樣式
+  user.status === 'inactive' ? tableStyles.dismissed : ''
+].filter(Boolean).join(' ')
 ```
 
-## API
+## 樣式工具 API
+
+### 預定義樣式
+
+```typescript
+// 直接使用預定義樣式
+import { tableStyles, componentStyles } from 'rayyy-vue-table-components/utils/styles'
+
+// 表格樣式
+tableStyles.cell        // 表格單元格樣式: 'p-0 h-10'
+tableStyles.header      // 表格標題樣式: 'bg-primary-15 font-bold text-text text-sm leading-4'
+tableStyles.content     // 內容樣式: 'truncate'
+tableStyles.dismissed   // 被駁回行樣式: 'bg-blue-20'
+tableStyles.footer      // 表格底部樣式: 'font-bold'
+tableStyles.blueText    // 藍色文字: 'text-blue-10'
+tableStyles.redText     // 紅色文字: 'text-redText'
+
+// 組件樣式
+componentStyles.sortTableContainer     // SortTable 容器: 'w-full mb-4'
+componentStyles.sortTableFunctionBar   // SortTable 功能欄
+componentStyles.filterBtn              // FilterBtn 按鈕樣式
+componentStyles.transferActiveBg       // Transfer 啟用背景
+componentStyles.baseDialogTitle        // Dialog 標題樣式
+componentStyles.cursorGrab            // 抓取游標
+```
+
+### 動態樣式函數
+
+```typescript
+// 創建動態表格單元格樣式
+createTableCellClass(options?: {
+  isDismissed?: boolean
+  isHeader?: boolean
+}) => string
+
+// 創建文字顏色樣式
+createTextClass(type: 'blue' | 'red' | 'normal' = 'normal') => string
+
+// 使用示例
+const cellClass = createTableCellClass({ 
+  isDismissed: true,  // 添加被駁回樣式
+  isHeader: false     // 不是標題行
+})
+// 結果: 'p-0 h-10 bg-blue-20'
+
+const textClass = createTextClass('blue')
+// 結果: 'text-blue-10'
+```
+
+### 配置對象
+
+```typescript
+// 表格配置對象，適用於 Element Plus 表格組件
+import { dataTableConfig } from 'rayyy-vue-table-components/utils/styles'
+
+// 在 Element Plus 表格中使用
+<el-table 
+  :cell-class-name="dataTableConfig.cellClass"
+  :header-cell-class-name="dataTableConfig.headerClass"
+>
+</el-table>
+```
+
+## 組件 API
 
 ### BaseTable Props
 
@@ -481,8 +625,8 @@ npm install
 # 開發模式
 npm run dev
 
-# 構建庫
-npm run build
+# 構建庫（包含樣式）
+npm run build-lib
 
 # 運行測試
 npm run test:unit
@@ -490,6 +634,35 @@ npm run test:unit
 # 代碼檢查
 npm run lint
 ```
+
+### 樣式開發指南
+
+本組件庫採用現代化的樣式架構：
+
+1. **Sass 模組化**：使用 `@use` 語法替代 `@import`
+2. **Tailwind CSS 集成**：支援 Tailwind 工具類和自定義樣式
+3. **TypeScript 樣式工具**：提供類型安全的樣式函數
+4. **多種導出方式**：支援不同項目需求
+
+#### 樣式文件結構
+
+```
+src/assets/styles/
+├── tailwind.scss          # 主樣式入口
+├── _table.scss           # 表格樣式
+├── _dialog.scss          # 對話框樣式
+└── element/
+    └── index.scss        # Element Plus 主題自定義
+
+src/utils/
+└── tableStyles.ts        # TypeScript 樣式工具
+```
+
+#### 添加新樣式
+
+1. **SCSS 樣式**：在對應的 `_*.scss` 文件中添加
+2. **TypeScript 工具**：在 `tableStyles.ts` 中添加新的工具函數
+3. **導出配置**：在 `package.json` 的 `exports` 中添加新的導出路徑
 
 ## 許可證
 
