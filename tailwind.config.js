@@ -1,7 +1,7 @@
 /* eslint-env node */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./index.html', './src/**/*.{js,vue,ts}'],
+  content: ['./index.html', './src/**/*.{js,vue,ts,scss}'],
   presets: [require('./tailwind-preset.js')],
   /**
    * To avoid the conflicts on button style with Element Plus

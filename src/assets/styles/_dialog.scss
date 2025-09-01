@@ -35,10 +35,3 @@
     @apply border-b-blue-10;
   }
 }
-
-.context-wrapper {
-  @apply w-full flex items-center justify-center flex-col gap-2;
-  p {
-    @apply font-bold text-xl;
-  }
-}

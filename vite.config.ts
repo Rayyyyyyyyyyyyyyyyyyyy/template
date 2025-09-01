@@ -70,7 +70,8 @@ export default defineConfig(({ mode }) => {
               'element-plus': 'ElementPlus'
             }
           }
-        }
+        },
+        cssCodeSplit: false
       }
     } : {})
   }

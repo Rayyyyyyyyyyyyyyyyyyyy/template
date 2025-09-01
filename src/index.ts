@@ -8,7 +8,7 @@ import SortTable from './components/tables/SortTable.vue'
 import SearchBar from './components/SearchBar.vue'
 
 // 導入樣式
-import './assets/styles/index.css'
+import './assets/styles/tailwind.scss'
 
 // 導出基礎類型
 export * from './types'
