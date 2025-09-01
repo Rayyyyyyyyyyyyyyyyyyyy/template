@@ -52,14 +52,17 @@ const handleSubmit = () => {
     :before-close="props.beforeClose"
     :close-on-click-modal="false"
     center
-    class="rounded-md base-dialog"
+    class="rounded-md"
     :class="{ 'waring-dialog': props.isWaring, 'upload-result-dialog': props.isPrimary }"
     align-center
     destroy-on-close
+    header-class="h-12 pt-2 bg-primary-15 border-b"
+    body-class="p-4 overflow-auto max-h-[calc(100vh-200px)]"
+    footer-class="py-1 px-2 border-t flex items-center justify-end"
   >
     <template #header="{ titleId, titleClass }">
       <slot name="customHeader">
-        <p :id="titleId" class="base-dialog-title" :class="titleClass">
+        <p :id="titleId" class="ext-base leading-8" :class="titleClass">
           {{ props.title }}
         </p>
       </slot>
@@ -67,7 +70,7 @@ const handleSubmit = () => {
 
     <div class="p-2" v-loading="bodyLoading">
       <div
-        class="sub-title"
+        class=" pb-2 font-bold text-base"
         :class="{
           'border-b mb-4': typeof subTitle == 'string',
         }"
@@ -78,7 +81,7 @@ const handleSubmit = () => {
       <slot></slot>
     </div>
     <template #footer>
-      <footer>
+      <footer >
         <slot name="customFooter">
           <base-btn
             text="確定"

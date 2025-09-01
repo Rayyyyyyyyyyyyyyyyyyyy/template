@@ -1,37 +1,37 @@
-.el-dialog.base-dialog {
-  @apply p-0 #{!important};
-
-  .el-dialog__header {
-    @apply h-12 pt-2 bg-primary-15 border-b;
-
-    .el-dialog__title {
-      @apply text-base leading-8;
-    }
-  }
-
-  .el-dialog__body {
-    @apply p-4 overflow-auto;
-    max-height: calc(100vh - 200px);
-
-    .sub-title {
-      @apply pb-2 font-bold text-base;
-    }
-  }
-
-  .el-dialog__footer {
-    @apply py-1 px-2 border-t;
-    @apply flex items-center justify-end;
-  }
-}
-
-.waring-dialog {
-  .el-dialog__header {
-    @apply border-b-orange;
-  }
-}
-
-.upload-result-dialog {
-  .el-dialog__header {
-    @apply border-b-blue-10;
-  }
-}
+//.el-dialog.base-dialog {
+//  @apply p-0 #{!important};
+//
+//  .el-dialog__header {
+//    @apply h-12 pt-2 bg-primary-15 border-b;
+//
+//    .el-dialog__title {
+//      @apply text-base leading-8;
+//    }
+//  }
+//
+//  .el-dialog__body {
+//    @apply p-4 overflow-auto;
+//    max-height: calc(100vh - 200px);
+//
+//    .sub-title {
+//      @apply pb-2 font-bold text-base;
+//    }
+//  }
+//
+//  .el-dialog__footer {
+//    @apply py-1 px-2 border-t;
+//    @apply flex items-center justify-end;
+//  }
+//}
+//
+//.waring-dialog {
+//  .el-dialog__header {
+//    @apply border-b-orange;
+//  }
+//}
+//
+//.upload-result-dialog {
+//  .el-dialog__header {
+//    @apply border-b-blue-10;
+//  }
+//}

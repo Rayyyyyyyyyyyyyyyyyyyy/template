@@ -81,7 +81,7 @@
     "release:major": "./scripts/release.sh major"
   },
   "peerDependencies": {
-    "element-plus": "^2.0.0",
+    "element-plus": "^2.9.3",
     "vue": "^3.0.0"
   },
   "devDependencies": {
@@ -95,9 +95,10 @@
     "@vue/eslint-config-typescript": "^14.5.0",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.7.0",
+    "@vueuse/core": "^11.2.0",
     "autoprefixer": "^10.4.21",
     "cypress": "^14.1.0",
-    "element-plus": "^2.9.6",
+    "element-plus": "^2.11.1",
     "eslint": "^9.21.0",
     "eslint-plugin-cypress": "^4.2.0",
     "eslint-plugin-vue": "~10.0.0",
@@ -121,7 +122,6 @@
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
     "vue-tsc": "^2.2.8",
-    "vuedraggable": "^4.1.0",
-    "@vueuse/core": "^11.2.0"
+    "vuedraggable": "^4.1.0"
   }
 }
