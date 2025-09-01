@@ -153,7 +153,7 @@ const doFilterColumn = (keyword: string) => {
                   'transfer-active-bg': element.checkActive,
                   'transfer-active-border': state.clickItemProp == element.prop,
                 }"
-                @mousedown="state.clickItemProp = element.prop"
+                @mousedown="state.clickItemProp = element.prop || ''"
                 @update:toTop="handleItemEvents.toTop(index)"
                 @update:toBottom="handleItemEvents.toBottom(index)"
                 @update:toPre="handleItemEvents.toPre(index)"

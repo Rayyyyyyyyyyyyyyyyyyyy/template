@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import {ref, reactive} from 'vue'
-import {BaseTable, BaseBtn, BaseDialog, SortTable, SearchBar} from '@/components'
-import TransferDialog from '@/components/transfer/TransferDialog.vue'
-import TransferItem from '@/components/transfer/transferItem.vue'
+import {BaseTable, BaseBtn, BaseDialog, SortTable, SearchBar, TransferDialog, TransferItem} from '@/components'
 import type {TableColumn, SortChangValue} from '@/types'
 import {setActiveColumn} from '@/utils/tableHelper'
 import {h} from 'vue'

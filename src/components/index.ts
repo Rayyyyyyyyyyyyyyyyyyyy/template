@@ -6,6 +6,8 @@ export { default as FilterBtn } from './items/FilterBtn.vue'
 export { default as BaseDialog } from './BaseDialog.vue'
 export { default as SortTable } from './tables/SortTable.vue'
 export { default as SearchBar } from './SearchBar.vue'
+export { default as TransferDialog } from './transfer/TransferDialog.vue'
+export { default as TransferItem } from './transfer/transferItem.vue'
 
 // 導出組件類型
 export type {
@@ -30,3 +32,5 @@ export type { default as FilterBtnType } from './items/FilterBtn.vue'
 export type { default as BaseDialogType } from './BaseDialog.vue'
 export type { default as SortTableType } from './tables/SortTable.vue'
 export type { default as SearchBarType } from './SearchBar.vue'
+export type { default as TransferDialogType } from './transfer/TransferDialog.vue'
+export type { default as TransferItemType } from './transfer/transferItem.vue'
