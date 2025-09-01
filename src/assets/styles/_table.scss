@@ -1,23 +1,20 @@
-
 .data-table {
   .el-table__cell {
     @apply p-0 #{!important};
-    @apply h-10  #{!important};
+    @apply h-10 #{!important};
 
     .el-tooltip {
       .cell-content {
         @apply truncate;
       }
     }
-
   }
-  .is-dismissed{
+
+  .is-dismissed {
     @apply bg-blue-20;
-
   }
 
-
-  .el-table__header{
+  .el-table__header {
     th {
       @apply bg-primary-15 #{!important};
 
@@ -33,7 +30,7 @@
     }
   }
 
-  .el-table__footer{
+  .el-table__footer {
     .el-table__cell {
       .cell {
         @apply font-bold;

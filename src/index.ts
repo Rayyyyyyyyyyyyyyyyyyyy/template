@@ -13,6 +13,10 @@ import './assets/styles/tailwind.scss'
 // 導出基礎類型
 export * from './types'
 
+// 導出工具函數和樣式
+export * from './utils/tableHelper'
+export * from './utils/tableStyles'
+
 // 導出組件
 export {
   BaseTable,

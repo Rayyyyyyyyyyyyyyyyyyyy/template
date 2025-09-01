@@ -30,7 +30,13 @@
     "./utils": {
       "types": "./dist/src/utils/tableHelper.d.ts",
       "import": "./src/utils/tableHelper.ts"
-    }
+    },
+    "./utils/styles": {
+      "types": "./dist/src/utils/tableStyles.d.ts",
+      "import": "./src/utils/tableStyles.ts"
+    },
+    "./styles": "./dist/rayyy-vue-table-components.css",
+    "./styles/element": "./src/assets/styles/element/index.scss"
   },
   "files": [
     "dist/*",
@@ -39,6 +45,7 @@
     "src/types/*",
     "src/types/components.d.ts",
     "src/utils/*",
+    "src/assets/styles/*",
     "tailwind-preset.js",
     "README.md"
   ],
