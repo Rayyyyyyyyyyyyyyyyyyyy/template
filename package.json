@@ -72,6 +72,7 @@
     "build": "run-p type-check \"build-lib {@}\" --",
     "build-lib": "vite build --mode lib",
     "build-demo": "vite build",
+    "build:netlify": "run-p type-check \"build-demo {@}\" --",
     "preview": "vite preview",
     "test:unit": "vitest",
     "test:unit:ci": "vitest run --config vitest.ci.config.ts --reporter=verbose",
