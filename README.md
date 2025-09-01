@@ -651,6 +651,7 @@ src/assets/styles/
 ├── tailwind.scss          # 主樣式入口
 ├── _table.scss           # 表格樣式
 ├── _dialog.scss          # 對話框樣式
+├── _components.scss      # 組件樣式（從 tailwind-preset.js 轉移）
 └── element/
     └── index.scss        # Element Plus 主題自定義
 

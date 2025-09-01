@@ -27,15 +27,13 @@ module.exports = {
     'border-primary-60',
     'border-primary-80',
     'border-primary-dark',
-    'text-blue-10',
+        'text-blue-10',
     'text-redText',
     'bg-blue-20',
     'border-b-orange',
     'border-b-blue-10',
 
-    // 組件樣式類別（現在由 TypeScript 工具提供）
-    'cursor-grab',
-    'cursor-grabbing',
+    // 組件樣式相關的 Tailwind 類別（用於 SCSS 和 TypeScript 工具）
     'bg-primary/10',
     'hover:text-primary-40',
     'text-sky-500',
@@ -43,6 +41,7 @@ module.exports = {
     'disabled:bg-white',
     'disabled:opacity-50',
     'disabled:text-black/20',
+    'text-black/20',
   ],
   theme: {
     extend: {
