@@ -49,7 +49,7 @@ if git tag -l | grep -q "v$NEW_VERSION"; then
 else
     git tag "v$NEW_VERSION"
 fi
-git push origin develop
+git push origin main
 git push origin "v$NEW_VERSION"
 
 echo "🎉 發布流程完成！"
