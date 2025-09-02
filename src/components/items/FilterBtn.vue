@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { BaseBtn } from '@/components'
 import { Search, Filter } from '@element-plus/icons-vue'
-import { layoutStore } from '@/stores/layoutStore.ts'
+
 
 const { width } = useWindowSize()
 
@@ -17,8 +17,13 @@ function onClickBtn() {
   showDrawer.value = !showDrawer.value
 }
 
+const emit = defineEmits<{
+  (e: 'update:reset'): void
+  (e: 'update:submit'): void
+}>()
+
 const resetValue = () => {
-  layoutStore.filterDrawerResetClick()
+  emit('update:reset')
 }
 const computedDrawerSize = computed(() => {
   if (width.value > 1200) {

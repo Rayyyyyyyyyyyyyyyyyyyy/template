@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import BaseInput from '@/components/items/BaseInput.vue'
-import { Search } from '@element-plus/icons-vue'
 import FilterBtn from '@/components/items/FilterBtn.vue'
 
 defineProps<{
@@ -14,6 +13,7 @@ defineProps<{
 const emits = defineEmits<{
   (e: 'keydown:enter', data: string): void
   (e: 'update:clear'): void
+  (e: 'update:resetFilter'): void
 }>()
 
 const keyword = ref('')
@@ -23,6 +23,9 @@ const doSearch = () => {
 }
 const clearableClick = () => {
   emits('update:clear')
+}
+const resetFilter = () => {
+  emits('update:resetFilter')
 }
 </script>
 
@@ -44,7 +47,7 @@ const clearableClick = () => {
       </div>
 
       <div class="filter-customer" v-if="showFilter">
-        <filter-btn :badge-value="badgeValue">
+        <filter-btn :badge-value="badgeValue" @update:reset="resetFilter">
           <slot name="filterBody" />
         </filter-btn>
       </div>

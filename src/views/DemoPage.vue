@@ -382,6 +382,15 @@ const handleSearchClear = () => {
   // 這裡可以重置搜尋結果
 }
 
+const handleFilterReset = () => {
+  console.log('重置篩選')
+  state.filterForm = {
+    department: '',
+    status: '',
+  }
+  // 這裡可以重置篩選結果
+}
+
 // TransferDialog 相關處理
 const handleTransferSubmit = (columns: TableColumn<User>[]) => {
   console.log('TransferDialog 提交的列配置:', columns)
@@ -404,17 +413,7 @@ const simulateLoading = () => {
   }, DEMO_CONSTANTS.LOADING_DURATION)
 }
 
-watch(
-  () => layoutStore.doResetFilter,
-  (val) => {
-    if (val) {
-      state.filterForm = {
-        department: '',
-        status: '',
-      }
-    }
-  },
-)
+
 </script>
 
 <template>
@@ -578,6 +577,7 @@ watch(
                   :badge-value="filterCount"
                   @keydown:enter="handleSearch"
                   @update:clear="handleSearchClear"
+                  @update:resetFilter="handleFilterReset"
                 >
                   <template #button>
                     <BaseBtn type="primary" size="small" class="mr-2"> 新增</BaseBtn>
