@@ -25,7 +25,20 @@ export default defineConfig(({ mode }) => {
     plugins: [
       vue(),
       vueJsx(),
-      svgLoader(),
+      svgLoader({
+        svgoConfig: {
+          plugins: [
+            {
+              name: 'preset-default',
+              params: {
+                overrides: {
+                  removeViewBox: false,
+                },
+              },
+            },
+          ],
+        },
+      }),
       ...(isLib ? [] : [vueDevTools()]), // 只在開發模式啟用 devtools
       AutoImport({
         resolvers: [ElementPlusResolver()],
