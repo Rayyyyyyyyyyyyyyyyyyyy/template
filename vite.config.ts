@@ -6,7 +6,7 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import dts from 'vite-plugin-dts'
-import svgLoader from 'vite-svg-loader'
+
 
 // element plus
 import AutoImport from 'unplugin-auto-import/vite'
@@ -25,20 +25,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       vue(),
       vueJsx(),
-      svgLoader({
-        svgoConfig: {
-          plugins: [
-            {
-              name: 'preset-default',
-              params: {
-                overrides: {
-                  removeViewBox: false,
-                },
-              },
-            },
-          ],
-        },
-      }),
+
       ...(isLib ? [] : [vueDevTools()]), // 只在開發模式啟用 devtools
       AutoImport({
         resolvers: [ElementPlusResolver()],

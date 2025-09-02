@@ -7,7 +7,7 @@
     "src/**/*.json",
     "src/**/*.ts",
     "src/**/types/*",
-    "src/types/svg.d.ts"
+
   ],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {

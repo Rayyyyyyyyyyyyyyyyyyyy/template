@@ -4,8 +4,6 @@ import { useWindowSize } from '@vueuse/core'
 import { BaseBtn } from '@/components'
 import { Search, Filter } from '@element-plus/icons-vue'
 import { layoutStore } from '@/stores/layoutStore.ts'
-import IconFilter from '@/assets/icons/icon-filter.svg?component'
-import IconFilterBlue from '@/assets/icons/icon-filter-blue.svg?component'
 
 const { width } = useWindowSize()
 
@@ -45,9 +43,13 @@ const submitFilter = () => {
       type="primary"
       v-if="badgeValue && badgeValue > 0"
     >
-      <IconFilterBlue class="filter-icon fill-icon" />
+      <el-icon class="filter-icon fill-icon">
+        <Filter />
+      </el-icon>
     </el-badge>
-    <IconFilter v-else class="filter-icon" />
+    <el-icon v-else class="filter-icon">
+      <Filter />
+    </el-icon>
   </base-btn>
   <el-drawer v-model="showDrawer" append-to-body :size="computedDrawerSize">
     <template #header>
