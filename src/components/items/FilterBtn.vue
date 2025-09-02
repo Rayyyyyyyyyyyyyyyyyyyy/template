@@ -3,6 +3,9 @@ import { computed, ref } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { BaseBtn } from '@/components'
 import { Search, Filter } from '@element-plus/icons-vue'
+import { layoutStore } from '@/stores/layoutStore.ts'
+import IconFilter from '@/assets/icons/icon-filter.svg?component'
+import IconFilterBlue from '@/assets/icons/icon-filter-blue.svg?component'
 
 const { width } = useWindowSize()
 
@@ -16,7 +19,9 @@ function onClickBtn() {
   showDrawer.value = !showDrawer.value
 }
 
-const resetValue = () => {}
+const resetValue = () => {
+  layoutStore.filterDrawerResetClick()
+}
 const computedDrawerSize = computed(() => {
   if (width.value > 1200) {
     return '30%'
@@ -34,10 +39,15 @@ const submitFilter = () => {
 
 <template>
   <base-btn type="primary" class="filter-btn" @click="onClickBtn">
-    <el-badge :value="badgeValue" class="item" type="primary" v-if="badgeValue && badgeValue > 0">
-      <el-icon><Filter /></el-icon>
+    <el-badge
+      :value="badgeValue"
+      class="!flex justify-center items-center"
+      type="primary"
+      v-if="badgeValue && badgeValue > 0"
+    >
+      <IconFilterBlue class="filter-icon fill-icon" />
     </el-badge>
-    <el-icon v-else><Filter /></el-icon>
+    <IconFilter v-else class="filter-icon" />
   </base-btn>
   <el-drawer v-model="showDrawer" append-to-body :size="computedDrawerSize">
     <template #header>
@@ -55,12 +65,13 @@ const submitFilter = () => {
 
     <template #footer>
       <base-btn type="primary" class="filter-btn" @click="submitFilter">
-        <el-icon><Search /></el-icon>
-        <p class="ml-2 text-base">查詢</p>
+        <el-icon>
+          <Search />
+        </el-icon>
+        <p>查詢</p>
       </base-btn>
     </template>
   </el-drawer>
 </template>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

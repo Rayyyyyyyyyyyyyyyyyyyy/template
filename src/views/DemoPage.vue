@@ -1,10 +1,20 @@
 <script setup lang="ts">
-import {ref, reactive} from 'vue'
-import {BaseTable, BaseBtn, BaseDialog, SortTable, SearchBar, TransferDialog, TransferItem} from '@/components'
-import type {TableColumn, SortChangValue} from '@/types'
-import {setActiveColumn} from '@/utils/tableHelper'
-import {h} from 'vue'
+import { reactive, computed, watch } from 'vue'
+import {
+  BaseTable,
+  BaseBtn,
+  BaseDialog,
+  BaseForm,
+  SortTable,
+  SearchBar,
+  TransferDialog,
+  TransferItem,
+} from '@/components'
+import type { TableColumn, SortChangValue } from '@/types'
+import { setActiveColumn } from '@/utils/tableHelper'
+import { h } from 'vue'
 import draggable from 'vuedraggable'
+import { layoutStore } from '@/stores/layoutStore.ts'
 
 // ==================== 類型定義 ====================
 interface User extends Record<string, unknown> {
@@ -33,9 +43,9 @@ const DEMO_CONSTANTS = {
   LOADING_DURATION: 2000,
   DEFAULT_FILTER_COUNT: 3,
   STATUS_CONFIG: {
-    active: {icon: '●', text: '啟用', class: 'text-green-500 text-lg'},
-    inactive: {icon: '●', text: '停用', class: 'text-red-500 text-lg'},
-    pending: {icon: '○', text: '待處理', class: 'text-yellow-500 text-lg'},
+    active: { icon: '●', text: '啟用', class: 'text-green-500 text-lg' },
+    inactive: { icon: '●', text: '停用', class: 'text-red-500 text-lg' },
+    pending: { icon: '○', text: '待處理', class: 'text-yellow-500 text-lg' },
   },
 } as const
 
@@ -194,9 +204,9 @@ const createUserColumns = (): TableColumn<User>[] =>
       align: 'center',
       template: (row: User) => {
         const statusConfig = DEMO_CONSTANTS.STATUS_CONFIG[row.status]
-        return h('div', {class: 'flex items-center justify-center'}, [
-          h('span', {class: statusConfig.class}, statusConfig.icon),
-          h('span', {class: 'ml-1 text-xs text-gray-500'}, statusConfig.text),
+        return h('div', { class: 'flex items-center justify-center' }, [
+          h('span', { class: statusConfig.class }, statusConfig.icon),
+          h('span', { class: 'ml-1 text-xs text-gray-500' }, statusConfig.text),
         ])
       },
     },
@@ -268,8 +278,8 @@ const createProductColumns = (): TableColumn<Product>[] => [
           class: 'flex items-center justify-center',
         },
         [
-          h('span', {class: 'text-yellow-500'}, '★'),
-          h('span', {class: 'ml-1'}, row.rating.toFixed(1)),
+          h('span', { class: 'text-yellow-500' }, '★'),
+          h('span', { class: 'ml-1' }, row.rating.toFixed(1)),
         ],
       ),
   },
@@ -298,8 +308,6 @@ const state = reactive({
   productColumns: createProductColumns() as TableColumn<Product>[],
 
   // 加載狀態
-  userLoading: false,
-  productLoading: false,
   sortTableLoading: false,
 
   // 選擇狀態
@@ -314,7 +322,20 @@ const state = reactive({
 
   // 搜尋狀態
   searchKeyword: '',
-  filterCount: DEMO_CONSTANTS.DEFAULT_FILTER_COUNT,
+
+  // 篩選表單
+  filterForm: {
+    department: '',
+    status: '',
+  },
+})
+
+// ==================== 計算屬性 ====================
+// 計算篩選表單中有值的欄位數量
+const filterCount = computed(() => {
+  return Object.values(state.filterForm).filter(
+    (value) => value !== '' && value !== null && value !== undefined,
+  ).length
 })
 
 // ==================== 事件處理函數 ====================
@@ -322,25 +343,6 @@ const state = reactive({
 const createLogHandler = (prefix: string) => (data: any) => {
   console.log(`${prefix}:`, data)
 }
-
-// 表格排序事件處理
-const handleUserSortChange = createLogHandler('用戶表格排序變更')
-const handleProductSortChange = createLogHandler('產品表格排序變更')
-
-// 表格選擇事件處理
-const handleUserSelectionChange = (selection: User[]) => {
-  state.selectedUsers = selection
-  console.log('選中的用戶:', selection)
-}
-
-const handleProductSelectionChange = (selection: Product[]) => {
-  state.selectedProducts = selection
-  console.log('選中的產品:', selection)
-}
-
-// 表格單元格點擊事件處理
-const handleUserCellClick = createLogHandler('點擊用戶單元格')
-const handleProductCellClick = createLogHandler('點擊產品單元格')
 
 // 排序表格事件處理
 const handleSortTableSelectionChange = (selection: User[]) => {
@@ -353,7 +355,7 @@ const handleSortTableCellClick = createLogHandler('點擊排序表格單元格')
 const handleSortTableSortChange = (value: SortChangValue<User>) => {
   console.log('排序表格排序變更:', value)
   // 實現實際的排序邏輯
-  const {prop, order} = value
+  const { prop, order } = value
   if (prop && order) {
     state.userData.sort((a, b) => {
       const aVal = a[prop] as string | number
@@ -395,14 +397,24 @@ const resetUserColumns = () => {
 
 // 模擬加載
 const simulateLoading = () => {
-  state.userLoading = true
-  state.productLoading = true
+  state.sortTableLoading = true
 
   setTimeout(() => {
-    state.userLoading = false
-    state.productLoading = false
+    state.sortTableLoading = false
   }, DEMO_CONSTANTS.LOADING_DURATION)
 }
+
+watch(
+  () => layoutStore.doResetFilter,
+  (val) => {
+    if (val) {
+      state.filterForm = {
+        department: '',
+        status: '',
+      }
+    }
+  },
+)
 </script>
 
 <template>
@@ -415,21 +427,14 @@ const simulateLoading = () => {
             <h1 class="text-3xl font-bold text-gray-900">BaseTable 組件示範</h1>
             <p class="mt-2 text-gray-600">展示 Vue 3 + Element Plus 表格組件的各種功能</p>
           </div>
-          <div class="flex space-x-4">
-            <button
-              @click="simulateLoading"
-              class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
-            >
-              模擬加載
-            </button>
-            <a
-              href="https://www.npmjs.com/package/rayyy-vue-table-components"
-              target="_blank"
-              class="px-4 py-2 bg-green text-white rounded-lg hover:bg-green-dark transition-colors"
-            >
-              查看 NPM
-            </a>
-          </div>
+          <BaseBtn
+            type="success"
+            tag="a"
+            href="https://www.npmjs.com/package/rayyy-vue-table-components"
+            target="_blank"
+          >
+            查看 NPM
+          </BaseBtn>
         </div>
       </div>
     </header>
@@ -465,7 +470,7 @@ const simulateLoading = () => {
             <div class="my-6">
               <BaseTable
                 :data="state.userData"
-                :columns="state.userColumns.filter((item) =>item.checkActive )"
+                :columns="state.userColumns.filter((item) => item.checkActive)"
                 :loading="state.sortTableLoading"
                 :show-selection="false"
                 :show-over-flow-tooltip="true"
@@ -484,12 +489,12 @@ const simulateLoading = () => {
               <div class="mt-3 p-3 bg-blue-50 border border-blue-200 rounded">
                 <h5 class="font-medium text-blue-800 mb-1">💡 技術說明：</h5>
                 <p class="text-xs text-blue-700">
-                  TransferDialog 組件已移除 draggable 依賴，通過 slot 機制讓外部使用者可以自定義列表容器。
-                  本示範頁面使用 vuedraggable 實現拖拽功能，您也可以選擇不使用拖拽或使用其他拖拽庫。
+                  TransferDialog 組件已移除 draggable 依賴，通過 slot
+                  機制讓外部使用者可以自定義列表容器。 本示範頁面使用 vuedraggable
+                  實現拖拽功能，您也可以選擇不使用拖拽或使用其他拖拽庫。
                 </p>
               </div>
             </div>
-
 
             <TransferDialog
               v-model="state.showTransferDialog"
@@ -497,7 +502,9 @@ const simulateLoading = () => {
               transfer-title="配置用戶表格列"
               @update:submit="handleTransferSubmit"
             >
-              <template #list-container="{ columns, clickItemProp, handleItemEvents, handleMousedown }">
+              <template
+                #list-container="{ columns, clickItemProp, handleItemEvents, handleMousedown }"
+              >
                 <draggable :list="columns" item-key="prop" delay="200">
                   <template #item="{ element, index }">
                     <transfer-item
@@ -527,7 +534,10 @@ const simulateLoading = () => {
       <section class="mb-12">
         <div class="bg-white rounded-lg shadow-sm border">
           <div class="px-6 py-4 border-b">
-            <h2 class="text-xl font-semibold text-gray-900">排序表格示範</h2>
+            <div class="flex gap-x-4">
+              <h2 class="text-xl font-semibold text-gray-900">排序表格示範</h2>
+              <BaseBtn type="primary" @click="simulateLoading"> 模擬加載 </BaseBtn>
+            </div>
             <p class="mt-1 text-gray-600">
               展示 SortTable 組件的排序功能
               <span v-if="state.selectedSortData.length > 0" class="ml-2 text-primary">
@@ -565,7 +575,7 @@ const simulateLoading = () => {
                 <SearchBar
                   :show-search="true"
                   :show-filter="true"
-                  :badge-value="state.filterCount"
+                  :badge-value="filterCount"
                   @keydown:enter="handleSearch"
                   @update:clear="handleSearchClear"
                 >
@@ -574,30 +584,28 @@ const simulateLoading = () => {
                     <BaseBtn type="success" size="small"> 匯出</BaseBtn>
                   </template>
                   <template #filterBody>
-                    <div class="p-4 space-y-3">
-                      <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">部門</label>
-                        <select class="w-full border border-gray-300 rounded-md px-3 py-2">
-                          <option value="">全部</option>
-                          <option value="engineering">工程部</option>
-                          <option value="design">設計部</option>
-                          <option value="marketing">行銷部</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">狀態</label>
-                        <select class="w-full border border-gray-300 rounded-md px-3 py-2">
-                          <option value="">全部</option>
-                          <option value="active">啟用</option>
-                          <option value="inactive">停用</option>
-                          <option value="pending">待處理</option>
-                        </select>
-                      </div>
-                      <div class="flex gap-2 pt-2">
-                        <BaseBtn type="primary" size="small" class="flex-1">確定</BaseBtn>
-                        <BaseBtn type="default" size="small" class="flex-1">重置</BaseBtn>
-                      </div>
-                    </div>
+                    <BaseForm v-model="state.filterForm" class="p-4" label-width="60px">
+                      <el-form-item label="部門">
+                        <el-select
+                          v-model="state.filterForm.department"
+                          placeholder="全部"
+                          clearable
+                        >
+                          <el-option label="全部" value="" />
+                          <el-option label="工程部" value="engineering" />
+                          <el-option label="設計部" value="design" />
+                          <el-option label="行銷部" value="marketing" />
+                        </el-select>
+                      </el-form-item>
+                      <el-form-item label="狀態">
+                        <el-select v-model="state.filterForm.status" placeholder="全部" clearable>
+                          <el-option label="全部" value="" />
+                          <el-option label="啟用" value="active" />
+                          <el-option label="停用" value="inactive" />
+                          <el-option label="待處理" value="pending" />
+                        </el-select>
+                      </el-form-item>
+                    </BaseForm>
                   </template>
                 </SearchBar>
               </div>

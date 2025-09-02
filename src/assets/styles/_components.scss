@@ -22,11 +22,14 @@
   @apply text-sky-500;
 
   p {
-    @apply text-black ml-2 font-bold;
+    @apply text-primary-80 ml-2 text-base font-bold;
   }
 
   i {
     @apply text-xl;
+  }
+  .filter-icon {
+    @apply w-5 h-5 stroke-primary;
   }
 
   &:hover {
@@ -34,6 +37,12 @@
 
     p {
       @apply text-white;
+    }
+    .filter-icon {
+      @apply  stroke-white;
+    }
+    .fill-icon path {
+      @apply stroke-white;
     }
   }
 
