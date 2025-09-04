@@ -5,7 +5,7 @@ import _ from 'lodash'
 import type { CheckboxValueType } from 'element-plus'
 import BaseDialog from '@/components/BaseDialog.vue'
 import TransferItem from '@/components/transfer/transferItem.vue'
-import SearchBar from '@/components/SearchBar.vue'
+import SearchBar from '../items/SearchBar.vue'
 
 const props = defineProps<{
   modelValue: boolean
@@ -139,7 +139,7 @@ const doFilterColumn = (keyword: string) => {
           :columns="state.localColumns"
           :click-item-prop="state.clickItemProp"
           :handle-item-events="handleItemEvents"
-          :handle-mousedown="(prop: string) => state.clickItemProp = prop"
+          :handle-mousedown="(prop: string) => (state.clickItemProp = prop)"
         >
           <!-- 默認的靜態列表 -->
           <div class="max-h-96 overflow-y-auto">
@@ -167,5 +167,4 @@ const doFilterColumn = (keyword: string) => {
   </base-dialog>
 </template>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

@@ -4,7 +4,6 @@ import { useWindowSize } from '@vueuse/core'
 import { BaseBtn } from '@/components'
 import { Search, Filter } from '@element-plus/icons-vue'
 
-
 const { width } = useWindowSize()
 
 defineProps<{
@@ -48,13 +47,17 @@ const submitFilter = () => {
       type="primary"
       v-if="badgeValue && badgeValue > 0"
     >
-      <el-icon class="filter-icon fill-icon">
+      <slot name="fill-filter">
+        <el-icon class="filter-icon fill-icon">
+          <Filter />
+        </el-icon>
+      </slot>
+    </el-badge>
+    <slot name="filter-icon" v-else>
+      <el-icon class="filter-icon">
         <Filter />
       </el-icon>
-    </el-badge>
-    <el-icon v-else class="filter-icon">
-      <Filter />
-    </el-icon>
+    </slot>
   </base-btn>
   <el-drawer v-model="showDrawer" append-to-body :size="computedDrawerSize">
     <template #header>

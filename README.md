@@ -671,26 +671,26 @@ import 'rayyy-vue-table-components/styles'
 #### 預定義樣式
 
 ```typescript
-import { tableStyles, componentStyles } from 'rayyy-vue-table-components/utils/styles'
+import { STYLE_CLASSES } from 'rayyy-vue-table-components/utils/styles'
 
 // 表格樣式常量
 const styles = {
-  cell: tableStyles.cell,           // 'p-0 h-10'
-  header: tableStyles.header,       // 'bg-primary-15 font-bold text-text text-sm leading-4'
-  content: tableStyles.content,     // 'truncate'
-  dismissed: tableStyles.dismissed, // 'bg-blue-20'
-  footer: tableStyles.footer,       // 'font-bold'
-  blueText: tableStyles.blueText,   // 'text-blue-10'
-  redText: tableStyles.redText,     // 'text-redText'
+  cell: STYLE_CLASSES.tableCell,           // 'table-cell'
+  header: STYLE_CLASSES.tableHeader,       // 'table-header'
+  content: STYLE_CLASSES.tableCellContent, // 'table-cell-content'
+  dismissed: STYLE_CLASSES.dismissedRow,   // 'dismissed-row'
+  footer: STYLE_CLASSES.tableFooter,       // 'table-footer'
+  blueText: STYLE_CLASSES.blueText,        // 'blue-text'
+  redText: STYLE_CLASSES.redText,          // 'red-text'
 }
 
 // 組件樣式常量
 const componentClasses = {
-  sortTableContainer: componentStyles.sortTableContainer,
-  filterBtn: componentStyles.filterBtn,
-  transferActiveBg: componentStyles.transferActiveBg,
-  baseDialogTitle: componentStyles.baseDialogTitle,
-  cursorGrab: componentStyles.cursorGrab,
+  sortTableContainer: STYLE_CLASSES.sortTableContainer,
+  filterBtn: STYLE_CLASSES.filterBtn,
+  transferActiveBg: STYLE_CLASSES.transferActiveBg,
+  baseDialogTitle: STYLE_CLASSES.baseDialogTitle,
+  cursorGrab: STYLE_CLASSES.cursorGrab,
 }
 ```
 
@@ -714,12 +714,12 @@ const textClass = createTextClass('blue') // 'blue' | 'red' | 'normal'
 #### Element Plus 表格配置
 
 ```typescript
-import { dataTableConfig } from 'rayyy-vue-table-components/utils/styles'
+import { STYLE_CLASSES } from 'rayyy-vue-table-components/utils/styles'
 
 // 在 Element Plus 原生表格中使用
 <el-table 
-  :cell-class-name="dataTableConfig.cellClass"
-  :header-cell-class-name="dataTableConfig.headerClass"
+  :cell-class-name="STYLE_CLASSES.tableCell"
+  :header-cell-class-name="STYLE_CLASSES.tableHeader"
   :data="tableData"
 >
   <el-table-column prop="name" label="姓名" />
@@ -832,8 +832,10 @@ src/
 │   └── transfer/       # 穿梭框組件
 ├── assets/styles/      # 樣式文件
 │   ├── tailwind.scss   # 主樣式入口
-│   ├── _table.scss     # 表格樣式
-│   ├── _dialog.scss    # 對話框樣式
+│   ├── _base.scss       # 基礎樣式（表格基礎、文字樣式等）
+│   ├── _tables.scss     # 表格相關樣式（Element Plus 表格覆蓋）
+│   ├── _dialogs.scss    # 對話框相關樣式
+│   ├── _components.scss # 組件樣式（SortTable、FilterBtn等）
 │   └── element/        # Element Plus 主題
 ├── types/              # 類型定義
 ├── utils/              # 工具函數

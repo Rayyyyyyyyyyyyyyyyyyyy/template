@@ -1,6 +1,7 @@
-
-@use 'dialog';
-@use "table";
+// 導入分類後的樣式檔案
+@use "base";
+@use "tables";
+@use "dialogs";
 @use "components";
 
 @tailwind base;

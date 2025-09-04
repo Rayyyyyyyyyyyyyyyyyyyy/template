@@ -1,11 +1,8 @@
-<script setup lang="ts">
-
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <el-container class="w-full">
-    <el-main class="bg-white p-0">
+    <el-main class="bg-white !p-0">
       <router-view v-slot="{ Component }">
         <keep-alive :include="/.*(Page|Detail)$/">
           <component :is="Component" />
@@ -15,5 +12,4 @@
   </el-container>
 </template>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

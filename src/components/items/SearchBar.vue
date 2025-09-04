@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import BaseInput from '@/components/items/BaseInput.vue'
-import FilterBtn from '@/components/items/FilterBtn.vue'
+import BaseInput from './BaseInput.vue'
+import FilterBtn from './FilterBtn.vue'
 
 defineProps<{
   showFilter?: boolean

@@ -207,5 +207,6 @@ declare module '@vue/runtime-core' {
     BaseTable: typeof BaseTable
     BaseBtn: typeof BaseBtn
     BaseDialog: typeof BaseDialog
+    FilterBtn: typeof FilterBtn
   }
 }

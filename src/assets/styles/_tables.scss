@@ -1,7 +1,11 @@
+// ==================== 表格相關樣式 ====================
+// 包含 Element Plus 表格樣式覆蓋和表格配置樣式
+
+// Element Plus 表格樣式覆蓋
 .data-table {
   .el-table__cell {
-    @apply p-0 #{!important};
-    @apply h-10 #{!important};
+    @apply p-0;
+    @apply h-10;
 
     .el-tooltip {
       .cell-content {
@@ -16,7 +20,7 @@
 
   .el-table__header {
     th {
-      @apply bg-primary-15 #{!important};
+      @apply bg-primary-15;
 
       .cell {
         @apply font-bold text-text text-sm leading-4;
@@ -45,5 +49,39 @@
         @apply text-redText;
       }
     }
+  }
+}
+
+// 表格配置樣式
+.data-table-config {
+  // 表格單元格配置
+  .cell-class {
+    @apply p-0 h-10;
+  }
+
+  .header-class {
+    @apply bg-primary-15 font-bold text-text text-sm leading-4;
+  }
+
+  // 內容相關類名
+  .content-class {
+    @apply truncate;
+  }
+
+  .dismissed-class {
+    @apply bg-blue-20;
+  }
+
+  .footer-class {
+    @apply font-bold;
+  }
+
+  // 文字顏色類名
+  .blue-text-class {
+    @apply text-blue-10;
+  }
+
+  .red-text-class {
+    @apply text-redText;
   }
 }

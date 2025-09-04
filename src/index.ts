@@ -5,7 +5,7 @@ import BaseInput from './components/items/BaseInput.vue'
 import FilterBtn from './components/items/FilterBtn.vue'
 import BaseDialog from './components/BaseDialog.vue'
 import SortTable from './components/tables/SortTable.vue'
-import SearchBar from './components/SearchBar.vue'
+import SearchBar from './components/items/SearchBar.vue'
 
 // 導入樣式
 import './assets/styles/tailwind.scss'
@@ -18,15 +18,7 @@ export * from './utils/tableHelper'
 export * from './utils/tableStyles'
 
 // 導出組件
-export {
-  BaseTable,
-  BaseBtn,
-  BaseInput,
-  FilterBtn,
-  BaseDialog,
-  SortTable,
-  SearchBar
-}
+export { BaseTable, BaseBtn, BaseInput, FilterBtn, BaseDialog, SortTable, SearchBar }
 
 // 導出組件類型
 export type {
@@ -54,7 +46,7 @@ const components: any[] = [
   FilterBtn,
   BaseDialog,
   SortTable,
-  SearchBar
+  SearchBar,
 ]
 
 // Vue 插件安裝函數

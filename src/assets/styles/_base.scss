@@ -1,0 +1,45 @@
+// ==================== 基礎樣式 ====================
+// 包含表格基礎樣式、文字樣式等通用樣式
+
+// 表格基礎樣式
+.table-cell {
+  @apply p-0 h-10;
+}
+
+// 表格標題樣式
+.table-header {
+  @apply bg-primary-15 font-bold text-text text-sm leading-4;
+}
+
+// 表格內容樣式
+.table-cell-content {
+  @apply truncate;
+}
+
+// 被駁回行的樣式
+.dismissed-row {
+  @apply bg-blue-20;
+}
+
+// 表格底部樣式
+.table-footer {
+  @apply font-bold;
+}
+
+// 文字顏色樣式
+.blue-text {
+  @apply text-blue-10;
+}
+
+.red-text {
+  @apply text-redText;
+}
+
+// 通用樣式
+.cursor-grab {
+  cursor: grab;
+}
+
+.cursor-grabbing {
+  cursor: grabbing;
+}

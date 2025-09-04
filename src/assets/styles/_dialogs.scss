@@ -1,5 +1,14 @@
+// ==================== 對話框相關樣式 ====================
+// 包含 BaseDialog 組件樣式和 Element Plus 對話框樣式覆蓋
+
+// BaseDialog 組件樣式
+.base-dialog-title {
+  @apply font-bold text-base;
+}
+
+// Element Plus 對話框樣式覆蓋
 .el-dialog.base-dialog {
-  @apply p-0 #{!important};
+  @apply p-0;
 
   .el-dialog__header {
     @apply h-12 pt-2 bg-primary-15 border-b;
@@ -24,20 +33,24 @@
   }
 }
 
+// 警告對話框樣式
 .waring-dialog {
   .el-dialog__header {
     @apply border-b-orange;
   }
 }
 
+// 上傳結果對話框樣式
 .upload-result-dialog {
   .el-dialog__header {
     @apply border-b-blue-10;
   }
 }
 
+// 上下文包裝器樣式
 .context-wrapper {
   @apply w-full flex items-center justify-center flex-col gap-2;
+
   p {
     @apply font-bold text-xl;
   }
