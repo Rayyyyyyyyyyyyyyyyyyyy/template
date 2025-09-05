@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { FunctionHeader, BaseBtn } from '@/components'
+
+// 麵包屑數據
+const breadcrumbs = ref([
+  { label: '首頁', path: '/' },
+  { label: '用戶管理', path: '/users' },
+  { label: '編輯用戶', path: '/users/edit' }
+])
+</script>
+
 <template>
   <div class="p-8 bg-gray-50 min-h-screen">
     <div class="max-w-6xl mx-auto">
@@ -81,17 +93,5 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { FunctionHeader, BaseBtn } from '@/components'
-
-// 麵包屑數據
-const breadcrumbs = ref([
-  { label: '首頁', path: '/' },
-  { label: '用戶管理', path: '/users' },
-  { label: '編輯用戶', path: '/users/edit' }
-])
-</script>
 
 <style scoped></style>

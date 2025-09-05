@@ -1,3 +1,76 @@
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { TransferItem } from '@/components'
+
+// 可用項目
+const availableItems = ref([
+  { id: 1, name: '項目一', description: '這是項目一的描述' },
+  { id: 2, name: '項目二', description: '這是項目二的描述' },
+  { id: 3, name: '項目三', description: '這是項目三的描述' },
+  { id: 4, name: '項目四', description: '這是項目四的描述' },
+  { id: 5, name: '項目五', description: '這是項目五的描述' }
+])
+
+// 已選項目ID
+const selectedItems = ref([1, 3])
+
+// 已選項目數據
+const selectedItemsData = computed(() => {
+  return availableItems.value.filter(item => selectedItems.value.includes(item.id))
+})
+
+// 可拖拽項目
+const draggableItems = ref([
+  { id: 6, name: '拖拽項目一', description: '可以拖拽的項目一' },
+  { id: 7, name: '拖拽項目二', description: '可以拖拽的項目二' },
+  { id: 8, name: '拖拽項目三', description: '可以拖拽的項目三' }
+])
+
+// 已拖拽項目
+const droppedItems = ref<Array<{ id: number; name: string; description: string }>>([])
+
+// 禁用項目
+const disabledItems = ref([
+  { id: 9, name: '禁用項目一', description: '這個項目被禁用了', disabled: true },
+  { id: 10, name: '正常項目', description: '這個項目是正常的', disabled: false },
+  { id: 11, name: '禁用項目二', description: '這個項目也被禁用了', disabled: true }
+])
+
+// 事件處理
+const handleSelect = (item: any) => {
+  if (!selectedItems.value.includes(item.id)) {
+    selectedItems.value.push(item.id)
+  }
+  console.log('選中項目:', item)
+}
+
+const handleDeselect = (item: any) => {
+  const index = selectedItems.value.indexOf(item.id)
+  if (index > -1) {
+    selectedItems.value.splice(index, 1)
+  }
+  console.log('取消選中項目:', item)
+}
+
+const handleDragStart = (item: any) => {
+  console.log('開始拖拽:', item)
+}
+
+const handleDragEnd = (item: any) => {
+  console.log('結束拖拽:', item)
+}
+
+const handleDrop = (event: DragEvent) => {
+  event.preventDefault()
+  const itemId = parseInt(event.dataTransfer?.getData('text/plain') || '0')
+  const item = draggableItems.value.find(i => i.id === itemId)
+  if (item && !droppedItems.value.find(i => i.id === itemId)) {
+    droppedItems.value.push(item)
+  }
+  console.log('拖拽放置:', item)
+}
+</script>
+
 <template>
   <div class="p-8 bg-gray-50 min-h-screen">
     <div class="max-w-6xl mx-auto">
@@ -103,78 +176,5 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import { TransferItem } from '@/components'
-
-// 可用項目
-const availableItems = ref([
-  { id: 1, name: '項目一', description: '這是項目一的描述' },
-  { id: 2, name: '項目二', description: '這是項目二的描述' },
-  { id: 3, name: '項目三', description: '這是項目三的描述' },
-  { id: 4, name: '項目四', description: '這是項目四的描述' },
-  { id: 5, name: '項目五', description: '這是項目五的描述' }
-])
-
-// 已選項目ID
-const selectedItems = ref([1, 3])
-
-// 已選項目數據
-const selectedItemsData = computed(() => {
-  return availableItems.value.filter(item => selectedItems.value.includes(item.id))
-})
-
-// 可拖拽項目
-const draggableItems = ref([
-  { id: 6, name: '拖拽項目一', description: '可以拖拽的項目一' },
-  { id: 7, name: '拖拽項目二', description: '可以拖拽的項目二' },
-  { id: 8, name: '拖拽項目三', description: '可以拖拽的項目三' }
-])
-
-// 已拖拽項目
-const droppedItems = ref<Array<{ id: number; name: string; description: string }>>([])
-
-// 禁用項目
-const disabledItems = ref([
-  { id: 9, name: '禁用項目一', description: '這個項目被禁用了', disabled: true },
-  { id: 10, name: '正常項目', description: '這個項目是正常的', disabled: false },
-  { id: 11, name: '禁用項目二', description: '這個項目也被禁用了', disabled: true }
-])
-
-// 事件處理
-const handleSelect = (item: any) => {
-  if (!selectedItems.value.includes(item.id)) {
-    selectedItems.value.push(item.id)
-  }
-  console.log('選中項目:', item)
-}
-
-const handleDeselect = (item: any) => {
-  const index = selectedItems.value.indexOf(item.id)
-  if (index > -1) {
-    selectedItems.value.splice(index, 1)
-  }
-  console.log('取消選中項目:', item)
-}
-
-const handleDragStart = (item: any) => {
-  console.log('開始拖拽:', item)
-}
-
-const handleDragEnd = (item: any) => {
-  console.log('結束拖拽:', item)
-}
-
-const handleDrop = (event: DragEvent) => {
-  event.preventDefault()
-  const itemId = parseInt(event.dataTransfer?.getData('text/plain') || '0')
-  const item = draggableItems.value.find(i => i.id === itemId)
-  if (item && !droppedItems.value.find(i => i.id === itemId)) {
-    droppedItems.value.push(item)
-  }
-  console.log('拖拽放置:', item)
-}
-</script>
 
 <style scoped></style>

@@ -1,24 +1,3 @@
-<template>
-  <div class="p-8 bg-gray-50 min-h-screen">
-    <div class="max-w-6xl mx-auto">
-      <h1 class="text-3xl font-bold text-gray-900 mb-8">BaseTable 組件示範</h1>
-
-      <el-card class="mb-8" shadow="always">
-        <template #header>
-          <h2 class="text-xl font-semibold">基礎表格</h2>
-        </template>
-        <BaseTable
-          :data="tableData"
-          :columns="columns"
-          :pagination="pagination"
-          @update:page="handlePageChange"
-          @update:page-size="handlePageSizeChange"
-        />
-      </el-card>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import { BaseTable } from '@/components'
@@ -59,5 +38,26 @@ const handlePageSizeChange = (pageSize: number) => {
   console.log('頁面大小變更:', pageSize)
 }
 </script>
+
+<template>
+  <div class="p-8 bg-gray-50 min-h-screen">
+    <div class="max-w-6xl mx-auto">
+      <h1 class="text-3xl font-bold text-gray-900 mb-8">BaseTable 組件示範</h1>
+
+      <el-card class="mb-8" shadow="always">
+        <template #header>
+          <h2 class="text-xl font-semibold">基礎表格</h2>
+        </template>
+        <BaseTable
+          :data="tableData"
+          :columns="columns"
+          :pagination="pagination"
+          @update:page="handlePageChange"
+          @update:page-size="handlePageSizeChange"
+        />
+      </el-card>
+    </div>
+  </div>
+</template>
 
 <style scoped></style>

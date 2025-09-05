@@ -1,37 +1,3 @@
-<template>
-  <div class="p-8 bg-gray-50 min-h-screen">
-    <div class="max-w-6xl mx-auto">
-      <h1 class="text-3xl font-bold text-gray-900 mb-8">SortTable 組件示範</h1>
-
-      <!-- 排序表格 -->
-      <el-card class="mb-8" shadow="always">
-        <template #header>
-          <h2 class="text-xl font-semibold">排序表格</h2>
-        </template>
-        <SortTable
-          :data="tableData"
-          :columns="sortColumns"
-          :pagination="pagination"
-          @update:page="handlePageChange"
-          @update:page-size="handlePageSizeChange"
-          @sort-change="handleSortChange"
-        />
-      </el-card>
-
-      <!-- 排序狀態顯示 -->
-      <el-card class="mb-8" shadow="always" v-if="sortInfo">
-        <template #header>
-          <h2 class="text-xl font-semibold">當前排序狀態</h2>
-        </template>
-        <div class="space-y-2">
-          <p><strong>排序列:</strong> {{ sortInfo.prop }}</p>
-          <p><strong>排序順序:</strong> {{ sortInfo.order }}</p>
-        </div>
-      </el-card>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import { SortTable } from '@/components'
@@ -86,5 +52,39 @@ const handleSortChange = (sortData: any) => {
   // 或者對現有數據進行排序
 }
 </script>
+
+<template>
+  <div class="p-8 bg-gray-50 min-h-screen">
+    <div class="max-w-6xl mx-auto">
+      <h1 class="text-3xl font-bold text-gray-900 mb-8">SortTable 組件示範</h1>
+
+      <!-- 排序表格 -->
+      <el-card class="mb-8" shadow="always">
+        <template #header>
+          <h2 class="text-xl font-semibold">排序表格</h2>
+        </template>
+        <SortTable
+          :data="tableData"
+          :columns="sortColumns"
+          :pagination="pagination"
+          @update:page="handlePageChange"
+          @update:page-size="handlePageSizeChange"
+          @sort-change="handleSortChange"
+        />
+      </el-card>
+
+      <!-- 排序狀態顯示 -->
+      <el-card class="mb-8" shadow="always" v-if="sortInfo">
+        <template #header>
+          <h2 class="text-xl font-semibold">當前排序狀態</h2>
+        </template>
+        <div class="space-y-2">
+          <p><strong>排序列:</strong> {{ sortInfo.prop }}</p>
+          <p><strong>排序順序:</strong> {{ sortInfo.order }}</p>
+        </div>
+      </el-card>
+    </div>
+  </div>
+</template>
 
 <style scoped></style>

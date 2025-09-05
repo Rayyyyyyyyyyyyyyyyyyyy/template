@@ -1,3 +1,46 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { BaseForm } from '@/components'
+
+const formData = ref({
+  name: '',
+  email: '',
+  age: null,
+  gender: '',
+  hobbies: [],
+  remark: ''
+})
+
+const submitResult = ref(null)
+
+const formRules = {
+  name: [
+    { required: true, message: '請輸入姓名', trigger: 'blur' },
+    { min: 2, max: 10, message: '姓名長度應為 2 到 10 個字符', trigger: 'blur' }
+  ],
+  email: [
+    { required: true, message: '請輸入郵箱', trigger: 'blur' },
+    { type: 'email' as const, message: '請輸入正確的郵箱格式', trigger: 'blur' }
+  ],
+  age: [
+    { required: true, message: '請輸入年齡', trigger: 'blur' }
+  ],
+  gender: [
+    { required: true, message: '請選擇性別', trigger: 'change' }
+  ]
+}
+
+const handleSubmit = (data: any) => {
+  console.log('表單提交:', data)
+  submitResult.value = data
+}
+
+const handleReset = () => {
+  console.log('表單重置')
+  submitResult.value = null
+}
+</script>
+
 <template>
   <div class="p-8 bg-gray-50 min-h-screen">
     <div class="max-w-6xl mx-auto">
@@ -63,48 +106,5 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { BaseForm } from '@/components'
-
-const formData = ref({
-  name: '',
-  email: '',
-  age: null,
-  gender: '',
-  hobbies: [],
-  remark: ''
-})
-
-const submitResult = ref(null)
-
-const formRules = {
-  name: [
-    { required: true, message: '請輸入姓名', trigger: 'blur' },
-    { min: 2, max: 10, message: '姓名長度應為 2 到 10 個字符', trigger: 'blur' }
-  ],
-  email: [
-    { required: true, message: '請輸入郵箱', trigger: 'blur' },
-    { type: 'email' as const, message: '請輸入正確的郵箱格式', trigger: 'blur' }
-  ],
-  age: [
-    { required: true, message: '請輸入年齡', trigger: 'blur' }
-  ],
-  gender: [
-    { required: true, message: '請選擇性別', trigger: 'change' }
-  ]
-}
-
-const handleSubmit = (data: any) => {
-  console.log('表單提交:', data)
-  submitResult.value = data
-}
-
-const handleReset = () => {
-  console.log('表單重置')
-  submitResult.value = null
-}
-</script>
 
 <style scoped></style>

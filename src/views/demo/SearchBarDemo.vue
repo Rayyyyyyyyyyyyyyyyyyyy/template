@@ -1,3 +1,73 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { SearchBar } from '@/components'
+
+const searchKeyword = ref('')
+const searchWithSuggestions = ref('')
+const searchWithHistory = ref('')
+const searchResult = ref('')
+const selectedSuggestion = ref('')
+
+// 搜尋建議
+const suggestions = ref([
+  'Vue.js',
+  'React',
+  'Angular',
+  'TypeScript',
+  'JavaScript',
+  'Node.js',
+  'Python',
+  'Java'
+])
+
+// 搜尋歷史
+const searchHistory = ref([
+  'Vue 3',
+  'TypeScript',
+  'Element Plus',
+  'Tailwind CSS'
+])
+
+// 事件處理
+const handleSearch = (keyword: string) => {
+  console.log('搜尋:', keyword)
+  searchResult.value = `搜尋關鍵字: ${keyword}`
+}
+
+const handleClear = () => {
+  console.log('清除搜尋')
+  searchResult.value = ''
+}
+
+const handleSearchWithSuggestions = (keyword: string) => {
+  console.log('帶建議搜尋:', keyword)
+}
+
+const handleSuggestionSelect = (suggestion: string) => {
+  console.log('選中建議:', suggestion)
+  selectedSuggestion.value = suggestion
+}
+
+const handleSearchWithHistory = (keyword: string) => {
+  console.log('搜尋並記錄歷史:', keyword)
+  if (keyword && !searchHistory.value.includes(keyword)) {
+    searchHistory.value.unshift(keyword)
+    if (searchHistory.value.length > 10) {
+      searchHistory.value.pop()
+    }
+  }
+}
+
+const handleHistoryClear = () => {
+  console.log('清除搜尋歷史')
+  searchHistory.value = []
+}
+
+const removeHistoryItem = (index: number) => {
+  searchHistory.value.splice(index, 1)
+}
+</script>
+
 <template>
   <div class="p-8 bg-gray-50 min-h-screen">
     <div class="max-w-6xl mx-auto">
@@ -72,75 +142,5 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { SearchBar } from '@/components'
-
-const searchKeyword = ref('')
-const searchWithSuggestions = ref('')
-const searchWithHistory = ref('')
-const searchResult = ref('')
-const selectedSuggestion = ref('')
-
-// 搜尋建議
-const suggestions = ref([
-  'Vue.js',
-  'React',
-  'Angular',
-  'TypeScript',
-  'JavaScript',
-  'Node.js',
-  'Python',
-  'Java'
-])
-
-// 搜尋歷史
-const searchHistory = ref([
-  'Vue 3',
-  'TypeScript',
-  'Element Plus',
-  'Tailwind CSS'
-])
-
-// 事件處理
-const handleSearch = (keyword: string) => {
-  console.log('搜尋:', keyword)
-  searchResult.value = `搜尋關鍵字: ${keyword}`
-}
-
-const handleClear = () => {
-  console.log('清除搜尋')
-  searchResult.value = ''
-}
-
-const handleSearchWithSuggestions = (keyword: string) => {
-  console.log('帶建議搜尋:', keyword)
-}
-
-const handleSuggestionSelect = (suggestion: string) => {
-  console.log('選中建議:', suggestion)
-  selectedSuggestion.value = suggestion
-}
-
-const handleSearchWithHistory = (keyword: string) => {
-  console.log('搜尋並記錄歷史:', keyword)
-  if (keyword && !searchHistory.value.includes(keyword)) {
-    searchHistory.value.unshift(keyword)
-    if (searchHistory.value.length > 10) {
-      searchHistory.value.pop()
-    }
-  }
-}
-
-const handleHistoryClear = () => {
-  console.log('清除搜尋歷史')
-  searchHistory.value = []
-}
-
-const removeHistoryItem = (index: number) => {
-  searchHistory.value.splice(index, 1)
-}
-</script>
 
 <style scoped></style>

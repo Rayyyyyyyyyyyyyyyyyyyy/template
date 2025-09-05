@@ -1,3 +1,17 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { BaseInput } from '@/components'
+
+const input1 = ref('')
+const input2 = ref('')
+const input3 = ref('')
+const input4 = ref('')
+const input5 = ref('')
+const input6 = ref('禁用內容')
+const input7 = ref('只讀內容')
+const input8 = ref('')
+</script>
+
 <template>
   <div class="p-8 bg-gray-50 min-h-screen">
     <div class="max-w-6xl mx-auto">
@@ -59,19 +73,5 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { BaseInput } from '@/components'
-
-const input1 = ref('')
-const input2 = ref('')
-const input3 = ref('')
-const input4 = ref('')
-const input5 = ref('')
-const input6 = ref('禁用內容')
-const input7 = ref('只讀內容')
-const input8 = ref('')
-</script>
 
 <style scoped></style>

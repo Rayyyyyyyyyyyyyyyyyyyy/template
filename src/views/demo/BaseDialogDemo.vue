@@ -1,3 +1,22 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { BaseDialog, BaseBtn } from '@/components'
+
+const showDialog1 = ref(false)
+const showDialog2 = ref(false)
+const showDialog3 = ref(false)
+
+const form = ref({
+  name: '',
+  email: ''
+})
+
+const handleSubmit = () => {
+  console.log('提交表單:', form.value)
+  showDialog3.value = false
+}
+</script>
+
 <template>
   <div class="p-8 bg-gray-50 min-h-screen">
     <div class="max-w-6xl mx-auto">
@@ -79,24 +98,5 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { BaseDialog, BaseBtn } from '@/components'
-
-const showDialog1 = ref(false)
-const showDialog2 = ref(false)
-const showDialog3 = ref(false)
-
-const form = ref({
-  name: '',
-  email: ''
-})
-
-const handleSubmit = () => {
-  console.log('提交表單:', form.value)
-  showDialog3.value = false
-}
-</script>
 
 <style scoped></style>

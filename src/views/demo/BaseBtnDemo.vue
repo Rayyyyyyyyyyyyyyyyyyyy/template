@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { BaseBtn } from '@/components'
+</script>
+
 <template>
   <div class="p-8 bg-gray-50 min-h-screen">
     <div class="max-w-6xl mx-auto">
@@ -94,9 +98,5 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { BaseBtn } from '@/components'
-</script>
 
 <style scoped></style>
