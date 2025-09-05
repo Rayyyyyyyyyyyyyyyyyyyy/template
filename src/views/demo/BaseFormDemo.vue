@@ -11,7 +11,7 @@
         <BaseForm
           :model="formData"
           :rules="formRules"
-          @submit="handleSubmit"
+          @submit="() => handleSubmit(formData)"
           @reset="handleReset"
         >
           <el-form-item label="姓名" prop="name">
@@ -86,7 +86,7 @@ const formRules = {
   ],
   email: [
     { required: true, message: '請輸入郵箱', trigger: 'blur' },
-    { type: 'email', message: '請輸入正確的郵箱格式', trigger: 'blur' }
+    { type: 'email' as const, message: '請輸入正確的郵箱格式', trigger: 'blur' }
   ],
   age: [
     { required: true, message: '請輸入年齡', trigger: 'blur' }

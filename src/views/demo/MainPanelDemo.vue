@@ -60,22 +60,22 @@
               <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
                 <span>數據項目 1</span>
                 <div class="flex space-x-2">
-                  <BaseBtn type="text" size="small">編輯</BaseBtn>
-                  <BaseBtn type="text" size="small">刪除</BaseBtn>
+                  <BaseBtn type="default" size="small">編輯</BaseBtn>
+                  <BaseBtn type="default" size="small">刪除</BaseBtn>
                 </div>
               </div>
               <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
                 <span>數據項目 2</span>
                 <div class="flex space-x-2">
-                  <BaseBtn type="text" size="small">編輯</BaseBtn>
-                  <BaseBtn type="text" size="small">刪除</BaseBtn>
+                  <BaseBtn type="default" size="small">編輯</BaseBtn>
+                  <BaseBtn type="default" size="small">刪除</BaseBtn>
                 </div>
               </div>
               <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
                 <span>數據項目 3</span>
                 <div class="flex space-x-2">
-                  <BaseBtn type="text" size="small">編輯</BaseBtn>
-                  <BaseBtn type="text" size="small">刪除</BaseBtn>
+                  <BaseBtn type="default" size="small">編輯</BaseBtn>
+                  <BaseBtn type="default" size="small">刪除</BaseBtn>
                 </div>
               </div>
             </div>

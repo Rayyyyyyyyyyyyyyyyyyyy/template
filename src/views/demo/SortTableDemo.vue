@@ -65,7 +65,7 @@ const pagination = ref({
 })
 
 // 排序信息
-const sortInfo = ref(null)
+const sortInfo = ref<{ prop: string; order: string } | null>(null)
 
 // 事件處理
 const handlePageChange = (page: number) => {

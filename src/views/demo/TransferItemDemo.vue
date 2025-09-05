@@ -133,7 +133,7 @@ const draggableItems = ref([
 ])
 
 // 已拖拽項目
-const droppedItems = ref([])
+const droppedItems = ref<Array<{ id: number; name: string; description: string }>>([])
 
 // 禁用項目
 const disabledItems = ref([
