@@ -34,7 +34,7 @@ const handleClick = () => {
 <template>
   <div class="h-header px-4 py-4 flex justify-between items-center bg-primary-10">
     <div class="flex items-center gap-2">
-      <div v-if="showBack" class="flex items-center">
+      <div v-if="showBack" class="flex items-center text-black">
         <el-icon :size="16" class="cursor-pointer" @click="handleClick"><ArrowLeftBold /></el-icon>
       </div>
       <div class="font-bold text-text text-xl md:text-2xl;">{{ props.title }}</div>

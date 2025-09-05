@@ -1,9 +1,9 @@
 import type { App } from 'vue'
 import BaseTable from './components/tables/BaseTable.vue'
 import BaseBtn from './components/items/BaseBtn.vue'
-import BaseInput from './components/items/BaseInput.vue'
+import BaseInput from './components/form/BaseInput.vue'
 import FilterBtn from './components/items/FilterBtn.vue'
-import BaseDialog from './components/BaseDialog.vue'
+import BaseDialog from './components/items/BaseDialog.vue'
 import SortTable from './components/tables/SortTable.vue'
 import SearchBar from './components/items/SearchBar.vue'
 

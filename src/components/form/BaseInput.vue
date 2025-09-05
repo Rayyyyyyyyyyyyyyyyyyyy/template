@@ -1,23 +1,3 @@
-<template>
-  <el-input
-    v-model="v"
-    :placeholder="props.placeholder"
-    :type="props.type"
-    :class="props.class"
-    :show-password="props.showPassword"
-    :disabled="props.disabled"
-    :readonly="props.readonly"
-    :maxlength="props.maxlength"
-    :autocomplete="props.autocomplete"
-    clearable
-    @clear="handlerClear"
-  >
-    <template #prefix>
-      <el-icon><Search /></el-icon>
-    </template>
-  </el-input>
-</template>
-
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { Search } from '@element-plus/icons-vue'
@@ -48,3 +28,23 @@ const handlerClear = () => {
   emits('update:clearValue')
 }
 </script>
+
+<template>
+  <el-input
+    v-model="v"
+    :placeholder="props.placeholder"
+    :type="props.type"
+    :class="props.class"
+    :show-password="props.showPassword"
+    :disabled="props.disabled"
+    :readonly="props.readonly"
+    :maxlength="props.maxlength"
+    :autocomplete="props.autocomplete"
+    clearable
+    @clear="handlerClear"
+  >
+    <template #prefix>
+      <el-icon><Search /></el-icon>
+    </template>
+  </el-input>
+</template>

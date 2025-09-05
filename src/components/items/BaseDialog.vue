@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useWindowSize } from '@vueuse/core'
-import BaseBtn from '@/components/items/BaseBtn.vue'
+import BaseBtn from './BaseBtn.vue'
 
 const props = defineProps<{
   modelValue: boolean

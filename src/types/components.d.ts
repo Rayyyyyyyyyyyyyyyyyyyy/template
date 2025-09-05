@@ -131,6 +131,92 @@ export interface BaseDialogInstance {
   $emit: BaseDialogEmits
 }
 
+// ==================== SearchableListPanel 組件類型 ====================
+
+/** SearchableListPanel 組件 Props 類型 */
+export interface SearchableListPanelProps {
+  /** 標題 */
+  title: string
+  /** 分頁資訊 */
+  pagination: import('./index').Pager
+  /** 是否顯示返回按鈕 */
+  showBack?: boolean | string | object
+  /** 是否顯示搜尋功能 */
+  showSearch?: boolean
+  /** 是否顯示編輯功能 */
+  showEdit?: boolean
+  /** 是否顯示篩選功能 */
+  showFilter?: boolean
+  /** 是否顯示預設搜尋 */
+  showDefaultSearch?: boolean
+  /** 測試屬性 */
+  dataCy?: string
+  /** 徽章數值 */
+  badgeValue?: number
+}
+
+/** SearchableListPanel 組件 Emits 類型 */
+export interface SearchableListPanelEmits {
+  /** 搜尋事件 */
+  (e: 'search', data: string | null): void
+  /** 更新頁面事件 */
+  (e: 'updatePage', page: number): boolean
+  /** 更新頁面大小事件 */
+  (e: 'updatePageSize', limit: number): boolean
+}
+
+/** SearchableListPanel 組件實例類型 */
+export interface SearchableListPanelInstance {
+  /** 組件 Props */
+  $props: SearchableListPanelProps
+  /** 組件 Emits */
+  $emit: SearchableListPanelEmits
+}
+
+/** SearchableListPanel 組件 Slots 類型 */
+export interface SearchableListPanelSlots {
+  /** 第一個按鈕 slot */
+  firstButton: () => VNode[]
+  /** 自定義按鈕 slot */
+  customButton: () => VNode[]
+  /** 最後一個按鈕 slot */
+  lastButton: () => VNode[]
+  /** 篩選抽屜內容 slot */
+  filterDrawBody: () => VNode[]
+  /** 主要內容 slot */
+  main: () => VNode[]
+}
+
+// ==================== BaseMultipleInput 組件類型 ====================
+
+/** BaseMultipleInput 組件 Props 類型 */
+export interface BaseMultipleInputProps {
+  /** 模型值（字符串數組） */
+  modelValue: string[]
+  /** 輸入框類型 */
+  type?: string
+  /** 驗證規則函數 */
+  validateRule?: (inputString: string) => boolean
+  /** 測試屬性 */
+  dataCy?: string
+}
+
+/** BaseMultipleInput 組件 Emits 類型 */
+export interface BaseMultipleInputEmits {
+  /** 更新模型值事件 */
+  (e: 'update:modelValue', val: string[]): void
+  /** 輸入錯誤事件 */
+  (e: 'inputError'): void
+}
+
+/** BaseMultipleInput 組件實例類型 */
+export interface BaseMultipleInputInstance {
+  /** 組件 Props */
+  $props: BaseMultipleInputProps
+  /** 組件 Emits */
+  $emit: BaseMultipleInputEmits
+}
+
 // ==================== 組件定義類型 ====================
 
 /** BaseTable 組件定義 */
@@ -178,6 +264,36 @@ export declare const BaseDialog: DefineComponent<
   install: (app: App) => void
 }
 
+/** SearchableListPanel 組件定義 */
+export declare const SearchableListPanel: DefineComponent<
+  SearchableListPanelProps,
+  {},
+  {},
+  {},
+  {},
+  {},
+  SearchableListPanelSlots,
+  SearchableListPanelEmits
+> & {
+  /** 安裝方法 */
+  install: (app: App) => void
+}
+
+/** BaseMultipleInput 組件定義 */
+export declare const BaseMultipleInput: DefineComponent<
+  BaseMultipleInputProps,
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  BaseMultipleInputEmits
+> & {
+  /** 安裝方法 */
+  install: (app: App) => void
+}
+
 // ==================== 插件類型 ====================
 
 /** 插件安裝選項 */
@@ -198,6 +314,10 @@ export interface VueTableComponentsPlugin {
   BaseBtn: typeof BaseBtn
   /** BaseDialog 組件 */
   BaseDialog: typeof BaseDialog
+  /** SearchableListPanel 組件 */
+  SearchableListPanel: typeof SearchableListPanel
+  /** BaseMultipleInput 組件 */
+  BaseMultipleInput: typeof BaseMultipleInput
 }
 
 // ==================== 全局類型擴展 ====================
@@ -208,5 +328,7 @@ declare module '@vue/runtime-core' {
     BaseBtn: typeof BaseBtn
     BaseDialog: typeof BaseDialog
     FilterBtn: typeof FilterBtn
+    SearchableListPanel: typeof SearchableListPanel
+    BaseMultipleInput: typeof BaseMultipleInput
   }
 }

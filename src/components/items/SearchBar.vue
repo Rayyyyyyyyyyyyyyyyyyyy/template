@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import BaseInput from './BaseInput.vue'
+import BaseInput from '../form/BaseInput.vue'
 import FilterBtn from './FilterBtn.vue'
 
 defineProps<{

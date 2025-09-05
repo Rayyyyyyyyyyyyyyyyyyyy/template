@@ -3,7 +3,7 @@ import { computed, reactive, watch } from 'vue'
 import type { TableColumn } from 'src/types'
 import _ from 'lodash'
 import type { CheckboxValueType } from 'element-plus'
-import BaseDialog from '@/components/BaseDialog.vue'
+import BaseDialog from '../items/BaseDialog.vue'
 import TransferItem from '@/components/transfer/transferItem.vue'
 import SearchBar from '../items/SearchBar.vue'
 

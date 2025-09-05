@@ -13,7 +13,6 @@ const props = defineProps<{
   link?: boolean
   isFill?: boolean
   loading?: boolean
-  dataCy?: string
 }>()
 
 const emits = defineEmits<{
@@ -27,7 +26,7 @@ const click = (evt: MouseEvent) => {
 const buttonClass = computed(() => {
   return {
     [props.class || '']: true,
-    'is-fill': props.isFill
+    'is-fill': props.isFill,
   }
 })
 </script>
@@ -73,6 +72,7 @@ const buttonClass = computed(() => {
     --el-button-active-border-color: var(--main-color-dark-2);
     --el-button-disabled-bg-color: var(--el-fill-color-blank);
     --el-button-disabled-border-color: var(--main-color-light-7);
+    --el-button-disabled-text-color: var(--main-color-light-7);
     --el-button-text-color: var(--main-color);
     --el-button-hover-text-color: var(--el-fill-color-blank);
 

@@ -1,10 +1,6 @@
 ---
 description: "專案開發規則和規範"
-globs: 
-  - "**/*.vue"
-  - "**/*.ts"
-  - "**/*.js"
-  - "**/*.scss"
+globs: *
 alwaysApply: true
 ---
 # 專案規則
@@ -21,7 +17,7 @@ alwaysApply: true
 - 當用戶說「包板」時，需要自動執行以下命令序列：
   1. `git status`（檢查狀態）
   2. `git add .`（添加所有變更）
-  3. `git commit -m '根據status結果輸入訊息'`（提交變更，需要提示用戶輸入提交信息）
+  3. `git commit -m '根據status結果輸入詳細的改動訊息'`（提交變更，需要提示用戶輸入提交信息）
   4. `npm run release:patch`（執行補丁版本發布）
 
 ## 4. 語言偏好規則

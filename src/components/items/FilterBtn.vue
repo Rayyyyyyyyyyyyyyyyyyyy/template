@@ -67,7 +67,7 @@ const submitFilter = () => {
     </template>
 
     <div class="flex justify-between items-center pb-5 font-semibold">
-      <div class="text-base">篩選條件</div>
+      <div class="text-base text-black/70">篩選條件</div>
       <div class="text-base text-primary cursor-pointer" @click="resetValue">重置</div>
     </div>
 

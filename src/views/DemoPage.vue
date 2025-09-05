@@ -1,594 +1,392 @@
 <script setup lang="ts">
-import { reactive, computed, ref } from 'vue'
-import {
-  BaseTable,
-  BaseBtn,
-  BaseDialog,
-  BaseForm,
-  SortTable,
-  SearchBar,
-  TransferDialog,
-  TransferItem,
-  FunctionHeader,
-  MainPanel,
-} from '@/components'
-import type { TableColumn, SortChangValue } from '@/types'
-import { setActiveColumn } from '@/utils/tableHelper'
-import { h } from 'vue'
-import draggable from 'vuedraggable'
-import {
-  NAVIGATION_ITEMS,
-  DEMO_CONSTANTS,
-  DEMO_USER_DATA,
-  DEPARTMENT_OPTIONS,
-  STATUS_OPTIONS,
-  type User,
-} from '@/const/tableConst'
+import { BaseBtn } from '@/components'
+import { ROUTES } from '@/router/constants'
+import { useRouter } from 'vue-router'
 
-// ==================== 列配置工廠函數 ====================
-const createUserColumns = (): TableColumn<User>[] =>
-  setActiveColumn([
-    {
-      prop: 'id',
-      label: 'ID',
-      width: 80,
-      align: 'center',
-      sortable: true,
-    },
-    {
-      prop: 'name',
-      label: '姓名',
-      width: 120,
-      align: 'left',
-      sortable: true,
-    },
-    {
-      prop: 'email',
-      label: '郵箱',
-      width: 200,
-      align: 'left',
-      sortable: true,
-    },
-    {
-      prop: 'age',
-      label: '年齡',
-      width: 80,
-      align: 'center',
-      sortable: true,
-    },
-    {
-      prop: 'department',
-      label: '部門',
-      width: 120,
-      align: 'center',
-      sortable: true,
-    },
-    {
-      prop: 'salary',
-      label: '薪資',
-      width: 120,
-      align: 'right',
-      sortable: true,
-      formatter: (row: User) => `$${row.salary.toLocaleString()}`,
-    },
-    {
-      prop: 'status',
-      label: '狀態',
-      width: 100,
-      align: 'center',
-      template: (row: User) => {
-        const statusConfig = DEMO_CONSTANTS.STATUS_CONFIG[row.status]
-        return h('div', { class: 'flex items-center justify-center' }, [
-          h('span', { class: statusConfig.class }, statusConfig.icon),
-          h('span', { class: 'ml-1 text-xs text-gray-500' }, statusConfig.text),
-        ])
-      },
-    },
-    {
-      prop: 'joinDate',
-      label: '入職日期',
-      width: 120,
-      align: 'center',
-      sortable: true,
-      formatter: (row: User) => new Date(row.joinDate).toLocaleDateString('zh-TW'),
-    },
-  ])
-
-// ==================== 響應式數據 ====================
-const state = reactive({
-  // 數據
-  userData: [...DEMO_USER_DATA] as User[],
-  userColumns: createUserColumns() as TableColumn<User>[],
-
-  // 加載狀態
-  sortTableLoading: false,
-
-  // 選擇狀態
-  selectedSortData: [] as User[],
-
-  // 對話框狀態
-  showDialog: false,
-  showConfirmDialog: false,
-  showTransferDialog: false,
-
-  // 搜尋狀態
-  searchKeyword: '',
-
-  // 篩選表單
-  filterForm: {
-    department: '',
-    status: '',
+// 示範頁面列表
+const demoPages = [
+  {
+    title: 'SearchableListPanel',
+    description: '整合式搜尋、篩選、分頁組件',
+    route: ROUTES.SEARCHABLE_LIST_PANEL,
+    features: [
+      '整合式設計：結合搜尋、篩選、分頁於一體',
+      '多個按鈕插槽：支持 firstButton、customButton、lastButton',
+      '篩選抽屜：可自定義篩選條件內容',
+      '分頁功能：內建分頁組件，支持頁面大小調整',
+      '徽章顯示：篩選條件數量徽章提示',
+      '響應式設計：適配不同螢幕尺寸',
+    ],
+    icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
   },
-})
-
-// 側邊導航狀態
-const sidebarCollapsed = ref(false)
-const activeSection = ref('transfer-dialog')
-
-// ==================== 計算屬性 ====================
-// 計算篩選表單中有值的欄位數量
-const filterCount = computed(() => {
-  return Object.values(state.filterForm).filter(
-    (value) => value !== '' && value !== null && value !== undefined,
-  ).length
-})
-
-// ==================== 事件處理函數 ====================
-// 處理錨點變更事件
-const handleAnchorChange = (link: string) => {
-  const sectionId = link.replace('#', '')
-  activeSection.value = sectionId
-}
-
-// 切換側邊欄
-const toggleSidebar = () => {
-  sidebarCollapsed.value = true
-}
-
-// 統一的日誌處理函數
-const createLogHandler =
-  <T,>(prefix: string) =>
-  (data: T) => {
-    console.log(`${prefix}:`, data)
-  }
-
-// 排序表格事件處理
-const handleSortTableSelectionChange = (selection: User[]) => {
-  state.selectedSortData = selection
-  console.log('選中的排序表格數據:', selection)
-}
-
-const handleSortTableCellClick = createLogHandler('點擊排序表格單元格')
-
-const handleSortTableSortChange = (value: SortChangValue<User>) => {
-  console.log('排序表格排序變更:', value)
-  // 實現實際的排序邏輯
-  const { prop, order } = value
-  if (prop && order) {
-    // 創建新的數組進行排序，避免直接修改原數據
-    const sortedData = [...state.userData].sort((a, b) => {
-      const aVal = a[prop]
-      const bVal = b[prop]
-
-      // 處理不同類型的值
-      if (typeof aVal === 'string' && typeof bVal === 'string') {
-        return order === 'ascending' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal)
-      }
-
-      if (typeof aVal === 'number' && typeof bVal === 'number') {
-        return order === 'ascending' ? aVal - bVal : bVal - aVal
-      }
-
-      // 處理字符串日期
-      if (typeof aVal === 'string' && typeof bVal === 'string') {
-        const aDate = new Date(aVal)
-        const bDate = new Date(bVal)
-        if (!isNaN(aDate.getTime()) && !isNaN(bDate.getTime())) {
-          return order === 'ascending'
-            ? aDate.getTime() - bDate.getTime()
-            : bDate.getTime() - aDate.getTime()
-        }
-      }
-
-      // 默認比較 - 使用類型安全的比較
-      const aStr = String(aVal)
-      const bStr = String(bVal)
-      if (aStr < bStr) return order === 'ascending' ? -1 : 1
-      if (aStr > bStr) return order === 'ascending' ? 1 : -1
-      return 0
-    })
-
-    state.userData = sortedData
-  }
-}
-
-// 搜尋相關事件處理
-const handleSearch = (keyword: string) => {
-  console.log('搜尋關鍵字:', keyword)
-  state.searchKeyword = keyword
-  // 這裡可以實現實際的搜尋邏輯
-}
-
-const handleSearchClear = () => {
-  console.log('清除搜尋')
-  state.searchKeyword = ''
-  // 這裡可以重置搜尋結果
-}
-
-const handleFilterReset = () => {
-  console.log('重置篩選')
-  state.filterForm = {
-    department: '',
-    status: '',
-  }
-  // 這裡可以重置篩選結果
-}
-
-// TransferDialog 相關處理
-const handleTransferSubmit = (columns: TableColumn<User>[]) => {
-  console.log('TransferDialog 提交的列配置:', columns)
-  // 更新用戶表格的列配置
-  state.userColumns.splice(0, state.userColumns.length, ...columns)
-  state.showTransferDialog = false
-}
-
-// 重置用戶表格列配置
-const resetUserColumns = () => {
-  state.userColumns.splice(0, state.userColumns.length, ...createUserColumns())
-}
-
-// 模擬加載
-const simulateLoading = () => {
-  state.sortTableLoading = true
-
-  setTimeout(() => {
-    state.sortTableLoading = false
-  }, DEMO_CONSTANTS.LOADING_DURATION)
+  {
+    title: 'BaseMultipleInput',
+    description: '多標籤輸入組件',
+    route: ROUTES.BASE_MULTIPLE_INPUT,
+    features: [
+      '多標籤輸入：支持添加多個標籤，每個標籤可單獨刪除',
+      '輸入驗證：支持自定義驗證規則函數',
+      '鍵盤操作：Enter 鍵確認輸入，Delete 鍵刪除最後一個標籤',
+      '防重複：自動過濾重複的標籤',
+      '失焦確認：輸入框失焦時自動確認輸入',
+      '響應式設計：使用 Tailwind CSS 樣式',
+      '類型安全：完整的 TypeScript 支持',
+    ],
+    icon: 'M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z',
+  },
+  {
+    title: 'TransferDialog',
+    description: '表格列配置對話框組件',
+    route: ROUTES.TRANSFER_DIALOG,
+    features: [
+      '拖拽排序：支持拖拽調整列順序',
+      '批量選擇：支持全選/取消全選列',
+      '搜尋過濾：支持按列名搜尋快速定位',
+      '位置調整：支持上移、下移、置頂、置底操作',
+      '即時預覽：配置變更即時反映到表格',
+      '狀態保持：記住列的顯示/隱藏狀態',
+    ],
+    icon: 'M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4',
+  },
+  {
+    title: 'BaseTable',
+    description: '基礎表格組件',
+    route: ROUTES.BASE_TABLE,
+    features: [
+      '數據展示：支持多種數據格式展示',
+      '列配置：可自定義列寬度和對齊方式',
+      '排序功能：支持單列和多列排序',
+      '分頁功能：內建分頁組件',
+      '選擇功能：支持單選和多選',
+      '響應式設計：適配不同螢幕尺寸',
+    ],
+    icon: 'M3 10h18M3 14h18m-9-4v8m-7 0V4a1 1 0 011-1h12a1 1 0 011 1v16a1 1 0 01-1 1H4a1 1 0 01-1-1z',
+  },
+  {
+    title: 'BaseBtn',
+    description: '基礎按鈕組件',
+    route: ROUTES.BASE_BTN,
+    features: [
+      '多種樣式：支持 primary、default、danger 等樣式',
+      '多種尺寸：支持 small、medium、large 尺寸',
+      '圖標支持：可添加前置和後置圖標',
+      '載入狀態：支持載入中狀態顯示',
+      '禁用狀態：支持禁用按鈕功能',
+      '路由跳轉：支持 Vue Router 跳轉',
+    ],
+    icon: 'M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122',
+  },
+  {
+    title: 'BaseInput',
+    description: '基礎輸入框組件',
+    route: ROUTES.BASE_INPUT,
+    features: [
+      '多種類型：支持 text、password、email 等類型',
+      '驗證功能：支持表單驗證和錯誤提示',
+      '前後綴：支持前置和後置內容',
+      '清除功能：支持一鍵清除輸入內容',
+      '禁用狀態：支持禁用輸入功能',
+      '只讀狀態：支持只讀模式',
+    ],
+    icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z',
+  },
+  {
+    title: 'FilterBtn',
+    description: '篩選按鈕組件',
+    route: ROUTES.FILTER_BTN,
+    features: [
+      '徽章顯示：顯示篩選條件數量',
+      '抽屜模式：支持篩選條件抽屜展示',
+      '多個插槽：支持 default、fill-filter、filter-icon 插槽',
+      '事件處理：支持重置和提交事件',
+      '自定義樣式：可自定義按鈕和抽屜樣式',
+      '響應式設計：適配不同螢幕尺寸',
+    ],
+    icon: 'M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z',
+  },
+  {
+    title: 'BaseDialog',
+    description: '基礎對話框組件',
+    route: ROUTES.BASE_DIALOG,
+    features: [
+      '多種尺寸：支持 small、medium、large 尺寸',
+      '自定義標題：支持自定義對話框標題',
+      '關閉功能：支持多種關閉方式',
+      '遮罩層：支持遮罩層點擊關閉',
+      '動畫效果：支持開啟和關閉動畫',
+      '插槽支持：支持 header、body、footer 插槽',
+    ],
+    icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z',
+  },
+  {
+    title: 'BaseForm',
+    description: '基礎表單組件',
+    route: ROUTES.BASE_FORM,
+    features: [
+      '表單驗證：支持多種驗證規則',
+      '動態表單：支持動態添加和刪除表單項',
+      '布局支持：支持多種表單布局方式',
+      '提交處理：支持表單提交和重置',
+      '錯誤提示：支持表單錯誤信息顯示',
+      '響應式設計：適配不同螢幕尺寸',
+    ],
+    icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+  },
+  {
+    title: 'SortTable',
+    description: '排序表格組件',
+    route: ROUTES.SORT_TABLE,
+    features: [
+      '多列排序：支持多列同時排序',
+      '排序指示：清晰的排序狀態指示',
+      '自定義排序：支持自定義排序邏輯',
+      '性能優化：大數據量下的性能優化',
+      '可配置：支持排序功能的開關配置',
+      '類型安全：完整的 TypeScript 支持',
+    ],
+    icon: 'M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4',
+  },
+  {
+    title: 'SearchBar',
+    description: '搜尋欄組件',
+    route: ROUTES.SEARCH_BAR,
+    features: [
+      '即時搜尋：支持輸入即時搜尋',
+      '搜尋建議：支持搜尋建議和自動完成',
+      '搜尋歷史：支持搜尋歷史記錄',
+      '快捷鍵：支持快捷鍵操作',
+      '自定義樣式：可自定義搜尋欄樣式',
+      '響應式設計：適配不同螢幕尺寸',
+    ],
+    icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z',
+  },
+  {
+    title: 'TransferItem',
+    description: '穿梭框項目組件',
+    route: ROUTES.TRANSFER_ITEM,
+    features: [
+      '拖拽支持：支持拖拽移動項目',
+      '選擇狀態：支持單選和多選',
+      '自定義內容：支持自定義項目內容',
+      '禁用狀態：支持禁用特定項目',
+      '過濾功能：支持項目過濾和搜尋',
+      '事件處理：支持選擇和移動事件',
+    ],
+    icon: 'M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4',
+  },
+  {
+    title: 'FunctionHeader',
+    description: '功能頁面標題組件',
+    route: ROUTES.FUNCTION_HEADER,
+    features: [
+      '標題顯示：支持頁面標題和副標題',
+      '麵包屑：支持麵包屑導航',
+      '操作按鈕：支持標題區域操作按鈕',
+      '自定義內容：支持自定義標題內容',
+      '響應式設計：適配不同螢幕尺寸',
+      '主題支持：支持多種主題樣式',
+    ],
+    icon: 'M4 6h16M4 10h16M4 14h16M4 18h16',
+  },
+  {
+    title: 'MainPanel',
+    description: '主要面板組件',
+    route: ROUTES.MAIN_PANEL,
+    features: [
+      '內容容器：提供統一的內容容器',
+      '邊距控制：支持自定義內外邊距',
+      '背景樣式：支持多種背景樣式',
+      '陰影效果：支持陰影和圓角效果',
+      '響應式布局：適配不同螢幕尺寸',
+      '插槽支持：支持多個內容插槽',
+    ],
+    icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+  },
+]
+const router = useRouter()
+const goDemoPage = (path: string) => {
+  router.push(path)
 }
 </script>
 
 <template>
-  <!-- Main Content -->
-  <MainPanel title="組件示範" :show-back="false">
-    <template #main>
-      <!-- TransferDialog 示範 -->
-      <section class="mb-12">
-        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-          <div class="px-8 py-6 border-b border-gray-100">
-            <h2 class="text-2xl font-semibold text-gray-900 mb-2">TransferDialog 示範</h2>
-            <p class="text-gray-600 text-base leading-relaxed">展示 TransferDialog 組件的表格列配置功能</p>
-          </div>
-          <div class="p-8">
-            <div class="flex items-center gap-3 mb-8">
-              <BaseBtn type="primary" @click="state.showTransferDialog = true" class="px-6 py-2.5">
-                配置用戶表格列
-              </BaseBtn>
-              <BaseBtn type="default" @click="resetUserColumns" class="px-6 py-2.5">
-                重置列配置
-              </BaseBtn>
-            </div>
+  <div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- 頁面標題 -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">組件示範中心</h1>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          探索我們精心設計的 Vue 3 組件庫，每個組件都經過精心設計和測試，提供完整的 TypeScript
+          支持和現代化的用戶體驗。
+        </p>
+      </div>
 
-            <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
-              <h4 class="text-lg font-medium text-blue-900 mb-4 flex items-center">
-                <svg class="w-5 h-5 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                </svg>
-                TransferDialog 功能特色
-              </h4>
-              <ul class="space-y-2 text-blue-800">
-                <li class="flex items-start">
-                  <span class="text-blue-600 mr-2 mt-0.5">•</span>
-                  <span><strong>拖拽排序：</strong>支持拖拽調整列順序</span>
-                </li>
-                <li class="flex items-start">
-                  <span class="text-blue-600 mr-2 mt-0.5">•</span>
-                  <span><strong>批量選擇：</strong>支持全選/取消全選列</span>
-                </li>
-                <li class="flex items-start">
-                  <span class="text-blue-600 mr-2 mt-0.5">•</span>
-                  <span><strong>搜尋過濾：</strong>支持按列名搜尋快速定位</span>
-                </li>
-                <li class="flex items-start">
-                  <span class="text-blue-600 mr-2 mt-0.5">•</span>
-                  <span><strong>位置調整：</strong>支持上移、下移、置頂、置底操作</span>
-                </li>
-                <li class="flex items-start">
-                  <span class="text-blue-600 mr-2 mt-0.5">•</span>
-                  <span><strong>即時預覽：</strong>配置變更即時反映到表格</span>
-                </li>
-                <li class="flex items-start">
-                  <span class="text-blue-600 mr-2 mt-0.5">•</span>
-                  <span><strong>狀態保持：</strong>記住列的顯示/隱藏狀態</span>
-                </li>
-              </ul>
-            </div>
-
-            <div class="bg-gray-50 rounded-lg p-6 mb-8">
-              <h4 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
-                <svg class="w-5 h-5 mr-2 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                </svg>
-                使用說明
-              </h4>
-              <ol class="space-y-2 text-gray-700">
-                <li class="flex items-start">
-                  <span class="bg-gray-200 text-gray-700 text-sm font-medium rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5">1</span>
-                  <span>點擊「配置用戶表格列」按鈕打開配置對話框</span>
-                </li>
-                <li class="flex items-start">
-                  <span class="bg-gray-200 text-gray-700 text-sm font-medium rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5">2</span>
-                  <span>使用搜尋框快速找到需要配置的列</span>
-                </li>
-                <li class="flex items-start">
-                  <span class="bg-gray-200 text-gray-700 text-sm font-medium rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5">3</span>
-                  <span>勾選/取消勾選來控制列的顯示/隱藏</span>
-                </li>
-                <li class="flex items-start">
-                  <span class="bg-gray-200 text-gray-700 text-sm font-medium rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5">4</span>
-                  <span><strong>拖拽列項目</strong>或使用方向按鈕調整列順序</span>
-                </li>
-                <li class="flex items-start">
-                  <span class="bg-gray-200 text-gray-700 text-sm font-medium rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5">5</span>
-                  <span>點擊「確定」保存配置，或點擊「重置列配置」恢復預設</span>
-                </li>
-              </ol>
-            </div>
-
-            <div class="bg-amber-50 border border-amber-200 rounded-lg p-6 mb-8">
-              <h5 class="text-base font-medium text-amber-900 mb-2 flex items-center">
-                <svg class="w-4 h-4 mr-2 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                </svg>
-                技術說明
-              </h5>
-              <p class="text-amber-800 text-sm leading-relaxed">
-                TransferDialog 組件已移除 draggable 依賴，通過 slot 機制讓外部使用者可以自定義列表容器。
-                本示範頁面使用 vuedraggable 實現拖拽功能，您也可以選擇不使用拖拽或使用其他拖拽庫。
-              </p>
-            </div>
-
-            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
-              <BaseTable
-                :data="state.userData"
-                :columns="state.userColumns.filter((item) => item.checkActive)"
-                :loading="state.sortTableLoading"
-                :show-selection="false"
-                :show-over-flow-tooltip="true"
-              />
-            </div>
-
-            <TransferDialog
-              v-model="state.showTransferDialog"
-              :columns-value="state.userColumns"
-              transfer-title="配置用戶表格列"
-              @update:submit="handleTransferSubmit"
-            >
-              <template
-                #list-container="{ columns, clickItemProp, handleItemEvents, handleMousedown }"
-              >
-                <draggable :list="columns" item-key="prop" delay="200">
-                  <template #item="{ element, index }">
-                    <transfer-item
-                      :dialog-modal-visible="state.showTransferDialog"
-                      :columns-value="element"
-                      :columns-index="index"
-                      :columns-len="columns.length"
-                      :class="{
-                        'transfer-active-bg': element.checkActive,
-                        'transfer-active-border': clickItemProp === element.prop,
-                      }"
-                      @mousedown="handleMousedown(element.prop)"
-                      @update:toTop="handleItemEvents.toTop(index)"
-                      @update:toBottom="handleItemEvents.toBottom(index)"
-                      @update:toPre="handleItemEvents.toPre(index)"
-                      @update:toNext="handleItemEvents.toNext(index)"
-                    />
-                  </template>
-                </draggable>
-              </template>
-            </TransferDialog>
-          </div>
-        </div>
-      </section>
-
-      <!-- 排序表格示範 -->
-      <section id="sort-table-demo" class="mb-12">
-        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-          <div class="px-8 py-6 border-b border-gray-100">
-            <div class="flex items-center justify-between mb-2">
-              <h2 class="text-2xl font-semibold text-gray-900">排序表格示範</h2>
-              <BaseBtn type="primary" @click="simulateLoading" class="px-6 py-2.5">
-                模擬加載
-              </BaseBtn>
-            </div>
-            <p class="text-gray-600 text-base leading-relaxed">
-              展示 SortTable 組件的排序功能
-              <span v-if="state.selectedSortData.length > 0" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 ml-2">
-                已選擇 {{ state.selectedSortData.length }} 項
-              </span>
-            </p>
-          </div>
-          <div class="p-8">
-            <SortTable
-              :data="state.userData"
-              :columns="state.userColumns"
-              :loading="state.sortTableLoading"
-              :show-selection="true"
-              :show-over-flow-tooltip="true"
-              @selection-change="handleSortTableSelectionChange"
-              @click:columnSort="handleSortTableSortChange"
-              @click:cell="handleSortTableCellClick"
-            />
-          </div>
-        </div>
-      </section>
-
-      <!-- 搜尋欄示範 -->
-      <section id="search-bar-demo" class="mb-12">
-        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-          <div class="px-8 py-6 border-b border-gray-100">
-            <h2 class="text-2xl font-semibold text-gray-900 mb-2">搜尋欄示範</h2>
-            <p class="text-gray-600 text-base leading-relaxed">展示 SearchBar 組件的搜尋和篩選功能</p>
-          </div>
-          <div class="p-8">
-            <div class="space-y-8">
-              <!-- 帶篩選的搜尋欄 -->
-              <div>
-                <h3 class="text-lg font-medium text-gray-900 mb-4">搜尋 + 篩選功能</h3>
-                <SearchBar
-                  :show-search="true"
-                  :show-filter="true"
-                  :badge-value="filterCount"
-                  @keydown:enter="handleSearch"
-                  @update:clear="handleSearchClear"
-                  @update:resetFilter="handleFilterReset"
+      <!-- 組件卡片網格 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <el-card
+          v-for="demo in demoPages"
+          :key="demo.title"
+          class="demo-card h-full flex flex-col"
+          shadow="hover"
+        >
+          <!-- 卡片頭部 -->
+          <template #header>
+            <div class="flex items-center">
+              <div class="flex-shrink-0">
+                <svg
+                  class="w-8 h-8 text-blue-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  <template #button>
-                    <BaseBtn type="primary" size="small" class="px-4 py-2 mr-2"> 新增</BaseBtn>
-                    <BaseBtn type="success" size="small" class="px-4 py-2"> 匯出</BaseBtn>
-                  </template>
-                  <template #filterBody>
-                    <BaseForm
-                      v-model="state.filterForm"
-                      class="space-y-4"
-                      label-width="60px"
-                    >
-                      <el-form-item label="部門">
-                        <el-select
-                          v-model="state.filterForm.department"
-                          placeholder="全部"
-                          clearable
-                          class="w-full"
-                        >
-                          <el-option
-                            v-for="option in DEPARTMENT_OPTIONS"
-                            :key="option.value"
-                            :label="option.label"
-                            :value="option.value"
-                          />
-                        </el-select>
-                      </el-form-item>
-                      <el-form-item label="狀態">
-                        <el-select v-model="state.filterForm.status" placeholder="全部" clearable class="w-full">
-                          <el-option
-                            v-for="option in STATUS_OPTIONS"
-                            :key="option.value"
-                            :label="option.label"
-                            :value="option.value"
-                          />
-                        </el-select>
-                      </el-form-item>
-                    </BaseForm>
-                  </template>
-                </SearchBar>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    :d="demo.icon"
+                  />
+                </svg>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-xl font-semibold text-gray-900">{{ demo.title }}</h3>
+                <p class="text-gray-600">{{ demo.description }}</p>
               </div>
             </div>
+          </template>
 
-            <div class="mt-8 bg-gray-50 rounded-lg p-6">
-              <h4 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
-                <svg class="w-5 h-5 mr-2 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+          <!-- 功能特色 -->
+          <div>
+            <h4 class="text-sm font-medium text-gray-900 mb-3">功能特色</h4>
+            <ul class="space-y-2">
+              <li
+                v-for="feature in demo.features.slice(0, 4)"
+                :key="feature"
+                class="flex items-start text-sm text-gray-600"
+              >
+                <svg
+                  class="w-4 h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"
+                  />
                 </svg>
-                功能說明
-              </h4>
-              <ul class="space-y-2 text-gray-700">
-                <li class="flex items-start">
-                  <span class="text-gray-600 mr-2 mt-0.5">•</span>
-                  <span>支持關鍵字搜尋（按 Enter 鍵觸發）</span>
-                </li>
-                <li class="flex items-start">
-                  <span class="text-gray-600 mr-2 mt-0.5">•</span>
-                  <span>支持清除搜尋內容</span>
-                </li>
-                <li class="flex items-start">
-                  <span class="text-gray-600 mr-2 mt-0.5">•</span>
-                  <span>可選的篩選功能（帶徽章顯示）</span>
-                </li>
-                <li class="flex items-start">
-                  <span class="text-gray-600 mr-2 mt-0.5">•</span>
-                  <span>自定義按鈕區域</span>
-                </li>
-                <li class="flex items-start">
-                  <span class="text-gray-600 mr-2 mt-0.5">•</span>
-                  <span>響應式設計，支持全寬模式</span>
-                </li>
-              </ul>
-            </div>
+                <span>{{ feature }}</span>
+              </li>
+              <li v-if="demo.features.length > 4" class="text-sm text-gray-500">
+                還有 {{ demo.features.length - 4 }} 個功能特色...
+              </li>
+            </ul>
+          </div>
+
+          <!-- 卡片底部 -->
+          <template #footer>
+            <BaseBtn type="primary" @click="goDemoPage(demo.route)" class="w-full justify-center">
+              查看示範
+              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </BaseBtn>
+          </template>
+        </el-card>
+      </div>
+
+      <!-- 快速開始 -->
+      <el-card class="mt-16" shadow="always">
+        <div class="text-center">
+          <h2 class="text-2xl font-bold text-gray-900 mb-4">快速開始</h2>
+          <p class="text-gray-600 mb-6">
+            想要在自己的專案中使用這些組件嗎？查看我們的安裝和使用指南。
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <BaseBtn type="primary" size="large" class="px-8 py-3"> 安裝指南 </BaseBtn>
+            <BaseBtn type="default" size="large" class="px-8 py-3"> 文檔中心 </BaseBtn>
           </div>
         </div>
-      </section>
+      </el-card>
 
-      <!-- 按鈕和對話框示範 -->
-      <section id="buttons-dialogs-demo" class="mb-12">
-        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-          <div class="px-8 py-6 border-b border-gray-100">
-            <h2 class="text-2xl font-semibold text-gray-900 mb-2">按鈕和對話框示範</h2>
-            <p class="text-gray-600 text-base leading-relaxed">展示 BaseBtn 和 BaseDialog 組件的使用</p>
+      <!-- 技術特色 -->
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <el-card class="text-center" shadow="hover">
+          <div
+            class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4"
+          >
+            <svg
+              class="w-8 h-8 text-blue-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+              />
+            </svg>
           </div>
-          <div class="p-8">
-            <div class="flex flex-wrap items-center gap-4">
-              <BaseBtn type="primary" @click="state.showDialog = true" class="px-6 py-2.5">
-                打開對話框
-              </BaseBtn>
-              <BaseBtn type="success" @click="state.showConfirmDialog = true" class="px-6 py-2.5">
-                確認對話框
-              </BaseBtn>
-              <BaseBtn type="warning" loading class="px-6 py-2.5">
-                加載中
-              </BaseBtn>
-              <BaseBtn type="danger" disabled class="px-6 py-2.5">
-                禁用按鈕
-              </BaseBtn>
-              <BaseBtn type="default" plain class="px-6 py-2.5">
-                樸素按鈕
-              </BaseBtn>
-              <BaseBtn type="primary" is-fill class="px-6 py-2.5">
-                填充按鈕
-              </BaseBtn>
-            </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">TypeScript 支持</h3>
+          <p class="text-gray-600">完整的類型定義，提供更好的開發體驗和代碼提示。</p>
+        </el-card>
+        <el-card class="text-center" shadow="hover">
+          <div
+            class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4"
+          >
+            <svg
+              class="w-8 h-8 text-green-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 10V3L4 14h7v7l9-11h-7z"
+              />
+            </svg>
           </div>
-        </div>
-      </section>
-    </template>
-  </MainPanel>
-
-  <!-- 對話框 -->
-  <BaseDialog v-model="state.showDialog" title="示範對話框" sub-title="這是一個示範對話框">
-    <div class="space-y-6">
-      <p class="text-gray-700 leading-relaxed">這是一個 BaseDialog 組件的示範，展示了對話框的基本功能。</p>
-      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h4 class="text-base font-medium text-blue-900 mb-3">功能特色：</h4>
-        <ul class="space-y-2 text-blue-800">
-          <li class="flex items-start">
-            <span class="text-blue-600 mr-2 mt-0.5">•</span>
-            <span>響應式寬度設計</span>
-          </li>
-          <li class="flex items-start">
-            <span class="text-blue-600 mr-2 mt-0.5">•</span>
-            <span>自定義標題和副標題</span>
-          </li>
-          <li class="flex items-start">
-            <span class="text-blue-600 mr-2 mt-0.5">•</span>
-            <span>加載狀態支持</span>
-          </li>
-          <li class="flex items-start">
-            <span class="text-blue-600 mr-2 mt-0.5">•</span>
-            <span>自定義按鈕</span>
-          </li>
-        </ul>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">高性能</h3>
+          <p class="text-gray-600">基於 Vue 3 Composition API，提供更好的性能和更小的包大小。</p>
+        </el-card>
+        <el-card class="text-center" shadow="hover">
+          <div
+            class="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4"
+          >
+            <svg
+              class="w-8 h-8 text-purple-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"
+              />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">響應式設計</h3>
+          <p class="text-gray-600">使用 Tailwind CSS，適配各種螢幕尺寸和設備。</p>
+        </el-card>
       </div>
     </div>
-  </BaseDialog>
-
-  <BaseDialog
-    v-model="state.showConfirmDialog"
-    title="確認操作"
-    is-waring
-    :submit-loading="false"
-    @click:submit="state.showConfirmDialog = false"
-  >
-    <p class="text-gray-700 leading-relaxed">您確定要執行此操作嗎？此操作無法撤銷。</p>
-  </BaseDialog>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.demo-card :deep(.el-card__body) {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+</style>
