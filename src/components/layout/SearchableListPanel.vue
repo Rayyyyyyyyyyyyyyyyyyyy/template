@@ -50,7 +50,7 @@ const changePageSize = (limit: number) => {
         :show-filter="showAllFeatures || showFilter"
         :show-search="showAllFeatures || showSearch"
         :badge-value="badgeValue"
-        :filterDrawerSize="filterDrawerSize"
+        :filter-drawer-size="filterDrawerSize"
         @keydown:enter="search"
         @update:clear="clearable"
       >

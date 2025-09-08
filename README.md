@@ -350,6 +350,116 @@ const handleCancel = () => {
 ```
 </details>
 
+### MainPanel - 主面板組件
+
+靈活的主面板組件，提供標題、返回按鈕和可自定義高度的滾動區域。
+
+<details>
+<summary>基本用法</summary>
+
+```vue
+<template>
+  <MainPanel 
+    title="用戶管理" 
+    :show-back="true"
+    max-height="calc(100vh-200px)"
+  >
+    <template #searchBar>
+      <SearchBar @search="handleSearch" />
+    </template>
+    
+    <template #main>
+      <BaseTable
+        :data="tableData"
+        :columns="columns"
+        :loading="loading"
+      />
+    </template>
+    
+    <template #footer>
+      <el-pagination
+        v-model:current-page="currentPage"
+        v-model:page-size="pageSize"
+        :total="total"
+        layout="total, sizes, prev, pager, next, jumper"
+      />
+    </template>
+  </MainPanel>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { MainPanel, SearchBar, BaseTable } from 'rayyy-vue-table-components'
+import type { TableColumn } from 'rayyy-vue-table-components'
+
+interface User {
+  id: number
+  name: string
+  email: string
+}
+
+const loading = ref(false)
+const currentPage = ref(1)
+const pageSize = ref(10)
+const total = ref(100)
+
+const tableData = ref<User[]>([
+  { id: 1, name: '張三', email: 'zhangsan@example.com' },
+  { id: 2, name: '李四', email: 'lisi@example.com' }
+])
+
+const columns: TableColumn<User>[] = [
+  { prop: 'id', label: 'ID', width: 80 },
+  { prop: 'name', label: '姓名' },
+  { prop: 'email', label: '郵箱' }
+]
+
+const handleSearch = (keyword: string) => {
+  console.log('搜尋關鍵字:', keyword)
+}
+</script>
+```
+</details>
+
+<details>
+<summary>自定義高度</summary>
+
+```vue
+<template>
+  <!-- 使用預設高度 -->
+  <MainPanel title="預設高度">
+    <template #main>
+      <div>內容區域</div>
+    </template>
+  </MainPanel>
+  
+  <!-- 自定義高度 -->
+  <MainPanel 
+    title="自定義高度" 
+    max-height="500px"
+  >
+    <template #main>
+      <div>固定高度 500px 的內容區域</div>
+    </template>
+  </MainPanel>
+  
+  <!-- 響應式高度 -->
+  <MainPanel 
+    title="響應式高度" 
+    max-height="calc(100vh-300px)"
+  >
+    <template #main>
+      <div>根據視窗高度動態調整的內容區域</div>
+    </template>
+  </MainPanel>
+</template>
+
+<script setup lang="ts">
+import { MainPanel } from 'rayyy-vue-table-components'
+</script>
+```
+</details>
+
 ### TransferDialog - 穿梭框對話框
 
 用於表格列配置的穿梭框組件，支援拖拽排序。
@@ -581,6 +691,35 @@ interface ListContainerSlotProps<T = any> {
   handleMousedown: (prop: string) => void
 }
 ```
+
+---
+
+### MainPanel
+
+主面板組件，提供標題、返回按鈕和可自定義高度的滾動區域。
+
+#### Props
+
+| 屬性 | 類型 | 默認值 | 說明 |
+|------|------|--------|------|
+| `title` | `string` | `''` | 面板標題 |
+| `showBack` | `boolean \| string \| object` | `false` | 是否顯示返回按鈕 |
+| `depth` | `number` | `1` | 返回深度 |
+| `maxHeight` | `string` | `'calc(100vh-120px)'` | 滾動區域最大高度 |
+
+#### Events
+
+| 事件名 | 參數 | 說明 |
+|--------|------|------|
+| `back` | `payload: { path?: string; [key: string]: unknown }` | 返回按鈕點擊時觸發 |
+
+#### Slots
+
+| 插槽名 | 參數 | 說明 |
+|--------|------|------|
+| `searchBar` | - | 搜尋欄區域 |
+| `main` | - | 主要內容區域 |
+| `footer` | - | 底部區域（如分頁器） |
 
 ---
 

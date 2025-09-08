@@ -471,6 +471,8 @@ export interface MainPanelProps {
   showBack?: boolean | string | object
   /** 返回深度 */
   depth?: number
+  /** 最大高度 */
+  maxHeight?: string
 }
 
 /** MainPanel 組件 Emits 類型 */
