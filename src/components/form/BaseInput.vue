@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, useAttrs } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 
 const props = defineProps<{
@@ -20,6 +20,9 @@ const emits = defineEmits<{
   (e: 'update:clearValue'): void
 }>()
 
+// 獲取所有非 props 屬性
+const attrs = useAttrs()
+
 const v = computed({
   get: () => props.modelValue,
   set: (val: string | number | null | undefined) => emits('update:modelValue', val),
@@ -31,6 +34,7 @@ const handlerClear = () => {
 
 <template>
   <el-input
+    v-bind="attrs"
     v-model="v"
     :placeholder="props.placeholder"
     :type="props.type"

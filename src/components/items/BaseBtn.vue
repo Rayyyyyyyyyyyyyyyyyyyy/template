@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, useAttrs } from 'vue'
 
 const props = defineProps<{
   text?: string
@@ -19,6 +19,9 @@ const emits = defineEmits<{
   (e: 'click', evt: MouseEvent): void
 }>()
 
+// 獲取所有非 props 屬性
+const attrs = useAttrs()
+
 const click = (evt: MouseEvent) => {
   emits('click', evt)
 }
@@ -33,6 +36,7 @@ const buttonClass = computed(() => {
 
 <template>
   <el-button
+    v-bind="attrs"
     :type="props.type"
     :size="props.size"
     :plain="props.plain"

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref, useAttrs } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { BaseBtn } from '@/components'
 import { Search, Filter } from '@element-plus/icons-vue'
@@ -9,6 +9,9 @@ const { width } = useWindowSize()
 defineProps<{
   badgeValue?: number
 }>()
+
+// 獲取所有非 props 屬性
+const attrs = useAttrs()
 
 const showDrawer = ref(false)
 
@@ -40,7 +43,7 @@ const submitFilter = () => {
 </script>
 
 <template>
-  <base-btn type="primary" class="filter-btn" @click="onClickBtn">
+  <base-btn v-bind="attrs" type="primary" class="filter-btn" @click="onClickBtn">
     <el-badge
       :value="badgeValue"
       class="!flex justify-center items-center"

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, useAttrs } from 'vue'
 import BaseInput from '../form/BaseInput.vue'
 import FilterBtn from './FilterBtn.vue'
 
@@ -16,6 +16,9 @@ const emits = defineEmits<{
   (e: 'update:resetFilter'): void
 }>()
 
+// 獲取所有非 props 屬性
+const attrs = useAttrs()
+
 const keyword = ref('')
 
 const doSearch = () => {
@@ -30,7 +33,7 @@ const resetFilter = () => {
 </script>
 
 <template>
-  <div class="search-bar">
+  <div v-bind="attrs" class="search-bar">
     <div class="search-bar-left">
       <slot name="button" />
     </div>

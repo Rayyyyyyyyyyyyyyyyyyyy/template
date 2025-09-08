@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
-import { computed, ref } from 'vue'
+import { computed, ref, useAttrs } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 
 type Props<T extends object = object> = {
@@ -9,6 +9,9 @@ type Props<T extends object = object> = {
   dataCy?: string
 }
 const props = withDefaults(defineProps<Props>(), {})
+
+// 獲取所有非 props 屬性
+const attrs = useAttrs()
 
 const computedLabelWidth = computed(() => {
   if (props.labelWidth) return props.labelWidth
@@ -47,6 +50,7 @@ defineExpose({
 
 <template>
   <el-form
+    v-bind="attrs"
     ref="formRef"
     :model="formData"
     :label-width="computedLabelWidth"

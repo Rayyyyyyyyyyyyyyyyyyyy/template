@@ -1,6 +1,6 @@
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, useAttrs } from 'vue'
 import type { ElInput } from 'element-plus'
 
 const inputValue = ref<string>('')
@@ -17,6 +17,9 @@ const props = withDefaults(
     validateRule: () => true,
   }
 )
+
+// 獲取所有非 props 屬性
+const attrs = useAttrs()
 
 const emits = defineEmits<{
   (e: 'update:modelValue', val: string[]): void
@@ -60,7 +63,7 @@ const deleteLastTag = () => {
 </script>
 
 <template>
-  <div class="w-full border border-t rounded" @click="focusInput" >
+  <div v-bind="attrs" class="w-full border border-t rounded" @click="focusInput" >
     <el-tag
       v-for="(tag, position) in props.modelValue"
       :key="tag"

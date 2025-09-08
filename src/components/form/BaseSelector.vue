@@ -1,5 +1,6 @@
 <template>
   <el-select
+    v-bind="attrs"
     :model-value="modelValue"
     :class="props.class"
     :placeholder="props.placeholder"
@@ -17,6 +18,7 @@
 </template>
 
 <script lang="ts" setup>
+import { useAttrs } from 'vue'
 import type { ElOptions } from '@/types/OptionDto.ts'
 
 export type Selection = string | string[]
@@ -41,6 +43,9 @@ const props = withDefaults(
     class: 'w-full',
   },
 )
+
+// 獲取所有非 props 屬性
+const attrs = useAttrs()
 
 const emits = defineEmits<{
   (e: 'update:modelValue', data?: Selection): void
