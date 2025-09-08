@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import { useRouter, useRoute } from 'vue-router'
 import { ArrowLeftBold } from '@element-plus/icons-vue'
-import { extractSubRoutes } from '@/utils/routeFormatters.ts'
 
 const props = defineProps({
   title: { type: String, required: false, default: '' },
@@ -13,21 +11,26 @@ const props = defineProps({
   depth: { type: Number, required: false, default: 1 },
 })
 
-const { push } = useRouter()
-const { path } = useRoute()
+const emit = defineEmits<{
+  back: [payload: { path?: string; [key: string]: unknown }]
+}>()
 
 const handleClick = () => {
-  const subdirectory = { path: extractSubRoutes(path, props.depth) }
+  const backPayload: { path?: string; [key: string]: unknown } = {}
+
   switch (typeof props.showBack) {
     case 'string':
-      push(props.showBack)
+      backPayload.path = props.showBack
       break
     case 'object':
-      push({ ...subdirectory, ...props.showBack })
+      Object.assign(backPayload, props.showBack)
       break
     default:
-      push(subdirectory)
+      // 當 showBack 為 true 時，發出預設的返回事件
+      backPayload.path = ''
   }
+
+  emit('back', backPayload)
 }
 </script>
 

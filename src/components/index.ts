@@ -25,6 +25,33 @@ export type {
   BaseDialogProps,
   BaseDialogEmits,
   BaseDialogInstance,
+  BaseInputProps,
+  BaseInputEmits,
+  BaseInputInstance,
+  FilterBtnProps,
+  FilterBtnEmits,
+  FilterBtnInstance,
+  BaseFormProps,
+  BaseFormEmits,
+  BaseFormInstance,
+  SortTableProps,
+  SortTableEmits,
+  SortTableInstance,
+  SearchBarProps,
+  SearchBarEmits,
+  SearchBarInstance,
+  TransferDialogProps,
+  TransferDialogEmits,
+  TransferDialogInstance,
+  TransferItemProps,
+  TransferItemEmits,
+  TransferItemInstance,
+  MainPanelProps,
+  MainPanelEmits,
+  MainPanelInstance,
+  FunctionHeaderProps,
+  FunctionHeaderEmits,
+  FunctionHeaderInstance,
   PluginOptions,
   VueTableComponentsPlugin,
 } from '../types/components'
@@ -35,9 +62,12 @@ export type { default as BaseBtnType } from './items/BaseBtn.vue'
 export type { default as BaseInputType } from './form/BaseInput.vue'
 export type { default as FilterBtnType } from './items/FilterBtn.vue'
 export type { default as BaseDialogType } from './items/BaseDialog.vue'
+export type { default as BaseFormType } from './form/BaseForm.vue'
 export type { default as SortTableType } from './tables/SortTable.vue'
 export type { default as SearchBarType } from './items/SearchBar.vue'
 export type { default as TransferDialogType } from './transfer/TransferDialog.vue'
 export type { default as TransferItemType } from './transfer/transferItem.vue'
 export type { default as SearchableListPanelType } from './layout/SearchableListPanel.vue'
 export type { default as BaseMultipleInputType } from './form/BaseMultipleInput.vue'
+export type { default as FunctionHeaderType } from './layout/FunctionHeader.vue'
+export type { default as MainPanelType } from './layout/MainPanel.vue'

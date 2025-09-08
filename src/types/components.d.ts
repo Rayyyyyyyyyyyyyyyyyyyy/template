@@ -2,6 +2,8 @@ import type { App, DefineComponent, VNode } from 'vue'
 import type { TableColumnCtx } from 'element-plus'
 import type { SortChangValue, TableColumn } from './index'
 
+// ==================== 表格相關組件類型 ====================
+
 // ==================== BaseTable 組件類型 ====================
 
 /** BaseTable 組件 Props 類型 */
@@ -47,6 +49,52 @@ export interface BaseTableInstance<T extends Record<string, unknown> = Record<st
   $emit: BaseTableEmits<T>
 }
 
+// ==================== SortTable 組件類型 ====================
+
+/** SortTable 組件 Props 類型 */
+export interface SortTableProps<T extends Record<string, unknown> = Record<string, unknown>> {
+  /** 表格數據 */
+  data: T[]
+  /** 表格列配置 */
+  columns: import('./index').TableColumn<T>[]
+  /** 表格標題 */
+  tableTitle?: string
+  /** 是否顯示選擇列 */
+  showSelection?: boolean
+  /** 是否顯示加載狀態 */
+  loading?: boolean
+  /** 是否顯示匯總行 */
+  showSummary?: boolean
+  /** 是否顯示溢出提示 */
+  showOverFlowTooltip?: boolean
+  /** 匯總方法 */
+  summaryMethod?: (param: { columns: import('element-plus').TableColumnCtx<Record<string, unknown>>[]; data: T[] }) => (string | import('vue').VNode)[]
+  /** 行樣式類名 */
+  sortTableRowClassName?: (data: { row: T; rowIndex: number }) => string
+}
+
+/** SortTable 組件 Emits 類型 */
+export interface SortTableEmits<T extends Record<string, unknown> = Record<string, unknown>> {
+  /** 打開轉移對話框事件 */
+  (e: 'open:transfer'): void
+  /** 更新選擇行事件 */
+  (e: 'update:selectRow', value: T[]): void
+  /** 單元格點擊事件 */
+  (e: 'click:cell', column: import('./index').TableColumn<T>, row: T): void
+  /** 列排序點擊事件 */
+  (e: 'click:columnSort', data: import('./index').SortChangValue<T>): void
+}
+
+/** SortTable 組件實例類型 */
+export interface SortTableInstance<T extends Record<string, unknown> = Record<string, unknown>> {
+  /** 組件 Props */
+  $props: SortTableProps<T>
+  /** 組件 Emits */
+  $emit: SortTableEmits<T>
+}
+
+// ==================== 按鈕相關組件類型 ====================
+
 // ==================== BaseBtn 組件類型 ====================
 
 /** BaseBtn 組件 Props 類型 */
@@ -91,6 +139,32 @@ export interface BaseBtnInstance {
   $emit: BaseBtnEmits
 }
 
+// ==================== FilterBtn 組件類型 ====================
+
+/** FilterBtn 組件 Props 類型 */
+export interface FilterBtnProps {
+  /** 徽章數值 */
+  badgeValue?: number
+}
+
+/** FilterBtn 組件 Emits 類型 */
+export interface FilterBtnEmits {
+  /** 重置事件 */
+  (e: 'update:reset'): void
+  /** 提交事件 */
+  (e: 'update:submit'): void
+}
+
+/** FilterBtn 組件實例類型 */
+export interface FilterBtnInstance {
+  /** 組件 Props */
+  $props: FilterBtnProps
+  /** 組件 Emits */
+  $emit: FilterBtnEmits
+}
+
+// ==================== 對話框相關組件類型 ====================
+
 // ==================== BaseDialog 組件類型 ====================
 
 /** BaseDialog 組件 Props 類型 */
@@ -129,6 +203,174 @@ export interface BaseDialogInstance {
   $props: BaseDialogProps
   /** 組件 Emits */
   $emit: BaseDialogEmits
+}
+
+// ==================== TransferDialog 組件類型 ====================
+
+/** TransferDialog 組件 Props 類型 */
+export interface TransferDialogProps<T = Record<string, unknown>> {
+  /** 是否顯示對話框 */
+  modelValue: boolean
+  /** 列配置值 */
+  columnsValue: import('./index').TableColumn<T>[]
+  /** 轉移對話框標題 */
+  transferTitle: string
+}
+
+/** TransferDialog 組件 Emits 類型 */
+export interface TransferDialogEmits<T = Record<string, unknown>> {
+  /** 更新 modelValue */
+  (e: 'update:modelValue', value: boolean): void
+  /** 提交事件 */
+  (e: 'update:submit', data: import('./index').TableColumn<T>[]): void
+}
+
+/** TransferDialog 組件實例類型 */
+export interface TransferDialogInstance<T = Record<string, unknown>> {
+  /** 組件 Props */
+  $props: TransferDialogProps<T>
+  /** 組件 Emits */
+  $emit: TransferDialogEmits<T>
+}
+
+// ==================== 表單相關組件類型 ====================
+
+// ==================== BaseInput 組件類型 ====================
+
+/** BaseInput 組件 Props 類型 */
+export interface BaseInputProps {
+  /** 模型值 */
+  modelValue?: string | number | null
+  /** 佔位符 */
+  placeholder?: string
+  /** 輸入框類型 */
+  type?: string
+  /** 自定義 CSS 類名 */
+  class?: string | { [key: string]: boolean }
+  /** 是否顯示密碼切換 */
+  showPassword?: boolean
+  /** 是否禁用 */
+  disabled?: boolean
+  /** 是否只讀 */
+  readonly?: boolean
+  /** 最大長度 */
+  maxlength?: string | number
+  /** 自動完成 */
+  autocomplete?: string
+  /** 測試屬性 */
+  dataCy?: string
+}
+
+/** BaseInput 組件 Emits 類型 */
+export interface BaseInputEmits {
+  /** 更新模型值事件 */
+  (e: 'update:modelValue', data: string | number | undefined | null): void
+  /** 清除值事件 */
+  (e: 'update:clearValue'): void
+}
+
+/** BaseInput 組件實例類型 */
+export interface BaseInputInstance {
+  /** 組件 Props */
+  $props: BaseInputProps
+  /** 組件 Emits */
+  $emit: BaseInputEmits
+}
+
+// ==================== BaseForm 組件類型 ====================
+
+/** BaseForm 組件 Props 類型 */
+export interface BaseFormProps<T extends object = object> {
+  /** 模型值 */
+  modelValue?: T
+  /** 表單驗證規則 */
+  rules?: import('element-plus').FormRules
+  /** 標籤寬度 */
+  labelWidth?: string
+  /** 測試屬性 */
+  dataCy?: string
+}
+
+/** BaseForm 組件 Emits 類型 */
+export interface BaseFormEmits {
+  /** 更新模型值事件 */
+  (e: 'update:modelValue', value: Record<string, unknown>): void
+  /** 提交事件 */
+  (e: 'submit'): void
+  /** 驗證事件 */
+  (e: 'validate', valid: boolean): void
+}
+
+/** BaseForm 組件實例類型 */
+export interface BaseFormInstance {
+  /** 組件 Props */
+  $props: BaseFormProps
+  /** 組件 Emits */
+  $emit: BaseFormEmits
+}
+
+// ==================== BaseMultipleInput 組件類型 ====================
+
+/** BaseMultipleInput 組件 Props 類型 */
+export interface BaseMultipleInputProps {
+  /** 模型值（字符串數組） */
+  modelValue: string[]
+  /** 輸入框類型 */
+  type?: string
+  /** 驗證規則函數 */
+  validateRule?: (inputString: string) => boolean
+  /** 測試屬性 */
+  dataCy?: string
+}
+
+/** BaseMultipleInput 組件 Emits 類型 */
+export interface BaseMultipleInputEmits {
+  /** 更新模型值事件 */
+  (e: 'update:modelValue', val: string[]): void
+  /** 輸入錯誤事件 */
+  (e: 'inputError'): void
+}
+
+/** BaseMultipleInput 組件實例類型 */
+export interface BaseMultipleInputInstance {
+  /** 組件 Props */
+  $props: BaseMultipleInputProps
+  /** 組件 Emits */
+  $emit: BaseMultipleInputEmits
+}
+
+// ==================== 搜尋相關組件類型 ====================
+
+// ==================== SearchBar 組件類型 ====================
+
+/** SearchBar 組件 Props 類型 */
+export interface SearchBarProps {
+  /** 是否顯示篩選功能 */
+  showFilter?: boolean
+  /** 是否顯示搜尋功能 */
+  showSearch?: boolean
+  /** 是否為完整輸入框 */
+  fullInput?: boolean
+  /** 徽章數值 */
+  badgeValue?: number
+}
+
+/** SearchBar 組件 Emits 類型 */
+export interface SearchBarEmits {
+  /** 按下 Enter 鍵事件 */
+  (e: 'keydown:enter', data: string): void
+  /** 清除事件 */
+  (e: 'update:clear'): void
+  /** 重置篩選事件 */
+  (e: 'update:resetFilter'): void
+}
+
+/** SearchBar 組件實例類型 */
+export interface SearchBarInstance {
+  /** 組件 Props */
+  $props: SearchBarProps
+  /** 組件 Emits */
+  $emit: SearchBarEmits
 }
 
 // ==================== SearchableListPanel 組件類型 ====================
@@ -187,34 +429,94 @@ export interface SearchableListPanelSlots {
   main: () => VNode[]
 }
 
-// ==================== BaseMultipleInput 組件類型 ====================
+// ==================== 佈局相關組件類型 ====================
 
-/** BaseMultipleInput 組件 Props 類型 */
-export interface BaseMultipleInputProps {
-  /** 模型值（字符串數組） */
-  modelValue: string[]
-  /** 輸入框類型 */
-  type?: string
-  /** 驗證規則函數 */
-  validateRule?: (inputString: string) => boolean
-  /** 測試屬性 */
-  dataCy?: string
+// ==================== FunctionHeader 組件類型 ====================
+
+/** FunctionHeader 組件 Props 類型 */
+export interface FunctionHeaderProps {
+  /** 標題 */
+  title?: string
+  /** 是否顯示返回按鈕 */
+  showBack?: boolean | string | object
+  /** 返回深度 */
+  depth?: number
 }
 
-/** BaseMultipleInput 組件 Emits 類型 */
-export interface BaseMultipleInputEmits {
-  /** 更新模型值事件 */
-  (e: 'update:modelValue', val: string[]): void
-  /** 輸入錯誤事件 */
-  (e: 'inputError'): void
+/** FunctionHeader 組件 Emits 類型 */
+export interface FunctionHeaderEmits {
+  /** 返回按鈕點擊事件 */
+  (e: 'back', payload: { path?: string; [key: string]: unknown }): void
 }
 
-/** BaseMultipleInput 組件實例類型 */
-export interface BaseMultipleInputInstance {
+/** FunctionHeader 組件實例類型 */
+export interface FunctionHeaderInstance {
   /** 組件 Props */
-  $props: BaseMultipleInputProps
+  $props: FunctionHeaderProps
   /** 組件 Emits */
-  $emit: BaseMultipleInputEmits
+  $emit: FunctionHeaderEmits
+}
+
+// ==================== MainPanel 組件類型 ====================
+
+/** MainPanel 組件 Props 類型 */
+export interface MainPanelProps {
+  /** 標題 */
+  title?: string
+  /** 是否顯示返回按鈕 */
+  showBack?: boolean | string | object
+  /** 返回深度 */
+  depth?: number
+}
+
+/** MainPanel 組件 Emits 類型 */
+export interface MainPanelEmits {
+  /** 返回按鈕點擊事件 */
+  (e: 'back', payload: { path?: string; [key: string]: unknown }): void
+}
+
+/** MainPanel 組件實例類型 */
+export interface MainPanelInstance {
+  /** 組件 Props */
+  $props: MainPanelProps
+  /** 組件 Emits */
+  $emit: MainPanelEmits
+}
+
+// ==================== 轉移相關組件類型 ====================
+
+// ==================== TransferItem 組件類型 ====================
+
+/** TransferItem 組件 Props 類型 */
+export interface TransferItemProps<T = Record<string, unknown>> {
+  /** 對話框模態可見性 */
+  dialogModalVisible: boolean
+  /** 列配置值 */
+  columnsValue: import('./index').TableColumn<T>
+  /** 列索引 */
+  columnsIndex: number
+  /** 列長度 */
+  columnsLen: number
+}
+
+/** TransferItem 組件 Emits 類型 */
+export interface TransferItemEmits {
+  /** 移到頂部事件 */
+  (e: 'update:toTop'): void
+  /** 移到上一個事件 */
+  (e: 'update:toPre'): void
+  /** 移到下一個事件 */
+  (e: 'update:toNext'): void
+  /** 移到底部事件 */
+  (e: 'update:toBottom'): void
+}
+
+/** TransferItem 組件實例類型 */
+export interface TransferItemInstance {
+  /** 組件 Props */
+  $props: TransferItemProps
+  /** 組件 Emits */
+  $emit: TransferItemEmits
 }
 
 // ==================== 組件定義類型 ====================
@@ -228,7 +530,24 @@ export declare const BaseTable: DefineComponent<
   {},
   {},
   {},
+  {},
   BaseTableEmits<any>
+> & {
+  /** 安裝方法 */
+  install: (app: App) => void
+}
+
+/** SortTable 組件定義 */
+export declare const SortTable: DefineComponent<
+  SortTableProps<any>,
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  SortTableEmits<any>
 > & {
   /** 安裝方法 */
   install: (app: App) => void
@@ -243,7 +562,24 @@ export declare const BaseBtn: DefineComponent<
   {},
   {},
   {},
+  {},
   BaseBtnEmits
+> & {
+  /** 安裝方法 */
+  install: (app: App) => void
+}
+
+/** FilterBtn 組件定義 */
+export declare const FilterBtn: DefineComponent<
+  FilterBtnProps,
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  FilterBtnEmits
 > & {
   /** 安裝方法 */
   install: (app: App) => void
@@ -258,22 +594,56 @@ export declare const BaseDialog: DefineComponent<
   {},
   {},
   {},
+  {},
   BaseDialogEmits
 > & {
   /** 安裝方法 */
   install: (app: App) => void
 }
 
-/** SearchableListPanel 組件定義 */
-export declare const SearchableListPanel: DefineComponent<
-  SearchableListPanelProps,
+/** TransferDialog 組件定義 */
+export declare const TransferDialog: DefineComponent<
+  TransferDialogProps<any>,
   {},
   {},
   {},
   {},
   {},
-  SearchableListPanelSlots,
-  SearchableListPanelEmits
+  {},
+  {},
+  TransferDialogEmits<any>
+> & {
+  /** 安裝方法 */
+  install: (app: App) => void
+}
+
+/** BaseInput 組件定義 */
+export declare const BaseInput: DefineComponent<
+  BaseInputProps,
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  BaseInputEmits
+> & {
+  /** 安裝方法 */
+  install: (app: App) => void
+}
+
+/** BaseForm 組件定義 */
+export declare const BaseForm: DefineComponent<
+  BaseFormProps,
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  BaseFormEmits
 > & {
   /** 安裝方法 */
   install: (app: App) => void
@@ -288,7 +658,88 @@ export declare const BaseMultipleInput: DefineComponent<
   {},
   {},
   {},
+  {},
   BaseMultipleInputEmits
+> & {
+  /** 安裝方法 */
+  install: (app: App) => void
+}
+
+/** SearchBar 組件定義 */
+export declare const SearchBar: DefineComponent<
+  SearchBarProps,
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  SearchBarEmits
+> & {
+  /** 安裝方法 */
+  install: (app: App) => void
+}
+
+/** SearchableListPanel 組件定義 */
+export declare const SearchableListPanel: DefineComponent<
+  SearchableListPanelProps,
+  {},
+  {},
+  {},
+  {},
+  {},
+  SearchableListPanelSlots,
+  {},
+  SearchableListPanelEmits
+> & {
+  /** 安裝方法 */
+  install: (app: App) => void
+}
+
+/** FunctionHeader 組件定義 */
+export declare const FunctionHeader: DefineComponent<
+  FunctionHeaderProps,
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  FunctionHeaderEmits
+> & {
+  /** 安裝方法 */
+  install: (app: App) => void
+}
+
+/** MainPanel 組件定義 */
+export declare const MainPanel: DefineComponent<
+  MainPanelProps,
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  MainPanelEmits
+> & {
+  /** 安裝方法 */
+  install: (app: App) => void
+}
+
+/** TransferItem 組件定義 */
+export declare const TransferItem: DefineComponent<
+  TransferItemProps<any>,
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  TransferItemEmits
 > & {
   /** 安裝方法 */
   install: (app: App) => void
@@ -310,14 +761,32 @@ export interface VueTableComponentsPlugin {
   install: (app: App, options?: PluginOptions) => void
   /** BaseTable 組件 */
   BaseTable: typeof BaseTable
+  /** SortTable 組件 */
+  SortTable: typeof SortTable
   /** BaseBtn 組件 */
   BaseBtn: typeof BaseBtn
+  /** FilterBtn 組件 */
+  FilterBtn: typeof FilterBtn
   /** BaseDialog 組件 */
   BaseDialog: typeof BaseDialog
-  /** SearchableListPanel 組件 */
-  SearchableListPanel: typeof SearchableListPanel
+  /** TransferDialog 組件 */
+  TransferDialog: typeof TransferDialog
+  /** BaseInput 組件 */
+  BaseInput: typeof BaseInput
+  /** BaseForm 組件 */
+  BaseForm: typeof BaseForm
   /** BaseMultipleInput 組件 */
   BaseMultipleInput: typeof BaseMultipleInput
+  /** SearchBar 組件 */
+  SearchBar: typeof SearchBar
+  /** SearchableListPanel 組件 */
+  SearchableListPanel: typeof SearchableListPanel
+  /** FunctionHeader 組件 */
+  FunctionHeader: typeof FunctionHeader
+  /** MainPanel 組件 */
+  MainPanel: typeof MainPanel
+  /** TransferItem 組件 */
+  TransferItem: typeof TransferItem
 }
 
 // ==================== 全局類型擴展 ====================
@@ -325,10 +794,18 @@ export interface VueTableComponentsPlugin {
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BaseTable: typeof BaseTable
+    SortTable: typeof SortTable
     BaseBtn: typeof BaseBtn
-    BaseDialog: typeof BaseDialog
     FilterBtn: typeof FilterBtn
-    SearchableListPanel: typeof SearchableListPanel
+    BaseDialog: typeof BaseDialog
+    TransferDialog: typeof TransferDialog
+    BaseInput: typeof BaseInput
+    BaseForm: typeof BaseForm
     BaseMultipleInput: typeof BaseMultipleInput
+    SearchBar: typeof SearchBar
+    SearchableListPanel: typeof SearchableListPanel
+    FunctionHeader: typeof FunctionHeader
+    MainPanel: typeof MainPanel
+    TransferItem: typeof TransferItem
   }
 }

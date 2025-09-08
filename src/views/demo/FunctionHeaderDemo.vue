@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { FunctionHeader, BaseBtn } from '@/components'
+
+const router = useRouter()
 
 // 麵包屑數據
 const breadcrumbs = ref([
@@ -8,6 +11,16 @@ const breadcrumbs = ref([
   { label: '用戶管理', path: '/users' },
   { label: '編輯用戶', path: '/users/edit' }
 ])
+
+// 處理返回按鈕點擊事件
+const handleBack = (payload: { path?: string; [key: string]: unknown }) => {
+  if (payload.path) {
+    router.push(payload.path)
+  } else {
+    // 預設返回上一頁
+    router.go(-1)
+  }
+}
 </script>
 
 <template>
@@ -23,6 +36,42 @@ const breadcrumbs = ref([
         <FunctionHeader
           title="用戶管理"
           subtitle="管理系統用戶信息"
+        />
+      </el-card>
+
+      <!-- 帶返回按鈕的標題 -->
+      <el-card class="mb-8" shadow="always">
+        <template #header>
+          <h2 class="text-xl font-semibold">帶返回按鈕的標題</h2>
+        </template>
+        <FunctionHeader
+          title="編輯用戶"
+          :show-back="true"
+          @back="handleBack"
+        />
+      </el-card>
+
+      <!-- 帶自定義返回路徑的標題 -->
+      <el-card class="mb-8" shadow="always">
+        <template #header>
+          <h2 class="text-xl font-semibold">帶自定義返回路徑的標題</h2>
+        </template>
+        <FunctionHeader
+          title="產品詳情"
+          :show-back="'/products'"
+          @back="handleBack"
+        />
+      </el-card>
+
+      <!-- 帶自定義返回對象的標題 -->
+      <el-card class="mb-8" shadow="always">
+        <template #header>
+          <h2 class="text-xl font-semibold">帶自定義返回對象的標題</h2>
+        </template>
+        <FunctionHeader
+          title="訂單管理"
+          :show-back="{ path: '/orders', query: { status: 'pending' } }"
+          @back="handleBack"
         />
       </el-card>
 
