@@ -53,10 +53,15 @@ const components: any[] = [
 
 // Vue 插件安裝函數
 export function install(app: App, options?: { locale?: any; autoImportStyles?: boolean; prefix?: string }) {
-  // 安裝 Element Plus 並設定語系
-  app.use(ElementPlus, {
-    locale: options?.locale || zhTw,
-  })
+  // 檢查是否已經安裝了 Element Plus
+  const elementPlusInstalled = app._context?.provides?.['__ELEMENT_PLUS__'] !== undefined
+
+  // 只有在沒有安裝 Element Plus 時才安裝
+  if (!elementPlusInstalled) {
+    app.use(ElementPlus, {
+      locale: options?.locale || zhTw,
+    })
+  }
 
   // 批量註冊組件
   components.forEach((component) => {

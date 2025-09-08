@@ -54,8 +54,10 @@ import App from './App.vue'
 
 const app = createApp(App)
 
-// 方式一：分別安裝（推薦）
-app.use(ElementPlus)
+// 方式一：分別安裝（推薦，完全控制語系）
+app.use(ElementPlus, {
+  locale: zhTw  // 設定繁體中文
+})
 app.use(VueTableComponents)
 
 // 方式二：使用組件庫內建的 Element Plus（自動設定繁體中文）
