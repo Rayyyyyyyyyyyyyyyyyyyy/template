@@ -102,11 +102,7 @@
     @apply cursor-pointer text-primary-dark text-xl flex items-center justify-center;
   }
 
-  // FilterBtn
-  .filter-btn {
-    @apply text-sky-500;
-  }
-
+  // FilterBtn 文字和圖標樣式
   .filter-btn-text {
     @apply text-primary-80 ml-2 text-base font-bold;
   }
@@ -136,5 +132,4 @@
   .transfer-arrow-wrapper {
     @apply w-28 text-primary-10;
   }
-
 }

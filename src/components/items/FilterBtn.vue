@@ -55,7 +55,7 @@ const submitFilter = () => {
       </el-icon>
     </slot>
   </base-btn>
-  <el-drawer v-model="showDrawer" append-to-body :size="drawerSize">
+  <el-drawer v-model="showDrawer" append-to-body>
     <template #header>
       <div class="flex justify-center text-base text-black font-semibold">
         <span>查詢條件</span>

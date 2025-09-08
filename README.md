@@ -170,14 +170,12 @@ import 'rayyy-vue-table-components/styles'
 
 ### TypeScript 樣式工具
 
-```typescript
-import { tableStyles, createTableCellClass } from 'rayyy-vue-table-components/utils/styles'
-
-// 動態生成樣式類
-const cellClass = createTableCellClass({ 
-  isDismissed: true, 
-  isHeader: false 
-})
+```vue
+<template>
+  <!-- 直接使用預定義的樣式類別 -->
+  <div class="table-cell bg-blue-20">被駁回的單元格</div>
+  <div class="table-header">標題行</div>
+</template>
 ```
 
 ## 📚 組件示例
@@ -836,66 +834,17 @@ import 'rayyy-vue-table-components/styles'
 @import 'rayyy-vue-table-components/styles/element';
 ```
 
-### TypeScript 樣式工具
+### 樣式類別
 
-提供類型安全的樣式工具函數：
+組件庫提供預定義的 CSS 類別，您可以直接在組件中使用：
 
-#### 預定義樣式
-
-```typescript
-import { STYLE_CLASSES } from 'rayyy-vue-table-components/utils/styles'
-
-// 表格樣式常量
-const styles = {
-  cell: STYLE_CLASSES.tableCell,           // 'table-cell'
-  header: STYLE_CLASSES.tableHeader,       // 'table-header'
-  content: STYLE_CLASSES.tableCellContent, // 'table-cell-content'
-  dismissed: STYLE_CLASSES.dismissedRow,   // 'dismissed-row'
-  footer: STYLE_CLASSES.tableFooter,       // 'table-footer'
-  blueText: STYLE_CLASSES.blueText,        // 'blue-text'
-  redText: STYLE_CLASSES.redText,          // 'red-text'
-}
-
-// 組件樣式常量
-const componentClasses = {
-  sortTableContainer: STYLE_CLASSES.sortTableContainer,
-  filterBtn: STYLE_CLASSES.filterBtn,
-  transferActiveBg: STYLE_CLASSES.transferActiveBg,
-  baseDialogTitle: STYLE_CLASSES.baseDialogTitle,
-  cursorGrab: STYLE_CLASSES.cursorGrab,
-}
-```
-
-#### 動態樣式生成器
-
-```typescript
-import { createTableCellClass, createTextClass } from 'rayyy-vue-table-components/utils/styles'
-
-// 動態生成表格單元格樣式
-const cellClass = createTableCellClass({
-  isDismissed: true,  // 是否被駁回
-  isHeader: false     // 是否為標題行
-})
-// 輸出: 'p-0 h-10 bg-blue-20'
-
-// 動態生成文字顏色樣式
-const textClass = createTextClass('blue') // 'blue' | 'red' | 'normal'
-// 輸出: 'text-blue-10'
-```
-
-#### Element Plus 表格配置
-
-```typescript
-import { STYLE_CLASSES } from 'rayyy-vue-table-components/utils/styles'
-
-// 在 Element Plus 原生表格中使用
-<el-table 
-  :cell-class-name="STYLE_CLASSES.tableCell"
-  :header-cell-class-name="STYLE_CLASSES.tableHeader"
-  :data="tableData"
->
-  <el-table-column prop="name" label="姓名" />
-</el-table>
+```vue
+<template>
+  <!-- 使用預定義的樣式類別 -->
+  <div class="filter-btn">篩選按鈕</div>
+  <div class="transfer-active-bg">轉移項目</div>
+  <div class="table-cell">表格單元格</div>
+</template>
 ```
 
 ### 自定義主題
