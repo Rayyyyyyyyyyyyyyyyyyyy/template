@@ -1,4 +1,6 @@
 import type { App } from 'vue'
+import ElementPlus from 'element-plus'
+import zhTw from 'element-plus/es/locale/lang/zh-tw'
 import BaseTable from './components/tables/BaseTable.vue'
 import BaseBtn from './components/items/BaseBtn.vue'
 import BaseInput from './components/form/BaseInput.vue'
@@ -50,7 +52,12 @@ const components: any[] = [
 ]
 
 // Vue 插件安裝函數
-export function install(app: App) {
+export function install(app: App, options?: { locale?: any; autoImportStyles?: boolean; prefix?: string }) {
+  // 安裝 Element Plus 並設定語系
+  app.use(ElementPlus, {
+    locale: options?.locale || zhTw,
+  })
+
   // 批量註冊組件
   components.forEach((component) => {
     app.component(component.name || 'VueTableComponent', component)
