@@ -17,7 +17,7 @@ const props = withDefaults(
     pageDefaultHeight?: string
   }>(),
   {
-    pageDefaultHeight: 'calc(100vh-120px)',
+    pageDefaultHeight: '800px',
     filterDrawerSize: '50%',
   },
 )

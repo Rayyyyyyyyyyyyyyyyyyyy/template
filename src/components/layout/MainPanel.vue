@@ -12,7 +12,7 @@ const props = withDefaults(
     title: '',
     showBack: false,
     depth: 1,
-    maxHeight: 'calc(100vh-120px)',
+    maxHeight: '800px',
   },
 )
 </script>
@@ -20,7 +20,7 @@ const props = withDefaults(
 <template>
   <function-header :title="props.title" :showBack="props.showBack" :depth="props.depth" />
 
-  <el-scrollbar :class="`max-h-[${props.maxHeight}] max-w-screen overflow-auto`">
+  <el-scrollbar :max-height="maxHeight" class="max-w-screen-xl overflow-auto">
     <div v-if="$slots.searchBar" class="px-4 pt-1.5">
       <slot name="searchBar" />
     </div>
