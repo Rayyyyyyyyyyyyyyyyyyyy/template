@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { toRefs } from 'vue'
+import { toRefs, computed } from 'vue'
 import type { Pager } from '@/types'
 import { MainPanel, SearchBar } from '@/components'
 
@@ -22,6 +22,9 @@ const emits = defineEmits<{
   (e: 'updatePageSize', limit: number): boolean
 }>()
 
+const showAllFeatures = computed(() => {
+  return props.showDefaultSearch || (props.showSearch && props.showEdit && props.showFilter)
+})
 const search = (keyword: string) => {
   emits('search', keyword)
 }
@@ -43,15 +46,15 @@ const changePageSize = (limit: number) => {
   <main-panel :title="props.title" :show-back="showBack">
     <template #searchBar>
       <search-bar
-        :show-filter="showFilter"
-        :show-search="showSearch"
+        :show-filter="showAllFeatures || showFilter"
+        :show-search="showAllFeatures || showSearch"
         :badge-value="badgeValue"
         @keydown:enter="search"
         @update:clear="clearable"
       >
         <template #button>
           <slot name="firstButton"></slot>
-          <slot name="customButton"> </slot>
+          <slot name="customButton" v-if="showAllFeatures || showEdit"> </slot>
           <slot name="lastButton"></slot>
         </template>
         <template #filterBody>

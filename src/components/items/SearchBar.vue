@@ -6,7 +6,6 @@ import FilterBtn from './FilterBtn.vue'
 defineProps<{
   showFilter?: boolean
   showSearch?: boolean
-  fullInput?: boolean
   badgeValue?: number
 }>()
 
@@ -39,7 +38,7 @@ const resetFilter = () => {
     </div>
 
     <div class="flex items-center justify-end">
-      <div v-if="showSearch" :class="{ 'w-full': fullInput, 'search-input': !fullInput }">
+      <div v-if="showSearch" class="search-input">
         <base-input
           v-model="keyword"
           placeholder="請輸入關鍵字搜尋列表"
