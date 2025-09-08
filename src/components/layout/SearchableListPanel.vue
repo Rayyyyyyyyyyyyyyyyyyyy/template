@@ -12,6 +12,7 @@ const props = defineProps<{
   showFilter?: boolean
   showDefaultSearch?: boolean
   badgeValue?: number
+  filterDrawerSize?: string
 }>()
 
 const { pagination } = toRefs(props)
@@ -49,6 +50,7 @@ const changePageSize = (limit: number) => {
         :show-filter="showAllFeatures || showFilter"
         :show-search="showAllFeatures || showSearch"
         :badge-value="badgeValue"
+        :filterDrawerSize="filterDrawerSize"
         @keydown:enter="search"
         @update:clear="clearable"
       >

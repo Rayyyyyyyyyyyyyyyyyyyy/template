@@ -145,6 +145,8 @@ export interface BaseBtnInstance {
 export interface FilterBtnProps {
   /** 徽章數值 */
   badgeValue?: number
+  /** 抽屜大小 */
+  drawerSize?: string
 }
 
 /** FilterBtn 組件 Emits 類型 */
@@ -349,10 +351,10 @@ export interface SearchBarProps {
   showFilter?: boolean
   /** 是否顯示搜尋功能 */
   showSearch?: boolean
-  /** 是否為完整輸入框 */
-  fullInput?: boolean
   /** 徽章數值 */
   badgeValue?: number
+  /** 篩選抽屜大小 */
+  filterDrawerSize?: string
 }
 
 /** SearchBar 組件 Emits 類型 */
@@ -395,6 +397,8 @@ export interface SearchableListPanelProps {
   dataCy?: string
   /** 徽章數值 */
   badgeValue?: number
+  /** 篩選抽屜大小 */
+  filterDrawerSize?: string
 }
 
 /** SearchableListPanel 組件 Emits 類型 */

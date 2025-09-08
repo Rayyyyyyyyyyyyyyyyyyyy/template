@@ -7,6 +7,7 @@ defineProps<{
   showFilter?: boolean
   showSearch?: boolean
   badgeValue?: number
+  filterDrawerSize?: string
 }>()
 
 const emits = defineEmits<{
@@ -49,7 +50,11 @@ const resetFilter = () => {
       </div>
 
       <div class="filter-customer" v-if="showFilter">
-        <filter-btn :badge-value="badgeValue" @update:reset="resetFilter">
+        <filter-btn
+          :badge-value="badgeValue"
+          @update:reset="resetFilter"
+          :drawer-size="filterDrawerSize"
+        >
           <slot name="filterBody" />
         </filter-btn>
       </div>

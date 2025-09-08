@@ -1,13 +1,11 @@
 <script lang="ts" setup>
 import { computed, ref, useAttrs } from 'vue'
-import { useWindowSize } from '@vueuse/core'
 import { BaseBtn } from '@/components'
 import { Search, Filter } from '@element-plus/icons-vue'
 
-const { width } = useWindowSize()
-
-defineProps<{
+const props = defineProps<{
   badgeValue?: number
+  drawerSize?: string
 }>()
 
 // 獲取所有非 props 屬性
@@ -28,10 +26,8 @@ const resetValue = () => {
   emit('update:reset')
 }
 const computedDrawerSize = computed(() => {
-  if (width.value > 1200) {
-    return '30%'
-  } else if (width.value < 500) {
-    return '100%'
+  if (props.drawerSize) {
+    return props.drawerSize
   } else {
     return '50%'
   }
