@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref, useAttrs } from 'vue'
+import { ref, useAttrs } from 'vue'
 import { BaseBtn } from '@/components'
 import { Search, Filter } from '@element-plus/icons-vue'
 
@@ -25,14 +25,6 @@ const emit = defineEmits<{
 const resetValue = () => {
   emit('update:reset')
 }
-const computedDrawerSize = computed(() => {
-  if (props.drawerSize) {
-    return props.drawerSize
-  } else {
-    return '50%'
-  }
-})
-
 const submitFilter = () => {
   showDrawer.value = false
 }
@@ -58,7 +50,7 @@ const submitFilter = () => {
       </el-icon>
     </slot>
   </base-btn>
-  <el-drawer v-model="showDrawer" append-to-body :size="computedDrawerSize">
+  <el-drawer v-model="showDrawer" append-to-body :size="drawerSize">
     <template #header>
       <div class="flex justify-center text-base text-black font-semibold">
         <span>查詢條件</span>

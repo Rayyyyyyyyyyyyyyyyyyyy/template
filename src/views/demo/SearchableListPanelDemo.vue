@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import { reactive, computed, ref } from 'vue'
-import {
-  BaseTable,
-  BaseBtn,
-  BaseForm,
-  SearchableListPanel,
-} from '@/components'
+import { BaseTable, BaseBtn, BaseForm, SearchableListPanel } from '@/components'
 import type { TableColumn } from '@/types'
 import { setActiveColumn } from '@/utils/tableHelper'
 import { h } from 'vue'
@@ -16,6 +11,7 @@ import {
   STATUS_OPTIONS,
   type User,
 } from '@/const/tableConst'
+import { useWindowSize } from '@vueuse/core'
 
 // ==================== 列配置工廠函數 ====================
 const createUserColumns = (): TableColumn<User>[] =>
@@ -144,6 +140,17 @@ const simulateLoading = () => {
     state.sortTableLoading = false
   }, DEMO_CONSTANTS.LOADING_DURATION)
 }
+const { width } = useWindowSize()
+
+const computedDrawerSize = computed(() => {
+  if (width.value > 1200) {
+    return '30%'
+  } else if (width.value < 500) {
+    return '100%'
+  } else {
+    return '50%'
+  }
+})
 </script>
 
 <template>
@@ -164,6 +171,7 @@ const simulateLoading = () => {
           :show-search="true"
           :show-filter="true"
           :badge-value="filterCount"
+          :filter-drawer-size="computedDrawerSize"
           @search="handleSearchableListSearch"
           @update-page="handleSearchableListPageChange"
           @update-page-size="handleSearchableListPageSizeChange"

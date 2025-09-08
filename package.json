@@ -12,7 +12,6 @@
       "import": "./dist/index.es.js",
       "require": "./dist/index.umd.js"
     },
-    "./dist/rayyy-vue-table-components.css": "./dist/rayyy-vue-table-components.css",
     "./tailwind-preset": "./tailwind-preset.js",
     "./types": {
       "types": "./src/types/index.ts",
