@@ -20,7 +20,7 @@ const props = withDefaults(
 <template>
   <function-header :title="props.title" :showBack="props.showBack" :depth="props.depth" />
 
-  <el-scrollbar :max-height="maxHeight" class="w-screen overflow-auto">
+  <el-scrollbar class="panel-scrollbar">
     <div v-if="$slots.searchBar" class="px-4 pt-1.5">
       <slot name="searchBar" />
     </div>
@@ -35,3 +35,11 @@ const props = withDefaults(
     <slot name="footer" />
   </div>
 </template>
+
+<style scoped>
+.panel-scrollbar {
+  max-height: calc(100vh - 160px);
+  max-width: 100vw;
+  @apply overflow-auto;
+}
+</style>
