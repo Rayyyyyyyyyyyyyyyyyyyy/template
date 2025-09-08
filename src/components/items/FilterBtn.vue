@@ -3,10 +3,15 @@ import { ref, useAttrs } from 'vue'
 import { BaseBtn } from '@/components'
 import { Search, Filter } from '@element-plus/icons-vue'
 
-const props = defineProps<{
-  badgeValue?: number
-  drawerSize?: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    badgeValue?: number
+    drawerSize?: string
+  }>(),
+  {
+    drawerSize: '50%',
+  },
+)
 
 // 獲取所有非 props 屬性
 const attrs = useAttrs()

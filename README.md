@@ -54,42 +54,41 @@ import App from './App.vue'
 
 const app = createApp(App)
 
-// 方式一：分別安裝（推薦，完全控制語系）
+// 安裝 Element Plus（可自定義語系）
 app.use(ElementPlus, {
   locale: zhTw  // 設定繁體中文
 })
-app.use(VueTableComponents)
 
-// 方式二：使用組件庫內建的 Element Plus（自動設定繁體中文）
-// app.use(VueTableComponents, {
-//   locale: zhTw // 可選，預設為繁體中文
-// })
+// 安裝組件庫
+app.use(VueTableComponents)
 
 app.mount('#app')
 ```
 
 ### 語系設定
 
-組件庫內建繁體中文語系，您也可以自定義語系：
+組件庫依賴 Element Plus，請在安裝 Element Plus 時設定語系：
 
 ```typescript
 import { createApp } from 'vue'
+import ElementPlus from 'element-plus'
 import zhTw from 'element-plus/es/locale/lang/zh-tw'
 import en from 'element-plus/es/locale/lang/en'
 import VueTableComponents from 'rayyy-vue-table-components'
 
 const app = createApp(App)
 
-// 使用繁體中文（預設）
-app.use(VueTableComponents, {
+// 使用繁體中文
+app.use(ElementPlus, {
   locale: zhTw
 })
 
 // 或使用英文
-app.use(VueTableComponents, {
+app.use(ElementPlus, {
   locale: en
 })
 
+app.use(VueTableComponents)
 app.mount('#app')
 ```
 

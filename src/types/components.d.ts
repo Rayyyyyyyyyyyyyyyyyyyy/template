@@ -145,7 +145,7 @@ export interface BaseBtnInstance {
 export interface FilterBtnProps {
   /** 徽章數值 */
   badgeValue?: number
-  /** 抽屜大小 */
+  /** 抽屜大小，預設為 '50%' */
   drawerSize?: string
 }
 
@@ -759,8 +759,6 @@ export interface PluginOptions {
   autoImportStyles?: boolean
   /** 自定義前綴 */
   prefix?: string
-  /** Element Plus 語系設定 */
-  locale?: any
 }
 
 /** 插件實例類型 */
