@@ -37,9 +37,9 @@
 
 // 通用樣式
 .cursor-grab {
-  @apply cursor-grab;
+  cursor: grab;
 }
 
 .cursor-grabbing {
-  @apply cursor-grabbing;
+  cursor: grabbing;
 }
