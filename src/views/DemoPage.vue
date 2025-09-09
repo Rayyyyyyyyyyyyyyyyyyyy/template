@@ -91,20 +91,6 @@ const demoPages = [
     icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z',
   },
   {
-    title: 'FilterBtn',
-    description: '篩選按鈕組件',
-    route: ROUTES.FILTER_BTN,
-    features: [
-      '徽章顯示：顯示篩選條件數量',
-      '抽屜模式：支持篩選條件抽屜展示',
-      '多個插槽：支持 default、fill-filter、filter-icon 插槽',
-      '事件處理：支持重置和提交事件',
-      '自定義樣式：可自定義按鈕和抽屜樣式',
-      '響應式設計：適配不同螢幕尺寸',
-    ],
-    icon: 'M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z',
-  },
-  {
     title: 'BaseDialog',
     description: '基礎對話框組件',
     route: ROUTES.BASE_DIALOG,

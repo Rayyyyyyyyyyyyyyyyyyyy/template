@@ -139,59 +139,6 @@ export interface BaseBtnInstance {
   $emit: BaseBtnEmits
 }
 
-// ==================== FilterBtn 組件類型 ====================
-
-/** FilterBtn 組件 Props 類型 */
-export interface FilterBtnProps {
-  /** 徽章數值 */
-  badgeValue?: number
-  /** 抽屜大小，預設為 '50%' */
-  drawerSize?: string
-}
-
-/** FilterBtn 組件 Emits 類型 */
-export interface FilterBtnEmits {
-  /** 重置事件 */
-  (e: 'update:reset'): void
-  /** 提交事件 */
-  (e: 'update:submit'): void
-}
-
-/** FilterBtn 組件實例類型 */
-export interface FilterBtnInstance {
-  /** 組件 Props */
-  $props: FilterBtnProps
-  /** 組件 Emits */
-  $emit: FilterBtnEmits
-}
-
-// ==================== FilterDrawer 組件類型 ====================
-
-/** FilterDrawer 組件 Props 類型 */
-export interface FilterDrawerProps {
-  /** 是否顯示抽屜 */
-  modelValue: boolean
-  /** 抽屜大小，預設為 '50%' */
-  drawerSize?: string
-}
-
-/** FilterDrawer 組件 Emits 類型 */
-export interface FilterDrawerEmits {
-  /** 更新 modelValue */
-  (e: 'update:modelValue', value: boolean): void
-  /** 重置事件 */
-  (e: 'reset'): void
-  /** 提交事件 */
-  (e: 'submit'): void
-}
-
-/** FilterDrawer 組件實例類型 */
-export interface FilterDrawerInstance {
-  /** 組件 Props */
-  $props: FilterDrawerProps
-  /** 組件 Emits */
-  $emit: FilterDrawerEmits
-}
 
 // ==================== 對話框相關組件類型 ====================
 
@@ -403,6 +350,14 @@ export interface SearchBarInstance {
   $emit: SearchBarEmits
 }
 
+/** SearchBar 組件 Slots 類型 */
+export interface SearchBarSlots {
+  /** 按鈕 slot */
+  button: () => VNode[]
+  /** 自定義篩選 slot */
+  'customer-filter': () => VNode[]
+}
+
 // ==================== SearchableListPanel 組件類型 ====================
 
 /** SearchableListPanel 組件 Props 類型 */
@@ -603,37 +558,6 @@ export declare const BaseBtn: DefineComponent<
   install: (app: App) => void
 }
 
-/** FilterBtn 組件定義 */
-export declare const FilterBtn: DefineComponent<
-  FilterBtnProps,
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  FilterBtnEmits
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
-
-/** FilterDrawer 組件定義 */
-export declare const FilterDrawer: DefineComponent<
-  FilterDrawerProps,
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  FilterDrawerEmits
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
 
 /** BaseDialog 組件定義 */
 export declare const BaseDialog: DefineComponent<
@@ -723,7 +647,7 @@ export declare const SearchBar: DefineComponent<
   {},
   {},
   {},
-  {},
+  SearchBarSlots,
   {},
   SearchBarEmits
 > & {
@@ -815,10 +739,6 @@ export interface VueTableComponentsPlugin {
   SortTable: typeof SortTable
   /** BaseBtn 組件 */
   BaseBtn: typeof BaseBtn
-  /** FilterBtn 組件 */
-  FilterBtn: typeof FilterBtn
-  /** FilterDrawer 組件 */
-  FilterDrawer: typeof FilterDrawer
   /** BaseDialog 組件 */
   BaseDialog: typeof BaseDialog
   /** TransferDialog 組件 */
@@ -848,8 +768,6 @@ declare module '@vue/runtime-core' {
     BaseTable: typeof BaseTable
     SortTable: typeof SortTable
     BaseBtn: typeof BaseBtn
-    FilterBtn: typeof FilterBtn
-    FilterDrawer: typeof FilterDrawer
     BaseDialog: typeof BaseDialog
     TransferDialog: typeof TransferDialog
     BaseInput: typeof BaseInput

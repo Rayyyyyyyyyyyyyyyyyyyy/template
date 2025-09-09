@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { ref, useAttrs } from 'vue'
 import BaseInput from '../form/BaseInput.vue'
-import FilterBtn from './FilterBtn.vue'
 
 defineProps<{
   showFilter?: boolean
@@ -48,16 +47,7 @@ const resetFilter = () => {
           class="search-input_inner"
         />
       </div>
-
-      <div class="filter-customer" v-if="showFilter">
-        <filter-btn
-          :badge-value="badgeValue"
-          @update:reset="resetFilter"
-          :drawer-size="filterDrawerSize"
-        >
-          <slot name="filterBody" />
-        </filter-btn>
-      </div>
+      <slot name="customer-filter"> </slot>
     </div>
   </div>
 </template>
@@ -65,10 +55,6 @@ const resetFilter = () => {
 .search-bar {
   @apply flex justify-between gap-3;
   @apply flex-wrap;
-}
-
-.filter-customer {
-  @apply flex ml-0.5;
 }
 
 .search-input {

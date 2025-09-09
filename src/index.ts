@@ -2,7 +2,6 @@ import type { App } from 'vue'
 import BaseTable from './components/tables/BaseTable.vue'
 import BaseBtn from './components/items/BaseBtn.vue'
 import BaseInput from './components/form/BaseInput.vue'
-import FilterBtn from './components/items/FilterBtn.vue'
 import BaseDialog from './components/items/BaseDialog.vue'
 import SortTable from './components/tables/SortTable.vue'
 import SearchBar from './components/items/SearchBar.vue'
@@ -17,7 +16,7 @@ export * from './types'
 export * from './utils/tableHelper'
 
 // 導出組件
-export { BaseTable, BaseBtn, BaseInput, FilterBtn, BaseDialog, SortTable, SearchBar }
+export { BaseTable, BaseBtn, BaseInput, BaseDialog, SortTable, SearchBar }
 
 // 導出組件類型
 export type {
@@ -42,7 +41,6 @@ const components: any[] = [
   BaseTable,
   BaseBtn,
   BaseInput,
-  FilterBtn,
   BaseDialog,
   SortTable,
   SearchBar,
@@ -72,9 +70,6 @@ export default {
 }
 ;(BaseInput as unknown as Record<string, unknown>).install = (app: App) => {
   app.component(BaseInput.name || 'BaseInput', BaseInput)
-}
-;(FilterBtn as unknown as Record<string, unknown>).install = (app: App) => {
-  app.component(FilterBtn.name || 'FilterBtn', FilterBtn)
 }
 ;(BaseDialog as unknown as Record<string, unknown>).install = (app: App) => {
   app.component(BaseDialog.name || 'BaseDialog', BaseDialog)

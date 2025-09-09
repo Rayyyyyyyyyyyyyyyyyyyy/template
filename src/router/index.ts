@@ -48,11 +48,6 @@ const routes = [
         component: () => import('@/views/demo/BaseInputDemo.vue'),
       },
       {
-        path: ROUTES.FILTER_BTN,
-        name: ROUTE_NAMES.FILTER_BTN,
-        component: () => import('@/views/demo/FilterBtnDemo.vue'),
-      },
-      {
         path: ROUTES.BASE_DIALOG,
         name: ROUTE_NAMES.BASE_DIALOG,
         component: () => import('@/views/demo/BaseDialogDemo.vue'),
