@@ -165,6 +165,34 @@ export interface FilterBtnInstance {
   $emit: FilterBtnEmits
 }
 
+// ==================== FilterDrawer 組件類型 ====================
+
+/** FilterDrawer 組件 Props 類型 */
+export interface FilterDrawerProps {
+  /** 是否顯示抽屜 */
+  modelValue: boolean
+  /** 抽屜大小，預設為 '50%' */
+  drawerSize?: string
+}
+
+/** FilterDrawer 組件 Emits 類型 */
+export interface FilterDrawerEmits {
+  /** 更新 modelValue */
+  (e: 'update:modelValue', value: boolean): void
+  /** 重置事件 */
+  (e: 'reset'): void
+  /** 提交事件 */
+  (e: 'submit'): void
+}
+
+/** FilterDrawer 組件實例類型 */
+export interface FilterDrawerInstance {
+  /** 組件 Props */
+  $props: FilterDrawerProps
+  /** 組件 Emits */
+  $emit: FilterDrawerEmits
+}
+
 // ==================== 對話框相關組件類型 ====================
 
 // ==================== BaseDialog 組件類型 ====================
@@ -591,6 +619,22 @@ export declare const FilterBtn: DefineComponent<
   install: (app: App) => void
 }
 
+/** FilterDrawer 組件定義 */
+export declare const FilterDrawer: DefineComponent<
+  FilterDrawerProps,
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  FilterDrawerEmits
+> & {
+  /** 安裝方法 */
+  install: (app: App) => void
+}
+
 /** BaseDialog 組件定義 */
 export declare const BaseDialog: DefineComponent<
   BaseDialogProps,
@@ -773,6 +817,8 @@ export interface VueTableComponentsPlugin {
   BaseBtn: typeof BaseBtn
   /** FilterBtn 組件 */
   FilterBtn: typeof FilterBtn
+  /** FilterDrawer 組件 */
+  FilterDrawer: typeof FilterDrawer
   /** BaseDialog 組件 */
   BaseDialog: typeof BaseDialog
   /** TransferDialog 組件 */
@@ -803,6 +849,7 @@ declare module '@vue/runtime-core' {
     SortTable: typeof SortTable
     BaseBtn: typeof BaseBtn
     FilterBtn: typeof FilterBtn
+    FilterDrawer: typeof FilterDrawer
     BaseDialog: typeof BaseDialog
     TransferDialog: typeof TransferDialog
     BaseInput: typeof BaseInput

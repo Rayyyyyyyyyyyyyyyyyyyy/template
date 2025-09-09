@@ -3,6 +3,7 @@ export { default as BaseTable } from './tables/BaseTable.vue'
 export { default as BaseBtn } from './items/BaseBtn.vue'
 export { default as BaseInput } from './form/BaseInput.vue'
 export { default as FilterBtn } from './items/FilterBtn.vue'
+export { default as FilterDrawer } from './items/FilterDrawer.vue'
 export { default as BaseDialog } from './items/BaseDialog.vue'
 export { default as BaseForm } from './form/BaseForm.vue'
 export { default as BaseMultipleInput } from './form/BaseMultipleInput.vue'
@@ -31,6 +32,9 @@ export type {
   FilterBtnProps,
   FilterBtnEmits,
   FilterBtnInstance,
+  FilterDrawerProps,
+  FilterDrawerEmits,
+  FilterDrawerInstance,
   BaseFormProps,
   BaseFormEmits,
   BaseFormInstance,
@@ -61,6 +65,7 @@ export type { default as BaseTableType } from './tables/BaseTable.vue'
 export type { default as BaseBtnType } from './items/BaseBtn.vue'
 export type { default as BaseInputType } from './form/BaseInput.vue'
 export type { default as FilterBtnType } from './items/FilterBtn.vue'
+export type { default as FilterDrawerType } from './items/FilterDrawer.vue'
 export type { default as BaseDialogType } from './items/BaseDialog.vue'
 export type { default as BaseFormType } from './form/BaseForm.vue'
 export type { default as SortTableType } from './tables/SortTable.vue'

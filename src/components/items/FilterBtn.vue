@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { ref, useAttrs } from 'vue'
 import { BaseBtn } from '@/components'
-import { Search, Filter } from '@element-plus/icons-vue'
+import { Filter } from '@element-plus/icons-vue'
+import FilterDrawer from './FilterDrawer.vue'
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     badgeValue?: number
     drawerSize?: string
@@ -30,8 +31,9 @@ const emit = defineEmits<{
 const resetValue = () => {
   emit('update:reset')
 }
+
 const submitFilter = () => {
-  showDrawer.value = false
+  emit('update:submit')
 }
 </script>
 
@@ -55,29 +57,14 @@ const submitFilter = () => {
       </el-icon>
     </slot>
   </base-btn>
-  <el-drawer v-model="showDrawer" :size="drawerSize">
-    <template #header>
-      <div class="flex justify-center text-base text-black font-semibold">
-        <span>查詢條件</span>
-      </div>
-    </template>
-
-    <div class="flex justify-between items-center pb-5 font-semibold">
-      <div class="text-base text-black/70">篩選條件</div>
-      <div class="text-base text-primary cursor-pointer" @click="resetValue">重置</div>
-    </div>
-
+  <FilterDrawer
+    v-model="showDrawer"
+    :drawerSize="drawerSize"
+    @reset="resetValue"
+    @submit="submitFilter"
+  >
     <slot></slot>
-
-    <template #footer>
-      <base-btn type="primary" class="filter-btn" @click="submitFilter">
-        <el-icon>
-          <Search />
-        </el-icon>
-        <p>查詢</p>
-      </base-btn>
-    </template>
-  </el-drawer>
+  </FilterDrawer>
 </template>
 
 <style scoped lang="scss"></style>
