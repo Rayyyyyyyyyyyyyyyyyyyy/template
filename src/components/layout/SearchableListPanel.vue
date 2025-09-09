@@ -3,24 +3,15 @@ import { toRefs, computed } from 'vue'
 import type { Pager } from '@/types'
 import { MainPanel, SearchBar } from '@/components'
 
-const props = withDefaults(
-  defineProps<{
-    title: string
-    pagination: Pager
-    showBack?: boolean | string | object
-    showSearch?: boolean
-    showEdit?: boolean
-    showFilter?: boolean
-    showDefaultSearch?: boolean
-    badgeValue?: number
-    filterDrawerSize?: string
-    pageDefaultHeight?: string
-  }>(),
-  {
-    pageDefaultHeight: '800px',
-    filterDrawerSize: '50%',
-  },
-)
+const props = defineProps<{
+  title: string
+  pagination: Pager
+  showBack?: boolean | string | object
+  showSearch?: boolean
+  showEdit?: boolean
+  showFilter?: boolean
+  showDefaultSearch?: boolean
+}>()
 
 const { pagination } = toRefs(props)
 
@@ -51,13 +42,11 @@ const changePageSize = (limit: number) => {
 </script>
 
 <template>
-  <main-panel :title="props.title" :show-back="showBack" :max-height="pageDefaultHeight">
+  <main-panel :title="props.title" :show-back="showBack">
     <template #searchBar>
       <search-bar
         :show-filter="showAllFeatures || showFilter"
         :show-search="showAllFeatures || showSearch"
-        :badge-value="badgeValue"
-        :filter-drawer-size="filterDrawerSize"
         @keydown:enter="search"
         @update:clear="clearable"
       >

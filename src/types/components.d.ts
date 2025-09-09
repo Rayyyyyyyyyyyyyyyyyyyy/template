@@ -121,8 +121,6 @@ export interface BaseBtnProps {
   isFill?: boolean
   /** 是否顯示加載狀態 */
   loading?: boolean
-  /** 測試屬性 */
-  dataCy?: string
 }
 
 /** BaseBtn 組件 Emits 類型 */
@@ -322,14 +320,8 @@ export interface BaseMultipleInputInstance {
 
 /** SearchBar 組件 Props 類型 */
 export interface SearchBarProps {
-  /** 是否顯示篩選功能 */
-  showFilter?: boolean
   /** 是否顯示搜尋功能 */
   showSearch?: boolean
-  /** 徽章數值 */
-  badgeValue?: number
-  /** 篩選抽屜大小 */
-  filterDrawerSize?: string
 }
 
 /** SearchBar 組件 Emits 類型 */
@@ -376,12 +368,6 @@ export interface SearchableListPanelProps {
   showFilter?: boolean
   /** 是否顯示預設搜尋 */
   showDefaultSearch?: boolean
-  /** 測試屬性 */
-  dataCy?: string
-  /** 徽章數值 */
-  badgeValue?: number
-  /** 篩選抽屜大小 */
-  filterDrawerSize?: string
 }
 
 /** SearchableListPanel 組件 Emits 類型 */
@@ -454,8 +440,6 @@ export interface MainPanelProps {
   showBack?: boolean | string | object
   /** 返回深度 */
   depth?: number
-  /** 最大高度 */
-  maxHeight?: string
 }
 
 /** MainPanel 組件 Emits 類型 */

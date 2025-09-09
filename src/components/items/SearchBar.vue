@@ -3,10 +3,7 @@ import { ref, useAttrs } from 'vue'
 import BaseInput from '../form/BaseInput.vue'
 
 defineProps<{
-  showFilter?: boolean
   showSearch?: boolean
-  badgeValue?: number
-  filterDrawerSize?: string
 }>()
 
 const emits = defineEmits<{

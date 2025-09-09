@@ -6,13 +6,11 @@ const props = withDefaults(
     title?: string
     showBack?: boolean | string | object
     depth?: number
-    maxHeight?: string
   }>(),
   {
     title: '',
     showBack: false,
     depth: 1,
-    maxHeight: '800px',
   },
 )
 </script>
