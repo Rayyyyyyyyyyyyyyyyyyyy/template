@@ -47,7 +47,7 @@ const resetFilter = () => {
           class="search-input_inner"
         />
       </div>
-      <slot name="customer-filter"> </slot>
+      <slot name="customerFilter"> </slot>
     </div>
   </div>
 </template>

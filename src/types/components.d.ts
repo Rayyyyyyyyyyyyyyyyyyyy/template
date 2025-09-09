@@ -355,7 +355,7 @@ export interface SearchBarSlots {
   /** 按鈕 slot */
   button: () => VNode[]
   /** 自定義篩選 slot */
-  'customer-filter': () => VNode[]
+  customerFilter: () => VNode[]
 }
 
 // ==================== SearchableListPanel 組件類型 ====================
@@ -410,8 +410,8 @@ export interface SearchableListPanelSlots {
   customButton: () => VNode[]
   /** 最後一個按鈕 slot */
   lastButton: () => VNode[]
-  /** 篩選抽屜內容 slot */
-  filterDrawBody: () => VNode[]
+  /** 篩選按鈕 slot */
+  filterButton: () => VNode[]
   /** 主要內容 slot */
   main: () => VNode[]
 }

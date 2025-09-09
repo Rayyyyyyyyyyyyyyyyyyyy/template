@@ -66,8 +66,8 @@ const changePageSize = (limit: number) => {
           <slot name="customButton" v-if="showAllFeatures || showEdit"> </slot>
           <slot name="lastButton"></slot>
         </template>
-        <template #filterBody>
-          <slot name="filterDrawBody"></slot>
+        <template #customerFilter>
+          <slot name="filterButton"></slot>
         </template>
       </search-bar>
     </template>

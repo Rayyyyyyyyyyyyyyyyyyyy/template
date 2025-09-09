@@ -189,39 +189,8 @@ const computedDrawerSize = computed(() => {
             <BaseBtn type="info" size="small" class="px-4 py-2"> 刷新 </BaseBtn>
           </template>
 
-          <template #filterDrawBody>
-            <BaseForm v-model="state.filterForm" class="space-y-4" label-width="60px">
-              <el-form-item label="部門">
-                <el-select
-                  v-model="state.filterForm.department"
-                  placeholder="全部"
-                  clearable
-                  class="w-full"
-                >
-                  <el-option
-                    v-for="option in DEPARTMENT_OPTIONS"
-                    :key="option.value"
-                    :label="option.label"
-                    :value="option.value"
-                  />
-                </el-select>
-              </el-form-item>
-              <el-form-item label="狀態">
-                <el-select
-                  v-model="state.filterForm.status"
-                  placeholder="全部"
-                  clearable
-                  class="w-full"
-                >
-                  <el-option
-                    v-for="option in STATUS_OPTIONS"
-                    :key="option.value"
-                    :label="option.label"
-                    :value="option.value"
-                  />
-                </el-select>
-              </el-form-item>
-            </BaseForm>
+          <template #filterButton>
+            <BaseBtn type="info" size="small" class="px-4 py-2"> 篩選 </BaseBtn>
           </template>
 
           <template #main>
@@ -259,7 +228,7 @@ const computedDrawerSize = computed(() => {
             </li>
             <li class="flex items-start">
               <span class="text-gray-600 mr-2 mt-0.5">•</span>
-              <span><strong>篩選抽屜：</strong>可自定義篩選條件內容</span>
+              <span><strong>篩選按鈕：</strong>支持自定義篩選按鈕</span>
             </li>
             <li class="flex items-start">
               <span class="text-gray-600 mr-2 mt-0.5">•</span>
