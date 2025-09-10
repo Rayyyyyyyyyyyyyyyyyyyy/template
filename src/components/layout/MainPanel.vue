@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { FunctionHeader } from '@/components'
+import { useRouter } from 'vue-router'
+import { ROUTES } from '@/router/constants.ts'
 
 const props = withDefaults(
   defineProps<{
@@ -13,10 +15,16 @@ const props = withDefaults(
     depth: 1,
   },
 )
+const router = useRouter()
 </script>
 
 <template>
-  <function-header :title="props.title" :showBack="props.showBack" :depth="props.depth" />
+  <function-header
+    :title="props.title"
+    :showBack="props.showBack"
+    @back="router.push(ROUTES.DEMO)"
+    :depth="props.depth"
+  />
 
   <el-scrollbar class="panel-scrollbar">
     <div v-if="$slots.searchBar" class="px-4 pt-1.5">

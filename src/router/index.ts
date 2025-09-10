@@ -53,11 +53,6 @@ const routes = [
         component: () => import('@/views/demo/BaseDialogDemo.vue'),
       },
       {
-        path: ROUTES.BASE_FORM,
-        name: ROUTE_NAMES.BASE_FORM,
-        component: () => import('@/views/demo/BaseFormDemo.vue'),
-      },
-      {
         path: ROUTES.SORT_TABLE,
         name: ROUTE_NAMES.SORT_TABLE,
         component: () => import('@/views/demo/SortTableDemo.vue'),

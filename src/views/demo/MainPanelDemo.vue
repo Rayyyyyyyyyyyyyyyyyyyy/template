@@ -25,7 +25,7 @@ import { MainPanel, BaseBtn } from '@/components'
         <template #header>
           <h2 class="text-xl font-semibold">帶標題的主面板</h2>
         </template>
-        <MainPanel title="統計信息" subtitle="系統運行狀態概覽">
+        <MainPanel title="統計信息">
           <div class="p-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div class="bg-blue-50 p-4 rounded-lg">
@@ -45,20 +45,12 @@ import { MainPanel, BaseBtn } from '@/components'
         </MainPanel>
       </el-card>
 
-      <!-- 帶操作的主面板 -->
+      <!-- 帶返回按鈕的主面板 -->
       <el-card class="mb-8" shadow="always">
         <template #header>
-          <h2 class="text-xl font-semibold">帶操作的主面板</h2>
+          <h2 class="text-xl font-semibold">帶返回按鈕的主面板</h2>
         </template>
-        <MainPanel title="數據列表" subtitle="管理系統數據">
-          <template #actions>
-            <div class="flex space-x-2">
-              <BaseBtn type="primary" size="small">新增</BaseBtn>
-              <BaseBtn type="default" size="small">刷新</BaseBtn>
-              <BaseBtn type="default" size="small">導出</BaseBtn>
-            </div>
-          </template>
-
+        <MainPanel title="數據列表" :show-back="true">
           <div class="p-6">
             <div class="space-y-4">
               <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
@@ -94,7 +86,6 @@ import { MainPanel, BaseBtn } from '@/components'
         </template>
         <MainPanel
           title="自定義面板"
-          subtitle="帶有自定義樣式的主面板"
           class="custom-panel"
         >
           <div class="p-6">
@@ -104,6 +95,42 @@ import { MainPanel, BaseBtn } from '@/components'
             </div>
           </div>
         </MainPanel>
+      </el-card>
+
+      <!-- 功能展示說明 -->
+      <el-card class="mb-8" shadow="always">
+        <template #header>
+          <h2 class="text-xl font-semibold">功能展示說明</h2>
+        </template>
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <h3 class="text-lg font-medium mb-2">MainPanel 功能特色</h3>
+          <ul class="space-y-2 text-gray-700">
+            <li class="flex items-start">
+              <span class="text-gray-600 mr-2 mt-0.5">•</span>
+              <span><strong>標題顯示：</strong>支持自定義標題文字</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-gray-600 mr-2 mt-0.5">•</span>
+              <span><strong>返回按鈕：</strong>支持布林值、字符串路徑或對象配置</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-gray-600 mr-2 mt-0.5">•</span>
+              <span><strong>返回深度：</strong>支持指定返回的層級數量</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-gray-600 mr-2 mt-0.5">•</span>
+              <span><strong>事件處理：</strong>支持返回按鈕點擊事件</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-gray-600 mr-2 mt-0.5">•</span>
+              <span><strong>內容插槽：</strong>支持自定義面板內容</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-gray-600 mr-2 mt-0.5">•</span>
+              <span><strong>響應式設計：</strong>適配不同螢幕尺寸</span>
+            </li>
+          </ul>
+        </div>
       </el-card>
     </div>
   </div>

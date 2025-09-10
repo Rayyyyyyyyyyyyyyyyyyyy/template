@@ -252,37 +252,6 @@ export interface BaseInputInstance {
   $emit: BaseInputEmits
 }
 
-// ==================== BaseForm 組件類型 ====================
-
-/** BaseForm 組件 Props 類型 */
-export interface BaseFormProps<T extends object = object> {
-  /** 模型值 */
-  modelValue?: T
-  /** 表單驗證規則 */
-  rules?: import('element-plus').FormRules
-  /** 標籤寬度 */
-  labelWidth?: string
-  /** 測試屬性 */
-  dataCy?: string
-}
-
-/** BaseForm 組件 Emits 類型 */
-export interface BaseFormEmits {
-  /** 更新模型值事件 */
-  (e: 'update:modelValue', value: Record<string, unknown>): void
-  /** 提交事件 */
-  (e: 'submit'): void
-  /** 驗證事件 */
-  (e: 'validate', valid: boolean): void
-}
-
-/** BaseForm 組件實例類型 */
-export interface BaseFormInstance {
-  /** 組件 Props */
-  $props: BaseFormProps
-  /** 組件 Emits */
-  $emit: BaseFormEmits
-}
 
 // ==================== BaseMultipleInput 組件類型 ====================
 
@@ -591,21 +560,6 @@ export declare const BaseInput: DefineComponent<
   install: (app: App) => void
 }
 
-/** BaseForm 組件定義 */
-export declare const BaseForm: DefineComponent<
-  BaseFormProps,
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  BaseFormEmits
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
 
 /** BaseMultipleInput 組件定義 */
 export declare const BaseMultipleInput: DefineComponent<
@@ -729,8 +683,6 @@ export interface VueTableComponentsPlugin {
   TransferDialog: typeof TransferDialog
   /** BaseInput 組件 */
   BaseInput: typeof BaseInput
-  /** BaseForm 組件 */
-  BaseForm: typeof BaseForm
   /** BaseMultipleInput 組件 */
   BaseMultipleInput: typeof BaseMultipleInput
   /** SearchBar 組件 */
@@ -755,7 +707,6 @@ declare module '@vue/runtime-core' {
     BaseDialog: typeof BaseDialog
     TransferDialog: typeof TransferDialog
     BaseInput: typeof BaseInput
-    BaseForm: typeof BaseForm
     BaseMultipleInput: typeof BaseMultipleInput
     SearchBar: typeof SearchBar
     SearchableListPanel: typeof SearchableListPanel

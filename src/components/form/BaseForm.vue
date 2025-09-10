@@ -6,7 +6,6 @@ type Props<T extends object = object> = {
   modelValue?: T
   rules?: FormRules
   labelWidth?: string
-  dataCy?: string
 }
 const props = withDefaults(defineProps<Props>(), {})
 
@@ -41,10 +40,15 @@ const clearValidate = (props?: string | string[]) => {
   formRef.value?.clearValidate(props)
 }
 
+const validateField = (prop: string) => {
+  formRef.value?.validateField(prop)
+}
+
 defineExpose({
   validate,
   resetFields,
   clearValidate,
+  validateField,
 })
 </script>
 

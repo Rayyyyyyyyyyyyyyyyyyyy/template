@@ -36,7 +36,6 @@ export const ROUTE_NAMES = {
   BASE_BTN: 'BaseBtn',
   BASE_INPUT: 'BaseInput',
   BASE_DIALOG: 'BaseDialog',
-  BASE_FORM: 'BaseForm',
   SORT_TABLE: 'SortTable',
   SEARCH_BAR: 'SearchBar',
   TRANSFER_ITEM: 'TransferItem',

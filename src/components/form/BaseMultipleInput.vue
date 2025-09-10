@@ -1,4 +1,3 @@
-
 <script setup lang="ts">
 import { ref, useAttrs } from 'vue'
 import type { ElInput } from 'element-plus'
@@ -15,7 +14,7 @@ const props = withDefaults(
   {
     type: 'textarea',
     validateRule: () => true,
-  }
+  },
 )
 
 // 獲取所有非 props 屬性
@@ -29,7 +28,7 @@ const emits = defineEmits<{
 const remove = (position: number) => {
   emits(
     'update:modelValue',
-    props.modelValue.filter((input, index) => index !== position)
+    props.modelValue.filter((input, index) => index !== position),
   )
 }
 
@@ -38,7 +37,6 @@ const handleInputConfirm = () => {
   if (!inputString) {
     return
   }
-
   if (!props.validateRule(inputString)) {
     emits('inputError')
     return
@@ -63,7 +61,7 @@ const deleteLastTag = () => {
 </script>
 
 <template>
-  <div v-bind="attrs" class="w-full border border-t rounded" @click="focusInput" >
+  <div v-bind="attrs" class="w-full border border-t rounded" @click="focusInput">
     <el-tag
       v-for="(tag, position) in props.modelValue"
       :key="tag"
@@ -86,7 +84,6 @@ const deleteLastTag = () => {
     />
   </div>
 </template>
-
 
 <style scoped lang="scss">
 :deep(.el-input) {

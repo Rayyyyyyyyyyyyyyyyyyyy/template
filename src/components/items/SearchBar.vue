@@ -66,6 +66,9 @@ const resetFilter = () => {
     :deep(.el-input__prefix) {
       color: var(--main-color);
     }
+    :deep(.el-input__inner::placeholder) {
+      @apply text-text-border;
+    }
   }
 }
 </style>

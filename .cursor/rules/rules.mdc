@@ -34,3 +34,36 @@ alwaysApply: true
 ## 7. TypeScript 規則
 - 避免使用 `any` 類型
 - 應該明確定義類型或使用適當的泛型
+
+## 8. 組件新增/移除規則
+
+### 新增組件時需要調整的地方：
+1. **組件文件**：在 `src/components/` 對應目錄下創建組件文件
+2. **組件導出** (`src/components/index.ts`)：
+   - 添加組件導出：`export { default as ComponentName } from './path/ComponentName.vue'`
+   - 添加組件類型導出：`export type { default as ComponentNameType } from './path/ComponentName.vue'`
+3. **類型定義** (`src/types/components.d.ts`)：
+   - 添加組件 Props 接口：`export interface ComponentNameProps`
+   - 添加組件 Emits 接口：`export interface ComponentNameEmits`
+   - 添加組件實例接口：`export interface ComponentNameInstance`
+   - 添加組件定義：`export declare const ComponentName: DefineComponent<...>`
+   - 在插件類型中添加：`ComponentName: typeof ComponentName`
+   - 在全局類型擴展中添加：`ComponentName: typeof ComponentName`
+4. **路由配置**：
+   - 在 `src/router/constants.ts` 中添加路由常量：`COMPONENT_NAME: 'ComponentName'`
+   - 在 `src/router/index.ts` 中添加路由配置
+5. **演示頁面**：
+   - 創建 `src/views/demo/ComponentNameDemo.vue` 演示文件
+   - 在 `src/views/DemoPage.vue` 中添加演示卡片
+
+### 移除組件時需要調整的地方：
+1. **組件文件**：刪除組件文件和演示文件
+2. **組件導出** (`src/components/index.ts`)：移除所有相關導出
+3. **類型定義** (`src/types/components.d.ts`)：移除所有相關類型定義
+4. **路由配置**：移除路由常量和路由配置
+5. **演示頁面**：移除演示卡片
+
+### 檢查清單：
+- [ ] 運行 `npm run build` 檢查無錯誤
+- [ ] 確保所有相關文件都已正確更新
+- [ ] 檢查是否有遺漏的引用或導入

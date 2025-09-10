@@ -1,17 +1,11 @@
 <script setup lang="ts">
-import { reactive, computed, ref } from 'vue'
-import { BaseTable, BaseBtn, BaseForm, SearchableListPanel } from '@/components'
+import { reactive } from 'vue'
+import { BaseTable, BaseBtn, SearchableListPanel } from '@/components'
 import type { TableColumn } from '@/types'
 import { setActiveColumn } from '@/utils/tableHelper'
 import { h } from 'vue'
-import {
-  DEMO_CONSTANTS,
-  DEMO_USER_DATA,
-  DEPARTMENT_OPTIONS,
-  STATUS_OPTIONS,
-  type User,
-} from '@/const/tableConst'
-import { useWindowSize } from '@vueuse/core'
+import { DEMO_CONSTANTS, DEMO_USER_DATA, type User } from '@/const/tableConst'
+import { useRouter } from 'vue-router'
 
 // ==================== 列配置工廠函數 ====================
 const createUserColumns = (): TableColumn<User>[] =>
@@ -107,14 +101,6 @@ const state = reactive({
   },
 })
 
-// ==================== 計算屬性 ====================
-// 計算篩選表單中有值的欄位數量
-const filterCount = computed(() => {
-  return Object.values(state.filterForm).filter(
-    (value) => value !== '' && value !== null && value !== undefined,
-  ).length
-})
-
 // ==================== 事件處理函數 ====================
 // SearchableListPanel 相關事件處理
 const handleSearchableListSearch = (keyword: string | null) => {
@@ -140,17 +126,6 @@ const simulateLoading = () => {
     state.sortTableLoading = false
   }, DEMO_CONSTANTS.LOADING_DURATION)
 }
-const { width } = useWindowSize()
-
-const computedDrawerSize = computed(() => {
-  if (width.value > 1200) {
-    return '30%'
-  } else if (width.value < 500) {
-    return '100%'
-  } else {
-    return '50%'
-  }
-})
 </script>
 
 <template>
@@ -170,8 +145,6 @@ const computedDrawerSize = computed(() => {
           :show-back="false"
           :show-search="true"
           :show-filter="true"
-          :badge-value="filterCount"
-          :filter-drawer-size="computedDrawerSize"
           @search="handleSearchableListSearch"
           @update-page="handleSearchableListPageChange"
           @update-page-size="handleSearchableListPageSizeChange"
@@ -233,10 +206,6 @@ const computedDrawerSize = computed(() => {
             <li class="flex items-start">
               <span class="text-gray-600 mr-2 mt-0.5">•</span>
               <span><strong>分頁功能：</strong>內建分頁組件，支持頁面大小調整</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-gray-600 mr-2 mt-0.5">•</span>
-              <span><strong>徽章顯示：</strong>篩選條件數量徽章提示</span>
             </li>
             <li class="flex items-start">
               <span class="text-gray-600 mr-2 mt-0.5">•</span>
