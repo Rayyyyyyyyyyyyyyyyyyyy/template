@@ -13,41 +13,39 @@ export { default as MainPanel } from './layout/MainPanel.vue'
 export { default as SearchableListPanel } from './layout/SearchableListPanel.vue'
 
 // 導出組件類型
-export {
-  type BaseTableProps,
-  type BaseTableEmits,
-  type BaseTableInstance,
-  type BaseBtnProps,
-  type BaseBtnEmits,
-  type BaseBtnInstance,
-  type BaseDialogProps,
-  type BaseDialogEmits,
-  type BaseDialogInstance,
-  type BaseInputProps,
-  type BaseInputEmits,
-  type BaseInputInstance,
-  type SortTableProps,
-  type SortTableEmits,
-  type SortTableInstance,
-  type SearchBarProps,
-  type SearchBarEmits,
-  type SearchBarInstance,
-  type SearchBarSlots,
-  type TransferDialogProps,
-  type TransferDialogEmits,
-  type TransferDialogInstance,
-  type TransferItemProps,
-  type TransferItemEmits,
-  type TransferItemInstance,
-  type MainPanelProps,
-  type MainPanelEmits,
-  type MainPanelInstance,
-  type FunctionHeaderProps,
-  type FunctionHeaderEmits,
-  type FunctionHeaderInstance,
-  type PluginOptions,
-  type VueTableComponentsPlugin,
-} from '../types/components.d'
+export type { BaseTableProps } from '../types/components.d'
+export type { BaseTableEmits } from '../types/components.d'
+export type { BaseTableInstance } from '../types/components.d'
+export type { BaseBtnProps } from '../types/components.d'
+export type { BaseBtnEmits } from '../types/components.d'
+export type { BaseBtnInstance } from '../types/components.d'
+export type { BaseDialogProps } from '../types/components.d'
+export type { BaseDialogEmits } from '../types/components.d'
+export type { BaseDialogInstance } from '../types/components.d'
+export type { BaseInputProps } from '../types/components.d'
+export type { BaseInputEmits } from '../types/components.d'
+export type { BaseInputInstance } from '../types/components.d'
+export type { SortTableProps } from '../types/components.d'
+export type { SortTableEmits } from '../types/components.d'
+export type { SortTableInstance } from '../types/components.d'
+export type { SearchBarProps } from '../types/components.d'
+export type { SearchBarEmits } from '../types/components.d'
+export type { SearchBarInstance } from '../types/components.d'
+export type { SearchBarSlots } from '../types/components.d'
+export type { TransferDialogProps } from '../types/components.d'
+export type { TransferDialogEmits } from '../types/components.d'
+export type { TransferDialogInstance } from '../types/components.d'
+export type { TransferItemProps } from '../types/components.d'
+export type { TransferItemEmits } from '../types/components.d'
+export type { TransferItemInstance } from '../types/components.d'
+export type { MainPanelProps } from '../types/components.d'
+export type { MainPanelEmits } from '../types/components.d'
+export type { MainPanelInstance } from '../types/components.d'
+export type { FunctionHeaderProps } from '../types/components.d'
+export type { FunctionHeaderEmits } from '../types/components.d'
+export type { FunctionHeaderInstance } from '../types/components.d'
+export type { PluginOptions } from '../types/components.d'
+export type { VueTableComponentsPlugin } from '../types/components.d'
 
 // 重新導出組件定義類型
 export type { default as BaseTableType } from './tables/BaseTable.vue'
