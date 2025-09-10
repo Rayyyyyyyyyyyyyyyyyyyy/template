@@ -1,5 +1,13 @@
 <script setup lang="ts">
 import { MainPanel, BaseBtn } from '@/components'
+import { ROUTES } from '@/router/constants'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+// 處理返回按鈕點擊事件
+const handleBackClick = () => {
+  router.push(ROUTES.DEMO)
+}
 </script>
 
 <template>
@@ -50,7 +58,7 @@ import { MainPanel, BaseBtn } from '@/components'
         <template #header>
           <h2 class="text-xl font-semibold">帶返回按鈕的主面板</h2>
         </template>
-        <MainPanel title="數據列表" :show-back="true">
+        <MainPanel title="數據列表" :show-back="true" @click:back="handleBackClick">
           <div class="p-6">
             <div class="space-y-4">
               <div class="flex items-center justify-between p-3 bg-gray-50 rounded">

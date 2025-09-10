@@ -2,8 +2,8 @@
 import type { SortChangValue, TableColumn } from '@/types'
 import type { TableColumnCtx } from 'element-plus'
 import type { VNode } from 'vue'
-import BaseTable from './BaseTable.vue'
 import { Setting } from '@element-plus/icons-vue'
+import { BaseTable } from '@/components'
 
 defineProps<{
   data: T[]
@@ -13,7 +13,10 @@ defineProps<{
   loading?: boolean
   showSummary?: boolean
   showOverFlowTooltip?: boolean
-  summaryMethod?: (param: { columns: TableColumnCtx<Record<string, unknown>>[]; data: T[] }) => (string | VNode)[]
+  summaryMethod?: (param: {
+    columns: TableColumnCtx<Record<string, unknown>>[]
+    data: T[]
+  }) => (string | VNode)[]
   sortTableRowClassName?: (data: { row: T; rowIndex: number }) => string
 }>()
 
@@ -44,7 +47,10 @@ const handleColumnSortChange = (data: SortChangValue<T>) => {
   <div class="w-full mb-4">
     <div class="flex items-center h-12 bg-gray-200 px-1.5 rounded-t justify-end">
       <div class="flex items-center mr-4">
-        <div class="cursor-pointer text-blue-800 text-xl flex items-center justify-center hover:text-blue-600" @click="openTransferDialog">
+        <div
+          class="cursor-pointer text-blue-800 text-xl flex items-center justify-center hover:text-blue-600"
+          @click="openTransferDialog"
+        >
           <el-icon><Setting /></el-icon>
         </div>
       </div>
@@ -67,5 +73,4 @@ const handleColumnSortChange = (data: SortChangValue<T>) => {
   </div>
 </template>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

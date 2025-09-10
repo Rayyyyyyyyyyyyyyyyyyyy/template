@@ -19,6 +19,7 @@ const emits = defineEmits<{
   (e: 'search', data: string | null): void
   (e: 'updatePage', page: number): boolean
   (e: 'updatePageSize', limit: number): boolean
+  (e: 'click:back'): void
 }>()
 
 const showAllFeatures = computed(() => {
@@ -39,10 +40,13 @@ const updatePage = (page: number) => {
 const changePageSize = (limit: number) => {
   emits('updatePageSize', limit)
 }
+const onBackClick = () => {
+  emits('click:back')
+}
 </script>
 
 <template>
-  <main-panel :title="props.title" :show-back="showBack">
+  <main-panel :title="props.title" :show-back="showBack" @click:back="onBackClick">
     <template #searchBar>
       <search-bar
         :show-filter="showAllFeatures || showFilter"

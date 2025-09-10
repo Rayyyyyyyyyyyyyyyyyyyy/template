@@ -347,6 +347,8 @@ export interface SearchableListPanelEmits {
   (e: 'updatePage', page: number): boolean
   /** 更新頁面大小事件 */
   (e: 'updatePageSize', limit: number): boolean
+  /** 返回按鈕點擊事件 */
+  (e: 'click:back'): void
 }
 
 /** SearchableListPanel 組件實例類型 */
@@ -414,7 +416,7 @@ export interface MainPanelProps {
 /** MainPanel 組件 Emits 類型 */
 export interface MainPanelEmits {
   /** 返回按鈕點擊事件 */
-  (e: 'back', payload: { path?: string; [key: string]: unknown }): void
+  (e: 'click:back'): void
 }
 
 /** MainPanel 組件實例類型 */

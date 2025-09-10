@@ -6,6 +6,7 @@ import { setActiveColumn } from '@/utils/tableHelper'
 import { h } from 'vue'
 import { DEMO_CONSTANTS, DEMO_USER_DATA, type User } from '@/const/tableConst'
 import { useRouter } from 'vue-router'
+import { ROUTES } from '@/router/constants'
 
 // ==================== 列配置工廠函數 ====================
 const createUserColumns = (): TableColumn<User>[] =>
@@ -118,6 +119,11 @@ const handleSearchableListPageSizeChange = (limit: number) => {
   state.pagination.limit = limit
 }
 
+const router = useRouter()
+const handleSearchableListBackClick = () => {
+  router.push(ROUTES.DEMO)
+}
+
 // 模擬加載
 const simulateLoading = () => {
   state.sortTableLoading = true
@@ -142,12 +148,13 @@ const simulateLoading = () => {
         <SearchableListPanel
           title="用戶管理"
           :pagination="state.pagination"
-          :show-back="false"
+          :show-back="true"
           :show-search="true"
           :show-filter="true"
           @search="handleSearchableListSearch"
           @update-page="handleSearchableListPageChange"
           @update-page-size="handleSearchableListPageSizeChange"
+          @click:back="handleSearchableListBackClick"
         >
           <template #firstButton>
             <BaseBtn type="primary" size="small" class="px-4 py-2 mr-2"> 新增用戶 </BaseBtn>

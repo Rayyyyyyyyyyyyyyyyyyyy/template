@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { FunctionHeader } from '@/components'
 import { useRouter } from 'vue-router'
-import { ROUTES } from '@/router/constants.ts'
 
 const props = withDefaults(
   defineProps<{
@@ -15,14 +14,20 @@ const props = withDefaults(
     depth: 1,
   },
 )
-const router = useRouter()
+
+const emit = defineEmits<{
+  (e: 'click:back'): void
+}>()
+const onBackClick = () => {
+  emit('click:back')
+}
 </script>
 
 <template>
   <function-header
     :title="props.title"
     :showBack="props.showBack"
-    @back="router.push(ROUTES.DEMO)"
+    @back="onBackClick"
     :depth="props.depth"
   />
 

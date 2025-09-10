@@ -1,0 +1,56 @@
+<script setup lang="ts">
+import { MainPanel, BaseBtn } from '@/components'
+
+defineProps<{
+  title: string
+  showBack?: boolean | string | object
+  isEditable: boolean
+  pageLoading?: boolean
+}>()
+
+const emit = defineEmits<{
+  (e: 'update:saveEdit', value: boolean): void
+  (e: 'update:cancelEdit'): void
+}>()
+
+const saveDetailEdit = () => {
+  emit('update:saveEdit', false)
+}
+const cancelDetailEdit = () => {
+  emit('update:cancelEdit')
+}
+</script>
+
+<template>
+  <MainPanel :title="title" :show-back="showBack">
+    <template #main>
+      <div class="detail-container" v-loading="pageLoading">
+        <slot name="detailHeader"></slot>
+
+        <div class="content-wrapper">
+          <slot name="main"></slot>
+        </div>
+      </div>
+    </template>
+
+    <template #footer>
+      <div class="border-t pt-4 w-full flex items-center justify-end" v-if="isEditable">
+        <BaseBtn text="儲存" type="primary" is-fill @click="saveDetailEdit" />
+        <BaseBtn text="捨棄" type="primary" @click="cancelDetailEdit" />
+      </div>
+    </template>
+  </MainPanel>
+</template>
+
+<style lang="scss" scoped>
+.detail-container {
+  @apply h-full flex flex-col;
+  max-height: calc(100vh - 100px);
+  min-height: calc(100vh - 140px);
+}
+
+.content-wrapper {
+  @apply flex-1 overflow-y-auto;
+  max-height: calc(100vh - 100px);
+}
+</style>
