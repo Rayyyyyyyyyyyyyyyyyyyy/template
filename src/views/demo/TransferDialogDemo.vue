@@ -144,6 +144,16 @@ const simulateLoading = () => {
           </BaseBtn>
         </div>
 
+        <div class="bg-white border border-gray-200 rounded-lg overflow-hidden mb-8">
+          <BaseTable
+            :data="state.userData"
+            :columns="state.userColumns.filter((item) => item.checkActive)"
+            :loading="state.sortTableLoading"
+            :show-selection="false"
+            :show-over-flow-tooltip="true"
+          />
+        </div>
+
         <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
           <h4 class="text-lg font-medium text-blue-900 mb-4 flex items-center">
             <svg class="w-5 h-5 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
@@ -233,7 +243,7 @@ const simulateLoading = () => {
           </ol>
         </div>
 
-        <div class="bg-amber-50 border border-amber-200 rounded-lg p-6 mb-8">
+        <div class="bg-amber-50 border border-amber-200 rounded-lg p-6">
           <h5 class="text-base font-medium text-amber-900 mb-2 flex items-center">
             <svg class="w-4 h-4 mr-2 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
               <path
@@ -251,15 +261,7 @@ const simulateLoading = () => {
           </p>
         </div>
 
-        <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
-          <BaseTable
-            :data="state.userData"
-            :columns="state.userColumns.filter((item) => item.checkActive)"
-            :loading="state.sortTableLoading"
-            :show-selection="false"
-            :show-over-flow-tooltip="true"
-          />
-        </div>
+
 
         <TransferDialog
           v-model="state.showTransferDialog"

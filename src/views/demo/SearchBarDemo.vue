@@ -1,14 +1,45 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { SearchBar } from '@/components'
+import { SearchBar, BaseBtn } from '@/components'
 
 const searchKeyword = ref('')
+const searchKeyword2 = ref('')
+const searchKeyword3 = ref('')
 const searchResult = ref('')
+const loading = ref(false)
+
+// 搜尋建議
+const suggestions = ref([
+  'Vue.js',
+  'React',
+  'Angular',
+  'TypeScript',
+  'JavaScript',
+  'Node.js',
+  'Python',
+  'Java'
+])
 
 // 事件處理
 const handleSearch = (keyword: string) => {
   console.log('搜尋:', keyword)
   searchResult.value = `搜尋關鍵字: ${keyword}`
+}
+
+const handleSearch2 = (keyword: string) => {
+  console.log('搜尋2:', keyword)
+  searchResult.value = `搜尋關鍵字: ${keyword}`
+}
+
+const handleSearch3 = (keyword: string) => {
+  console.log('搜尋3:', keyword)
+  searchResult.value = `搜尋關鍵字: ${keyword}`
+}
+
+const handleSuggestionClick = (suggestion: string) => {
+  console.log('點擊建議:', suggestion)
+  searchKeyword3.value = suggestion
+  searchResult.value = `選擇建議: ${suggestion}`
 }
 
 const handleClear = () => {
@@ -21,12 +52,22 @@ const handleResetFilter = () => {
   searchKeyword.value = ''
   searchResult.value = ''
 }
+
+// 模擬加載
+const simulateLoading = () => {
+  loading.value = true
+  setTimeout(() => {
+    loading.value = false
+  }, 2000)
+}
 </script>
 
 <template>
   <div class="p-8 bg-gray-50 min-h-screen">
     <div class="max-w-6xl mx-auto">
       <h1 class="text-3xl font-bold text-gray-900 mb-8">SearchBar 組件示範</h1>
+
+
 
       <!-- 基礎搜尋欄 -->
       <el-card class="mb-8" shadow="always">
@@ -35,7 +76,11 @@ const handleResetFilter = () => {
         </template>
         <div class="space-y-4">
           <SearchBar
+            v-model="searchKeyword"
+            placeholder="請輸入搜尋關鍵字"
+            :loading="loading"
             :show-search="true"
+            @search="handleSearch"
             @keydown:enter="handleSearch"
             @update:clear="handleClear"
             @update:reset-filter="handleResetFilter"
@@ -45,6 +90,75 @@ const handleResetFilter = () => {
           </div>
         </div>
       </el-card>
+
+
+
+
+      <!-- 帶自定義按鈕的搜尋欄 -->
+      <el-card class="mb-8" shadow="always">
+        <template #header>
+          <h2 class="text-xl font-semibold">帶自定義按鈕的搜尋欄</h2>
+        </template>
+        <div class="space-y-4">
+          <SearchBar
+            v-model="searchKeyword2"
+            placeholder="請輸入搜尋關鍵字"
+            :loading="loading"
+            :show-search="true"
+            @search="handleSearch2"
+            @keydown:enter="handleSearch2"
+            @update:clear="handleClear"
+            @update:reset-filter="handleResetFilter"
+          >
+            <template #button>
+              <div class="flex space-x-2">
+                <BaseBtn type="primary" >
+                  進階搜尋
+                </BaseBtn>
+                <BaseBtn type="success" >
+                  儲存搜尋
+                </BaseBtn>
+              </div>
+            </template>
+          </SearchBar>
+        </div>
+      </el-card>
+
+      <!-- 帶自定義篩選的搜尋欄 -->
+      <el-card class="mb-8" shadow="always">
+        <template #header>
+          <h2 class="text-xl font-semibold">帶自定義篩選的搜尋欄</h2>
+        </template>
+        <div class="space-y-4">
+          <SearchBar
+            v-model="searchKeyword"
+            placeholder="請輸入搜尋關鍵字"
+            :loading="loading"
+            :show-search="true"
+            @search="handleSearch"
+            @keydown:enter="handleSearch"
+            @update:clear="handleClear"
+            @update:reset-filter="handleResetFilter"
+          >
+            <template #customerFilter>
+              <div class="flex space-x-2 ml-2">
+                <select class="px-3 py-1 border border-gray-300 rounded text-sm">
+                  <option value="">選擇類別</option>
+                  <option value="user">用戶</option>
+                  <option value="product">產品</option>
+                  <option value="order">訂單</option>
+                </select>
+                <select class="px-3 py-1 border border-gray-300 rounded text-sm">
+                  <option value="">選擇狀態</option>
+                  <option value="active">啟用</option>
+                  <option value="inactive">停用</option>
+                </select>
+              </div>
+            </template>
+          </SearchBar>
+        </div>
+      </el-card>
+
 
       <!-- 搜尋欄功能展示 -->
       <el-card class="mb-8" shadow="always">
@@ -77,63 +191,6 @@ const handleResetFilter = () => {
               </li>
             </ul>
           </div>
-        </div>
-      </el-card>
-
-      <!-- 帶自定義按鈕的搜尋欄 -->
-      <el-card class="mb-8" shadow="always">
-        <template #header>
-          <h2 class="text-xl font-semibold">帶自定義按鈕的搜尋欄</h2>
-        </template>
-        <div class="space-y-4">
-          <SearchBar
-            :show-search="true"
-            @keydown:enter="handleSearch"
-            @update:clear="handleClear"
-            @update:reset-filter="handleResetFilter"
-          >
-            <template #button>
-              <div class="flex space-x-2">
-                <button class="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">
-                  進階搜尋
-                </button>
-                <button class="px-3 py-1 bg-green-500 text-white rounded text-sm hover:bg-green-600">
-                  儲存搜尋
-                </button>
-              </div>
-            </template>
-          </SearchBar>
-        </div>
-      </el-card>
-
-      <!-- 帶自定義篩選的搜尋欄 -->
-      <el-card class="mb-8" shadow="always">
-        <template #header>
-          <h2 class="text-xl font-semibold">帶自定義篩選的搜尋欄</h2>
-        </template>
-        <div class="space-y-4">
-          <SearchBar
-            :show-search="true"
-            @keydown:enter="handleSearch"
-            @update:clear="handleClear"
-            @update:reset-filter="handleResetFilter"
-          >
-            <template #customerFilter>
-              <div class="flex space-x-2">
-                <select class="px-3 py-1 border border-gray-300 rounded text-sm">
-                  <option value="">選擇類別</option>
-                  <option value="user">用戶</option>
-                  <option value="product">產品</option>
-                  <option value="order">訂單</option>
-                </select>
-                <select class="px-3 py-1 border border-gray-300 rounded text-sm">
-                  <option value="">選擇狀態</option>
-                  <option value="active">啟用</option>
-                  <option value="inactive">停用</option>
-                </select>
-              </div>
-            </template>
-          </SearchBar>
         </div>
       </el-card>
     </div>

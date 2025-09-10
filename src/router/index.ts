@@ -18,6 +18,16 @@ const routes = [
         component: () => import('@/views/DemoPage.vue'),
       },
       {
+        path: ROUTES.INSTALL_GUIDE,
+        name: ROUTE_NAMES.INSTALL_GUIDE,
+        component: () => import('@/views/InstallGuidePage.vue'),
+      },
+      {
+        path: ROUTES.DOCS_CENTER,
+        name: ROUTE_NAMES.DOCS_CENTER,
+        component: () => import('@/views/DocsCenterPage.vue'),
+      },
+      {
         path: ROUTES.SEARCHABLE_LIST_PANEL,
         name: ROUTE_NAMES.SEARCHABLE_LIST_PANEL,
         component: () => import('@/views/demo/SearchableListPanelDemo.vue'),
@@ -61,11 +71,6 @@ const routes = [
         path: ROUTES.SEARCH_BAR,
         name: ROUTE_NAMES.SEARCH_BAR,
         component: () => import('@/views/demo/SearchBarDemo.vue'),
-      },
-      {
-        path: ROUTES.TRANSFER_ITEM,
-        name: ROUTE_NAMES.TRANSFER_ITEM,
-        component: () => import('@/views/demo/TransferItemDemo.vue'),
       },
       {
         path: ROUTES.FUNCTION_HEADER,

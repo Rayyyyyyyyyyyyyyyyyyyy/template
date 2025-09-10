@@ -30,6 +30,10 @@ const pagination = ref({
   total: 8
 })
 
+// 組件狀態
+const loading = ref(false)
+const multiSort = ref(false)
+
 // 排序信息
 const sortInfo = ref<{ prop: string; order: string } | null>(null)
 
@@ -51,12 +55,37 @@ const handleSortChange = (sortData: any) => {
   // 這裡可以根據排序信息重新獲取數據
   // 或者對現有數據進行排序
 }
+
+// 模擬加載
+const simulateLoading = () => {
+  loading.value = true
+  setTimeout(() => {
+    loading.value = false
+  }, 2000)
+}
 </script>
 
 <template>
   <div class="p-8 bg-gray-50 min-h-screen">
     <div class="max-w-6xl mx-auto">
       <h1 class="text-3xl font-bold text-gray-900 mb-8">SortTable 組件示範</h1>
+
+      <!-- 控制面板 -->
+      <el-card class="mb-8" shadow="always">
+        <template #header>
+          <h2 class="text-xl font-semibold">控制面板</h2>
+        </template>
+        <div class="flex flex-wrap gap-4">
+          <el-button @click="simulateLoading" :loading="loading">
+            {{ loading ? '加載中...' : '模擬加載' }}
+          </el-button>
+          <el-switch
+            v-model="multiSort"
+            active-text="多列排序"
+            inactive-text="單列排序"
+          />
+        </div>
+      </el-card>
 
       <!-- 排序表格 -->
       <el-card class="mb-8" shadow="always">
@@ -66,6 +95,8 @@ const handleSortChange = (sortData: any) => {
         <SortTable
           :data="tableData"
           :columns="sortColumns"
+          :loading="loading"
+          :multi-sort="multiSort"
           :pagination="pagination"
           @update:page="handlePageChange"
           @update:page-size="handlePageSizeChange"
@@ -82,6 +113,20 @@ const handleSortChange = (sortData: any) => {
           <p><strong>排序列:</strong> {{ sortInfo.prop }}</p>
           <p><strong>排序順序:</strong> {{ sortInfo.order }}</p>
         </div>
+      </el-card>
+
+      <!-- 無分頁排序表格 -->
+      <el-card class="mb-8" shadow="always">
+        <template #header>
+          <h2 class="text-xl font-semibold">無分頁排序表格</h2>
+        </template>
+        <SortTable
+          :data="tableData"
+          :columns="sortColumns"
+          :loading="loading"
+          :multi-sort="multiSort"
+          @sort-change="handleSortChange"
+        />
       </el-card>
     </div>
   </div>

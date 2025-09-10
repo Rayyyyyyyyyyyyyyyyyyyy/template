@@ -96,18 +96,24 @@ app.mount('#app')
 
 如果您只想使用部分組件，可以按需引入：
 
-```typescript
-import { createApp } from 'vue'
-import { BaseTable, BaseBtn } from 'rayyy-vue-table-components'
-import 'rayyy-vue-table-components/styles'
+```vue
+<script setup>
+import {
+  SortTable,
+  TransferDialog,
+  TransferItem,
+  BaseBtn,
+  SearchableListPanel,
+} from 'rayyy-vue-table-components'
+</script>
 
-import App from './App.vue'
-
-const app = createApp(App)
-
-app.component('BaseTable', BaseTable)
-app.component('BaseBtn', BaseBtn)
-app.mount('#app')
+<template>
+  <div>
+    <BaseBtn>按鈕</BaseBtn>
+    <SortTable :data="tableData" />
+    <!-- 其他組件... -->
+  </div>
+</template>
 ```
 
 ### Hello World

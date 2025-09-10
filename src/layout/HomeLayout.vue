@@ -6,7 +6,8 @@ import { computed } from 'vue'
 
 const route = useRoute()
 const router = useRouter()
-const showBack = computed(() => route.path !== ROUTES.DEMO)
+
+const showBack = computed(() => route.path !== ROUTES.DEMO && route.path !== ROUTES.ROOT)
 </script>
 
 <template>

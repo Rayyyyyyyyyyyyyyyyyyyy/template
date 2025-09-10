@@ -29,6 +29,7 @@ alwaysApply: true
 
 ## 6. Tailwind CSS 使用規則
 - 在 `.vue` 檔案中的樣式使用 Tailwind 的 inline 格式書寫
+- 在 `.vue` 檔案中使用 Element plus 作為 UI 組件庫
 
 
 ## 7. TypeScript 規則

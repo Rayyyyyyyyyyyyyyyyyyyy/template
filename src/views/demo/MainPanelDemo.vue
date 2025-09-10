@@ -86,7 +86,6 @@ import { MainPanel, BaseBtn } from '@/components'
         </template>
         <MainPanel
           title="自定義面板"
-          class="custom-panel"
         >
           <div class="p-6">
             <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-lg">
@@ -96,6 +95,8 @@ import { MainPanel, BaseBtn } from '@/components'
           </div>
         </MainPanel>
       </el-card>
+
+
 
       <!-- 功能展示說明 -->
       <el-card class="mb-8" shadow="always">

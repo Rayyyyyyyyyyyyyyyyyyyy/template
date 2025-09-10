@@ -3,6 +3,16 @@ import { BaseBtn } from '@/components'
 import { ROUTES } from '@/router/constants'
 import { useRouter } from 'vue-router'
 
+
+// 新開頁面方法
+const openInstallGuide = () => {
+  router.push(ROUTES.INSTALL_GUIDE)
+}
+
+const openDocsCenter = () => {
+  router.push(ROUTES.DOCS_CENTER)
+}
+
 // 示範頁面列表
 const demoPages = [
   {
@@ -131,20 +141,6 @@ const demoPages = [
       '響應式設計：適配不同螢幕尺寸',
     ],
     icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z',
-  },
-  {
-    title: 'TransferItem',
-    description: '穿梭框項目組件',
-    route: ROUTES.TRANSFER_ITEM,
-    features: [
-      '拖拽支持：支持拖拽移動項目',
-      '選擇狀態：支持單選和多選',
-      '自定義內容：支持自定義項目內容',
-      '禁用狀態：支持禁用特定項目',
-      '過濾功能：支持項目過濾和搜尋',
-      '事件處理：支持選擇和移動事件',
-    ],
-    icon: 'M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4',
   },
   {
     title: 'FunctionHeader',
@@ -279,8 +275,8 @@ const goDemoPage = (path: string) => {
             想要在自己的專案中使用這些組件嗎？查看我們的安裝和使用指南。
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <BaseBtn type="primary" size="large" class="px-8 py-3"> 安裝指南 </BaseBtn>
-            <BaseBtn type="default" size="large" class="px-8 py-3"> 文檔中心 </BaseBtn>
+            <BaseBtn type="primary" size="large" class="px-8 py-3" @click="openInstallGuide"> 安裝指南 </BaseBtn>
+            <BaseBtn type="default" size="large" class="px-8 py-3" @click="openDocsCenter"> 文檔中心 </BaseBtn>
           </div>
         </div>
       </el-card>
@@ -352,6 +348,7 @@ const goDemoPage = (path: string) => {
         </el-card>
       </div>
     </div>
+
   </div>
 </template>
 

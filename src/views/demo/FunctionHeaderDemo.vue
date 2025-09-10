@@ -80,6 +80,50 @@ const handleBack = (payload: { path?: string; [key: string]: unknown }) => {
         />
       </el-card>
 
+      <!-- 帶副標題的標題 -->
+      <el-card class="mb-8" shadow="always">
+        <template #header>
+          <h2 class="text-xl font-semibold">帶副標題的標題</h2>
+        </template>
+        <FunctionHeader
+          title="用戶管理系統"
+          sub-title="管理系統中的所有用戶信息"
+        />
+      </el-card>
+
+      <!-- 帶麵包屑的標題 -->
+      <el-card class="mb-8" shadow="always">
+        <template #header>
+          <h2 class="text-xl font-semibold">帶麵包屑的標題</h2>
+        </template>
+        <FunctionHeader
+          title="編輯用戶"
+          :breadcrumbs="[
+            { label: '首頁', path: '/' },
+            { label: '用戶管理', path: '/users' },
+            { label: '編輯用戶', path: '/users/edit' }
+          ]"
+          @back="handleBack"
+        />
+      </el-card>
+
+      <!-- 完整功能展示 -->
+      <el-card class="mb-8" shadow="always">
+        <template #header>
+          <h2 class="text-xl font-semibold">完整功能展示</h2>
+        </template>
+        <FunctionHeader
+          title="產品管理系統"
+          sub-title="管理所有產品信息和庫存"
+          :breadcrumbs="[
+            { label: '首頁', path: '/' },
+            { label: '產品管理', path: '/products' }
+          ]"
+          :show-back="true"
+          @back="handleBack"
+        />
+      </el-card>
+
       <!-- 功能展示說明 -->
       <el-card class="mb-8" shadow="always">
         <template #header>
