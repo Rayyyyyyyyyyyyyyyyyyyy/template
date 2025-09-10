@@ -135,7 +135,7 @@ describe('MainPanel', () => {
 
     testCases.forEach((testCase) => {
       const wrapper = mount(MainPanel, {
-        props: testCase as any
+        props: testCase
       })
 
       const functionHeader = wrapper.findComponent(FunctionHeader)

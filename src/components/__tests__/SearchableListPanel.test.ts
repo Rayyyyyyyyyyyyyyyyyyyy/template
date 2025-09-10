@@ -134,7 +134,7 @@ describe('SearchableListPanel', () => {
     await wrapper.find('.el-pagination').trigger('current-change', { detail: 2 })
 
     expect(wrapper.emitted('updatePage')).toBeTruthy()
-    expect(wrapper.emitted('updatePage')?.[0]).toEqual([2])
+    expect(wrapper.emitted('updatePage')?.[0]).toEqual(2)
   })
 
   it('should emit updatePageSize when pagination size changes', async () => {
@@ -153,7 +153,7 @@ describe('SearchableListPanel', () => {
     await wrapper.find('.el-pagination').trigger('size-change', { detail: 20 })
 
     expect(wrapper.emitted('updatePageSize')).toBeTruthy()
-    expect(wrapper.emitted('updatePageSize')?.[0]).toEqual([20])
+    expect(wrapper.emitted('updatePageSize')?.[0]).toEqual(20)
   })
 
   it('should show search when showSearch is true', () => {
