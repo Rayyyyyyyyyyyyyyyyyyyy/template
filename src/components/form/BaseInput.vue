@@ -48,7 +48,9 @@ const handlerClear = () => {
     @clear="handlerClear"
   >
     <template #prefix>
-      <el-icon><Search /></el-icon>
+      <div class="text-text-border w-full h-full flex items-center justify-center text-lg">
+        <el-icon><Search /></el-icon>
+      </div>
     </template>
   </el-input>
 </template>

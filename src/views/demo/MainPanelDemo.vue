@@ -92,9 +92,7 @@ const handleBackClick = () => {
         <template #header>
           <h2 class="text-xl font-semibold">自定義樣式的主面板</h2>
         </template>
-        <MainPanel
-          title="自定義面板"
-        >
+        <MainPanel title="自定義面板">
           <div class="p-6">
             <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-lg">
               <h3 class="text-xl font-bold mb-2">漸變背景</h3>
@@ -103,8 +101,6 @@ const handleBackClick = () => {
           </div>
         </MainPanel>
       </el-card>
-
-
 
       <!-- 功能展示說明 -->
       <el-card class="mb-8" shadow="always">
@@ -145,10 +141,4 @@ const handleBackClick = () => {
   </div>
 </template>
 
-<style scoped>
-.custom-panel {
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-</style>
+<style scoped></style>

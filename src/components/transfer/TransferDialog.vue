@@ -16,7 +16,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
   (e: 'update:submit', data: TableColumn<T>[]): void
-  (e: 'update:checkChange', data: { columns: TableColumn<T>[], checkList: string[] }): void
+  (e: 'update:checkChange', data: { columns: TableColumn<T>[]; checkList: string[] }): void
 }>()
 
 const dialogVisible = computed({
@@ -99,7 +99,7 @@ const handleCheckChange = (val: CheckboxValueType[]) => {
   // 即時 emit checkbox 狀態變更
   emit('update:checkChange', {
     columns: state.localColumns,
-    checkList: state.checkList
+    checkList: state.checkList,
   })
 }
 
@@ -128,9 +128,7 @@ const doFilterColumn = (keyword: string) => {
   <base-dialog v-model="dialogVisible" :title="transferTitle" @click:submit="handlerSubmit">
     <div class="search-bar">
       <search-bar
-        :show-filter="false"
         :show-search="true"
-        :full-input="true"
         @update:clear="resetFilterColumn"
         @keydown:enter="doFilterColumn"
       />
@@ -149,25 +147,23 @@ const doFilterColumn = (keyword: string) => {
           :handle-mousedown="(prop: string) => (state.clickItemProp = prop)"
         >
           <!-- 默認的靜態列表 -->
-          <div class="max-h-96 overflow-y-auto">
-            <template v-for="(element, index) in state.localColumns" :key="element.prop">
-              <transfer-item
-                :dialog-modal-visible="dialogVisible"
-                :columns-value="element"
-                :columns-index="index"
-                :columns-len="state.localColumns.length"
-                :class="{
-                  'transfer-active-bg': element.checkActive,
-                  'transfer-active-border': state.clickItemProp == element.prop,
-                }"
-                @mousedown="state.clickItemProp = element.prop || ''"
-                @update:toTop="handleItemEvents.toTop(index)"
-                @update:toBottom="handleItemEvents.toBottom(index)"
-                @update:toPre="handleItemEvents.toPre(index)"
-                @update:toNext="handleItemEvents.toNext(index)"
-              />
-            </template>
-          </div>
+          <template v-for="(element, index) in state.localColumns" :key="element.prop">
+            <transfer-item
+              :dialog-modal-visible="dialogVisible"
+              :columns-value="element"
+              :columns-index="index"
+              :columns-len="state.localColumns.length"
+              :class="{
+                'transfer-active-bg': element.checkActive,
+                'transfer-active-border': state.clickItemProp == element.prop,
+              }"
+              @mousedown="state.clickItemProp = element.prop || ''"
+              @update:toTop="handleItemEvents.toTop(index)"
+              @update:toBottom="handleItemEvents.toBottom(index)"
+              @update:toPre="handleItemEvents.toPre(index)"
+              @update:toNext="handleItemEvents.toNext(index)"
+            />
+          </template>
         </slot>
       </el-checkbox-group>
     </div>
