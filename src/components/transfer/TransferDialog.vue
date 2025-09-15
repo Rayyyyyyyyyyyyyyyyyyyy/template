@@ -82,7 +82,6 @@ watch(
   },
 )
 const handlerSubmit = () => {
-  console.log('state.localColumns', state.localColumns)
   emit('update:submit', state.localColumns)
 }
 

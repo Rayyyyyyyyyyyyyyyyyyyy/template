@@ -48,7 +48,7 @@ const handleColumnSortChange = (data: SortChangValue<T>) => {
     <div class="flex items-center h-12 bg-gray-200 px-1.5 rounded-t justify-end">
       <div class="flex items-center mr-4">
         <div
-          class="cursor-pointer text-blue-800 text-xl flex items-center justify-center hover:text-blue-600"
+          class="cursor-pointer text-text text-xl flex items-center justify-center hover:text-blue-600"
           @click="openTransferDialog"
         >
           <el-icon><Setting /></el-icon>
