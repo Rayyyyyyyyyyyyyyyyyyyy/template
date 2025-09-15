@@ -4,6 +4,7 @@ import BaseBtn from './components/items/BaseBtn.vue'
 import BaseInput from './components/form/BaseInput.vue'
 import BaseDialog from './components/items/BaseDialog.vue'
 import SortTable from './components/tables/SortTable.vue'
+import TitleTable from './components/tables/TitleTable.vue'
 import SearchBar from './components/items/SearchBar.vue'
 
 // 導入樣式
@@ -16,7 +17,7 @@ export * from './types'
 export * from './utils/tableHelper'
 
 // 導出組件
-export { BaseTable, BaseBtn, BaseInput, BaseDialog, SortTable, SearchBar }
+export { BaseTable, BaseBtn, BaseInput, BaseDialog, SortTable, TitleTable, SearchBar }
 
 // 導出組件類型
 export type {
@@ -43,6 +44,7 @@ const components: any[] = [
   BaseInput,
   BaseDialog,
   SortTable,
+  TitleTable,
   SearchBar,
 ]
 
@@ -76,6 +78,9 @@ export default {
 }
 ;(SortTable as unknown as Record<string, unknown>).install = (app: App) => {
   app.component(SortTable.name || 'SortTable', SortTable)
+}
+;(TitleTable as unknown as Record<string, unknown>).install = (app: App) => {
+  app.component(TitleTable.name || 'TitleTable', TitleTable)
 }
 ;(SearchBar as unknown as Record<string, unknown>).install = (app: App) => {
   app.component(SearchBar.name || 'SearchBar', SearchBar)

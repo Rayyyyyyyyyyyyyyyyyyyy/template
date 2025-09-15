@@ -63,9 +63,9 @@ const routes = [
         component: () => import('@/views/demo/BaseDialogDemo.vue'),
       },
       {
-        path: ROUTES.SORT_TABLE,
-        name: ROUTE_NAMES.SORT_TABLE,
-        component: () => import('@/views/demo/SortTableDemo.vue'),
+        path: ROUTES.TABLE,
+        name: ROUTE_NAMES.TABLE,
+        component: () => import('@/views/demo/TableDemo.vue'),
       },
       {
         path: ROUTES.SEARCH_BAR,

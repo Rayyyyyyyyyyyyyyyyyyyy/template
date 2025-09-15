@@ -5,6 +5,7 @@ export { default as BaseInput } from './form/BaseInput.vue'
 export { default as BaseDialog } from './items/BaseDialog.vue'
 export { default as BaseMultipleInput } from './form/BaseMultipleInput.vue'
 export { default as SortTable } from './tables/SortTable.vue'
+export { default as TitleTable } from './tables/TitleTable.vue'
 export { default as SearchBar } from './items/SearchBar.vue'
 export { default as TransferDialog } from './transfer/TransferDialog.vue'
 export { default as TransferItem } from './transfer/transferItem.vue'
@@ -34,6 +35,10 @@ export type {
   SortTableProps,
   SortTableEmits,
   SortTableInstance,
+  // TitleTable 組件類型
+  TitleTableProps,
+  TitleTableEmits,
+  TitleTableInstance,
   // SearchBar 組件類型
   SearchBarProps,
   SearchBarEmits,
@@ -71,6 +76,7 @@ export type { default as BaseBtnType } from './items/BaseBtn.vue'
 export type { default as BaseInputType } from './form/BaseInput.vue'
 export type { default as BaseDialogType } from './items/BaseDialog.vue'
 export type { default as SortTableType } from './tables/SortTable.vue'
+export type { default as TitleTableType } from './tables/TitleTable.vue'
 export type { default as SearchBarType } from './items/SearchBar.vue'
 export type { default as TransferDialogType } from './transfer/TransferDialog.vue'
 export type { default as TransferItemType } from './transfer/transferItem.vue'

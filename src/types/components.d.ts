@@ -93,6 +93,50 @@ export interface SortTableInstance<T extends Record<string, unknown> = Record<st
   $emit: SortTableEmits<T>
 }
 
+// ==================== TitleTable 組件類型 ====================
+
+/** TitleTable 組件 Props 類型 */
+export interface TitleTableProps<T extends Record<string, unknown> = Record<string, unknown>> {
+  /** 表格數據 */
+  data: T[]
+  /** 表格列配置 */
+  columns: import('./index').TableColumn<T>[]
+  /** 表格標題 */
+  tableTitle?: string
+  /** 是否顯示選擇列 */
+  showSelection?: boolean
+  /** 是否顯示加載狀態 */
+  loading?: boolean
+  /** 是否顯示匯總行 */
+  showSummary?: boolean
+  /** 是否顯示溢出提示 */
+  showOverFlowTooltip?: boolean
+  /** 匯總方法 */
+  summaryMethod?: (param: { columns: import('element-plus').TableColumnCtx<Record<string, unknown>>[]; data: T[] }) => (string | import('vue').VNode)[]
+}
+
+/** TitleTable 組件 Emits 類型 */
+export interface TitleTableEmits<T extends Record<string, unknown> = Record<string, unknown>> {
+  /** 新增按鈕點擊事件 */
+  (e: 'click:add'): void
+  /** 編輯按鈕點擊事件 */
+  (e: 'click:edit'): void
+  /** 刪除按鈕點擊事件 */
+  (e: 'click:delete'): void
+  /** 更新選擇行事件 */
+  (e: 'update:selectRow', value: T[]): void
+  /** 單元格點擊事件 */
+  (e: 'click:cell', column: import('./index').TableColumn<T>, row: T): void
+}
+
+/** TitleTable 組件實例類型 */
+export interface TitleTableInstance<T extends Record<string, unknown> = Record<string, unknown>> {
+  /** 組件 Props */
+  $props: TitleTableProps<T>
+  /** 組件 Emits */
+  $emit: TitleTableEmits<T>
+}
+
 // ==================== 按鈕相關組件類型 ====================
 
 // ==================== BaseBtn 組件類型 ====================
@@ -198,6 +242,8 @@ export interface TransferDialogEmits<T = Record<string, unknown>> {
   (e: 'update:modelValue', value: boolean): void
   /** 提交事件 */
   (e: 'update:submit', data: import('./index').TableColumn<T>[]): void
+  /** checkbox 狀態變更事件 */
+  (e: 'update:checkChange', data: { columns: import('./index').TableColumn<T>[], checkList: string[] }): void
 }
 
 /** TransferDialog 組件實例類型 */
@@ -497,6 +543,22 @@ export declare const SortTable: DefineComponent<
   install: (app: App) => void
 }
 
+/** TitleTable 組件定義 */
+export declare const TitleTable: DefineComponent<
+  TitleTableProps<any>,
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  TitleTableEmits<any>
+> & {
+  /** 安裝方法 */
+  install: (app: App) => void
+}
+
 /** BaseBtn 組件定義 */
 export declare const BaseBtn: DefineComponent<
   BaseBtnProps,
@@ -677,6 +739,8 @@ export interface VueTableComponentsPlugin {
   BaseTable: typeof BaseTable
   /** SortTable 組件 */
   SortTable: typeof SortTable
+  /** TitleTable 組件 */
+  TitleTable: typeof TitleTable
   /** BaseBtn 組件 */
   BaseBtn: typeof BaseBtn
   /** BaseDialog 組件 */
@@ -705,6 +769,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BaseTable: typeof BaseTable
     SortTable: typeof SortTable
+    TitleTable: typeof TitleTable
     BaseBtn: typeof BaseBtn
     BaseDialog: typeof BaseDialog
     TransferDialog: typeof TransferDialog

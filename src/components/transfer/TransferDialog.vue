@@ -16,6 +16,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
   (e: 'update:submit', data: TableColumn<T>[]): void
+  (e: 'update:checkChange', data: { columns: TableColumn<T>[], checkList: string[] }): void
 }>()
 
 const dialogVisible = computed({
@@ -81,6 +82,7 @@ watch(
   },
 )
 const handlerSubmit = () => {
+  console.log('state.localColumns', state.localColumns)
   emit('update:submit', state.localColumns)
 }
 
@@ -93,6 +95,11 @@ const handleCheckChange = (val: CheckboxValueType[]) => {
   const stringValues = val.map((v) => String(v))
   state.localColumns.forEach((column) => {
     column.checkActive = stringValues.includes(column.prop as string)
+  })
+  // 即時 emit checkbox 狀態變更
+  emit('update:checkChange', {
+    columns: state.localColumns,
+    checkList: state.checkList
   })
 }
 
