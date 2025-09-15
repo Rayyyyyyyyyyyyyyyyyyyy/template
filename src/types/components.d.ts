@@ -103,8 +103,14 @@ export interface TitleTableProps<T extends Record<string, unknown> = Record<stri
   columns: import('./index').TableColumn<T>[]
   /** 表格標題 */
   tableTitle?: string
+  /** 是否可編輯（顯示新增/刪除按鈕） */
+  propIsEditable?: boolean
   /** 是否顯示選擇列 */
   showSelection?: boolean
+  /** 是否只顯示刪除按鈕（隱藏新增按鈕） */
+  onlyDelete?: boolean
+  /** 是否顯示刪除按鈕 */
+  showDelete?: boolean
   /** 是否顯示加載狀態 */
   loading?: boolean
   /** 是否顯示匯總行 */

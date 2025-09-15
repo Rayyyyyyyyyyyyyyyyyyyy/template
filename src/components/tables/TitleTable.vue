@@ -9,7 +9,10 @@ defineProps<{
   data: T[]
   columns: TableColumn<T>[]
   tableTitle?: string
+  propIsEditable?: boolean
   showSelection?: boolean
+  onlyDelete?: boolean
+  showDelete?: boolean
   loading?: boolean
   showSummary?: boolean
   showOverFlowTooltip?: boolean
@@ -44,15 +47,18 @@ const handleCellClick = (column: TableColumn<T>, row: T) => {
 <template>
   <div class="w-full mb-4">
     <!-- 表格標題區域：包含標題文本和操作按鈕 -->
-    <div class="flex items-center h-12 bg-gray-200 px-1.5 rounded-t justify-between" v-if="tableTitle">
-      <p class="font-bold text-20">{{ tableTitle }}</p>
+    <div
+      class="flex items-center h-12 bg-gray-200 px-1.5 rounded-t justify-between"
+      v-if="tableTitle"
+    >
+      <p class="font-bold text-xl">{{ tableTitle }}</p>
 
       <div class="flex items-center">
         <slot name="tableSearch" />
 
-        <div class="flex items-center">
-          <BaseBtn text="新增" type="primary" @click="addInvoiceDetail" />
-          <BaseBtn text="刪除" type="primary" @click="deleteSelectRow" />
+        <div class="flex items-center" v-if="propIsEditable">
+          <BaseBtn text="新增" type="primary" @click="addInvoiceDetail" v-if="!onlyDelete" />
+          <BaseBtn text="刪除" type="primary" @click="deleteSelectRow" v-if="showDelete" />
         </div>
       </div>
     </div>
@@ -65,7 +71,7 @@ const handleCellClick = (column: TableColumn<T>, row: T) => {
       :columns="columns"
       :show-summary="showSummary"
       :summary-method="summaryMethod"
-      :show-selection="showSelection"
+      :show-selection="propIsEditable || showSelection"
       :show-over-flow-tooltip="showOverFlowTooltip"
       @selection-change="handleSelectionChange"
       @cell-click="handleCellClick"
