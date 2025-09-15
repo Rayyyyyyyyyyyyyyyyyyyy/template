@@ -19,6 +19,8 @@ export const ROUTES = {
   SEARCH_BAR: '/demo/search-bar',
   FUNCTION_HEADER: '/demo/function-header',
   MAIN_PANEL: '/demo/main-panel',
+  DETAIL_LAYOUT: '/demo/detail-layout',
+  FILTER_LAYOUT: '/demo/filter-layout',
 
   // 錯誤頁面
   NOT_FOUND: '/:catchAll(.*)',
@@ -43,6 +45,8 @@ export const ROUTE_NAMES = {
   SEARCH_BAR: 'SearchBar',
   FUNCTION_HEADER: 'FunctionHeader',
   MAIN_PANEL: 'MainPanel',
+  DETAIL_LAYOUT: 'DetailLayout',
+  FILTER_LAYOUT: 'FilterLayout',
 
   // 錯誤頁面
   NOT_FOUND: 'NotFoundPage',

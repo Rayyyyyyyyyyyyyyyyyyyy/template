@@ -12,6 +12,8 @@ export { default as TransferItem } from './transfer/transferItem.vue'
 export { default as FunctionHeader } from './layout/FunctionHeader.vue'
 export { default as MainPanel } from './layout/MainPanel.vue'
 export { default as SearchableListPanel } from './layout/SearchableListPanel.vue'
+export { default as DetailLayout } from './layout/DetailLayout.vue'
+export { default as FilterLayout } from './layout/FilterLayout.vue'
 
 // 導出組件類型
 export type {
@@ -65,6 +67,14 @@ export type {
   FunctionHeaderProps,
   FunctionHeaderEmits,
   FunctionHeaderInstance,
+  // DetailLayout 組件類型
+  DetailLayoutProps,
+  DetailLayoutEmits,
+  DetailLayoutInstance,
+  // FilterLayout 組件類型
+  FilterLayoutProps,
+  FilterLayoutEmits,
+  FilterLayoutInstance,
   // 插件類型
   PluginOptions,
   VueTableComponentsPlugin
@@ -84,3 +94,5 @@ export type { default as SearchableListPanelType } from './layout/SearchableList
 export type { default as BaseMultipleInputType } from './form/BaseMultipleInput.vue'
 export type { default as FunctionHeaderType } from './layout/FunctionHeader.vue'
 export type { default as MainPanelType } from './layout/MainPanel.vue'
+export type { default as DetailLayoutType } from './layout/DetailLayout.vue'
+export type { default as FilterLayoutType } from './layout/FilterLayout.vue'

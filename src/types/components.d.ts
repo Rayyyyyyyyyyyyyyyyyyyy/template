@@ -473,6 +473,62 @@ export interface MainPanelInstance {
   $emit: MainPanelEmits
 }
 
+// ==================== DetailLayout 組件類型 ====================
+
+/** DetailLayout 組件 Props 類型 */
+export interface DetailLayoutProps {
+  /** 標題 */
+  title: string
+  /** 是否顯示返回按鈕 */
+  showBack?: boolean | string | object
+  /** 是否可編輯 */
+  isEditable: boolean
+  /** 頁面加載狀態 */
+  pageLoading?: boolean
+}
+
+/** DetailLayout 組件 Emits 類型 */
+export interface DetailLayoutEmits {
+  /** 保存編輯事件 */
+  (e: 'update:saveEdit', value: boolean): void
+  /** 取消編輯事件 */
+  (e: 'update:cancelEdit'): void
+}
+
+/** DetailLayout 組件實例類型 */
+export interface DetailLayoutInstance {
+  /** 組件 Props */
+  $props: DetailLayoutProps
+  /** 組件 Emits */
+  $emit: DetailLayoutEmits
+}
+
+// ==================== FilterLayout 組件類型 ====================
+
+/** FilterLayout 組件 Props 類型 */
+export interface FilterLayoutProps {
+  /** 主要標題 */
+  mainTitle: string
+  /** 篩選標題 */
+  filterTitle: string
+}
+
+/** FilterLayout 組件 Emits 類型 */
+export interface FilterLayoutEmits {
+  /** 提交篩選事件 */
+  (e: 'submitEmit'): void
+  /** 重置篩選事件 */
+  (e: 'resetEmit'): void
+}
+
+/** FilterLayout 組件實例類型 */
+export interface FilterLayoutInstance {
+  /** 組件 Props */
+  $props: FilterLayoutProps
+  /** 組件 Emits */
+  $emit: FilterLayoutEmits
+}
+
 // ==================== 轉移相關組件類型 ====================
 
 // ==================== TransferItem 組件類型 ====================
@@ -705,6 +761,38 @@ export declare const MainPanel: DefineComponent<
   install: (app: App) => void
 }
 
+/** DetailLayout 組件定義 */
+export declare const DetailLayout: DefineComponent<
+  DetailLayoutProps,
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  DetailLayoutEmits
+> & {
+  /** 安裝方法 */
+  install: (app: App) => void
+}
+
+/** FilterLayout 組件定義 */
+export declare const FilterLayout: DefineComponent<
+  FilterLayoutProps,
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  FilterLayoutEmits
+> & {
+  /** 安裝方法 */
+  install: (app: App) => void
+}
+
 /** TransferItem 組件定義 */
 export declare const TransferItem: DefineComponent<
   TransferItemProps<any>,
@@ -759,6 +847,10 @@ export interface VueTableComponentsPlugin {
   FunctionHeader: typeof FunctionHeader
   /** MainPanel 組件 */
   MainPanel: typeof MainPanel
+  /** DetailLayout 組件 */
+  DetailLayout: typeof DetailLayout
+  /** FilterLayout 組件 */
+  FilterLayout: typeof FilterLayout
   /** TransferItem 組件 */
   TransferItem: typeof TransferItem
 }
@@ -779,6 +871,8 @@ declare module '@vue/runtime-core' {
     SearchableListPanel: typeof SearchableListPanel
     FunctionHeader: typeof FunctionHeader
     MainPanel: typeof MainPanel
+    DetailLayout: typeof DetailLayout
+    FilterLayout: typeof FilterLayout
     TransferItem: typeof TransferItem
   }
 }

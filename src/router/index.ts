@@ -82,6 +82,16 @@ const routes = [
         name: ROUTE_NAMES.MAIN_PANEL,
         component: () => import('@/views/demo/MainPanelDemo.vue'),
       },
+      {
+        path: ROUTES.DETAIL_LAYOUT,
+        name: ROUTE_NAMES.DETAIL_LAYOUT,
+        component: () => import('@/views/demo/DetailLayoutDemo.vue'),
+      },
+      {
+        path: ROUTES.FILTER_LAYOUT,
+        name: ROUTE_NAMES.FILTER_LAYOUT,
+        component: () => import('@/views/demo/FilterLayoutDemo.vue'),
+      },
     ],
   },
   {
