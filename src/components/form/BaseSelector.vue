@@ -34,7 +34,6 @@ const props = withDefaults(
     multiple?: boolean
     disabled?: boolean
     class?: string
-    dataCy?: string
   }>(),
   {
     modelValue: () => '',

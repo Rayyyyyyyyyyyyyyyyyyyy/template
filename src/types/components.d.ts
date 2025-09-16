@@ -322,8 +322,6 @@ export interface BaseMultipleInputProps {
   type?: string
   /** 驗證規則函數 */
   validateRule?: (inputString: string) => boolean
-  /** 測試屬性 */
-  dataCy?: string
 }
 
 /** BaseMultipleInput 組件 Emits 類型 */
