@@ -3,12 +3,14 @@ import { MainPanel, BaseBtn } from '@/components'
 
 defineProps<{
   mainTitle: string
+  showBack?: boolean | string | object
   filterTitle: string
 }>()
 
 const emit = defineEmits<{
   (e: 'submitEmit'): void
   (e: 'resetEmit'): void
+  (e: 'click:back'): void
 }>()
 
 const doFilter = () => {
@@ -17,10 +19,14 @@ const doFilter = () => {
 const resetFilter = () => {
   emit('resetEmit')
 }
+
+const handleBackClick = () => {
+  emit('click:back')
+}
 </script>
 
 <template>
-  <main-panel :title="mainTitle">
+  <MainPanel :title="mainTitle" :show-back="showBack" @click:back="handleBackClick">
     <template #main>
       <div class="filter-container">
         <div class="filter-header">{{ filterTitle }}</div>
@@ -34,7 +40,7 @@ const resetFilter = () => {
         <base-btn text="重設" type="primary" @click="resetFilter" />
       </div>
     </template>
-  </main-panel>
+  </MainPanel>
 </template>
 
 <style scoped>

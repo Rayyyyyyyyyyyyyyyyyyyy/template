@@ -499,6 +499,8 @@ export interface DetailLayoutEmits {
   (e: 'update:saveEdit', value: boolean): void
   /** 取消編輯事件 */
   (e: 'update:cancelEdit'): void
+  /** 返回按鈕點擊事件 */
+  (e: 'click:back'): void
 }
 
 /** DetailLayout 組件實例類型 */
@@ -513,8 +515,10 @@ export interface DetailLayoutInstance {
 
 /** FilterLayout 組件 Props 類型 */
 export interface FilterLayoutProps {
-  /** 主要標題 */
+  /** 標題 */
   mainTitle: string
+  /** 是否顯示返回按鈕 */
+  showBack?: boolean | string | object
   /** 篩選標題 */
   filterTitle: string
 }
@@ -525,6 +529,8 @@ export interface FilterLayoutEmits {
   (e: 'submitEmit'): void
   /** 重置篩選事件 */
   (e: 'resetEmit'): void
+  /** 返回按鈕點擊事件 */
+  (e: 'click:back'): void
 }
 
 /** FilterLayout 組件實例類型 */

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MainPanel, BaseBtn } from '@/components'
+import { MainPanel, BaseBtn, SearchableListPanel } from '@/components'
 
 defineProps<{
   title: string
@@ -11,6 +11,7 @@ defineProps<{
 const emit = defineEmits<{
   (e: 'update:saveEdit', value: boolean): void
   (e: 'update:cancelEdit'): void
+  (e: 'click:back'): void
 }>()
 
 const saveDetailEdit = () => {
@@ -19,10 +20,13 @@ const saveDetailEdit = () => {
 const cancelDetailEdit = () => {
   emit('update:cancelEdit')
 }
+const handleBackClick = () => {
+  emit('click:back')
+}
 </script>
 
 <template>
-  <MainPanel :title="title" :show-back="showBack">
+  <MainPanel :title="title" :show-back="showBack" @click:back="handleBackClick">
     <template #main>
       <div class="detail-container" v-loading="pageLoading">
         <slot name="detailHeader"></slot>
