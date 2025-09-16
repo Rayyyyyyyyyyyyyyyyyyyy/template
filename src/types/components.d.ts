@@ -22,7 +22,7 @@ export interface BaseTableProps<T extends Record<string, unknown> = Record<strin
   showOverFlowTooltip?: boolean
   /** 匯總方法 */
   summaryMethod?: (param: {
-    columns: TableColumnCtx<Record<string, unknown>>[];
+    columns: TableColumnCtx<Record<string, unknown>>[]
     data: T[]
   }) => (string | VNode)[]
   /** 行樣式類名 */
@@ -68,7 +68,10 @@ export interface SortTableProps<T extends Record<string, unknown> = Record<strin
   /** 是否顯示溢出提示 */
   showOverFlowTooltip?: boolean
   /** 匯總方法 */
-  summaryMethod?: (param: { columns: import('element-plus').TableColumnCtx<Record<string, unknown>>[]; data: T[] }) => (string | import('vue').VNode)[]
+  summaryMethod?: (param: {
+    columns: import('element-plus').TableColumnCtx<Record<string, unknown>>[]
+    data: T[]
+  }) => (string | import('vue').VNode)[]
   /** 行樣式類名 */
   sortTableRowClassName?: (data: { row: T; rowIndex: number }) => string
 }
@@ -118,7 +121,10 @@ export interface TitleTableProps<T extends Record<string, unknown> = Record<stri
   /** 是否顯示溢出提示 */
   showOverFlowTooltip?: boolean
   /** 匯總方法 */
-  summaryMethod?: (param: { columns: import('element-plus').TableColumnCtx<Record<string, unknown>>[]; data: T[] }) => (string | import('vue').VNode)[]
+  summaryMethod?: (param: {
+    columns: import('element-plus').TableColumnCtx<Record<string, unknown>>[]
+    data: T[]
+  }) => (string | import('vue').VNode)[]
 }
 
 /** TitleTable 組件 Emits 類型 */
@@ -187,7 +193,6 @@ export interface BaseBtnInstance {
   $emit: BaseBtnEmits
 }
 
-
 // ==================== 對話框相關組件類型 ====================
 
 // ==================== BaseDialog 組件類型 ====================
@@ -249,7 +254,10 @@ export interface TransferDialogEmits<T = Record<string, unknown>> {
   /** 提交事件 */
   (e: 'update:submit', data: import('./index').TableColumn<T>[]): void
   /** checkbox 狀態變更事件 */
-  (e: 'update:checkChange', data: { columns: import('./index').TableColumn<T>[], checkList: string[] }): void
+  (
+    e: 'update:checkChange',
+    data: { columns: import('./index').TableColumn<T>[]; checkList: string[] },
+  ): void
 }
 
 /** TransferDialog 組件實例類型 */
@@ -285,7 +293,7 @@ export interface BaseInputProps {
   /** 自動完成 */
   autocomplete?: string
   /** 測試屬性 */
-  dataCy?: string
+  showSearch?: boolean
 }
 
 /** BaseInput 組件 Emits 類型 */
@@ -303,7 +311,6 @@ export interface BaseInputInstance {
   /** 組件 Emits */
   $emit: BaseInputEmits
 }
-
 
 // ==================== BaseMultipleInput 組件類型 ====================
 
@@ -643,7 +650,6 @@ export declare const BaseBtn: DefineComponent<
   install: (app: App) => void
 }
 
-
 /** BaseDialog 組件定義 */
 export declare const BaseDialog: DefineComponent<
   BaseDialogProps,
@@ -691,7 +697,6 @@ export declare const BaseInput: DefineComponent<
   /** 安裝方法 */
   install: (app: App) => void
 }
-
 
 /** BaseMultipleInput 組件定義 */
 export declare const BaseMultipleInput: DefineComponent<

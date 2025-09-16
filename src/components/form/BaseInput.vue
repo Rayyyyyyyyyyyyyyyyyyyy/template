@@ -12,7 +12,7 @@ const props = defineProps<{
   readonly?: boolean
   maxlength?: string | number
   autocomplete?: string
-  dataCy?: string
+  showSearch?: boolean
 }>()
 
 const emits = defineEmits<{
@@ -47,7 +47,7 @@ const handlerClear = () => {
     clearable
     @clear="handlerClear"
   >
-    <template #prefix>
+    <template #prefix v-if="showSearch">
       <div class="text-text-border w-full h-full flex items-center justify-center text-lg">
         <el-icon><Search /></el-icon>
       </div>

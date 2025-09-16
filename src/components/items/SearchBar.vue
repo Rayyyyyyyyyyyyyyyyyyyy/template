@@ -39,6 +39,7 @@ const resetFilter = () => {
         <base-input
           v-model="keyword"
           placeholder="請輸入關鍵字搜尋列表"
+          :show-word-limit="true"
           @keydown.enter="doSearch"
           @update:clearValue="clearableClick"
           class="search-input_inner"
