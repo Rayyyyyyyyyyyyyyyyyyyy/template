@@ -235,6 +235,38 @@ export interface BaseDialogInstance {
   $emit: BaseDialogEmits
 }
 
+// ==================== BaseWaringDialog 組件類型 ====================
+
+/** BaseWaringDialog 組件 Props 類型 */
+export interface BaseWaringDialogProps {
+  /** 是否顯示對話框 */
+  modelValue: boolean
+  /** 警告文字 */
+  waringText?: string
+  /** 副警告文字 */
+  subWaringText?: string
+  /** 標題文字 */
+  titleText?: string
+  /** 對話框寬度 */
+  modalWidth?: string
+}
+
+/** BaseWaringDialog 組件 Emits 類型 */
+export interface BaseWaringDialogEmits {
+  /** 更新 modelValue 事件 */
+  (e: 'update:modelValue', value: boolean): void
+  /** 提交事件 */
+  (e: 'update:submit'): void
+}
+
+/** BaseWaringDialog 組件實例類型 */
+export interface BaseWaringDialogInstance {
+  /** 組件 Props */
+  $props: BaseWaringDialogProps
+  /** 組件 Emits */
+  $emit: BaseWaringDialogEmits
+}
+
 // ==================== TransferDialog 組件類型 ====================
 
 /** TransferDialog 組件 Props 類型 */
@@ -664,6 +696,23 @@ export declare const BaseDialog: DefineComponent<
   install: (app: App) => void
 }
 
+/** BaseWaringDialog 組件定義 */
+export declare const BaseWaringDialog: DefineComponent<
+  BaseWaringDialogProps,
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  BaseWaringDialogEmits
+> & {
+  /** 安裝方法 */
+  install: (app: App) => void
+}
+
 /** TransferDialog 組件定義 */
 export declare const TransferDialog: DefineComponent<
   TransferDialogProps<any>,
@@ -848,6 +897,8 @@ export interface VueTableComponentsPlugin {
   BaseBtn: typeof BaseBtn
   /** BaseDialog 組件 */
   BaseDialog: typeof BaseDialog
+  /** BaseWaringDialog 組件 */
+  BaseWaringDialog: typeof BaseWaringDialog
   /** TransferDialog 組件 */
   TransferDialog: typeof TransferDialog
   /** BaseInput 組件 */
@@ -879,6 +930,7 @@ declare module '@vue/runtime-core' {
     TitleTable: typeof TitleTable
     BaseBtn: typeof BaseBtn
     BaseDialog: typeof BaseDialog
+    BaseWaringDialog: typeof BaseWaringDialog
     TransferDialog: typeof TransferDialog
     BaseInput: typeof BaseInput
     BaseMultipleInput: typeof BaseMultipleInput

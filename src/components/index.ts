@@ -3,6 +3,7 @@ export { default as BaseTable } from './tables/BaseTable.vue'
 export { default as BaseBtn } from './items/BaseBtn.vue'
 export { default as BaseInput } from './form/BaseInput.vue'
 export { default as BaseDialog } from './items/BaseDialog.vue'
+export { default as BaseWaringDialog } from './items/BaseWaringDialog.vue'
 export { default as BaseMultipleInput } from './form/BaseMultipleInput.vue'
 export { default as SortTable } from './tables/SortTable.vue'
 export { default as TitleTable } from './tables/TitleTable.vue'
@@ -29,6 +30,10 @@ export type {
   BaseDialogProps,
   BaseDialogEmits,
   BaseDialogInstance,
+  // BaseWaringDialog 組件類型
+  BaseWaringDialogProps,
+  BaseWaringDialogEmits,
+  BaseWaringDialogInstance,
   // BaseInput 組件類型
   BaseInputProps,
   BaseInputEmits,
@@ -85,6 +90,7 @@ export type { default as BaseTableType } from './tables/BaseTable.vue'
 export type { default as BaseBtnType } from './items/BaseBtn.vue'
 export type { default as BaseInputType } from './form/BaseInput.vue'
 export type { default as BaseDialogType } from './items/BaseDialog.vue'
+export type { default as BaseWaringDialogType } from './items/BaseWaringDialog.vue'
 export type { default as SortTableType } from './tables/SortTable.vue'
 export type { default as TitleTableType } from './tables/TitleTable.vue'
 export type { default as SearchBarType } from './items/SearchBar.vue'

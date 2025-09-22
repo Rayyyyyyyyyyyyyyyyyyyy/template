@@ -63,6 +63,11 @@ const routes = [
         component: () => import('@/views/demo/BaseDialogDemo.vue'),
       },
       {
+        path: ROUTES.BASE_WARING_DIALOG,
+        name: ROUTE_NAMES.BASE_WARING_DIALOG,
+        component: () => import('@/views/demo/BaseWaringDialogDemo.vue'),
+      },
+      {
         path: ROUTES.TABLE,
         name: ROUTE_NAMES.TABLE,
         component: () => import('@/views/demo/TableDemo.vue'),

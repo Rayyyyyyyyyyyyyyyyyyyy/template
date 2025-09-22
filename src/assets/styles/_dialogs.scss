@@ -36,14 +36,14 @@
 // 警告對話框樣式
 .waring-dialog {
   .el-dialog__header {
-    @apply border-b-orange;
+    @apply border-b-orange border border-solid;
   }
 }
 
 // 上傳結果對話框樣式
 .upload-result-dialog {
   .el-dialog__header {
-    @apply border-b-blue-10;
+    @apply border-b-blue-10 border border-solid;
   }
 }
 
