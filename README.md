@@ -1002,7 +1002,8 @@ const handleColumnSubmit = (newColumns: TableColumn<User>[]) => {
 | `showOverFlowTooltip` | `boolean` | `false` | 是否顯示溢出提示 |
 | `summaryMethod` | `SummaryMethod<T>` | - | 合計行計算方法 |
 | `baseTableRowClassName` | `RowClassNameGetter<T>` | - | 行樣式類名函數 |
-| `showOperator` | `boolean` | `false` | 是否顯示操作列 |
+| `showCheckBtn` | `boolean` | `false` | 是否顯示查看按鈕 |
+| `showEditBtn` | `boolean` | `false` | 是否顯示編輯按鈕 |
 
 #### Events
 

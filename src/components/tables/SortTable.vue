@@ -18,7 +18,8 @@ defineProps<{
     data: T[]
   }) => (string | VNode)[]
   sortTableRowClassName?: (data: { row: T; rowIndex: number }) => string
-  showOperator?: boolean
+  showCheckBtn?: boolean
+  showEditBtn?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -77,7 +78,8 @@ const handleEditClick = (row: T) => {
       :summary-method="summaryMethod"
       :show-selection="showSelection"
       :base-table-row-class-name="sortTableRowClassName"
-      :show-operator="showOperator"
+      :show-check-btn="showCheckBtn"
+      :show-edit-btn="showEditBtn"
       @selection-change="handleSelectionChange"
       @cell-click="handleCellClick"
       @column-sort-change="handleColumnSortChange"

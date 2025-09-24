@@ -27,8 +27,10 @@ export interface BaseTableProps<T extends Record<string, unknown> = Record<strin
   }) => (string | VNode)[]
   /** 行樣式類名 */
   baseTableRowClassName?: (data: { row: T; rowIndex: number }) => string
-  /** 是否顯示操作列 */
-  showOperator?: boolean
+  /** 是否顯示查看按鈕 */
+  showCheckBtn?: boolean
+  /** 是否顯示編輯按鈕 */
+  showEditBtn?: boolean
 }
 
 /** BaseTable 組件 Emits 類型 */
@@ -80,8 +82,10 @@ export interface SortTableProps<T extends Record<string, unknown> = Record<strin
   }) => (string | import('vue').VNode)[]
   /** 行樣式類名 */
   sortTableRowClassName?: (data: { row: T; rowIndex: number }) => string
-  /** 是否顯示操作列 */
-  showOperator?: boolean
+  /** 是否顯示查看按鈕 */
+  showCheckBtn?: boolean
+  /** 是否顯示編輯按鈕 */
+  showEditBtn?: boolean
 }
 
 /** SortTable 組件 Emits 類型 */
@@ -137,8 +141,10 @@ export interface TitleTableProps<T extends Record<string, unknown> = Record<stri
     columns: import('element-plus').TableColumnCtx<Record<string, unknown>>[]
     data: T[]
   }) => (string | import('vue').VNode)[]
-  /** 是否顯示操作列 */
-  showOperator?: boolean
+  /** 是否顯示查看按鈕 */
+  showCheckBtn?: boolean
+  /** 是否顯示編輯按鈕 */
+  showEditBtn?: boolean
 }
 
 /** TitleTable 組件 Emits 類型 */

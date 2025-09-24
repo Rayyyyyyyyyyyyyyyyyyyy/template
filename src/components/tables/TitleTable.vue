@@ -20,7 +20,8 @@ defineProps<{
     columns: TableColumnCtx<Record<string, unknown>>[]
     data: T[]
   }) => (string | VNode)[]
-  showOperator?: boolean
+  showCheckBtn?: boolean
+  showEditBtn?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -83,7 +84,8 @@ const handleEditClick = (row: T) => {
       :summary-method="summaryMethod"
       :show-selection="propIsEditable || showSelection"
       :show-over-flow-tooltip="showOverFlowTooltip"
-      :show-operator="showOperator"
+      :show-check-btn="showCheckBtn"
+      :show-edit-btn="showEditBtn"
       @selection-change="handleSelectionChange"
       @cell-click="handleCellClick"
       @click:checkRow="handleCheckClick"

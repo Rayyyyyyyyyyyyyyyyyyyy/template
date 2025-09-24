@@ -15,7 +15,8 @@ type Props<T extends Record<string, unknown> = Record<string, unknown>> = {
     data: T[]
   }) => (string | VNode)[]
   baseTableRowClassName?: (data: { row: T; rowIndex: number }) => string
-  showOperator?: boolean
+  showCheckBtn?: boolean
+  showEditBtn?: boolean
 }
 
 // 組件屬性默認值
@@ -25,7 +26,8 @@ const props = withDefaults(defineProps<Props<T>>(), {
   showSelection: false,
   showSummary: false,
   showOverFlowTooltip: false,
-  showOperator: false,
+  showCheckBtn: false,
+  showEditBtn: false,
   summaryMethod: () => [],
   baseTableRowClassName: () => '',
 })
@@ -102,14 +104,27 @@ const handleOperateClick = (value: T, clickType: 'check' | 'edit') => {
         </div>
       </template>
     </el-table-column>
-    <el-table-column v-if="showOperator" width="120" align="center" fixed="right">
+    <el-table-column
+      v-if="props.showCheckBtn || props.showEditBtn"
+      width="120"
+      align="center"
+      fixed="right"
+    >
       <template #default="{ row }">
         <div class="flex items-center justify-center">
-          <p class="blue-text cursor-pointer font-bold" @click="handleOperateClick(row, 'check')">
+          <p
+            class="blue-text cursor-pointer font-bold"
+            @click="handleOperateClick(row, 'check')"
+            v-if="showCheckBtn"
+          >
             查看
           </p>
-          <el-divider direction="vertical" class="!mx-2" />
-          <p class="blue-text cursor-pointer font-bold" @click="handleOperateClick(row, 'edit')">
+          <el-divider direction="vertical" class="!mx-2" v-if="showCheckBtn && showEditBtn" />
+          <p
+            class="blue-text cursor-pointer font-bold"
+            @click="handleOperateClick(row, 'edit')"
+            v-if="showEditBtn"
+          >
             编辑
           </p>
         </div>
