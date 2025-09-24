@@ -105,21 +105,13 @@ const handleOperateClick = (value: T, clickType: 'check' | 'edit') => {
     <el-table-column v-if="showOperator" width="120" align="center" fixed="right">
       <template #default="{ row }">
         <div class="flex items-center justify-center">
-          <base-btn
-            type="primary"
-            :text-btn="true"
-            size="small"
-            text="查看"
-            @click="handleOperateClick(row, 'check')"
-          />
-          <el-divider direction="vertical" class="!mx-1" />
-          <base-btn
-            type="primary"
-            :text-btn="true"
-            size="small"
-            text="编辑"
-            @click="handleOperateClick(row, 'edit')"
-          />
+          <p class="blue-text cursor-pointer font-bold" @click="handleOperateClick(row, 'check')">
+            查看
+          </p>
+          <el-divider direction="vertical" class="!mx-2" />
+          <p class="blue-text cursor-pointer font-bold" @click="handleOperateClick(row, 'edit')">
+            编辑
+          </p>
         </div>
       </template>
     </el-table-column>
