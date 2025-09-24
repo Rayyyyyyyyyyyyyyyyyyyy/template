@@ -112,7 +112,7 @@ const handleOperateClick = (value: T, clickType: 'check' | 'edit') => {
             text="查看"
             @click="handleOperateClick(row, 'check')"
           />
-          <el-divider direction="vertical" />
+          <el-divider direction="vertical" class="!mx-1" />
           <base-btn
             type="primary"
             :text-btn="true"
