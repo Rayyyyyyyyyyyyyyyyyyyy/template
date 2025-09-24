@@ -7,18 +7,20 @@
   <img src="https://img.shields.io/badge/vue-3.x-brightgreen.svg" alt="vue">
 </p>
 
-基於 Vue 3 + Element Plus 的現代化表格組件庫，提供豐富的表格功能和靈活的自定義選項。
+基於 Vue 3 + Element Plus + TypeScript 的現代化組件庫，提供豐富的表格、表單、佈局和交互組件，支援完整的 TypeScript 類型定義和現代化開發體驗。
 
 ## ✨ 特性
 
-- 🚀 **現代化技術棧** - 基於 Vue 3 + TypeScript + Element Plus
-- 📦 **開箱即用** - 提供完整的表格解決方案
-- 🎯 **類型安全** - 完整的 TypeScript 類型定義
-- 📱 **響應式設計** - 適配各種設備尺寸
-- 🔧 **高度可配置** - 靈活的配置選項
-- 🎨 **樣式系統** - 多種樣式導入方式，支援自定義主題
-- 🛠️ **現代化工具** - Sass 模組化 + TypeScript 樣式工具
-- 💡 **豐富組件** - 表格、按鈕、對話框、穿梭框等
+- 🚀 **現代化技術棧** - 基於 Vue 3 + TypeScript + Element Plus + Tailwind CSS
+- 📦 **開箱即用** - 提供完整的組件解決方案，包含表格、表單、佈局、交互組件
+- 🎯 **類型安全** - 完整的 TypeScript 類型定義，支援智能提示和類型檢查
+- 📱 **響應式設計** - 使用 Tailwind CSS，適配各種設備尺寸
+- 🔧 **高度可配置** - 靈活的配置選項和豐富的插槽支持
+- 🎨 **樣式系統** - 多種樣式導入方式，支援自定義主題和 Tailwind CSS 集成
+- 🛠️ **現代化工具** - Sass 模組化 + TypeScript 樣式工具 + 自動導入
+- 💡 **豐富組件** - 17+ 個組件，涵蓋表格、表單、佈局、對話框、穿梭框等
+- 🧪 **完整測試** - 單元測試 + E2E 測試，確保組件穩定性
+- 📚 **詳細文檔** - 完整的 API 文檔和使用示例
 
 ## 📦 安裝
 
@@ -186,7 +188,9 @@ import 'rayyy-vue-table-components/styles'
 
 ## 📚 組件示例
 
-### BaseTable - 數據表格
+### 🗂️ 表格組件
+
+#### BaseTable - 基礎數據表格
 
 基礎的數據表格組件，支援排序、選擇、自定義列等功能。
 
@@ -299,7 +303,94 @@ const handleSelectionChange = (selection: Product[]) => {
 ```
 </details>
 
-### BaseBtn - 按鈕組件
+### 🎛️ 表單組件
+
+#### BaseInput - 基礎輸入框
+
+增強的輸入框組件，支援多種類型和驗證功能。
+
+<details>
+<summary>基本用法</summary>
+
+```vue
+<template>
+  <div class="space-y-4">
+    <BaseInput
+      v-model="inputValue"
+      placeholder="請輸入內容"
+      :clearable="true"
+    />
+    <BaseInput
+      v-model="passwordValue"
+      type="password"
+      placeholder="請輸入密碼"
+      show-password
+    />
+    <BaseInput
+      v-model="emailValue"
+      type="email"
+      placeholder="請輸入郵箱"
+      :validate="validateEmail"
+    />
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { BaseInput } from 'rayyy-vue-table-components'
+
+const inputValue = ref('')
+const passwordValue = ref('')
+const emailValue = ref('')
+
+const validateEmail = (value: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(value) || '請輸入有效的郵箱地址'
+}
+</script>
+```
+</details>
+
+#### BaseMultipleInput - 多標籤輸入
+
+支援多標籤輸入的組件，適用於標籤管理和多值輸入場景。
+
+<details>
+<summary>基本用法</summary>
+
+```vue
+<template>
+  <BaseMultipleInput
+    v-model="tags"
+    placeholder="輸入標籤後按 Enter 確認"
+    :max-tags="10"
+    :validate="validateTag"
+    @change="handleTagsChange"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { BaseMultipleInput } from 'rayyy-vue-table-components'
+
+const tags = ref<string[]>(['Vue', 'TypeScript'])
+
+const validateTag = (tag: string) => {
+  if (tag.length < 2) return '標籤長度至少 2 個字符'
+  if (tag.length > 20) return '標籤長度不能超過 20 個字符'
+  return true
+}
+
+const handleTagsChange = (newTags: string[]) => {
+  console.log('標籤變更:', newTags)
+}
+</script>
+```
+</details>
+
+### 🎨 交互組件
+
+#### BaseBtn - 按鈕組件
 
 增強的按鈕組件，支援多種樣式和狀態。
 
@@ -341,7 +432,54 @@ const handleClick = () => {
 ```
 </details>
 
-### BaseDialog - 對話框組件
+#### SearchBar - 搜尋欄組件
+
+功能豐富的搜尋欄組件，支援即時搜尋和搜尋建議。
+
+<details>
+<summary>基本用法</summary>
+
+```vue
+<template>
+  <SearchBar
+    v-model="searchKeyword"
+    placeholder="搜尋用戶、郵箱或電話..."
+    :suggestions="suggestions"
+    @search="handleSearch"
+    @suggestion-click="handleSuggestionClick"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { SearchBar } from 'rayyy-vue-table-components'
+
+const searchKeyword = ref('')
+const allSuggestions = ref([
+  '張三', '李四', '王五', '趙六'
+])
+
+const suggestions = computed(() => {
+  if (!searchKeyword.value) return []
+  return allSuggestions.value.filter(item => 
+    item.includes(searchKeyword.value)
+  )
+})
+
+const handleSearch = (keyword: string) => {
+  console.log('搜尋關鍵字:', keyword)
+}
+
+const handleSuggestionClick = (suggestion: string) => {
+  searchKeyword.value = suggestion
+}
+</script>
+```
+</details>
+
+### 💬 對話框組件
+
+#### BaseDialog - 基礎對話框
 
 靈活的對話框組件，支援多種配置選項。
 
@@ -387,7 +525,9 @@ const handleCancel = () => {
 ```
 </details>
 
-### MainPanel - 主面板組件
+### 🏗️ 佈局組件
+
+#### MainPanel - 主面板組件
 
 靈活的主面板組件，提供標題、返回按鈕和可自定義高度的滾動區域。
 
@@ -497,7 +637,267 @@ import { MainPanel } from 'rayyy-vue-table-components'
 ```
 </details>
 
-### TransferDialog - 穿梭框對話框
+#### DetailLayout - 詳細頁面佈局
+
+專門用於詳細頁面的佈局組件，支援編輯模式和只讀模式切換。
+
+<details>
+<summary>基本用法</summary>
+
+```vue
+<template>
+  <DetailLayout
+    title="用戶詳細信息"
+    :editable="isEditable"
+    :loading="loading"
+    @save="handleSave"
+    @cancel="handleCancel"
+    @back="handleBack"
+  >
+    <template #header>
+      <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-bold">用戶管理</h1>
+        <BaseBtn 
+          type="primary" 
+          @click="toggleEdit"
+        >
+          {{ isEditable ? '保存' : '編輯' }}
+        </BaseBtn>
+      </div>
+    </template>
+    
+    <template #main>
+      <div class="space-y-6">
+        <div class="grid grid-cols-2 gap-4">
+          <BaseInput
+            v-model="userForm.name"
+            label="姓名"
+            :disabled="!isEditable"
+          />
+          <BaseInput
+            v-model="userForm.email"
+            label="郵箱"
+            type="email"
+            :disabled="!isEditable"
+          />
+        </div>
+      </div>
+    </template>
+  </DetailLayout>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { DetailLayout, BaseBtn, BaseInput } from 'rayyy-vue-table-components'
+
+const isEditable = ref(false)
+const loading = ref(false)
+
+const userForm = ref({
+  name: '張三',
+  email: 'zhangsan@example.com'
+})
+
+const toggleEdit = () => {
+  isEditable.value = !isEditable.value
+}
+
+const handleSave = async () => {
+  loading.value = true
+  // 模擬保存操作
+  await new Promise(resolve => setTimeout(resolve, 1000))
+  loading.value = false
+  isEditable.value = false
+}
+
+const handleCancel = () => {
+  isEditable.value = false
+}
+
+const handleBack = () => {
+  // 返回上一頁
+  console.log('返回上一頁')
+}
+</script>
+```
+</details>
+
+#### FilterLayout - 篩選頁面佈局
+
+專門用於篩選頁面的佈局組件，支援自定義篩選表單。
+
+<details>
+<summary>基本用法</summary>
+
+```vue
+<template>
+  <FilterLayout
+    main-title="用戶管理"
+    filter-title="篩選條件"
+    @submit="handleFilterSubmit"
+    @reset="handleFilterReset"
+  >
+    <template #filter-form>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <BaseInput
+          v-model="filterForm.keyword"
+          label="關鍵字"
+          placeholder="搜尋姓名或郵箱"
+        />
+        <BaseSelector
+          v-model="filterForm.status"
+          label="狀態"
+          :options="statusOptions"
+        />
+        <BaseInput
+          v-model="filterForm.dateRange"
+          label="創建時間"
+          type="daterange"
+        />
+      </div>
+    </template>
+  </FilterLayout>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { FilterLayout, BaseInput, BaseSelector } from 'rayyy-vue-table-components'
+
+const filterForm = ref({
+  keyword: '',
+  status: '',
+  dateRange: []
+})
+
+const statusOptions = [
+  { label: '全部', value: '' },
+  { label: '啟用', value: 'active' },
+  { label: '禁用', value: 'inactive' }
+]
+
+const handleFilterSubmit = () => {
+  console.log('篩選條件:', filterForm.value)
+}
+
+const handleFilterReset = () => {
+  filterForm.value = {
+    keyword: '',
+    status: '',
+    dateRange: []
+  }
+}
+</script>
+```
+</details>
+
+#### SearchableListPanel - 整合式搜尋面板
+
+整合搜尋、篩選、分頁功能的綜合面板組件。
+
+<details>
+<summary>基本用法</summary>
+
+```vue
+<template>
+  <SearchableListPanel
+    title="用戶列表"
+    :data="tableData"
+    :columns="columns"
+    :loading="loading"
+    :pagination="pagination"
+    @search="handleSearch"
+    @filter="handleFilter"
+    @page-change="handlePageChange"
+  >
+    <template #firstButton>
+      <BaseBtn type="primary" @click="handleAdd">
+        新增用戶
+      </BaseBtn>
+    </template>
+    
+    <template #customButton>
+      <BaseBtn type="default" @click="handleExport">
+        導出數據
+      </BaseBtn>
+    </template>
+    
+    <template #filter-content>
+      <div class="space-y-4">
+        <BaseInput
+          v-model="filterForm.keyword"
+          label="關鍵字"
+          placeholder="搜尋姓名或郵箱"
+        />
+        <BaseSelector
+          v-model="filterForm.status"
+          label="狀態"
+          :options="statusOptions"
+        />
+      </div>
+    </template>
+  </SearchableListPanel>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { SearchableListPanel, BaseBtn, BaseInput, BaseSelector } from 'rayyy-vue-table-components'
+
+const loading = ref(false)
+const tableData = ref([
+  { id: 1, name: '張三', email: 'zhangsan@example.com', status: 'active' },
+  { id: 2, name: '李四', email: 'lisi@example.com', status: 'inactive' }
+])
+
+const columns = [
+  { prop: 'id', label: 'ID', width: 80 },
+  { prop: 'name', label: '姓名' },
+  { prop: 'email', label: '郵箱' },
+  { prop: 'status', label: '狀態' }
+]
+
+const pagination = ref({
+  current: 1,
+  pageSize: 10,
+  total: 100
+})
+
+const filterForm = ref({
+  keyword: '',
+  status: ''
+})
+
+const statusOptions = [
+  { label: '全部', value: '' },
+  { label: '啟用', value: 'active' },
+  { label: '禁用', value: 'inactive' }
+]
+
+const handleSearch = (keyword: string) => {
+  console.log('搜尋:', keyword)
+}
+
+const handleFilter = (filters: any) => {
+  console.log('篩選:', filters)
+}
+
+const handlePageChange = (page: number, pageSize: number) => {
+  console.log('分頁變更:', page, pageSize)
+}
+
+const handleAdd = () => {
+  console.log('新增用戶')
+}
+
+const handleExport = () => {
+  console.log('導出數據')
+}
+</script>
+```
+</details>
+
+### 🔄 轉移組件
+
+#### TransferDialog - 穿梭框對話框
 
 用於表格列配置的穿梭框組件，支援拖拽排序。
 
@@ -921,9 +1321,11 @@ const getRowClass = ({ row, rowIndex }: any) => {
 
 ### 環境要求
 
-- Node.js 16.0+
-- Vue 3.0+
-- Element Plus 2.0+
+- Node.js 22.0+
+- npm 10.0+
+- Vue 3.5+
+- Element Plus 2.11+
+- TypeScript 5.8+
 
 ### 本地開發
 
@@ -935,37 +1337,99 @@ cd vue-table-components
 # 安裝依賴
 npm install
 
-# 開發模式
+# 開發模式（啟動演示網站）
 npm run dev
 
-# 構建庫
+# 構建組件庫
 npm run build-lib
 
-# 運行測試
+# 構建演示網站
+npm run build-demo
+
+# 運行單元測試
 npm run test:unit
 
-# 代碼檢查
+# 運行 E2E 測試
+npm run test:e2e
+
+# 代碼檢查和格式化
 npm run lint
+npm run format
+
+# TypeScript 類型檢查
+npm run type-check
 ```
+
+### 快速發布
+
+使用內建的發布腳本快速發布新版本：
+
+```bash
+# 修復版本 (1.3.10 -> 1.3.11)
+npm run release:patch
+
+# 次要版本 (1.3.10 -> 1.4.0)
+npm run release:minor
+
+# 主要版本 (1.3.10 -> 2.0.0)
+npm run release:major
+```
+
+發布腳本會自動執行：
+- ✅ 運行所有測試
+- ✅ 代碼品質檢查
+- ✅ TypeScript 類型檢查
+- ✅ 構建組件庫
+- ✅ 更新版本號
+- ✅ 創建 git tag
+- ✅ 推送到遠端
+- ✅ 發布到 npm
 
 ### 項目結構
 
 ```
 src/
 ├── components/          # 組件源碼
-│   ├── BaseTable.vue   # 基礎表格組件
-│   ├── BaseBtn.vue     # 按鈕組件
-│   ├── BaseDialog.vue  # 對話框組件
-│   └── transfer/       # 穿梭框組件
+│   ├── form/           # 表單組件
+│   │   ├── BaseInput.vue
+│   │   └── BaseMultipleInput.vue
+│   ├── items/          # 交互組件
+│   │   ├── BaseBtn.vue
+│   │   ├── BaseDialog.vue
+│   │   ├── BaseWaringDialog.vue
+│   │   └── SearchBar.vue
+│   ├── tables/         # 表格組件
+│   │   ├── BaseTable.vue
+│   │   ├── SortTable.vue
+│   │   └── TitleTable.vue
+│   ├── layout/         # 佈局組件
+│   │   ├── MainPanel.vue
+│   │   ├── DetailLayout.vue
+│   │   ├── FilterLayout.vue
+│   │   ├── FunctionHeader.vue
+│   │   └── SearchableListPanel.vue
+│   ├── transfer/       # 轉移組件
+│   │   ├── TransferDialog.vue
+│   │   └── transferItem.vue
+│   └── index.ts        # 組件導出
 ├── assets/styles/      # 樣式文件
 │   ├── tailwind.scss   # 主樣式入口
-│   ├── _base.scss       # 基礎樣式（表格基礎、文字樣式等）
-│   ├── _tables.scss     # 表格相關樣式（Element Plus 表格覆蓋）
+│   ├── _base.scss       # 基礎樣式
+│   ├── _tables.scss     # 表格相關樣式
 │   ├── _dialogs.scss    # 對話框相關樣式
-│   ├── _components.scss # 組件樣式（SortTable、FilterBtn等）
+│   ├── _components.scss # 組件樣式
 │   └── element/        # Element Plus 主題
 ├── types/              # 類型定義
+│   ├── components.d.ts # 組件類型定義
+│   └── index.ts        # 類型導出
 ├── utils/              # 工具函數
+│   ├── tableHelper.ts  # 表格工具函數
+│   └── routeFormatters.ts # 路由格式化
+├── views/              # 演示頁面
+│   ├── demo/           # 組件演示
+│   └── DemoPage.vue    # 演示首頁
+├── router/             # 路由配置
+├── const/              # 常量定義
 └── index.ts            # 主入口文件
 ```
 
@@ -992,12 +1456,26 @@ src/
 
 查看 [CHANGELOG.md](./CHANGELOG.md) 了解詳細的版本更新記錄。
 
+### 組件統計
+
+本組件庫目前包含 **17+ 個組件**，涵蓋以下類別：
+
+| 類別 | 組件數量 | 主要組件 |
+|------|----------|----------|
+| 🗂️ 表格組件 | 3 | BaseTable, SortTable, TitleTable |
+| 🎛️ 表單組件 | 2 | BaseInput, BaseMultipleInput |
+| 🎨 交互組件 | 4 | BaseBtn, BaseDialog, BaseWaringDialog, SearchBar |
+| 🏗️ 佈局組件 | 5 | MainPanel, DetailLayout, FilterLayout, FunctionHeader, SearchableListPanel |
+| 🔄 轉移組件 | 2 | TransferDialog, TransferItem |
+
 ### 相關鏈接
 
 - [Vue 3 官方文檔](https://vuejs.org/)
 - [Element Plus 官方文檔](https://element-plus.org/)
 - [TypeScript 官方文檔](https://www.typescriptlang.org/)
 - [Tailwind CSS 官方文檔](https://tailwindcss.com/)
+- [Vite 官方文檔](https://vitejs.dev/)
+- [Vitest 測試框架](https://vitest.dev/)
 
 ## 📄 許可證
 
