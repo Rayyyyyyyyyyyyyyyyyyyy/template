@@ -1,5 +1,6 @@
 <script setup lang="ts" generic="T extends Record<string, unknown> = Record<string, unknown>">
 import type { VNode } from 'vue'
+import { computed } from 'vue'
 import type { TableColumnCtx } from 'element-plus'
 import type { SortChangValue, TableColumn } from '@/types'
 
@@ -64,6 +65,15 @@ const onSortChange = (value: SortChangValue<T>) => {
 const handleOperateClick = (value: T, clickType: 'check' | 'edit') => {
   clickType == 'check' ? emit('click:checkRow', value) : emit('click:editRow', value)
 }
+const operatorWidth = computed(() => {
+  if (props.showCheckBtn && props.showEditBtn) {
+    return 120
+  } else if (props.showCheckBtn && !props.showEditBtn) {
+    return 60
+  } else if (props.showEditBtn && !props.showCheckBtn) {
+    return 60
+  }
+})
 </script>
 
 <template>
@@ -106,7 +116,7 @@ const handleOperateClick = (value: T, clickType: 'check' | 'edit') => {
     </el-table-column>
     <el-table-column
       v-if="props.showCheckBtn || props.showEditBtn"
-      width="120"
+      :width="operatorWidth"
       align="center"
       fixed="right"
     >

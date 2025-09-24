@@ -114,7 +114,7 @@ const simulateLoading = () => {
           :show-selection="showSelection"
           :show-summary="showSummary"
           :pagination="pagination"
-          :show-check-btn="true"
+          :show-check-btn="false"
           :show-edit-btn="true"
           @update:page="handlePageChange"
           @update:page-size="handlePageSizeChange"
