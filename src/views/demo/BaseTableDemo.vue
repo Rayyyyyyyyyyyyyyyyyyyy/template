@@ -9,7 +9,7 @@ const tableData = ref([
   { id: 2, name: '李四', age: 30, email: 'lisi@example.com', status: '禁用' },
   { id: 3, name: '王五', age: 28, email: 'wangwu@example.com', status: '啟用' },
   { id: 4, name: '趙六', age: 35, email: 'zhaoliu@example.com', status: '啟用' },
-  { id: 5, name: '錢七', age: 22, email: 'qianqi@example.com', status: '禁用' }
+  { id: 5, name: '錢七', age: 22, email: 'qianqi@example.com', status: '禁用' },
 ])
 
 // 表格列配置
@@ -18,14 +18,14 @@ const columns = ref<TableColumn[]>([
   { prop: 'name', label: '姓名', width: 120, sortable: true },
   { prop: 'age', label: '年齡', width: 80, sortable: true },
   { prop: 'email', label: '郵箱', minWidth: 200 },
-  { prop: 'status', label: '狀態', width: 100 }
+  { prop: 'status', label: '狀態', width: 100 },
 ])
 
 // 分頁配置
 const pagination = ref({
   currentPage: 1,
   pageSize: 10,
-  total: 5
+  total: 5,
 })
 
 // 組件狀態
@@ -62,6 +62,14 @@ const handleSortChange = (sortInfo: SortChangValue<any>) => {
   console.log('排序變更:', sortInfo)
 }
 
+const handleCheckRow = (row: any) => {
+  console.log('查看按鈕點擊:', row)
+}
+
+const handleEditRow = (row: any) => {
+  console.log('編輯按鈕點擊:', row)
+}
+
 // 模擬加載
 const simulateLoading = () => {
   loading.value = true
@@ -85,16 +93,8 @@ const simulateLoading = () => {
           <el-button @click="simulateLoading" :loading="loading">
             {{ loading ? '加載中...' : '模擬加載' }}
           </el-button>
-          <el-switch
-            v-model="showSelection"
-            active-text="顯示選擇列"
-            inactive-text="隱藏選擇列"
-          />
-          <el-switch
-            v-model="showSummary"
-            active-text="顯示合計行"
-            inactive-text="隱藏合計行"
-          />
+          <el-switch v-model="showSelection" active-text="顯示選擇列" inactive-text="隱藏選擇列" />
+          <el-switch v-model="showSummary" active-text="顯示合計行" inactive-text="隱藏合計行" />
         </div>
         <div v-if="selectedRows.length > 0" class="mt-4 p-4 bg-blue-50 rounded-lg">
           <h3 class="text-sm font-medium text-blue-900 mb-2">已選擇的行：</h3>
@@ -114,16 +114,17 @@ const simulateLoading = () => {
           :show-selection="showSelection"
           :show-summary="showSummary"
           :pagination="pagination"
+          :show-operator="true"
           @update:page="handlePageChange"
           @update:page-size="handlePageSizeChange"
           @selection-change="handleSelectionChange"
           @current-change="handleCurrentChange"
           @cell-click="handleCellClick"
           @column-sort-change="handleSortChange"
+          @click:checkRow="handleCheckRow"
+          @click:editRow="handleEditRow"
         />
       </el-card>
-
-
     </div>
   </div>
 </template>

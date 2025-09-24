@@ -27,6 +27,8 @@ export interface BaseTableProps<T extends Record<string, unknown> = Record<strin
   }) => (string | VNode)[]
   /** 行樣式類名 */
   baseTableRowClassName?: (data: { row: T; rowIndex: number }) => string
+  /** 是否顯示操作列 */
+  showOperator?: boolean
 }
 
 /** BaseTable 組件 Emits 類型 */
@@ -39,6 +41,10 @@ export interface BaseTableEmits<T extends Record<string, unknown> = Record<strin
   'cell-click': (column: TableColumn<T>, row: T) => void
   /** 列排序變更事件 */
   'column-sort-change': (value: SortChangValue<T>) => void
+  /** 查看按鈕點擊事件 */
+  'click:checkRow': (row: T) => void
+  /** 編輯按鈕點擊事件 */
+  'click:editRow': (row: T) => void
 }
 
 /** BaseTable 組件實例類型 */
@@ -74,6 +80,8 @@ export interface SortTableProps<T extends Record<string, unknown> = Record<strin
   }) => (string | import('vue').VNode)[]
   /** 行樣式類名 */
   sortTableRowClassName?: (data: { row: T; rowIndex: number }) => string
+  /** 是否顯示操作列 */
+  showOperator?: boolean
 }
 
 /** SortTable 組件 Emits 類型 */
@@ -86,6 +94,10 @@ export interface SortTableEmits<T extends Record<string, unknown> = Record<strin
   (e: 'click:cell', column: import('./index').TableColumn<T>, row: T): void
   /** 列排序點擊事件 */
   (e: 'click:columnSort', data: import('./index').SortChangValue<T>): void
+  /** 查看按鈕點擊事件 */
+  (e: 'click:checkRow', row: T): void
+  /** 編輯按鈕點擊事件 */
+  (e: 'click:editRow', row: T): void
 }
 
 /** SortTable 組件實例類型 */
@@ -125,20 +137,24 @@ export interface TitleTableProps<T extends Record<string, unknown> = Record<stri
     columns: import('element-plus').TableColumnCtx<Record<string, unknown>>[]
     data: T[]
   }) => (string | import('vue').VNode)[]
+  /** 是否顯示操作列 */
+  showOperator?: boolean
 }
 
 /** TitleTable 組件 Emits 類型 */
 export interface TitleTableEmits<T extends Record<string, unknown> = Record<string, unknown>> {
   /** 新增按鈕點擊事件 */
   (e: 'click:add'): void
-  /** 編輯按鈕點擊事件 */
-  (e: 'click:edit'): void
   /** 刪除按鈕點擊事件 */
   (e: 'click:delete'): void
   /** 更新選擇行事件 */
   (e: 'update:selectRow', value: T[]): void
   /** 單元格點擊事件 */
   (e: 'click:cell', column: import('./index').TableColumn<T>, row: T): void
+  /** 查看按鈕點擊事件 */
+  (e: 'click:checkRow', row: T): void
+  /** 編輯按鈕點擊事件 */
+  (e: 'click:editRow', row: T): void
 }
 
 /** TitleTable 組件實例類型 */

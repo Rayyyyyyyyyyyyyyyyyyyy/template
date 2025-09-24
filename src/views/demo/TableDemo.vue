@@ -17,14 +17,78 @@ interface TableDataItem {
 
 // 表格數據
 const tableData = ref<TableDataItem[]>([
-  { id: 1, name: '張三', age: 25, score: 85, department: '技術部', createTime: '2024-01-15', status: 'active' },
-  { id: 2, name: '李四', age: 30, score: 92, department: '產品部', createTime: '2024-01-16', status: 'active' },
-  { id: 3, name: '王五', age: 28, score: 78, department: '設計部', createTime: '2024-01-17', status: 'inactive' },
-  { id: 4, name: '趙六', age: 35, score: 88, department: '技術部', createTime: '2024-01-18', status: 'active' },
-  { id: 5, name: '錢七', age: 22, score: 95, department: '產品部', createTime: '2024-01-19', status: 'active' },
-  { id: 6, name: '孫八', age: 26, score: 82, department: '設計部', createTime: '2024-01-20', status: 'inactive' },
-  { id: 7, name: '周九', age: 31, score: 90, department: '技術部', createTime: '2024-01-21', status: 'active' },
-  { id: 8, name: '吳十', age: 29, score: 76, department: '產品部', createTime: '2024-01-22', status: 'inactive' }
+  {
+    id: 1,
+    name: '張三',
+    age: 25,
+    score: 85,
+    department: '技術部',
+    createTime: '2024-01-15',
+    status: 'active',
+  },
+  {
+    id: 2,
+    name: '李四',
+    age: 30,
+    score: 92,
+    department: '產品部',
+    createTime: '2024-01-16',
+    status: 'active',
+  },
+  {
+    id: 3,
+    name: '王五',
+    age: 28,
+    score: 78,
+    department: '設計部',
+    createTime: '2024-01-17',
+    status: 'inactive',
+  },
+  {
+    id: 4,
+    name: '趙六',
+    age: 35,
+    score: 88,
+    department: '技術部',
+    createTime: '2024-01-18',
+    status: 'active',
+  },
+  {
+    id: 5,
+    name: '錢七',
+    age: 22,
+    score: 95,
+    department: '產品部',
+    createTime: '2024-01-19',
+    status: 'active',
+  },
+  {
+    id: 6,
+    name: '孫八',
+    age: 26,
+    score: 82,
+    department: '設計部',
+    createTime: '2024-01-20',
+    status: 'inactive',
+  },
+  {
+    id: 7,
+    name: '周九',
+    age: 31,
+    score: 90,
+    department: '技術部',
+    createTime: '2024-01-21',
+    status: 'active',
+  },
+  {
+    id: 8,
+    name: '吳十',
+    age: 29,
+    score: 76,
+    department: '產品部',
+    createTime: '2024-01-22',
+    status: 'inactive',
+  },
 ])
 
 // 表格列配置
@@ -40,20 +104,21 @@ const tableColumns = ref<TableColumn<TableDataItem>[]>([
     width: 100,
     align: 'center',
     template: (row: TableDataItem) => {
-      const statusConfig = row.status === 'active'
-        ? { class: 'text-green-600', text: '啟用' }
-        : { class: 'text-red-600', text: '停用' }
+      const statusConfig =
+        row.status === 'active'
+          ? { class: 'text-green-600', text: '啟用' }
+          : { class: 'text-red-600', text: '停用' }
       return h('span', { class: statusConfig.class }, statusConfig.text)
-    }
+    },
   },
-  { prop: 'createTime', label: '創建時間', width: 150, sortable: true, align: 'center' }
+  { prop: 'createTime', label: '創建時間', width: 150, sortable: true, align: 'center' },
 ])
 
 // 分頁配置
 const pagination = ref({
   currentPage: 1,
   pageSize: 5,
-  total: 8
+  total: 8,
 })
 
 // 組件狀態
@@ -61,7 +126,7 @@ const state = reactive({
   loading: false,
   multiSort: false,
   selectedRows: [] as TableDataItem[],
-  sortInfo: null as { prop: string; order: string } | null
+  sortInfo: null as { prop: string; order: string } | null,
 })
 
 // ==================== SortTable 事件處理 ====================
@@ -82,12 +147,20 @@ const handleSortTableColumnSort = (data: any) => {
   console.log('SortTable 列排序點擊:', data)
 }
 
+const handleSortTableCheckRow = (row: TableDataItem) => {
+  console.log('SortTable 查看按鈕點擊:', row)
+}
+
+const handleSortTableEditRow = (row: TableDataItem) => {
+  console.log('SortTable 編輯按鈕點擊:', row)
+}
+
 // ==================== TitleTable 事件處理 ====================
 const handleTitleTableAdd = () => {
   console.log('TitleTable 新增按鈕點擊')
 }
 
-const handleTitleTableEdit = () => {
+const handleTitleTableEditButton = () => {
   console.log('TitleTable 編輯按鈕點擊')
 }
 
@@ -102,6 +175,14 @@ const handleTitleTableSelectRow = (selectList: TableDataItem[]) => {
 
 const handleTitleTableCellClick = (column: TableColumn<TableDataItem>, row: TableDataItem) => {
   console.log('TitleTable 單元格點擊:', column, row)
+}
+
+const handleTitleTableCheckRow = (row: TableDataItem) => {
+  console.log('TitleTable 查看按鈕點擊:', row)
+}
+
+const handleTitleTableEditRow = (row: TableDataItem) => {
+  console.log('TitleTable 編輯按鈕點擊:', row)
 }
 
 // ==================== 通用功能 ====================
@@ -127,14 +208,8 @@ const simulateLoading = () => {
           <el-button @click="simulateLoading" :loading="state.loading">
             {{ state.loading ? '加載中...' : '模擬加載' }}
           </el-button>
-          <el-switch
-            v-model="state.multiSort"
-            active-text="多列排序"
-            inactive-text="單列排序"
-          />
-          <div class="text-sm text-gray-600">
-            已選擇 {{ state.selectedRows.length }} 行
-          </div>
+          <el-switch v-model="state.multiSort" active-text="多列排序" inactive-text="單列排序" />
+          <div class="text-sm text-gray-600">已選擇 {{ state.selectedRows.length }} 行</div>
         </div>
       </el-card>
 
@@ -155,10 +230,13 @@ const simulateLoading = () => {
           :loading="state.loading"
           :show-selection="true"
           :show-over-flow-tooltip="true"
+          :show-operator="true"
           @open:transfer="handleSortTableTransfer"
           @update:select-row="handleSortTableSelectRow"
           @click:cell="handleSortTableCellClick"
           @click:column-sort="handleSortTableColumnSort"
+          @click:checkRow="handleSortTableCheckRow"
+          @click:editRow="handleSortTableEditRow"
         />
       </el-card>
 
@@ -179,17 +257,19 @@ const simulateLoading = () => {
           :loading="state.loading"
           :show-selection="true"
           :show-over-flow-tooltip="true"
+          :show-operator="true"
           table-title="員工管理"
           @click:add="handleTitleTableAdd"
-          @click:edit="handleTitleTableEdit"
           @click:delete="handleTitleTableDelete"
           @update:select-row="handleTitleTableSelectRow"
           @click:cell="handleTitleTableCellClick"
+          @click:checkRow="handleTitleTableCheckRow"
+          @click:editRow="handleTitleTableEditRow"
         >
           <template #tableSearch>
             <el-input
               placeholder="搜尋員工..."
-              style="width: 200px; margin-right: 10px;"
+              style="width: 200px; margin-right: 10px"
               clearable
             />
           </template>
@@ -276,13 +356,18 @@ const simulateLoading = () => {
                   { prop: 'data', type: 'T[]', default: '-', desc: '表格數據' },
                   { prop: 'columns', type: 'TableColumn<T>[]', default: '-', desc: '列配置' },
                   { prop: 'loading', type: 'boolean', default: 'false', desc: '加載狀態' },
-                  { prop: 'showSelection', type: 'boolean', default: 'false', desc: '是否顯示選擇列' }
+                  {
+                    prop: 'showSelection',
+                    type: 'boolean',
+                    default: 'false',
+                    desc: '是否顯示選擇列',
+                  },
                 ]"
                 :columns="[
                   { prop: 'prop', label: '屬性', align: 'left' },
                   { prop: 'type', label: '類型', align: 'left' },
                   { prop: 'default', label: '預設值', align: 'left' },
-                  { prop: 'desc', label: '說明', align: 'left' }
+                  { prop: 'desc', label: '說明', align: 'left' },
                 ]"
                 class="min-w-full border border-gray-200"
                 :showHeader="true"
@@ -346,6 +431,8 @@ const simulateLoading = () => {
                   <li><code>@update:select-row</code> - 選擇行變更</li>
                   <li><code>@click:cell</code> - 單元格點擊</li>
                   <li><code>@click:column-sort</code> - 列排序點擊</li>
+                  <li><code>@click:checkRow</code> - 查看按鈕點擊</li>
+                  <li><code>@click:editRow</code> - 編輯按鈕點擊</li>
                 </ul>
               </div>
               <div>
@@ -356,6 +443,8 @@ const simulateLoading = () => {
                   <li><code>@click:delete</code> - 刪除按鈕點擊</li>
                   <li><code>@update:select-row</code> - 選擇行變更</li>
                   <li><code>@click:cell</code> - 單元格點擊</li>
+                  <li><code>@click:checkRow</code> - 查看按鈕點擊</li>
+                  <li><code>@click:editRow</code> - 編輯按鈕點擊</li>
                 </ul>
               </div>
             </div>

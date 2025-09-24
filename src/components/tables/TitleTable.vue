@@ -20,14 +20,16 @@ defineProps<{
     columns: TableColumnCtx<Record<string, unknown>>[]
     data: T[]
   }) => (string | VNode)[]
+  showOperator?: boolean
 }>()
 
 const emit = defineEmits<{
   (e: 'click:add'): void
-  (e: 'click:edit'): void
   (e: 'click:delete'): void
   (e: 'update:selectRow', value: T[]): void
   (e: 'click:cell', column: TableColumn<T>, row: T): void
+  (e: 'click:checkRow', row: T): void
+  (e: 'click:editRow', row: T): void
 }>()
 
 const addInvoiceDetail = () => {
@@ -41,6 +43,14 @@ const handleSelectionChange = (selectList: T[]) => {
 }
 const handleCellClick = (column: TableColumn<T>, row: T) => {
   emit('click:cell', column, row)
+}
+
+const handleCheckClick = (row: T) => {
+  emit('click:checkRow', row)
+}
+
+const handleEditClick = (row: T) => {
+  emit('click:editRow', row)
 }
 </script>
 
@@ -73,8 +83,11 @@ const handleCellClick = (column: TableColumn<T>, row: T) => {
       :summary-method="summaryMethod"
       :show-selection="propIsEditable || showSelection"
       :show-over-flow-tooltip="showOverFlowTooltip"
+      :show-operator="showOperator"
       @selection-change="handleSelectionChange"
       @cell-click="handleCellClick"
+      @click:checkRow="handleCheckClick"
+      @click:editRow="handleEditClick"
     />
   </div>
 </template>

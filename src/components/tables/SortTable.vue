@@ -18,6 +18,7 @@ defineProps<{
     data: T[]
   }) => (string | VNode)[]
   sortTableRowClassName?: (data: { row: T; rowIndex: number }) => string
+  showOperator?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -25,6 +26,8 @@ const emit = defineEmits<{
   (e: 'update:selectRow', value: T[]): void
   (e: 'click:cell', column: TableColumn<T>, row: T): void
   (e: 'click:columnSort', data: SortChangValue<T>): void
+  (e: 'click:checkRow', row: T): void
+  (e: 'click:editRow', row: T): void
 }>()
 
 const openTransferDialog = () => {
@@ -40,6 +43,14 @@ const handleCellClick = (column: TableColumn<T>, row: T) => {
 
 const handleColumnSortChange = (data: SortChangValue<T>) => {
   emit('click:columnSort', data)
+}
+
+const handleCheckClick = (row: T) => {
+  emit('click:checkRow', row)
+}
+
+const handleEditClick = (row: T) => {
+  emit('click:editRow', row)
 }
 </script>
 
@@ -66,9 +77,12 @@ const handleColumnSortChange = (data: SortChangValue<T>) => {
       :summary-method="summaryMethod"
       :show-selection="showSelection"
       :base-table-row-class-name="sortTableRowClassName"
+      :show-operator="showOperator"
       @selection-change="handleSelectionChange"
       @cell-click="handleCellClick"
       @column-sort-change="handleColumnSortChange"
+      @click:checkRow="handleCheckClick"
+      @click:editRow="handleEditClick"
     />
   </div>
 </template>

@@ -1002,6 +1002,7 @@ const handleColumnSubmit = (newColumns: TableColumn<User>[]) => {
 | `showOverFlowTooltip` | `boolean` | `false` | 是否顯示溢出提示 |
 | `summaryMethod` | `SummaryMethod<T>` | - | 合計行計算方法 |
 | `baseTableRowClassName` | `RowClassNameGetter<T>` | - | 行樣式類名函數 |
+| `showOperator` | `boolean` | `false` | 是否顯示操作列 |
 
 #### Events
 
@@ -1011,6 +1012,8 @@ const handleColumnSubmit = (newColumns: TableColumn<User>[]) => {
 | `current-change` | `currentRow: T \| null` | 當前行變更時觸發 |
 | `cell-click` | `column: TableColumn<T>, row: T` | 單元格點擊時觸發 |
 | `column-sort-change` | `value: SortChangValue<T>` | 列排序變更時觸發 |
+| `click:checkRow` | `row: T` | 查看按鈕點擊時觸發 |
+| `click:editRow` | `row: T` | 編輯按鈕點擊時觸發 |
 
 #### Slots
 

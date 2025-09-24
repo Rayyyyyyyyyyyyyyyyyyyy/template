@@ -15,6 +15,7 @@ type Props<T extends Record<string, unknown> = Record<string, unknown>> = {
     data: T[]
   }) => (string | VNode)[]
   baseTableRowClassName?: (data: { row: T; rowIndex: number }) => string
+  showOperator?: boolean
 }
 
 // 組件屬性默認值
@@ -24,6 +25,7 @@ const props = withDefaults(defineProps<Props<T>>(), {
   showSelection: false,
   showSummary: false,
   showOverFlowTooltip: false,
+  showOperator: false,
   summaryMethod: () => [],
   baseTableRowClassName: () => '',
 })
@@ -33,6 +35,8 @@ const emit = defineEmits<{
   (e: 'current-change', currentRow: T): void
   (e: 'cell-click', column: TableColumn<T>, row: T): void
   (e: 'column-sort-change', value: SortChangValue<T>): void
+  (e: 'click:checkRow', row: T): void
+  (e: 'click:editRow', row: T): void
 }>()
 
 const handleCellClick = (column: TableColumn<T>, row: T) => {
@@ -54,6 +58,9 @@ const tableRowClassName = (data: RowClassNameData<T>) => {
 }
 const onSortChange = (value: SortChangValue<T>) => {
   emit('column-sort-change', value)
+}
+const handleOperateClick = (value: T, clickType: 'check' | 'edit') => {
+  clickType == 'check' ? emit('click:checkRow', value) : emit('click:editRow', value)
 }
 </script>
 
@@ -92,6 +99,27 @@ const onSortChange = (value: SortChangValue<T>) => {
             }"
           />
           <span v-else-if="column.prop">{{ row[column.prop] }}</span>
+        </div>
+      </template>
+    </el-table-column>
+    <el-table-column v-if="showOperator" width="120" align="center" fixed="right">
+      <template #default="{ row }">
+        <div class="flex items-center justify-center">
+          <base-btn
+            type="primary"
+            :text-btn="true"
+            size="small"
+            text="查看"
+            @click="handleOperateClick(row, 'check')"
+          />
+          <el-divider direction="vertical" />
+          <base-btn
+            type="primary"
+            :text-btn="true"
+            size="small"
+            text="编辑"
+            @click="handleOperateClick(row, 'edit')"
+          />
         </div>
       </template>
     </el-table-column>
