@@ -60,7 +60,7 @@ interface IItem {
 
 const isLockItem = computed(() => !!props.columnsValue.fixed)
 
-const btnList = computed(() => [
+const btnList = computed((): IItem[] => [
   {
     icon: Unlock,
     emitKey: 'update:toUnLock',
