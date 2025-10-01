@@ -618,6 +618,10 @@ export interface TransferItemProps<T = Record<string, unknown>> {
 
 /** TransferItem 組件 Emits 類型 */
 export interface TransferItemEmits {
+  /** 解鎖事件 */
+  (e: 'update:toUnLock'): void
+  /** 鎖定事件 */
+  (e: 'update:toLock'): void
   /** 移到頂部事件 */
   (e: 'update:toTop'): void
   /** 移到上一個事件 */

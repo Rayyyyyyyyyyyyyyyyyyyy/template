@@ -60,6 +60,19 @@ const handleItemEvents = {
       state.localColumns[index + 1] = temp
     }
   },
+  toLock: (index: number) => {
+    if (index <= 0) return
+    const item = state.localColumns.splice(index, 1)[0]
+    item.fixed = 'left'
+    state.localColumns.unshift(item)
+  },
+
+  toUnLock: (index: number) => {
+    if (index < state.localColumns.length - 1) {
+      const temp = state.localColumns[index]
+      delete temp.fixed
+    }
+  },
 }
 
 const initializeState = () => {
@@ -161,6 +174,8 @@ const doFilterColumn = (keyword: string) => {
               @update:toBottom="handleItemEvents.toBottom(index)"
               @update:toPre="handleItemEvents.toPre(index)"
               @update:toNext="handleItemEvents.toNext(index)"
+              @update:toLock="handleItemEvents.toLock(index)"
+              @update:toUnLock="handleItemEvents.toUnLock(index)"
             />
           </template>
         </slot>

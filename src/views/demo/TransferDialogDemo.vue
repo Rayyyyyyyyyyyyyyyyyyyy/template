@@ -1,20 +1,11 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
-import {
-  BaseTable,
-  BaseBtn,
-  TransferDialog,
-  TransferItem,
-} from '@/components'
+import { reactive } from 'vue'
+import { BaseTable, BaseBtn, TransferDialog, TransferItem } from '@/components'
 import type { TableColumn } from '@/types'
 import { setActiveColumn } from '@/utils/tableHelper'
 import { h } from 'vue'
 import draggable from 'vuedraggable'
-import {
-  DEMO_CONSTANTS,
-  DEMO_USER_DATA,
-  type User,
-} from '@/const/tableConst'
+import { DEMO_CONSTANTS, DEMO_USER_DATA, type User } from '@/const/tableConst'
 
 // ==================== 列配置工廠函數 ====================
 const createUserColumns = (): TableColumn<User>[] =>
@@ -100,7 +91,6 @@ const state = reactive({
 // ==================== 事件處理函數 ====================
 // TransferDialog 相關處理
 const handleTransferSubmit = (columns: TableColumn<User>[]) => {
-  console.log('TransferDialog 提交的列配置:', columns)
   // 更新用戶表格的列配置
   state.userColumns.splice(0, state.userColumns.length, ...columns)
   state.showTransferDialog = false
@@ -139,9 +129,7 @@ const simulateLoading = () => {
           <BaseBtn type="default" @click="resetUserColumns" class="px-6 py-2.5">
             重置列配置
           </BaseBtn>
-          <BaseBtn type="success" @click="simulateLoading" class="px-6 py-2.5">
-            模擬加載
-          </BaseBtn>
+          <BaseBtn type="success" @click="simulateLoading" class="px-6 py-2.5"> 模擬加載 </BaseBtn>
         </div>
 
         <div class="bg-white border border-gray-200 rounded-lg overflow-hidden mb-8">
@@ -255,13 +243,10 @@ const simulateLoading = () => {
             技術說明
           </h5>
           <p class="text-amber-800 text-sm leading-relaxed">
-            TransferDialog 組件已移除 draggable 依賴，通過 slot
-            機制讓外部使用者可以自定義列表容器。 本示範頁面使用 vuedraggable
-            實現拖拽功能，您也可以選擇不使用拖拽或使用其他拖拽庫。
+            TransferDialog 組件已移除 draggable 依賴，通過 slot 機制讓外部使用者可以自定義列表容器。
+            本示範頁面使用 vuedraggable 實現拖拽功能，您也可以選擇不使用拖拽或使用其他拖拽庫。
           </p>
         </div>
-
-
 
         <TransferDialog
           v-model="state.showTransferDialog"
@@ -269,9 +254,7 @@ const simulateLoading = () => {
           transfer-title="配置用戶表格列"
           @update:submit="handleTransferSubmit"
         >
-          <template
-            #list-container="{ columns, clickItemProp, handleItemEvents, handleMousedown }"
-          >
+          <template #list-container="{ columns, clickItemProp, handleItemEvents, handleMousedown }">
             <draggable :list="columns" item-key="prop" delay="200">
               <template #item="{ element, index }">
                 <transfer-item
@@ -288,6 +271,8 @@ const simulateLoading = () => {
                   @update:toBottom="handleItemEvents.toBottom(index)"
                   @update:toPre="handleItemEvents.toPre(index)"
                   @update:toNext="handleItemEvents.toNext(index)"
+                  @update:toLock="handleItemEvents.toLock(index)"
+                  @update:toUnLock="handleItemEvents.toUnLock(index)"
                 />
               </template>
             </draggable>

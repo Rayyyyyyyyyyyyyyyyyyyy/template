@@ -38,11 +38,11 @@
 
 // ==================== TransferItem 組件樣式 ====================
 .transfer-item-wrapper {
-  @apply border-t px-4;
+  @apply  px-4 ;
   @apply flex items-center justify-between w-full;
 }
 
 .transfer-arrow-wrapper {
-  @apply w-28;
+  @apply w-fit;
   @apply text-blue-10;
 }
