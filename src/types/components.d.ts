@@ -239,6 +239,8 @@ export interface BaseDialogProps {
   bodyLoading?: boolean
   /** 提交按鈕加載狀態 */
   submitLoading?: boolean
+  /** 是否顯示關閉按鈕 */
+  showClose?: boolean
 }
 
 /** BaseDialog 組件 Emits 類型 */
@@ -448,6 +450,8 @@ export interface SearchableListPanelProps {
   showFilter?: boolean
   /** 是否顯示預設搜尋 */
   showDefaultSearch?: boolean
+  /** 分頁大小選項列表 */
+  pageSizeList?: number[]
 }
 
 /** SearchableListPanel 組件 Emits 類型 */

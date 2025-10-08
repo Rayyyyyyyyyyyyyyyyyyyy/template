@@ -135,7 +135,7 @@ const operatorWidth = computed(() => {
             @click="handleOperateClick(row, 'edit')"
             v-if="showEditBtn"
           >
-            编辑
+            編輯
           </p>
         </div>
       </template>

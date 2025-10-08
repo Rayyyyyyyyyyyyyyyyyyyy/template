@@ -38,7 +38,7 @@ const handleBackClick = () => {
     </template>
 
     <template #footer>
-      <div class="border-t pt-4 w-full flex items-center justify-end" v-if="isEditable">
+      <div class="border-t py-4 w-full flex items-center justify-end" v-if="isEditable">
         <BaseBtn text="儲存" type="primary" is-fill @click="saveDetailEdit" />
         <BaseBtn text="捨棄" type="primary" @click="cancelDetailEdit" />
       </div>

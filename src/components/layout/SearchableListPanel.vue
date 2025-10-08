@@ -3,15 +3,21 @@ import { toRefs, computed } from 'vue'
 import type { Pager } from '@/types'
 import { MainPanel, SearchBar } from '@/components'
 
-const props = defineProps<{
-  title: string
-  pagination: Pager
-  showBack?: boolean | string | object
-  showSearch?: boolean
-  showEdit?: boolean
-  showFilter?: boolean
-  showDefaultSearch?: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    title: string
+    pagination: Pager
+    showBack?: boolean | string | object
+    showSearch?: boolean
+    showEdit?: boolean
+    showFilter?: boolean
+    showDefaultSearch?: boolean
+    pageSizeList?: number[]
+  }>(),
+  {
+    pageSizeList: () => [10, 20, 30, 40, 50],
+  },
+)
 
 const { pagination } = toRefs(props)
 
