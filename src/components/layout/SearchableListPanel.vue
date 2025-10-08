@@ -15,7 +15,7 @@ const props = withDefaults(
     pageSizeList?: number[]
   }>(),
   {
-    pageSizeList: () => [10, 20, 30, 40, 50],
+    pageSizeList: () => [10, 25, 50, 100, 200],
   },
 )
 
@@ -78,7 +78,7 @@ const onBackClick = () => {
       <el-pagination
         v-if="pagination.totalCount > 0"
         layout="jumper, prev, pager, next, total, sizes"
-        :page-sizes="[10, 20, 30, 40, 50]"
+        :page-sizes="pageSizeList"
         :current-page="pagination.page"
         :page-size="pagination.limit"
         :total="pagination.totalCount"
