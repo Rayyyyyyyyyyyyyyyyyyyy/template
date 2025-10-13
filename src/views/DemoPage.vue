@@ -59,20 +59,6 @@ const demoPages = [
     icon: 'M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4',
   },
   {
-    title: 'BaseTable',
-    description: '基礎表格組件',
-    route: ROUTES.BASE_TABLE,
-    features: [
-      '數據展示：支持多種數據格式展示',
-      '列配置：可自定義列寬度和對齊方式',
-      '排序功能：支持單列和多列排序',
-      '分頁功能：內建分頁組件',
-      '選擇功能：支持單選和多選',
-      '響應式設計：適配不同螢幕尺寸',
-    ],
-    icon: 'M3 10h18M3 14h18m-9-4v8m-7 0V4a1 1 0 011-1h12a1 1 0 011 1v16a1 1 0 01-1 1H4a1 1 0 01-1-1z',
-  },
-  {
     title: 'BaseBtn',
     description: '基礎按鈕組件',
     route: ROUTES.BASE_BTN,

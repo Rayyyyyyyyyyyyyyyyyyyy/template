@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
 import type { SortChangValue, TableColumn } from '@/types'
 import type { TableColumnCtx } from 'element-plus'
-import type { VNode } from 'vue'
+import { computed, reactive, type VNode } from 'vue'
 import { Setting } from '@element-plus/icons-vue'
 import { BaseTable } from '@/components'
 
@@ -53,6 +53,9 @@ const handleCheckClick = (row: T) => {
 const handleEditClick = (row: T) => {
   emit('click:editRow', row)
 }
+const state = reactive({
+  itemOnHover: false,
+})
 </script>
 
 <template>
@@ -63,7 +66,28 @@ const handleEditClick = (row: T) => {
           class="cursor-pointer text-text text-xl flex items-center justify-center hover:text-blue-600"
           @click="openTransferDialog"
         >
-          <el-icon><Setting /></el-icon>
+          <el-icon>
+            <Setting />
+          </el-icon>
+        </div>
+
+        <div
+          class="cursor-pointer flex items-center justify-center ml-1"
+          @mouseenter="state.itemOnHover = true"
+          @mouseleave="state.itemOnHover = false"
+        >
+          <img
+            v-if="!state.itemOnHover"
+            src="@/assets/icons/excel.svg"
+            alt="Excel"
+            class="w-6 h-6"
+          />
+          <img
+            v-if="state.itemOnHover"
+            src="@/assets/icons/excel-active.svg"
+            alt="Excel-active"
+            class="w-6 h-6"
+          />
         </div>
       </div>
     </div>

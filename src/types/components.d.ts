@@ -444,12 +444,6 @@ export interface SearchableListPanelProps {
   showBack?: boolean | string | object
   /** 是否顯示搜尋功能 */
   showSearch?: boolean
-  /** 是否顯示編輯功能 */
-  showEdit?: boolean
-  /** 是否顯示篩選功能 */
-  showFilter?: boolean
-  /** 是否顯示預設搜尋 */
-  showDefaultSearch?: boolean
   /** 分頁大小選項列表 */
   pageSizeList?: number[]
 }

@@ -43,11 +43,6 @@ const routes = [
         component: () => import('@/views/demo/TransferDialogDemo.vue'),
       },
       {
-        path: ROUTES.BASE_TABLE,
-        name: ROUTE_NAMES.BASE_TABLE,
-        component: () => import('@/views/demo/BaseTableDemo.vue'),
-      },
-      {
         path: ROUTES.BASE_BTN,
         name: ROUTE_NAMES.BASE_BTN,
         component: () => import('@/views/demo/BaseBtnDemo.vue'),

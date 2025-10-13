@@ -9,10 +9,8 @@ const props = withDefaults(
     pagination: Pager
     showBack?: boolean | string | object
     showSearch?: boolean
-    showEdit?: boolean
-    showFilter?: boolean
-    showDefaultSearch?: boolean
     pageSizeList?: number[]
+    showPagination?: boolean
   }>(),
   {
     pageSizeList: () => [10, 25, 50, 100, 200],
@@ -28,9 +26,6 @@ const emits = defineEmits<{
   (e: 'click:back'): void
 }>()
 
-const showAllFeatures = computed(() => {
-  return props.showDefaultSearch || (props.showSearch && props.showEdit && props.showFilter)
-})
 const search = (keyword: string) => {
   emits('search', keyword)
 }
@@ -54,15 +49,10 @@ const onBackClick = () => {
 <template>
   <main-panel :title="props.title" :show-back="showBack" @click:back="onBackClick">
     <template #searchBar>
-      <search-bar
-        :show-filter="showAllFeatures || showFilter"
-        :show-search="showAllFeatures || showSearch"
-        @keydown:enter="search"
-        @update:clear="clearable"
-      >
+      <search-bar :show-search="showSearch" @keydown:enter="search" @update:clear="clearable">
         <template #button>
           <slot name="firstButton"></slot>
-          <slot name="customButton" v-if="showAllFeatures || showEdit"> </slot>
+          <slot name="customButton"></slot>
           <slot name="lastButton"></slot>
         </template>
         <template #customerFilter>
