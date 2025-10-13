@@ -44,6 +44,13 @@ const changePageSize = (limit: number) => {
 const onBackClick = () => {
   emits('click:back')
 }
+const showPager = computed(() => {
+  if (typeof props.showBack === 'boolean') {
+    return props.showPagination
+  } else {
+    return props.pagination.totalCount > 0
+  }
+})
 </script>
 
 <template>
@@ -66,7 +73,7 @@ const onBackClick = () => {
 
     <template #footer>
       <el-pagination
-        v-if="pagination.totalCount > 0"
+        v-if="showPager"
         layout="jumper, prev, pager, next, total, sizes"
         :page-sizes="pageSizeList"
         :current-page="pagination.page"

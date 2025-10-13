@@ -92,6 +92,8 @@ export interface SortTableProps<T extends Record<string, unknown> = Record<strin
 export interface SortTableEmits<T extends Record<string, unknown> = Record<string, unknown>> {
   /** 打開轉移對話框事件 */
   (e: 'open:transfer'): void
+  /** 下載表單excel */
+  (e: 'click:downloadExcelFile'): void
   /** 更新選擇行事件 */
   (e: 'update:selectRow', value: T[]): void
   /** 單元格點擊事件 */

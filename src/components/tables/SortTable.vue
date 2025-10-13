@@ -24,6 +24,7 @@ defineProps<{
 
 const emit = defineEmits<{
   (e: 'open:transfer'): void
+  (e: 'click:downloadExcelFile'): void
   (e: 'update:selectRow', value: T[]): void
   (e: 'click:cell', column: TableColumn<T>, row: T): void
   (e: 'click:columnSort', data: SortChangValue<T>): void
@@ -53,6 +54,9 @@ const handleCheckClick = (row: T) => {
 const handleEditClick = (row: T) => {
   emit('click:editRow', row)
 }
+const handelExcelClick = () => {
+  emit('click:downloadExcelFile')
+}
 const state = reactive({
   itemOnHover: false,
 })
@@ -75,6 +79,7 @@ const state = reactive({
           class="cursor-pointer flex items-center justify-center ml-1"
           @mouseenter="state.itemOnHover = true"
           @mouseleave="state.itemOnHover = false"
+          @click="handelExcelClick"
         >
           <img
             v-if="!state.itemOnHover"
