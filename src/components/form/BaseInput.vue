@@ -11,7 +11,7 @@ const props = defineProps<{
   disabled?: boolean
   readonly?: boolean
   maxlength?: string | number
-  autocomplete?: string
+  autocomplete?: 'on' | 'off'
   showSearch?: boolean
 }>()
 
