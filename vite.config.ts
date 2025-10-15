@@ -74,7 +74,8 @@ export default defineConfig(({ mode }) => {
             }
           }
         },
-        cssCodeSplit: false
+        cssCodeSplit: false,
+        copyPublicDir: false
       }
     } : {})
   }
