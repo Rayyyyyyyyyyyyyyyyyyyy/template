@@ -45,7 +45,7 @@ const onBackClick = () => {
   emits('click:back')
 }
 const showPager = computed(() => {
-  if (typeof props.showBack === 'boolean') {
+  if (props.showPagination) {
     return props.showPagination
   } else {
     return props.pagination.totalCount > 0
