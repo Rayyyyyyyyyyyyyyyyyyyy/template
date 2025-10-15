@@ -14,6 +14,7 @@
 - 🚀 **現代化技術棧** - 基於 Vue 3 + TypeScript + Element Plus + Tailwind CSS
 - 📦 **開箱即用** - 提供完整的組件解決方案，包含表格、表單、佈局、交互組件
 - 🎯 **類型安全** - 完整的 TypeScript 類型定義，支援智能提示和類型檢查
+- 🌐 **國際化支持** - 內建 i18n 支持，支援多語言切換和外部專案語系同步
 - 📱 **響應式設計** - 使用 Tailwind CSS，適配各種設備尺寸
 - 🔧 **高度可配置** - 靈活的配置選項和豐富的插槽支持
 - 🎨 **樣式系統** - 多種樣式導入方式，支援自定義主題和 Tailwind CSS 集成
@@ -37,7 +38,7 @@ yarn add rayyy-vue-table-components
 pnpm add rayyy-vue-table-components
 ```
 
-> **注意**: 本組件庫需要 Vue 3.0+ 和 Element Plus 作為對等依賴。
+> **注意**: 本組件庫需要 Vue 3.0+、Element Plus 和 vue-i18n (>=10.0.0) 作為對等依賴。
 
 ## 🚀 快速開始
 
@@ -92,6 +93,58 @@ app.use(ElementPlus, {
 
 app.use(VueTableComponents)
 app.mount('#app')
+```
+
+### 國際化 (i18n) 設定
+
+組件庫支援國際化，可以與外部專案的 `vue-i18n` 整合：
+
+```typescript
+import { createApp } from 'vue'
+import { createI18n } from 'vue-i18n'
+import ElementPlus from 'element-plus'
+import VueTableComponents, { messages as componentMessages } from 'rayyy-vue-table-components'
+
+const app = createApp(App)
+
+// 建立 i18n 實例，合併組件庫的翻譯
+const i18n = createI18n({
+  legacy: false,
+  locale: 'zh-TW',
+  fallbackLocale: 'zh-TW',
+  messages: {
+    // 合併組件庫的翻譯
+    ...componentMessages,
+    // 可以添加您自己的翻譯
+    'zh-TW': {
+      ...componentMessages['zh-TW'],
+      'custom.key': '自定義翻譯'
+    }
+  }
+})
+
+app.use(i18n)
+app.use(ElementPlus)
+app.use(VueTableComponents, {
+  locale: 'zh-TW'  // 設定組件庫預設語系
+})
+app.mount('#app')
+```
+
+**支援的語系：**
+- `zh-TW` - 繁體中文（預設）
+- `en-US` - 英文
+
+**導入翻譯檔案：**
+```typescript
+// 導入組件庫的翻譯
+import { messages as componentMessages } from 'rayyy-vue-table-components/locales'
+
+// 導入特定語系
+import { zhTW, enUS } from 'rayyy-vue-table-components/locales'
+
+// 導入類型
+import type { LocaleType } from 'rayyy-vue-table-components/locales'
 ```
 
 ### 按需引入
@@ -1459,6 +1512,29 @@ src/
 ### 版本更新
 
 查看 [CHANGELOG.md](./CHANGELOG.md) 了解詳細的版本更新記錄。
+
+#### 最新更新 (v2.0.1 - v2.0.6)
+
+**🌐 國際化 (i18n) 支持**
+- ✅ 新增完整的國際化支持，支援繁體中文 (zh-TW) 和英文 (en-US)
+- ✅ 所有組件文字已替換為 i18n 翻譯鍵值
+- ✅ 支援外部專案語系同步，無需維護組件庫的翻譯檔案
+- ✅ 提供 `vue-i18n` 整合，支援 `>=10.0.0` 版本
+- ✅ 新增語系切換功能，支援動態語言切換
+- ✅ 提供翻譯檔案自動更新腳本，支援 Google Sheets 整合
+
+**🔧 技術改進**
+- ✅ 修復 `vue-i18n` 依賴版本衝突問題
+- ✅ 優化模組導出配置，支援 `./locales` 子路徑導入
+- ✅ 完善 TypeScript 類型定義，提供完整的 i18n 類型支持
+- ✅ 修復構建配置，確保翻譯檔案正確打包
+- ✅ 更新 Vite 配置，優化 i18n 資源處理
+
+**📦 新增功能**
+- ✅ 新增 `useI18n` 和 `setLocale` 工具函數
+- ✅ 新增 `messages` 和 `LocaleType` 類型導出
+- ✅ 新增 i18n 測試演示頁面
+- ✅ 新增語系切換按鈕和演示功能
 
 ### 組件統計
 
