@@ -1,9 +1,10 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
 import type { SortChangValue, TableColumn } from '@/types'
 import type { TableColumnCtx } from 'element-plus'
-import { computed, reactive, type VNode } from 'vue'
+import {  reactive, type VNode } from 'vue'
 import { Setting } from '@element-plus/icons-vue'
 import { BaseTable } from '@/components'
+
 
 defineProps<{
   data: T[]
@@ -99,7 +100,6 @@ const state = reactive({
 
     <base-table
       v-loading="loading"
-      element-loading-text="數據加載中..."
       :data="data"
       :columns="columns"
       :show-summary="showSummary"

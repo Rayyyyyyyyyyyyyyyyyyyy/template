@@ -1,8 +1,11 @@
 <script setup lang="ts" generic="T extends Record<string, unknown> = Record<string, unknown>">
 import type { VNode } from 'vue'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type { TableColumnCtx } from 'element-plus'
 import type { SortChangValue, TableColumn } from '@/types'
+
+const { t } = useI18n()
 
 type Props<T extends Record<string, unknown> = Record<string, unknown>> = {
   loading?: boolean
@@ -79,7 +82,7 @@ const operatorWidth = computed(() => {
 <template>
   <el-table
     v-loading="loading"
-    element-loading-text="數據加載中..."
+    :element-loading-text="t('common.loading')"
     :data="data"
     border
     :show-summary="showSummary"
@@ -127,7 +130,7 @@ const operatorWidth = computed(() => {
             @click="handleOperateClick(row, 'check')"
             v-if="showCheckBtn"
           >
-            查看
+            {{ t('common.view') }}
           </p>
           <el-divider direction="vertical" class="!mx-2" v-if="showCheckBtn && showEditBtn" />
           <p
@@ -135,7 +138,7 @@ const operatorWidth = computed(() => {
             @click="handleOperateClick(row, 'edit')"
             v-if="showEditBtn"
           >
-            編輯
+            {{ t('common.edit') }}
           </p>
         </div>
       </template>

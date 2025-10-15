@@ -3,7 +3,7 @@
     v-bind="attrs"
     :model-value="modelValue"
     :class="props.class"
-    :placeholder="props.placeholder"
+    :placeholder="props.placeholder || t('common.select')"
     :clearable="props.clearable"
     :collapse-tags="props.collapseTags"
     :collapse-tags-tooltip="props.collapseTagsTooltip"
@@ -19,7 +19,10 @@
 
 <script lang="ts" setup>
 import { useAttrs } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type { ElOptions } from '@/types/OptionDto.ts'
+
+const { t } = useI18n()
 
 export type Selection = string | string[]
 
@@ -38,7 +41,7 @@ const props = withDefaults(
   {
     modelValue: () => '',
     options: () => [{ value: '', label: '' }],
-    placeholder: '請選擇',
+    placeholder: '',
     class: 'w-full',
   },
 )

@@ -92,6 +92,11 @@ const routes = [
         name: ROUTE_NAMES.FILTER_LAYOUT,
         component: () => import('@/views/demo/FilterLayoutDemo.vue'),
       },
+      {
+        path: ROUTES.I18N_TEST,
+        name: ROUTE_NAMES.I18N_TEST,
+        component: () => import('@/views/demo/I18nTestDemo.vue'),
+      },
     ],
   },
   {

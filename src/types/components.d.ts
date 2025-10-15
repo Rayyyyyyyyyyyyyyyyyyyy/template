@@ -907,6 +907,8 @@ export interface PluginOptions {
   autoImportStyles?: boolean
   /** 自定義前綴 */
   prefix?: string
+  /** 預設語系 (預設: 'zh-TW') */
+  locale?: string
 }
 
 /** 插件實例類型 */

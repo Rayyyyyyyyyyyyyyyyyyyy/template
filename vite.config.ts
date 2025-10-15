@@ -65,15 +65,17 @@ export default defineConfig(({ mode }) => {
           fileName: (format) => `index.${format}.js`
         },
         rollupOptions: {
-          external: ['vue', 'element-plus'],
+          external: ['vue', 'element-plus', 'vue-i18n'],
           output: {
             globals: {
               vue: 'Vue',
-              'element-plus': 'ElementPlus'
+              'element-plus': 'ElementPlus',
+              'vue-i18n': 'VueI18n'
             }
           }
         },
-        cssCodeSplit: false
+        cssCodeSplit: false,
+        copyPublicDir: false
       }
     } : {})
   }

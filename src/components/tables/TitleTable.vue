@@ -1,8 +1,11 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
 import type { VNode } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type { TableColumnCtx } from 'element-plus'
 import type { TableColumn } from 'src/types'
 import { BaseTable, BaseBtn } from '@/components'
+
+const { t } = useI18n()
 
 // 使用泛型 T 來定義數據類型
 defineProps<{
@@ -68,8 +71,18 @@ const handleEditClick = (row: T) => {
         <slot name="tableSearch" />
 
         <div class="flex items-center" v-if="propIsEditable">
-          <BaseBtn text="新增" type="primary" @click="addInvoiceDetail" v-if="!onlyDelete" />
-          <BaseBtn text="刪除" type="primary" @click="deleteSelectRow" v-if="showDelete" />
+          <BaseBtn
+            :text="t('button.add')"
+            type="primary"
+            @click="addInvoiceDetail"
+            v-if="!onlyDelete"
+          />
+          <BaseBtn
+            :text="t('button.delete')"
+            type="primary"
+            @click="deleteSelectRow"
+            v-if="showDelete"
+          />
         </div>
       </div>
     </div>
@@ -77,7 +90,6 @@ const handleEditClick = (row: T) => {
     <!-- 表格主體 -->
     <base-table
       v-loading="loading"
-      element-loading-text="數據加載中..."
       :data="data"
       :columns="columns"
       :show-summary="showSummary"

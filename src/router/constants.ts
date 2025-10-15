@@ -21,6 +21,7 @@ export const ROUTES = {
   MAIN_PANEL: '/demo/main-panel',
   DETAIL_LAYOUT: '/demo/detail-layout',
   FILTER_LAYOUT: '/demo/filter-layout',
+  I18N_TEST: '/demo/i18n-test',
 
   // 錯誤頁面
   NOT_FOUND: '/:catchAll(.*)',
@@ -47,6 +48,7 @@ export const ROUTE_NAMES = {
   MAIN_PANEL: 'MainPanel',
   DETAIL_LAYOUT: 'DetailLayout',
   FILTER_LAYOUT: 'FilterLayout',
+  I18N_TEST: 'I18nTest',
 
   // 錯誤頁面
   NOT_FOUND: 'NotFoundPage',

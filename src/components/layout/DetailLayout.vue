@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { MainPanel, BaseBtn, SearchableListPanel } from '@/components'
+
+const { t } = useI18n()
 
 defineProps<{
   title: string
@@ -39,8 +42,8 @@ const handleBackClick = () => {
 
     <template #footer>
       <div class="border-t py-4 w-full flex items-center justify-end" v-if="isEditable">
-        <BaseBtn text="儲存" type="primary" is-fill @click="saveDetailEdit" />
-        <BaseBtn text="捨棄" type="primary" @click="cancelDetailEdit" />
+        <BaseBtn :text="t('common.save')" type="primary" is-fill @click="saveDetailEdit" />
+        <BaseBtn :text="t('common.discard')" type="primary" @click="cancelDetailEdit" />
       </div>
     </template>
   </MainPanel>

@@ -1,11 +1,14 @@
 <script setup lang="ts" generic="T = Record<string, unknown>">
 import { computed, reactive, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type { TableColumn } from 'src/types'
 import _ from 'lodash'
 import type { CheckboxValueType } from 'element-plus'
 import BaseDialog from '../items/BaseDialog.vue'
 import TransferItem from '@/components/transfer/transferItem.vue'
 import SearchBar from '../items/SearchBar.vue'
+
+const { t } = useI18n()
 
 const props = defineProps<{
   modelValue: boolean
@@ -147,7 +150,7 @@ const doFilterColumn = (keyword: string) => {
     </div>
     <div class="transfer-sort-wrapper">
       <el-checkbox v-model="checkAll" class="px-4" @change="handleCheckAllChange">
-        欄 ({{ state.checkList.length }}/{{ state.localColumns.length }})
+        {{ t('common.column') }} ({{ state.checkList.length }}/{{ state.localColumns.length }})
       </el-checkbox>
       <el-checkbox-group v-model="state.checkList" @change="handleCheckChange">
         <!-- 自定義列表容器 slot，讓外部可以選擇是否使用 draggable -->

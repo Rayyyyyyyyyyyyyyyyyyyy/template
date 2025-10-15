@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { MainPanel, BaseBtn } from '@/components'
+
+const { t } = useI18n()
 
 defineProps<{
   mainTitle: string
@@ -36,8 +39,8 @@ const handleBackClick = () => {
     </template>
     <template #footer>
       <div class="submit-row">
-        <base-btn text="執行" is-fill type="primary" @click="doFilter" />
-        <base-btn text="重設" type="primary" @click="resetFilter" />
+        <base-btn :text="t('common.execute')" is-fill type="primary" @click="doFilter" />
+        <base-btn :text="t('common.reset')" type="primary" @click="resetFilter" />
       </div>
     </template>
   </MainPanel>

@@ -1,20 +1,17 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import BaseDialog from './BaseDialog.vue'
 
-const props = withDefaults(
-  defineProps<{
+const { t } = useI18n()
+
+const props = defineProps<{
     modelValue: boolean
     waringText?: string
     subWaringText?: string
     titleText?: string
     modalWidth?: string
-  }>(),
-  {
-    waringText: '請問是否確認移除該使用者',
-    titleText: '警告',
-  },
-)
+  }>()
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
@@ -33,7 +30,7 @@ const handleSubmit = () => {
 <template>
   <base-dialog
     v-model="dialogVisible"
-    :title="titleText"
+    :title="titleText || t('common.warning')"
     :custom-width="modalWidth"
     :is-waring="true"
     @click:submit="handleSubmit"
@@ -41,7 +38,7 @@ const handleSubmit = () => {
     <div class="w-full h-16 flex items-center justify-center flex-col">
       <slot>
         <p>{{ subWaringText }}</p>
-        <p>{{ waringText }} ?</p>
+        <p>{{ waringText || t('dialog.confirmRemoveUser') }} ?</p>
       </slot>
     </div>
   </base-dialog>
