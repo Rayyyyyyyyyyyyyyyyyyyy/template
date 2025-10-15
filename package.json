@@ -1,6 +1,6 @@
 {
   "name": "rayyy-vue-table-components",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Vue 3 + Element Plus 表格組件庫",
   "type": "module",
   "main": "./dist/index.umd.js",
@@ -34,8 +34,8 @@
       "import": "./src/utils/tableStyles.ts"
     },
     "./locales": {
-      "types": "./dist/src/locales/index.d.ts",
-      "import": "./dist/src/locales/index.js"
+      "types": "./src/locales/index.d.ts",
+      "import": "./src/locales/index.ts"
     },
     "./styles": "./dist/rayyy-vue-table-components.css",
     "./styles/element": "./src/assets/styles/element/index.scss"
@@ -95,7 +95,7 @@
   "peerDependencies": {
     "element-plus": "^2.9.3",
     "vue": "^3.0.0",
-     "vue-i18n": ">=10.0.0"
+    "vue-i18n": ">=10.0.0"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.0",
