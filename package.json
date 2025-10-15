@@ -33,6 +33,10 @@
       "types": "./dist/src/utils/tableStyles.d.ts",
       "import": "./src/utils/tableStyles.ts"
     },
+    "./locales": {
+      "types": "./src/locales/index.d.ts",
+      "import": "./src/locales/index.ts"
+    },
     "./styles": "./dist/rayyy-vue-table-components.css",
     "./styles/element": "./src/assets/styles/element/index.scss"
   },
@@ -43,6 +47,7 @@
     "src/types/*",
     "src/types/components.d.ts",
     "src/utils/*",
+    "src/locales/*",
     "src/assets/styles/*",
     "tailwind-preset.js",
     "README.md"
@@ -82,13 +87,15 @@
     "lint": "eslint . --fix",
     "format": "prettier --write src/",
     "prepublishOnly": "npm run build",
+    "fetchI18n": "node ./scripts/fetch-i18n.js",
     "release:patch": "./scripts/release.sh patch",
     "release:minor": "./scripts/release.sh minor",
     "release:major": "./scripts/release.sh major"
   },
   "peerDependencies": {
     "element-plus": "^2.9.3",
-    "vue": "^3.0.0"
+    "vue": "^3.0.0",
+    "vue-i18n": "^10.0.0"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.0",
@@ -126,6 +133,7 @@
     "vite-plugin-vue-devtools": "^7.7.2",
     "vitest": "^3.0.8",
     "vue": "^3.5.13",
+    "vue-i18n": "^10.0.5",
     "vue-router": "^4.5.0",
     "vue-tsc": "^2.2.8",
     "vuedraggable": "^4.1.0"

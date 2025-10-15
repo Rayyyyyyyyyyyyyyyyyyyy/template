@@ -1,8 +1,19 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { BaseBtn } from '@/components'
 import { ROUTES } from '@/router/constants'
 import { useRouter } from 'vue-router'
 
+const { locale } = useI18n()
+const currentLocale = ref(locale.value)
+
+// 切換語系
+const switchLocale = () => {
+  currentLocale.value = currentLocale.value === 'zh-TW' ? 'en-US' : 'zh-TW'
+  locale.value = currentLocale.value
+  console.log('locale.value', locale.value)
+}
 
 // 新開頁面方法
 const openInstallGuide = () => {
@@ -198,6 +209,20 @@ const demoPages = [
     ],
     icon: 'M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z',
   },
+  {
+    title: 'i18n Test',
+    description: 'i18n 國際化測試頁面',
+    route: ROUTES.I18N_TEST,
+    features: [
+      '語系切換：即時切換繁體中文和英文',
+      'BaseTable 測試：測試表格組件的載入文字和操作按鈕',
+      'BaseDialog 測試：測試對話框的確定和取消按鈕',
+      'SearchBar 測試：測試搜尋框的 placeholder 文字',
+      '完整展示：展示所有組件的 i18n 整合效果',
+      '開發工具：用於驗證 i18n 功能是否正常運作',
+    ],
+    icon: 'M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129',
+  },
 ]
 const router = useRouter()
 const goDemoPage = (path: string) => {
@@ -208,6 +233,15 @@ const goDemoPage = (path: string) => {
 <template>
   <div class="min-h-screen bg-gray-50 py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- 語系切換按鈕 -->
+      <div class="flex justify-end mb-4">
+        <base-btn
+          :text="currentLocale === 'zh-TW' ? '中文 / English' : 'English / 中文'"
+          type="primary"
+          @click="switchLocale"
+        />
+      </div>
+
       <!-- 頁面標題 -->
       <div class="text-center mb-12">
         <h1 class="text-4xl font-bold text-gray-900 mb-4">組件示範中心</h1>
@@ -303,8 +337,12 @@ const goDemoPage = (path: string) => {
             想要在自己的專案中使用這些組件嗎？查看我們的安裝和使用指南。
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <BaseBtn type="primary" size="large" class="px-8 py-3" @click="openInstallGuide"> 安裝指南 </BaseBtn>
-            <BaseBtn type="default" size="large" class="px-8 py-3" @click="openDocsCenter"> 文檔中心 </BaseBtn>
+            <BaseBtn type="primary" size="large" class="px-8 py-3" @click="openInstallGuide">
+              安裝指南
+            </BaseBtn>
+            <BaseBtn type="default" size="large" class="px-8 py-3" @click="openDocsCenter">
+              文檔中心
+            </BaseBtn>
           </div>
         </div>
       </el-card>
@@ -376,7 +414,6 @@ const goDemoPage = (path: string) => {
         </el-card>
       </div>
     </div>
-
   </div>
 </template>
 

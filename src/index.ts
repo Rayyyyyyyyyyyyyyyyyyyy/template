@@ -10,11 +10,18 @@ import SearchBar from './components/items/SearchBar.vue'
 // 導入樣式
 import './assets/styles/tailwind.scss'
 
+// 導入 i18n
+import { setLocale } from './utils/i18n'
+
 // 導出基礎類型
 export * from './types'
 
 // 導出工具函數
 export * from './utils/tableHelper'
+
+// 導出 i18n 相關
+export { useComponentI18n, useI18n, setLocale } from './utils/i18n'
+export * from './locales'
 
 // 導出組件
 export { BaseTable, BaseBtn, BaseInput, BaseDialog, SortTable, TitleTable, SearchBar }
@@ -49,7 +56,15 @@ const components: any[] = [
 ]
 
 // Vue 插件安裝函數
-export function install(app: App, options?: { autoImportStyles?: boolean; prefix?: string }) {
+export function install(
+  app: App,
+  options?: { autoImportStyles?: boolean; prefix?: string; locale?: string },
+) {
+  // 如果提供了 locale，設定內部 i18n 的預設語系
+  if (options?.locale) {
+    setLocale(options.locale)
+  }
+
   // 只註冊組件，不處理 Element Plus
   // 外部專案需要自行安裝和配置 Element Plus
   components.forEach((component) => {

@@ -150,27 +150,26 @@ const simulateLoading = () => {
           :pagination="state.pagination"
           :show-back="true"
           :show-search="true"
-          :show-filter="true"
           @search="handleSearchableListSearch"
           @update-page="handleSearchableListPageChange"
           @update-page-size="handleSearchableListPageSizeChange"
           @click:back="handleSearchableListBackClick"
         >
           <template #firstButton>
-            <BaseBtn type="primary" size="small" class="px-4 py-2 mr-2"> 新增用戶 </BaseBtn>
+            <BaseBtn type="primary" class="px-4 py-2 mr-2"> 新增用戶 </BaseBtn>
           </template>
 
           <template #customButton>
-            <BaseBtn type="success" size="small" class="px-4 py-2 mr-2"> 匯出數據 </BaseBtn>
-            <BaseBtn type="warning" size="small" class="px-4 py-2"> 批量操作 </BaseBtn>
+            <BaseBtn type="success" class="px-4 py-2 mr-2"> 匯出數據 </BaseBtn>
+            <BaseBtn type="warning" class="px-4 py-2"> 批量操作 </BaseBtn>
           </template>
 
           <template #lastButton>
-            <BaseBtn type="info" size="small" class="px-4 py-2"> 刷新 </BaseBtn>
+            <BaseBtn type="info" class="px-4 py-2"> 刷新 </BaseBtn>
           </template>
 
           <template #filterButton>
-            <BaseBtn type="info" size="small" class="px-4 py-2"> 篩選 </BaseBtn>
+            <BaseBtn type="primary" class="px-4 py-2 ml-2"> 篩選 </BaseBtn>
           </template>
 
           <template #main>

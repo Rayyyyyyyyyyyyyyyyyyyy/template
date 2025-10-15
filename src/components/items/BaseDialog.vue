@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useWindowSize } from '@vueuse/core'
 import BaseBtn from './BaseBtn.vue'
+
+const { t } = useI18n()
 
 const props = defineProps<{
   modelValue: boolean
@@ -81,16 +84,22 @@ const handleSubmit = () => {
     <template #footer>
       <footer>
         <slot name="customFooter">
-          <base-btn text="關閉" type="primary" is-fill @click="handleCancel" v-if="showClose" />
+          <base-btn
+            :text="t('common.back')"
+            type="primary"
+            is-fill
+            @click="handleCancel"
+            v-if="showClose"
+          />
           <template v-if="!showClose">
             <base-btn
-              text="確定"
+              :text="t('common.confirm')"
               type="primary"
               is-fill
               @click="handleSubmit"
               :loading="submitLoading"
             />
-            <base-btn text="取消" type="primary" @click="handleCancel" />
+            <base-btn :text="t('common.cancel')" type="primary" @click="handleCancel" />
           </template>
         </slot>
       </footer>

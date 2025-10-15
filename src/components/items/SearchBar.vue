@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { ref, useAttrs } from 'vue'
+import { useI18n } from 'vue-i18n'
 import BaseInput from '../form/BaseInput.vue'
+
+const { t } = useI18n()
 
 defineProps<{
   showSearch?: boolean
@@ -38,7 +41,7 @@ const resetFilter = () => {
       <div v-if="showSearch" class="search-input">
         <base-input
           v-model="keyword"
-          placeholder="請輸入關鍵字搜尋列表"
+          :placeholder="t('search.placeholder')"
           :show-word-limit="true"
           :show-search="true"
           @keydown.enter="doSearch"
