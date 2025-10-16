@@ -60,6 +60,7 @@ const handleSubmit = () => {
     :class="{ 'waring-dialog': props.isWaring, 'upload-result-dialog': props.isPrimary }"
     align-center
     destroy-on-close
+    append-to-body
   >
     <template #header="{ titleId, titleClass }">
       <slot name="customHeader">
