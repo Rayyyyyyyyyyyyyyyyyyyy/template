@@ -49,7 +49,7 @@ const onBackClick = () => {
 
 <style scoped>
 .panel-scrollbar {
-  max-height: calc(100vh - 160px);
+  max-height: calc(100vh - 180px);
   max-width: 100vw;
   @apply overflow-auto;
 }

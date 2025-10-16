@@ -52,7 +52,6 @@ const handleBackClick = () => {
 <style lang="scss" scoped>
 .detail-container {
   @apply h-full flex flex-col;
-  max-height: calc(100vh - 100px);
   min-height: calc(100vh - 140px);
 }
 
