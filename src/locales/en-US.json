@@ -11,7 +11,7 @@
   "common.view": "View",
   "common.edit": "Edit",
   "common.column": "Column",
-  "common.back": "      Back",
+  "common.close": "Close",
   "demo.componentDemo": "Component Demo",
   "button.title": "Button",
   "button.primary ": "Primary",

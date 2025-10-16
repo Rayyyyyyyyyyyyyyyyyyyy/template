@@ -86,7 +86,7 @@ const handleSubmit = () => {
       <footer>
         <slot name="customFooter">
           <base-btn
-            :text="t('common.back')"
+            :text="t('common.close')"
             type="primary"
             is-fill
             @click="handleCancel"
