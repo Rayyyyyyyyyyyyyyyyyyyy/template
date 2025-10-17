@@ -41,11 +41,8 @@ export function setLocale(locale: string): void {
  * 全域 i18n 實例（用於非組件環境）
  */
 export function useI18n() {
-  console.log('🔍 [useI18n] 開始執行')
   const i18n = getInternalI18n()
-  const global = i18n.global as Composer
-  console.log('🔍 [useI18n] 返回內部 i18n，locale:', global.locale.value)
-  return global
+  return i18n.global as Composer
 }
 
 /**
@@ -53,42 +50,8 @@ export function useI18n() {
  * 專門用於組件庫內部的 Element Plus 組件
  */
 export function useComponentElementLocale() {
-  console.log('🔍 [useComponentElementLocale] 開始執行')
-
-  return computed(() => {
-    console.log('🔍 [useComponentElementLocale] computed 開始執行')
-
-    // 在 computed 內部嘗試獲取外部 i18n（確保響應式）
-    const instance = getCurrentInstance()
-    let externalLocale: any = undefined
-
-    try {
-      console.log('🔍 [useComponentElementLocale] 嘗試獲取外部 i18n')
-      const globalProperties = instance?.appContext.config.globalProperties
-      const externalI18nInstance = globalProperties?.$i18n as I18n | undefined
-
-      if (externalI18nInstance && 'global' in externalI18nInstance) {
-        externalLocale = externalI18nInstance.global.locale
-        console.log('🔍 [useComponentElementLocale] 成功獲取外部 locale:', externalLocale.value)
-      } else {
-        console.log('🔍 [useComponentElementLocale] 外部 i18n 不存在')
-      }
-    } catch (e) {
-      console.log('❌ [useComponentElementLocale] 獲取外部 i18n 失敗:', e)
-    }
-
-    // 獲取內部 i18n（回退）
-    const { locale: internalLocale } = useI18n()
-    console.log('🔍 [useComponentElementLocale] 內部 locale:', internalLocale.value)
-
-    // 決定使用哪個 locale
-    const currentLocale = externalLocale || internalLocale
-    console.log('🔍 [useComponentElementLocale] 最終使用 locale:', currentLocale.value)
-
-    const result = currentLocale.value === 'zh-TW' ? zhTw : enUs
-    console.log('🔍 [useComponentElementLocale] 返回結果:', result.name)
-    return result
-  })
+  // 直接返回預設中文
+  return computed(() => zhTw)
 }
 
 // 導出類型
