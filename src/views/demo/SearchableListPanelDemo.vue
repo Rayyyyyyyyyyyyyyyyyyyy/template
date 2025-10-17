@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { BaseTable, BaseBtn, SearchableListPanel } from '@/components'
 import type { TableColumn } from '@/types'
 import { setActiveColumn } from '@/utils/tableHelper'
@@ -7,6 +8,15 @@ import { h } from 'vue'
 import { DEMO_CONSTANTS, DEMO_USER_DATA, type User } from '@/const/tableConst'
 import { useRouter } from 'vue-router'
 import { ROUTES } from '@/router/constants'
+
+// 語系切換
+const { locale } = useI18n()
+const currentLocale = ref(locale.value)
+
+const switchLocale = () => {
+  currentLocale.value = currentLocale.value === 'zh-TW' ? 'en-US' : 'zh-TW'
+  locale.value = currentLocale.value
+}
 
 // ==================== 列配置工廠函數 ====================
 const createUserColumns = (): TableColumn<User>[] =>
@@ -139,10 +149,22 @@ const simulateLoading = () => {
   <section id="searchable-list-panel-demo" class="mb-12">
     <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
       <div class="px-8 py-6 border-b border-gray-100">
-        <h2 class="text-2xl font-semibold text-gray-900 mb-2">SearchableListPanel 示範</h2>
-        <p class="text-gray-600 text-base leading-relaxed">
-          展示 SearchableListPanel 組件的完整功能
-        </p>
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-2">SearchableListPanel 示範</h2>
+            <p class="text-gray-600 text-base leading-relaxed">
+              展示 SearchableListPanel 組件的完整功能
+            </p>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="text-sm text-gray-500">當前語系: {{ currentLocale }}</span>
+            <base-btn
+              :text="`切換語系 (${currentLocale === 'zh-TW' ? '切換到英文' : '切換到中文'})`"
+              type="primary"
+              @click="switchLocale"
+            />
+          </div>
+        </div>
       </div>
       <div class="p-8">
         <SearchableListPanel

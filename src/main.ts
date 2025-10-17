@@ -34,8 +34,11 @@ const elementLocale = computed(() => {
 })
 
 app.use(ElementPlus, {
-  locale: elementLocale.value,
+  locale: zhTw, // 預設使用繁體中文
 })
+
+// 提供全域的 Element Plus locale 響應式更新
+app.provide('elementLocale', elementLocale)
 
 app.use(createPinia())
 app.use(router)

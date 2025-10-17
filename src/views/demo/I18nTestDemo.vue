@@ -33,12 +33,27 @@ const testColumns = ref<TableColumn<TestData>[]>([
 const loading = ref(false)
 const dialogVisible = ref(false)
 
+// 分頁相關
+const currentPage = ref(1)
+const pageSize = ref(10)
+const total = ref(50)
+
 const toggleLoading = () => {
   loading.value = !loading.value
 }
 
 const openDialog = () => {
   dialogVisible.value = true
+}
+
+const handlePageChange = (page: number) => {
+  currentPage.value = page
+  console.log('頁面變更:', page)
+}
+
+const handlePageSizeChange = (size: number) => {
+  pageSize.value = size
+  console.log('頁面大小變更:', size)
 }
 </script>
 
@@ -118,6 +133,40 @@ const openDialog = () => {
             placeholder：{{ t('search.placeholder') }}
           </p>
           <search-bar :show-search="true" />
+        </div>
+      </el-card>
+
+      <!-- Element Plus Pagination 測試 -->
+      <el-card class="mb-8" shadow="always">
+        <template #header>
+          <h2 class="text-xl font-semibold">Element Plus Pagination 測試</h2>
+        </template>
+        <div>
+          <p class="text-sm text-gray-600 mb-4">
+            測試項目：
+            <br />
+            1. 切換語系觀察 pagination 文字變化
+            <br />
+            2. 繁體中文：顯示「共 50 條」等中文文字
+            <br />
+            3. 英文：顯示「Total 50」等英文文字
+          </p>
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <el-pagination
+              v-model:current-page="currentPage"
+              v-model:page-size="pageSize"
+              :page-sizes="[10, 20, 50, 100]"
+              :total="total"
+              layout="total, sizes, prev, pager, next, jumper"
+              @current-change="handlePageChange"
+              @size-change="handlePageSizeChange"
+            />
+          </div>
+          <div class="mt-4 text-sm text-gray-600">
+            <p>當前頁面：{{ currentPage }}</p>
+            <p>每頁大小：{{ pageSize }}</p>
+            <p>總數：{{ total }}</p>
+          </div>
         </div>
       </el-card>
 

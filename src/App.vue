@@ -1,9 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, inject } from 'vue'
+import { useI18n } from 'vue-i18n'
+import zhTw from 'element-plus/es/locale/lang/zh-tw'
+import enUs from 'element-plus/es/locale/lang/en'
 
 import type { Language } from 'element-plus/es/locale'
 
-const elLocale = ref<Language>()
+// 使用 i18n 來響應式更新 Element Plus locale
+const { locale } = useI18n()
+
+const elLocale = computed<Language>(() => {
+  return locale.value === 'zh-TW' ? zhTw : enUs
+})
 </script>
 
 <template>
