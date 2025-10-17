@@ -122,6 +122,42 @@ export function useElementLocale() {
   })
 }
 
+/**
+ * 組件庫內部使用的 Element Plus locale composable
+ * 專門用於組件庫內部的 Element Plus 組件
+ */
+export function useComponentElementLocale() {
+  const instance = getCurrentInstance()
+
+  // 嘗試取得外部專案的 i18n（支援 Composition API 模式）
+  let externalI18n: Composer | undefined
+  try {
+    const globalProperties = instance?.appContext.config.globalProperties
+    const externalI18nInstance = globalProperties?.$i18n as I18n | undefined
+
+    // 如果是 I18n 實例，取得其 global 屬性
+    if (externalI18nInstance && 'global' in externalI18nInstance) {
+      externalI18n = externalI18nInstance.global as Composer
+    }
+  } catch (e) {
+    // 如果取得失敗，繼續使用內部 i18n
+    externalI18n = undefined
+  }
+
+  // 取得內部 i18n
+  const internalI18nInstance = getInternalI18n()
+  const internalGlobal = internalI18nInstance.global as Composer
+
+  // 如果存在外部 i18n，優先使用外部的，否則使用內部的
+  const currentI18n = externalI18n || internalGlobal
+
+  // 返回響應式的 Element Plus locale
+  return computed(() => {
+    const locale = currentI18n.locale.value
+    return locale === 'zh-TW' ? zhTw : enUs
+  })
+}
+
 // 導出類型
 export type { I18n, Composer }
 

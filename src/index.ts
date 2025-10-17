@@ -20,7 +20,7 @@ export * from './types'
 export * from './utils/tableHelper'
 
 // 導出 i18n 相關
-export { useI18n, setLocale, useElementLocale } from './utils/i18n'
+export { useI18n, setLocale, useElementLocale, useComponentElementLocale } from './utils/i18n'
 export * from './locales'
 
 // 導出組件

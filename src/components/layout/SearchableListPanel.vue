@@ -2,6 +2,7 @@
 import { toRefs, computed } from 'vue'
 import type { Pager } from '@/types'
 import { MainPanel, SearchBar } from '@/components'
+import { useComponentElementLocale } from '@/utils/i18n'
 
 const props = withDefaults(
   defineProps<{
@@ -48,9 +49,12 @@ const showPager = computed(() => {
   if (props.showPagination) {
     return props.showPagination
   } else {
-    return props.pagination.totalCount > 0
+return props.pagination.totalCount > 0
   }
 })
+
+// 取得響應式的 Element Plus locale
+const elementLocale = useComponentElementLocale()
 </script>
 
 <template>
@@ -72,16 +76,18 @@ const showPager = computed(() => {
     </template>
 
     <template #footer>
-      <el-pagination
-        v-if="showPager"
-        layout="jumper, prev, pager, next, total, sizes"
-        :page-sizes="pageSizeList"
-        :current-page="pagination.page"
-        :page-size="pagination.limit"
-        :total="pagination.totalCount"
-        @current-change="updatePage"
-        @size-change="changePageSize"
-      />
+      <el-config-provider :locale="elementLocale">
+        <el-pagination
+          v-if="showPager"
+          layout="jumper, prev, pager, next, total, sizes"
+          :page-sizes="pageSizeList"
+          :current-page="pagination.page"
+          :page-size="pagination.limit"
+          :total="pagination.totalCount"
+          @current-change="updatePage"
+          @size-change="changePageSize"
+        />
+      </el-config-provider>
     </template>
   </main-panel>
 </template>
