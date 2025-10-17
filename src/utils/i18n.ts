@@ -38,61 +38,6 @@ export function setLocale(locale: string): void {
 }
 
 /**
- * 組件內使用的 i18n composable
- * 會優先使用外部專案的 i18n，如果不存在則使用內部 i18n
- */
-export function useComponentI18n() {
-  console.log('🔍 [useComponentI18n] 開始執行')
-
-  const instance = getCurrentInstance()
-  console.log('🔍 [useComponentI18n] 獲取 instance:', !!instance)
-
-  // 嘗試取得外部專案的 i18n（支援 Composition API 模式）
-  let externalI18n: Composer | undefined
-  try {
-    console.log('🔍 [useComponentI18n] 嘗試獲取外部 i18n')
-    const globalProperties = instance?.appContext.config.globalProperties
-    console.log('🔍 [useComponentI18n] globalProperties:', !!globalProperties)
-
-    const externalI18nInstance = globalProperties?.$i18n as I18n | undefined
-    console.log('🔍 [useComponentI18n] externalI18nInstance:', !!externalI18nInstance)
-
-    // 如果是 I18n 實例，取得其 global 屬性
-    if (externalI18nInstance && 'global' in externalI18nInstance) {
-      externalI18n = externalI18nInstance.global as Composer
-      console.log('🔍 [useComponentI18n] 成功獲取外部 i18n，locale:', externalI18n.locale.value)
-    } else {
-      console.log('🔍 [useComponentI18n] 外部 i18n 實例不存在或格式不正確')
-    }
-  } catch (e) {
-    console.log('❌ [useComponentI18n] 獲取外部 i18n 失敗:', e)
-    // 如果取得失敗，繼續使用內部 i18n
-    externalI18n = undefined
-  }
-
-  // 取得內部 i18n
-  console.log('🔍 [useComponentI18n] 獲取內部 i18n')
-  const internalI18nInstance = getInternalI18n()
-  const internalGlobal = internalI18nInstance.global as Composer
-  console.log('🔍 [useComponentI18n] 內部 i18n locale:', internalGlobal.locale.value)
-
-  // 如果存在外部 i18n，優先使用外部的（因為外部可能有覆蓋的翻譯）
-  // 但要支援回退到內部 i18n
-  const currentI18n = externalI18n || internalGlobal
-  console.log('🔍 [useComponentI18n] 最終使用 i18n:', externalI18n ? '外部' : '內部', 'locale:', currentI18n.locale.value)
-
-  // 直接使用 i18n 的 t 函數（它本身就是響應式的）
-  // 如果需要回退邏輯，我們需要檢查 key 是否存在
-  const t = currentI18n.t
-
-  return {
-    t,
-    locale: currentI18n.locale,
-    i18n: currentI18n,
-  }
-}
-
-/**
  * 全域 i18n 實例（用於非組件環境）
  */
 export function useI18n() {
@@ -110,25 +55,39 @@ export function useI18n() {
 export function useComponentElementLocale() {
   console.log('🔍 [useComponentElementLocale] 開始執行')
 
-  try {
-    console.log('🔍 [useComponentElementLocale] 嘗試獲取 useI18n()')
-    const { locale } = useI18n()
-    console.log('🔍 [useComponentElementLocale] 成功獲取 locale:', locale.value)
+  // 嘗試獲取外部 i18n（優先）
+  const instance = getCurrentInstance()
+  let externalLocale: any = undefined
 
-    return computed(() => {
-      console.log('🔍 [useComponentElementLocale] computed 重新計算，locale.value:', locale.value)
-      const result = locale.value === 'zh-TW' ? zhTw : enUs
-      console.log('🔍 [useComponentElementLocale] 返回結果:', result.name)
-      return result
-    })
+  try {
+    console.log('🔍 [useComponentElementLocale] 嘗試獲取外部 i18n')
+    const globalProperties = instance?.appContext.config.globalProperties
+    const externalI18nInstance = globalProperties?.$i18n as I18n | undefined
+
+    if (externalI18nInstance && 'global' in externalI18nInstance) {
+      externalLocale = externalI18nInstance.global.locale
+      console.log('🔍 [useComponentElementLocale] 成功獲取外部 locale:', externalLocale.value)
+    } else {
+      console.log('🔍 [useComponentElementLocale] 外部 i18n 不存在，使用內部 i18n')
+    }
   } catch (e) {
-    console.log('❌ [useComponentElementLocale] 獲取 useI18n() 失敗:', e)
-    // 防呆：預設中文
-    return computed(() => {
-      console.log('🔍 [useComponentElementLocale] 使用預設中文')
-      return zhTw
-    })
+    console.log('❌ [useComponentElementLocale] 獲取外部 i18n 失敗:', e)
   }
+
+  // 獲取內部 i18n（回退）
+  const { locale: internalLocale } = useI18n()
+  console.log('🔍 [useComponentElementLocale] 內部 locale:', internalLocale.value)
+
+  // 決定使用哪個 locale
+  const currentLocale = externalLocale || internalLocale
+  console.log('🔍 [useComponentElementLocale] 最終使用 locale:', currentLocale.value)
+
+  return computed(() => {
+    console.log('🔍 [useComponentElementLocale] computed 重新計算，locale.value:', currentLocale.value)
+    const result = currentLocale.value === 'zh-TW' ? zhTw : enUs
+    console.log('🔍 [useComponentElementLocale] 返回結果:', result.name)
+    return result
+  })
 }
 
 // 導出類型
