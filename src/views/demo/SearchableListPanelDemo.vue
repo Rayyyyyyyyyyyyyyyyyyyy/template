@@ -140,15 +140,6 @@ const router = useRouter()
 const handleSearchableListBackClick = () => {
   router.push(ROUTES.DEMO)
 }
-
-// 模擬加載
-const simulateLoading = () => {
-  state.sortTableLoading = true
-
-  setTimeout(() => {
-    state.sortTableLoading = false
-  }, DEMO_CONSTANTS.LOADING_DURATION)
-}
 </script>
 
 <template>
