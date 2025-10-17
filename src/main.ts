@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { createI18n } from 'vue-i18n'
+import { computed } from 'vue'
 
 import ElementPlus from 'element-plus'
 import zhTw from 'element-plus/es/locale/lang/zh-tw'
@@ -27,9 +28,13 @@ const i18n = createI18n({
 
 app.use(i18n)
 
-// Element Plus 也要跟著語系切換
+// Element Plus 也要跟著語系切換（響應式）
+const elementLocale = computed(() => {
+  return i18n.global.locale.value === 'zh-TW' ? zhTw : enUs
+})
+
 app.use(ElementPlus, {
-  locale: i18n.global.locale.value === 'zh-TW' ? zhTw : enUs,
+  locale: elementLocale.value,
 })
 
 app.use(createPinia())
