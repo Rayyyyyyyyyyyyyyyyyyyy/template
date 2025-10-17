@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { toRefs, computed } from 'vue'
+import { toRefs, computed, watch } from 'vue'
 import type { Pager } from '@/types'
 import { MainPanel, SearchBar } from '@/components'
 import { useComponentElementLocale } from '@/utils/i18n'
@@ -58,12 +58,25 @@ const showPager = computed(() => {
 // 在 computed 外部調用，保持引用穩定
 const fallbackLocale = useComponentElementLocale()
 
+// 監聽 fallbackLocale 的變化
+watch(fallbackLocale, (newLocale, oldLocale) => {
+  console.log('🔄 [SearchableListPanel] fallbackLocale 變化:', {
+    old: oldLocale?.name,
+    new: newLocale?.name
+  })
+}, { immediate: true })
+
 // 優先使用 prop，沒有 prop 則使用 composable
 const elementLocale = computed(() => {
+  console.log('🔍 [SearchableListPanel] elementLocale computed 執行')
+
   // 檢查 props.locale 是否為真正的 Language 對象（不是預設值）
   if (props.locale && typeof props.locale === 'object' && 'name' in props.locale) {
+    console.log('🔍 [SearchableListPanel] 使用 props.locale:', props.locale.name)
     return props.locale
   }
+
+  console.log('🔍 [SearchableListPanel] 使用 fallbackLocale:', fallbackLocale.value.name)
   // 現在能正確追蹤響應式
   return fallbackLocale.value
 })

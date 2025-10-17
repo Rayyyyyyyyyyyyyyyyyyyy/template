@@ -20,7 +20,6 @@ const switchLocale = () => {
   locale.value = currentLocale.value
 }
 
-// 直接建立 computed，不使用 useElementLocale
 const elementLocale = computed(() => {
   return locale.value === 'zh-TW' ? zhTw : enUs
 })
