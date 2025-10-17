@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { BaseTable, BaseBtn, SearchableListPanel } from '@/components'
 import type { TableColumn } from '@/types'
@@ -8,6 +8,8 @@ import { h } from 'vue'
 import { DEMO_CONSTANTS, DEMO_USER_DATA, type User } from '@/const/tableConst'
 import { useRouter } from 'vue-router'
 import { ROUTES } from '@/router/constants'
+import zhTw from 'element-plus/es/locale/lang/zh-tw'
+import enUs from 'element-plus/es/locale/lang/en'
 
 // 語系切換
 const { locale } = useI18n()
@@ -17,6 +19,11 @@ const switchLocale = () => {
   currentLocale.value = currentLocale.value === 'zh-TW' ? 'en-US' : 'zh-TW'
   locale.value = currentLocale.value
 }
+
+// 直接建立 computed，不使用 useElementLocale
+const elementLocale = computed(() => {
+  return locale.value === 'zh-TW' ? zhTw : enUs
+})
 
 // ==================== 列配置工廠函數 ====================
 const createUserColumns = (): TableColumn<User>[] =>
@@ -172,6 +179,7 @@ const simulateLoading = () => {
           :pagination="state.pagination"
           :show-back="true"
           :show-search="true"
+          :locale="elementLocale"
           @search="handleSearchableListSearch"
           @update-page="handleSearchableListPageChange"
           @update-page-size="handleSearchableListPageSizeChange"

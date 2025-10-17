@@ -14,11 +14,10 @@ const props = withDefaults(
     showSearch?: boolean
     pageSizeList?: number[]
     showPagination?: boolean
-    locale?: Language  // 新增：Element Plus locale
+    locale?: Language // 新增：Element Plus locale
   }>(),
   {
     pageSizeList: () => [10, 25, 50, 100, 200],
-    locale: () => zhTw,  // 預設值：中文
   },
 )
 
@@ -53,13 +52,14 @@ const showPager = computed(() => {
   if (props.showPagination) {
     return props.showPagination
   } else {
-return props.pagination.totalCount > 0
+    return props.pagination.totalCount > 0
   }
 })
 
 // 優先使用 prop，沒有 prop 則使用 composable
 const elementLocale = computed(() => {
-  if (props.locale) {
+  // 檢查 props.locale 是否為真正的 Language 對象（不是預設值）
+  if (props.locale && typeof props.locale === 'object' && 'name' in props.locale) {
     return props.locale
   }
   // 回退：使用簡化的 composable
