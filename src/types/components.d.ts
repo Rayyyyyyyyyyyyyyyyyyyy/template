@@ -448,6 +448,10 @@ export interface SearchableListPanelProps {
   showSearch?: boolean
   /** 分頁大小選項列表 */
   pageSizeList?: number[]
+  /** 是否顯示分頁 */
+  showPagination?: boolean
+  /** Element Plus 語系設定 */
+  locale?: import('element-plus/es/locale').Language
 }
 
 /** SearchableListPanel 組件 Emits 類型 */

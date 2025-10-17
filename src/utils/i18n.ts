@@ -91,36 +91,15 @@ export function useI18n() {
  * 返回響應式的 Element Plus locale 對象
  */
 export function useElementLocale() {
-  const instance = getCurrentInstance()
-
-  // 在 computed 外部一次性獲取 i18n 引用
-  let externalI18n: Composer | undefined
   try {
-    const globalProperties = instance?.appContext.config.globalProperties
-    const externalI18nInstance = globalProperties?.$i18n as I18n | undefined
-
-    // 如果是 I18n 實例，取得其 global 屬性
-    if (externalI18nInstance && 'global' in externalI18nInstance) {
-      externalI18n = externalI18nInstance.global as Composer
-    }
+    const { locale } = useI18n()
+    return computed(() => {
+      return locale.value === 'zh-TW' ? zhTw : enUs
+    })
   } catch (e) {
-    // 如果取得失敗，繼續使用內部 i18n
-    externalI18n = undefined
+    // 防呆：預設中文
+    return computed(() => zhTw)
   }
-
-  // 取得內部 i18n
-  const internalI18nInstance = getInternalI18n()
-  const internalGlobal = internalI18nInstance.global as Composer
-
-  // 決定使用哪個 i18n（在 computed 外部決定）
-  const currentI18n = externalI18n || internalGlobal
-
-  // 返回響應式的 Element Plus locale
-  // 現在 Vue 可以正確追蹤 currentI18n.locale.value 的變化
-  return computed(() => {
-    const locale = currentI18n.locale.value  // ✅ Vue 可以追蹤！
-    return locale === 'zh-TW' ? zhTw : enUs
-  })
 }
 
 /**
@@ -128,34 +107,15 @@ export function useElementLocale() {
  * 專門用於組件庫內部的 Element Plus 組件
  */
 export function useComponentElementLocale() {
-  const instance = getCurrentInstance()
-
-  // 在 computed 外部一次性獲取 i18n 引用
-  let externalI18n: Composer | undefined
   try {
-    const globalProperties = instance?.appContext.config.globalProperties
-    const externalI18nInstance = globalProperties?.$i18n as I18n | undefined
-
-    if (externalI18nInstance && 'global' in externalI18nInstance) {
-      externalI18n = externalI18nInstance.global as Composer
-    }
+    const { locale } = useI18n()
+    return computed(() => {
+      return locale.value === 'zh-TW' ? zhTw : enUs
+    })
   } catch (e) {
-    externalI18n = undefined
+    // 防呆：預設中文
+    return computed(() => zhTw)
   }
-
-  // 取得內部 i18n
-  const internalI18nInstance = getInternalI18n()
-  const internalGlobal = internalI18nInstance.global as Composer
-
-  // 決定使用哪個 i18n（在 computed 外部決定）
-  const currentI18n = externalI18n || internalGlobal
-
-  // 返回響應式的 Element Plus locale
-  // 現在 Vue 可以正確追蹤 currentI18n.locale.value 的變化
-  return computed(() => {
-    const locale = currentI18n.locale.value  // ✅ Vue 可以追蹤！
-    return locale === 'zh-TW' ? zhTw : enUs
-  })
 }
 
 // 導出類型

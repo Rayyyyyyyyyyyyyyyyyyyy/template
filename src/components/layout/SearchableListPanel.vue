@@ -3,6 +3,8 @@ import { toRefs, computed } from 'vue'
 import type { Pager } from '@/types'
 import { MainPanel, SearchBar } from '@/components'
 import { useComponentElementLocale } from '@/utils/i18n'
+import type { Language } from 'element-plus/es/locale'
+import zhTw from 'element-plus/es/locale/lang/zh-tw'
 
 const props = withDefaults(
   defineProps<{
@@ -12,9 +14,11 @@ const props = withDefaults(
     showSearch?: boolean
     pageSizeList?: number[]
     showPagination?: boolean
+    locale?: Language  // 新增：Element Plus locale
   }>(),
   {
     pageSizeList: () => [10, 25, 50, 100, 200],
+    locale: () => zhTw,  // 預設值：中文
   },
 )
 
@@ -53,8 +57,14 @@ return props.pagination.totalCount > 0
   }
 })
 
-// 取得響應式的 Element Plus locale
-const elementLocale = useComponentElementLocale()
+// 優先使用 prop，沒有 prop 則使用 composable
+const elementLocale = computed(() => {
+  if (props.locale) {
+    return props.locale
+  }
+  // 回退：使用簡化的 composable
+  return useComponentElementLocale().value
+})
 </script>
 
 <template>
