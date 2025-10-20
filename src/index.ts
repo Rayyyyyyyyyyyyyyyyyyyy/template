@@ -2,6 +2,7 @@ import type { App } from 'vue'
 import BaseTable from './components/tables/BaseTable.vue'
 import BaseBtn from './components/items/BaseBtn.vue'
 import BaseInput from './components/form/BaseInput.vue'
+import BaseSelector from './components/form/BaseSelector.vue'
 import BaseDialog from './components/items/BaseDialog.vue'
 import BaseWaringDialog from './components/items/BaseWaringDialog.vue'
 import SortTable from './components/tables/SortTable.vue'
@@ -36,6 +37,7 @@ export {
   BaseTable,
   BaseBtn,
   BaseInput,
+  BaseSelector,
   BaseDialog,
   BaseWaringDialog,
   SortTable,
@@ -73,6 +75,7 @@ const components: any[] = [
   BaseTable,
   BaseBtn,
   BaseInput,
+  BaseSelector,
   BaseDialog,
   BaseWaringDialog,
   SortTable,
@@ -119,6 +122,9 @@ export default {
 }
 ;(BaseInput as unknown as Record<string, unknown>).install = (app: App) => {
   app.component(BaseInput.name || 'BaseInput', BaseInput)
+}
+;(BaseSelector as unknown as Record<string, unknown>).install = (app: App) => {
+  app.component(BaseSelector.name || 'BaseSelector', BaseSelector)
 }
 ;(BaseDialog as unknown as Record<string, unknown>).install = (app: App) => {
   app.component(BaseDialog.name || 'BaseDialog', BaseDialog)

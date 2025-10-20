@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { BaseBtn } from '@/components'
+import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 </script>
 
 <template>
@@ -14,12 +15,12 @@ import { BaseBtn } from '@/components'
         </template>
         <div class="space-y-4">
           <div class="flex flex-wrap gap-4">
-            <BaseBtn type="primary">主要按鈕</BaseBtn>
-            <BaseBtn type="default">默認按鈕</BaseBtn>
-            <BaseBtn type="danger">危險按鈕</BaseBtn>
-            <BaseBtn type="success">成功按鈕</BaseBtn>
-            <BaseBtn type="warning">警告按鈕</BaseBtn>
-            <BaseBtn type="info">信息按鈕</BaseBtn>
+            <BaseBtn type="primary" text="主要按鈕" />
+            <BaseBtn type="default" text="默認按鈕" />
+            <BaseBtn type="danger" text="危險按鈕" />
+            <BaseBtn type="success" text="成功按鈕" />
+            <BaseBtn type="warning" text="警告按鈕" />
+            <BaseBtn type="info" text="信息按鈕" />
           </div>
         </div>
       </el-card>
@@ -31,9 +32,9 @@ import { BaseBtn } from '@/components'
         </template>
         <div class="space-y-4">
           <div class="flex flex-wrap items-center gap-4">
-            <BaseBtn type="primary" size="small">小按鈕</BaseBtn>
-            <BaseBtn type="primary" size="default">中等按鈕</BaseBtn>
-            <BaseBtn type="primary" size="large">大按鈕</BaseBtn>
+            <BaseBtn type="primary" size="small" text="小按鈕" />
+            <BaseBtn type="primary" size="default" text="中等按鈕" />
+            <BaseBtn type="primary" size="large" text="大按鈕" />
           </div>
         </div>
       </el-card>
@@ -45,9 +46,9 @@ import { BaseBtn } from '@/components'
         </template>
         <div class="space-y-4">
           <div class="flex flex-wrap gap-4">
-            <BaseBtn type="primary">正常按鈕</BaseBtn>
-            <BaseBtn type="primary" :loading="true">載入中</BaseBtn>
-            <BaseBtn type="primary" disabled>禁用按鈕</BaseBtn>
+            <BaseBtn type="primary" text="正常按鈕" />
+            <BaseBtn type="primary" :loading="true" text="載入中" />
+            <BaseBtn type="primary" disabled text="禁用按鈕" />
           </div>
         </div>
       </el-card>
@@ -61,45 +62,45 @@ import { BaseBtn } from '@/components'
           <div>
             <h3 class="text-lg font-medium text-gray-800 mb-3">不同類型的禁用按鈕</h3>
             <div class="flex flex-wrap gap-4">
-              <BaseBtn type="primary" disabled>主要按鈕</BaseBtn>
-              <BaseBtn type="success" disabled>成功按鈕</BaseBtn>
-              <BaseBtn type="warning" disabled>警告按鈕</BaseBtn>
-              <BaseBtn type="danger" disabled>危險按鈕</BaseBtn>
-              <BaseBtn type="info" disabled>信息按鈕</BaseBtn>
-              <BaseBtn type="default" disabled>默認按鈕</BaseBtn>
+              <BaseBtn type="primary" disabled text="主要按鈕" />
+              <BaseBtn type="success" disabled text="成功按鈕" />
+              <BaseBtn type="warning" disabled text="警告按鈕" />
+              <BaseBtn type="danger" disabled text="危險按鈕" />
+              <BaseBtn type="info" disabled text="信息按鈕" />
+              <BaseBtn type="default" disabled text="默認按鈕" />
             </div>
           </div>
 
           <div>
             <h3 class="text-lg font-medium text-gray-800 mb-3">填充樣式的禁用按鈕</h3>
             <div class="flex flex-wrap gap-4">
-              <BaseBtn type="primary" disabled is-fill>主要按鈕</BaseBtn>
-              <BaseBtn type="success" disabled is-fill>成功按鈕</BaseBtn>
-              <BaseBtn type="warning" disabled is-fill>警告按鈕</BaseBtn>
-              <BaseBtn type="danger" disabled is-fill>危險按鈕</BaseBtn>
-              <BaseBtn type="info" disabled is-fill>信息按鈕</BaseBtn>
+              <BaseBtn type="primary" disabled is-fill text="主要按鈕" />
+              <BaseBtn type="success" disabled is-fill text="成功按鈕" />
+              <BaseBtn type="warning" disabled is-fill text="警告按鈕" />
+              <BaseBtn type="danger" disabled is-fill text="危險按鈕" />
+              <BaseBtn type="info" disabled is-fill text="信息按鈕" />
             </div>
           </div>
 
           <div>
             <h3 class="text-lg font-medium text-gray-800 mb-3">樸素樣式的禁用按鈕</h3>
             <div class="flex flex-wrap gap-4">
-              <BaseBtn type="primary" disabled plain>主要按鈕</BaseBtn>
-              <BaseBtn type="success" disabled plain>成功按鈕</BaseBtn>
-              <BaseBtn type="warning" disabled plain>警告按鈕</BaseBtn>
-              <BaseBtn type="danger" disabled plain>危險按鈕</BaseBtn>
-              <BaseBtn type="info" disabled plain>信息按鈕</BaseBtn>
+              <BaseBtn type="primary" disabled plain text="主要按鈕" />
+              <BaseBtn type="success" disabled plain text="成功按鈕" />
+              <BaseBtn type="warning" disabled plain text="警告按鈕" />
+              <BaseBtn type="danger" disabled plain text="危險按鈕" />
+              <BaseBtn type="info" disabled plain text="信息按鈕" />
             </div>
           </div>
 
           <div>
             <h3 class="text-lg font-medium text-gray-800 mb-3">文字按鈕的禁用狀態</h3>
             <div class="flex flex-wrap gap-4">
-              <BaseBtn type="primary" disabled link>主要按鈕</BaseBtn>
-              <BaseBtn type="success" disabled link>成功按鈕</BaseBtn>
-              <BaseBtn type="warning" disabled link>警告按鈕</BaseBtn>
-              <BaseBtn type="danger" disabled link>危險按鈕</BaseBtn>
-              <BaseBtn type="info" disabled link>信息按鈕</BaseBtn>
+              <BaseBtn type="primary" disabled link text="主要按鈕" />
+              <BaseBtn type="success" disabled link text="成功按鈕" />
+              <BaseBtn type="warning" disabled link text="警告按鈕" />
+              <BaseBtn type="danger" disabled link text="危險按鈕" />
+              <BaseBtn type="info" disabled link text="信息按鈕" />
             </div>
           </div>
         </div>
@@ -112,39 +113,9 @@ import { BaseBtn } from '@/components'
         </template>
         <div class="space-y-4">
           <div class="flex flex-wrap gap-4">
-            <BaseBtn type="primary">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                />
-              </svg>
-              添加
-            </BaseBtn>
-            <BaseBtn type="default">
-              編輯
-              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                />
-              </svg>
-            </BaseBtn>
-            <BaseBtn type="danger">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                />
-              </svg>
-              刪除
-            </BaseBtn>
+            <BaseBtn type="primary" :icon="Plus" text="添加" />
+            <BaseBtn type="default" :icon="Edit" text="編輯" />
+            <BaseBtn type="danger" :icon="Delete" text="刪除" />
           </div>
         </div>
       </el-card>

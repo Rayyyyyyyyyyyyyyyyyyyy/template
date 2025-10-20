@@ -83,6 +83,20 @@ const demoPages = [
     icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z',
   },
   {
+    title: 'BaseSelector',
+    description: '基礎選擇器組件',
+    route: ROUTES.BASE_SELECTOR,
+    features: [
+      '單選/多選：支持單選和多選模式',
+      '自動清空：始終支持一鍵清空選擇',
+      '折疊標籤：多選時支持折疊標籤顯示',
+      '禁用狀態：支持禁用選擇功能',
+      '自定義樣式：支持自定義 CSS 類名',
+      'z-index 修復：解決在 Dialog 中的層級問題',
+    ],
+    icon: 'M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
+  },
+  {
     title: 'BaseDialog',
     description: '基礎對話框組件',
     route: ROUTES.BASE_DIALOG,

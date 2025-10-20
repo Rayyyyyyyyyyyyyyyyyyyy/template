@@ -983,6 +983,157 @@ type ComponentSize = 'default' | 'small' | 'large'</code></pre>
             </div>
           </div>
 
+          <!-- BaseSelector API -->
+          <div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">BaseSelector</h3>
+            <p class="text-gray-600 mb-4">增強的選擇器組件，支援單選/多選、可清空、折疊標籤等功能，並解決了在 Dialog 中的 z-index 層級問題。</p>
+
+            <div class="space-y-4">
+              <div>
+                <h4 class="text-lg font-medium text-gray-800 mb-3">Props</h4>
+                <div class="overflow-x-auto">
+                  <table class="min-w-full border border-gray-200 rounded-lg">
+                    <thead class="bg-gray-50">
+                      <tr>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-900 border-b">屬性</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-900 border-b">類型</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-900 border-b">默認值</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-900 border-b">說明</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                      <tr>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>modelValue</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>string | string[]</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>''</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600">選擇器的值</td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>options</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>Array&lt;{value: string, label: string}&gt;</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>[{value: '', label: ''}]</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600">選項數據</td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>placeholder</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>string</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>'請選擇'</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600">佔位符文字</td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>multiple</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>boolean</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>false</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600">是否多選</td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>disabled</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>boolean</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>false</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600">是否禁用</td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>collapseTags</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>boolean</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>false</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600">是否折疊標籤</td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>collapseTagsTooltip</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>boolean</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>false</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600">是否顯示折疊標籤提示</td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>class</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>string</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>'w-full'</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600">自定義 CSS 類名</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-lg font-medium text-gray-800 mb-3">Events</h4>
+                <div class="overflow-x-auto">
+                  <table class="min-w-full border border-gray-200 rounded-lg">
+                    <thead class="bg-gray-50">
+                      <tr>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-900 border-b">事件名</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-900 border-b">參數</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-900 border-b">說明</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                      <tr>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>update:modelValue</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>value?: string | string[]</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600">選擇值變更時觸發</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-lg font-medium text-gray-800 mb-3">使用範例</h4>
+                <div class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm relative overflow-x-auto">
+                  <pre><code>&lt;template&gt;
+  &lt;div class="space-y-4"&gt;
+    &lt;!-- 基本選擇器 --&gt;
+    &lt;BaseSelector
+      v-model="selectedValue"
+      :options="options"
+      placeholder="請選擇選項"
+    /&gt;
+
+    &lt;!-- 多選選擇器 --&gt;
+    &lt;BaseSelector
+      v-model="selectedValues"
+      :options="options"
+      placeholder="請選擇多個選項"
+      :multiple="true"
+      :collapse-tags="true"
+      :collapse-tags-tooltip="true"
+    /&gt;
+
+    &lt;!-- 禁用狀態 --&gt;
+    &lt;BaseSelector
+      v-model="selectedValue"
+      :options="options"
+      :disabled="true"
+    /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup lang="ts"&gt;
+import { ref } from 'vue'
+import { BaseSelector } from 'rayyy-vue-table-components'
+
+const selectedValue = ref('')
+const selectedValues = ref&lt;string[]&gt;([])
+
+const options = [
+  { value: 'option1', label: '選項一' },
+  { value: 'option2', label: '選項二' },
+  { value: 'option3', label: '選項三' }
+]
+&lt;/script&gt;</code></pre>
+                  <button
+                    @click="copyToClipboard('&lt;template&gt;\n  &lt;div class=&quot;space-y-4&quot;&gt;\n    &lt;!-- 基本選擇器 --&gt;\n    &lt;BaseSelector\n      v-model=&quot;selectedValue&quot;\n      :options=&quot;options&quot;\n      placeholder=&quot;請選擇選項&quot;\n    /&gt;\n\n    &lt;!-- 多選選擇器 --&gt;\n    &lt;BaseSelector\n      v-model=&quot;selectedValues&quot;\n      :options=&quot;options&quot;\n      placeholder=&quot;請選擇多個選項&quot;\n      :multiple=&quot;true&quot;\n      :collapse-tags=&quot;true&quot;\n      :collapse-tags-tooltip=&quot;true&quot;\n    /&gt;\n\n    &lt;!-- 禁用狀態 --&gt;\n    &lt;BaseSelector\n      v-model=&quot;selectedValue&quot;\n      :options=&quot;options&quot;\n      :disabled=&quot;true&quot;\n    /&gt;\n  &lt;/div&gt;\n&lt;/template&gt;\n\n&lt;script setup lang=&quot;ts&quot;&gt;\nimport { ref } from \'vue\'\nimport { BaseSelector } from \'rayyy-vue-table-components\'\n\nconst selectedValue = ref(\'\')\nconst selectedValues = ref&lt;string[]&gt;([])\n\nconst options = [\n  { value: \'option1\', label: \'選項一\' },\n  { value: \'option2\', label: \'選項二\' },\n  { value: \'option3\', label: \'選項三\' }\n]\n&lt;/script&gt;')"
+                    class="absolute top-2 right-2 text-gray-400 hover:text-white"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- BaseDialog API -->
           <div>
             <h3 class="text-xl font-semibold text-gray-900 mb-4">BaseDialog</h3>

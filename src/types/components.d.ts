@@ -370,6 +370,42 @@ export interface BaseInputInstance {
   $emit: BaseInputEmits
 }
 
+// ==================== BaseSelector 組件類型 ====================
+
+/** BaseSelector 組件 Props 類型 */
+export interface BaseSelectorProps {
+  /** 模型值 */
+  modelValue?: string | string[]
+  /** 選項數據 */
+  options?: Array<{ value: string; label: string }>
+  /** 佔位符 */
+  placeholder?: string
+  /** 是否折疊標籤 */
+  collapseTags?: boolean
+  /** 是否顯示折疊標籤提示 */
+  collapseTagsTooltip?: boolean
+  /** 是否多選 */
+  multiple?: boolean
+  /** 是否禁用 */
+  disabled?: boolean
+  /** 自定義 CSS 類名 */
+  class?: string
+}
+
+/** BaseSelector 組件 Emits 類型 */
+export interface BaseSelectorEmits {
+  /** 模型值更新事件 */
+  'update:modelValue': (value?: string | string[]) => void
+}
+
+/** BaseSelector 組件實例類型 */
+export interface BaseSelectorInstance {
+  /** 組件 Props */
+  $props: BaseSelectorProps
+  /** 組件 Emits */
+  $emit: BaseSelectorEmits
+}
+
 
 // ==================== 搜尋相關組件類型 ====================
 
@@ -748,6 +784,23 @@ export declare const BaseInput: DefineComponent<
   install: (app: App) => void
 }
 
+/** BaseSelector 組件定義 */
+export declare const BaseSelector: DefineComponent<
+  BaseSelectorProps,
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  BaseSelectorEmits
+> & {
+  /** 安裝方法 */
+  install: (app: App) => void
+}
+
 
 /** SearchBar 組件定義 */
 export declare const SearchBar: DefineComponent<
@@ -893,6 +946,8 @@ export interface VueTableComponentsPlugin {
   TransferDialog: typeof TransferDialog
   /** BaseInput 組件 */
   BaseInput: typeof BaseInput
+  /** BaseSelector 組件 */
+  BaseSelector: typeof BaseSelector
   /** SearchBar 組件 */
   SearchBar: typeof SearchBar
   /** SearchableListPanel 組件 */
@@ -921,6 +976,7 @@ declare module '@vue/runtime-core' {
     BaseWaringDialog: typeof BaseWaringDialog
     TransferDialog: typeof TransferDialog
     BaseInput: typeof BaseInput
+    BaseSelector: typeof BaseSelector
     SearchBar: typeof SearchBar
     SearchableListPanel: typeof SearchableListPanel
     FunctionHeader: typeof FunctionHeader

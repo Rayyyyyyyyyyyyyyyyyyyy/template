@@ -48,6 +48,11 @@ const routes = [
         component: () => import('@/views/demo/BaseInputDemo.vue'),
       },
       {
+        path: ROUTES.BASE_SELECTOR,
+        name: ROUTE_NAMES.BASE_SELECTOR,
+        component: () => import('@/views/demo/BaseSelectorDemo.vue'),
+      },
+      {
         path: ROUTES.BASE_DIALOG,
         name: ROUTE_NAMES.BASE_DIALOG,
         component: () => import('@/views/demo/BaseDialogDemo.vue'),

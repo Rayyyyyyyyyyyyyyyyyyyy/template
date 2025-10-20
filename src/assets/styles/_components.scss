@@ -46,3 +46,9 @@
   @apply w-fit;
   @apply text-blue-10;
 }
+
+
+
+.my-select-popper {
+  z-index: 4000 !important; /* 比 dialog 高即可 */
+}
