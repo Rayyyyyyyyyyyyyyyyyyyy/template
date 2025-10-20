@@ -52,6 +52,59 @@ import { BaseBtn } from '@/components'
         </div>
       </el-card>
 
+      <!-- 禁用狀態樣式展示 -->
+      <el-card class="mb-8" shadow="always">
+        <template #header>
+          <h2 class="text-xl font-semibold">禁用狀態樣式</h2>
+        </template>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-lg font-medium text-gray-800 mb-3">不同類型的禁用按鈕</h3>
+            <div class="flex flex-wrap gap-4">
+              <BaseBtn type="primary" disabled>主要按鈕</BaseBtn>
+              <BaseBtn type="success" disabled>成功按鈕</BaseBtn>
+              <BaseBtn type="warning" disabled>警告按鈕</BaseBtn>
+              <BaseBtn type="danger" disabled>危險按鈕</BaseBtn>
+              <BaseBtn type="info" disabled>信息按鈕</BaseBtn>
+              <BaseBtn type="default" disabled>默認按鈕</BaseBtn>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-medium text-gray-800 mb-3">填充樣式的禁用按鈕</h3>
+            <div class="flex flex-wrap gap-4">
+              <BaseBtn type="primary" disabled is-fill>主要按鈕</BaseBtn>
+              <BaseBtn type="success" disabled is-fill>成功按鈕</BaseBtn>
+              <BaseBtn type="warning" disabled is-fill>警告按鈕</BaseBtn>
+              <BaseBtn type="danger" disabled is-fill>危險按鈕</BaseBtn>
+              <BaseBtn type="info" disabled is-fill>信息按鈕</BaseBtn>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-medium text-gray-800 mb-3">樸素樣式的禁用按鈕</h3>
+            <div class="flex flex-wrap gap-4">
+              <BaseBtn type="primary" disabled plain>主要按鈕</BaseBtn>
+              <BaseBtn type="success" disabled plain>成功按鈕</BaseBtn>
+              <BaseBtn type="warning" disabled plain>警告按鈕</BaseBtn>
+              <BaseBtn type="danger" disabled plain>危險按鈕</BaseBtn>
+              <BaseBtn type="info" disabled plain>信息按鈕</BaseBtn>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-medium text-gray-800 mb-3">文字按鈕的禁用狀態</h3>
+            <div class="flex flex-wrap gap-4">
+              <BaseBtn type="primary" disabled link>主要按鈕</BaseBtn>
+              <BaseBtn type="success" disabled link>成功按鈕</BaseBtn>
+              <BaseBtn type="warning" disabled link>警告按鈕</BaseBtn>
+              <BaseBtn type="danger" disabled link>危險按鈕</BaseBtn>
+              <BaseBtn type="info" disabled link>信息按鈕</BaseBtn>
+            </div>
+          </div>
+        </div>
+      </el-card>
+
       <!-- 帶圖標的按鈕 -->
       <el-card class="mb-8" shadow="always">
         <template #header>

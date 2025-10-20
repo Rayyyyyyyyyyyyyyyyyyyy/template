@@ -8,7 +8,6 @@ export const ROUTES = {
 
   // 組件示範頁面
   SEARCHABLE_LIST_PANEL: '/demo/searchable-list-panel',
-  BASE_MULTIPLE_INPUT: '/demo/base-multiple-input',
   TRANSFER_DIALOG: '/demo/transfer-dialog',
   BASE_BTN: '/demo/base-btn',
   BASE_INPUT: '/demo/base-input',
@@ -36,7 +35,6 @@ export const ROUTE_NAMES = {
 
   // 組件示範頁面
   SEARCHABLE_LIST_PANEL: 'SearchableListPanel',
-  BASE_MULTIPLE_INPUT: 'BaseMultipleInput',
   TRANSFER_DIALOG: 'TransferDialog',
   BASE_BTN: 'BaseBtn',
   BASE_INPUT: 'BaseInput',

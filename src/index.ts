@@ -3,9 +3,17 @@ import BaseTable from './components/tables/BaseTable.vue'
 import BaseBtn from './components/items/BaseBtn.vue'
 import BaseInput from './components/form/BaseInput.vue'
 import BaseDialog from './components/items/BaseDialog.vue'
+import BaseWaringDialog from './components/items/BaseWaringDialog.vue'
 import SortTable from './components/tables/SortTable.vue'
 import TitleTable from './components/tables/TitleTable.vue'
 import SearchBar from './components/items/SearchBar.vue'
+import TransferDialog from './components/transfer/TransferDialog.vue'
+import TransferItem from './components/transfer/transferItem.vue'
+import FunctionHeader from './components/layout/FunctionHeader.vue'
+import MainPanel from './components/layout/MainPanel.vue'
+import SearchableListPanel from './components/layout/SearchableListPanel.vue'
+import DetailLayout from './components/layout/DetailLayout.vue'
+import FilterLayout from './components/layout/FilterLayout.vue'
 
 // 導入樣式
 import './assets/styles/tailwind.scss'
@@ -24,7 +32,23 @@ export { useI18n, setLocale, useComponentElementLocale } from './utils/i18n'
 export * from './locales'
 
 // 導出組件
-export { BaseTable, BaseBtn, BaseInput, BaseDialog, SortTable, TitleTable, SearchBar }
+export {
+  BaseTable,
+  BaseBtn,
+  BaseInput,
+  BaseDialog,
+  BaseWaringDialog,
+  SortTable,
+  TitleTable,
+  SearchBar,
+  TransferDialog,
+  TransferItem,
+  FunctionHeader,
+  MainPanel,
+  SearchableListPanel,
+  DetailLayout,
+  FilterLayout
+}
 
 // 導出組件類型
 export type {
@@ -50,9 +74,17 @@ const components: any[] = [
   BaseBtn,
   BaseInput,
   BaseDialog,
+  BaseWaringDialog,
   SortTable,
   TitleTable,
   SearchBar,
+  TransferDialog,
+  TransferItem,
+  FunctionHeader,
+  MainPanel,
+  SearchableListPanel,
+  DetailLayout,
+  FilterLayout,
 ]
 
 // Vue 插件安裝函數
@@ -91,6 +123,9 @@ export default {
 ;(BaseDialog as unknown as Record<string, unknown>).install = (app: App) => {
   app.component(BaseDialog.name || 'BaseDialog', BaseDialog)
 }
+;(BaseWaringDialog as unknown as Record<string, unknown>).install = (app: App) => {
+  app.component(BaseWaringDialog.name || 'BaseWaringDialog', BaseWaringDialog)
+}
 ;(SortTable as unknown as Record<string, unknown>).install = (app: App) => {
   app.component(SortTable.name || 'SortTable', SortTable)
 }
@@ -99,4 +134,25 @@ export default {
 }
 ;(SearchBar as unknown as Record<string, unknown>).install = (app: App) => {
   app.component(SearchBar.name || 'SearchBar', SearchBar)
+}
+;(TransferDialog as unknown as Record<string, unknown>).install = (app: App) => {
+  app.component(TransferDialog.name || 'TransferDialog', TransferDialog)
+}
+;(TransferItem as unknown as Record<string, unknown>).install = (app: App) => {
+  app.component(TransferItem.name || 'TransferItem', TransferItem)
+}
+;(FunctionHeader as unknown as Record<string, unknown>).install = (app: App) => {
+  app.component(FunctionHeader.name || 'FunctionHeader', FunctionHeader)
+}
+;(MainPanel as unknown as Record<string, unknown>).install = (app: App) => {
+  app.component(MainPanel.name || 'MainPanel', MainPanel)
+}
+;(SearchableListPanel as unknown as Record<string, unknown>).install = (app: App) => {
+  app.component(SearchableListPanel.name || 'SearchableListPanel', SearchableListPanel)
+}
+;(DetailLayout as unknown as Record<string, unknown>).install = (app: App) => {
+  app.component(DetailLayout.name || 'DetailLayout', DetailLayout)
+}
+;(FilterLayout as unknown as Record<string, unknown>).install = (app: App) => {
+  app.component(FilterLayout.name || 'FilterLayout', FilterLayout)
 }

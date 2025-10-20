@@ -370,33 +370,6 @@ export interface BaseInputInstance {
   $emit: BaseInputEmits
 }
 
-// ==================== BaseMultipleInput 組件類型 ====================
-
-/** BaseMultipleInput 組件 Props 類型 */
-export interface BaseMultipleInputProps {
-  /** 模型值（字符串數組） */
-  modelValue: string[]
-  /** 輸入框類型 */
-  type?: string
-  /** 驗證規則函數 */
-  validateRule?: (inputString: string) => boolean
-}
-
-/** BaseMultipleInput 組件 Emits 類型 */
-export interface BaseMultipleInputEmits {
-  /** 更新模型值事件 */
-  (e: 'update:modelValue', val: string[]): void
-  /** 輸入錯誤事件 */
-  (e: 'inputError'): void
-}
-
-/** BaseMultipleInput 組件實例類型 */
-export interface BaseMultipleInputInstance {
-  /** 組件 Props */
-  $props: BaseMultipleInputProps
-  /** 組件 Emits */
-  $emit: BaseMultipleInputEmits
-}
 
 // ==================== 搜尋相關組件類型 ====================
 
@@ -775,21 +748,6 @@ export declare const BaseInput: DefineComponent<
   install: (app: App) => void
 }
 
-/** BaseMultipleInput 組件定義 */
-export declare const BaseMultipleInput: DefineComponent<
-  BaseMultipleInputProps,
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  BaseMultipleInputEmits
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
 
 /** SearchBar 組件定義 */
 export declare const SearchBar: DefineComponent<
@@ -935,8 +893,6 @@ export interface VueTableComponentsPlugin {
   TransferDialog: typeof TransferDialog
   /** BaseInput 組件 */
   BaseInput: typeof BaseInput
-  /** BaseMultipleInput 組件 */
-  BaseMultipleInput: typeof BaseMultipleInput
   /** SearchBar 組件 */
   SearchBar: typeof SearchBar
   /** SearchableListPanel 組件 */
@@ -965,7 +921,6 @@ declare module '@vue/runtime-core' {
     BaseWaringDialog: typeof BaseWaringDialog
     TransferDialog: typeof TransferDialog
     BaseInput: typeof BaseInput
-    BaseMultipleInput: typeof BaseMultipleInput
     SearchBar: typeof SearchBar
     SearchableListPanel: typeof SearchableListPanel
     FunctionHeader: typeof FunctionHeader

@@ -113,45 +113,6 @@ const handlePageChange = (page: number) => {
             </div>
           </div>
 
-          <!-- BaseMultipleInput -->
-          <div>
-            <h3 class="text-xl font-semibold text-gray-900 mb-4">BaseMultipleInput - 多標籤輸入組件</h3>
-            <p class="text-gray-600 mb-4">支持多標籤輸入的組件，可添加、刪除和驗證標籤。</p>
-
-            <div class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm relative overflow-x-auto">
-              <pre><code>&lt;template&gt;
-  &lt;BaseMultipleInput
-    v-model="tags"
-    placeholder="輸入標籤並按 Enter 確認"
-    :validator="validateTag"
-    @change="handleTagsChange"
-  /&gt;
-&lt;/template&gt;
-
-&lt;script setup lang="ts"&gt;
-import { ref } from 'vue'
-import { BaseMultipleInput } from 'rayyy-vue-table-components'
-
-const tags = ref&lt;string[]&gt;(['Vue', 'TypeScript'])
-
-const validateTag = (tag: string): boolean => {
-  return tag.length >= 2 && tag.length <= 20
-}
-
-const handleTagsChange = (newTags: string[]) => {
-  console.log('標籤變更:', newTags)
-}
-&lt;/script&gt;</code></pre>
-              <button
-                @click="copyToClipboard('&lt;template&gt;\n  &lt;BaseMultipleInput\n    v-model=&quot;tags&quot;\n    placeholder=&quot;輸入標籤並按 Enter 確認&quot;\n    :validator=&quot;validateTag&quot;\n    @change=&quot;handleTagsChange&quot;\n  /&gt;\n&lt;/template&gt;\n\n&lt;script setup lang=&quot;ts&quot;&gt;\nimport { ref } from \'vue\'\nimport { BaseMultipleInput } from \'rayyy-vue-table-components\'\n\nconst tags = ref&lt;string[]&gt;([\'Vue\', \'TypeScript\'])\n\nconst validateTag = (tag: string): boolean => {\n  return tag.length >= 2 && tag.length <= 20\n}\n\nconst handleTagsChange = (newTags: string[]) => {\n  console.log(\'標籤變更:\', newTags)\n}\n&lt;/script&gt;')"
-                class="absolute top-2 right-2 text-gray-400 hover:text-white"
-              >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-              </button>
-            </div>
-          </div>
 
           <!-- TransferDialog -->
           <div>
@@ -667,6 +628,12 @@ const handleCancel = () => {
                         <td class="px-4 py-2 text-sm text-gray-600"><code>1</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600">當前頁碼</td>
                       </tr>
+                      <tr>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>locale</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>Language</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>undefined</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><strong>Element Plus 語言設定，用於覆寫 i18n</strong></td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -706,82 +673,6 @@ const handleCancel = () => {
             </div>
           </div>
 
-          <!-- BaseMultipleInput API -->
-          <div>
-            <h3 class="text-xl font-semibold text-gray-900 mb-4">BaseMultipleInput</h3>
-            <p class="text-gray-600 mb-4">支持多標籤輸入的組件，可添加、刪除和驗證標籤。</p>
-
-            <div class="space-y-4">
-              <div>
-                <h4 class="text-lg font-medium text-gray-800 mb-3">Props</h4>
-                <div class="overflow-x-auto">
-                  <table class="min-w-full border border-gray-200 rounded-lg">
-                    <thead class="bg-gray-50">
-                      <tr>
-                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-900 border-b">屬性</th>
-                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-900 border-b">類型</th>
-                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-900 border-b">默認值</th>
-                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-900 border-b">說明</th>
-                      </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                      <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>modelValue</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>string[]</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>[]</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600">標籤數組</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>placeholder</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>string</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>''</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600">輸入框佔位符</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>validator</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>(tag: string) => boolean</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>undefined</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600">標籤驗證函數</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>disabled</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>boolean</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>false</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600">是否禁用</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div>
-                <h4 class="text-lg font-medium text-gray-800 mb-3">Events</h4>
-                <div class="overflow-x-auto">
-                  <table class="min-w-full border border-gray-200 rounded-lg">
-                    <thead class="bg-gray-50">
-                      <tr>
-                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-900 border-b">事件名</th>
-                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-900 border-b">參數</th>
-                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-900 border-b">說明</th>
-                      </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                      <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>update:modelValue</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>tags: string[]</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600">標籤數組變更時觸發</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>change</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>tags: string[]</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600">標籤變更時觸發</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <!-- TransferDialog API -->
           <div>

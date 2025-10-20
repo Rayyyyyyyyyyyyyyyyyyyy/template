@@ -33,11 +33,6 @@ const routes = [
         component: () => import('@/views/demo/SearchableListPanelDemo.vue'),
       },
       {
-        path: ROUTES.BASE_MULTIPLE_INPUT,
-        name: ROUTE_NAMES.BASE_MULTIPLE_INPUT,
-        component: () => import('@/views/demo/BaseMultipleInputDemo.vue'),
-      },
-      {
         path: ROUTES.TRANSFER_DIALOG,
         name: ROUTE_NAMES.TRANSFER_DIALOG,
         component: () => import('@/views/demo/TransferDialogDemo.vue'),

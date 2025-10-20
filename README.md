@@ -14,12 +14,12 @@
 - 🚀 **現代化技術棧** - 基於 Vue 3 + TypeScript + Element Plus + Tailwind CSS
 - 📦 **開箱即用** - 提供完整的組件解決方案，包含表格、表單、佈局、交互組件
 - 🎯 **類型安全** - 完整的 TypeScript 類型定義，支援智能提示和類型檢查
-- 🌐 **國際化支持** - 內建 i18n 支持，支援多語言切換和外部專案語系同步
+- 🌐 **國際化支持** - 支援多語言切換，與外部專案 i18n 完美整合
 - 📱 **響應式設計** - 使用 Tailwind CSS，適配各種設備尺寸
 - 🔧 **高度可配置** - 靈活的配置選項和豐富的插槽支持
 - 🎨 **樣式系統** - 多種樣式導入方式，支援自定義主題和 Tailwind CSS 集成
 - 🛠️ **現代化工具** - Sass 模組化 + TypeScript 樣式工具 + 自動導入
-- 💡 **豐富組件** - 17+ 個組件，涵蓋表格、表單、佈局、對話框、穿梭框等
+- 💡 **豐富組件** - 15 個組件，涵蓋表格、表單、佈局、對話框、穿梭框等
 - 🧪 **完整測試** - 單元測試 + E2E 測試，確保組件穩定性
 - 📚 **詳細文檔** - 完整的 API 文檔和使用示例
 
@@ -97,7 +97,7 @@ app.mount('#app')
 
 ### 國際化 (i18n) 設定
 
-組件庫支援國際化，可以與外部專案的 `vue-i18n` 整合：
+組件庫支援國際化，需要與外部專案的 `vue-i18n` 整合。**重要**：組件庫提供翻譯檔案，需要外部專案合併使用：
 
 ```typescript
 import { createApp } from 'vue'
@@ -114,20 +114,22 @@ const i18n = createI18n({
   fallbackLocale: 'zh-TW',
   messages: {
     // 合併組件庫的翻譯
-    ...componentMessages,
-    // 可以添加您自己的翻譯
     'zh-TW': {
       ...componentMessages['zh-TW'],
+      // 可以添加您自己的翻譯
       'custom.key': '自定義翻譯'
+    },
+    'en-US': {
+      ...componentMessages['en-US'],
+      // 可以添加您自己的翻譯
+      'custom.key': 'Custom Translation'
     }
   }
 })
 
 app.use(i18n)
 app.use(ElementPlus)
-app.use(VueTableComponents, {
-  locale: 'zh-TW'  // 設定組件庫預設語系
-})
+app.use(VueTableComponents)
 app.mount('#app')
 ```
 
@@ -356,6 +358,110 @@ const handleSelectionChange = (selection: Product[]) => {
 ```
 </details>
 
+#### SortTable - 排序表格
+
+支援多列排序的高級表格組件。
+
+<details>
+<summary>基本用法</summary>
+
+```vue
+<template>
+  <SortTable
+    :data="tableData"
+    :columns="columns"
+    :loading="loading"
+    @sort-change="handleSortChange"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { SortTable } from 'rayyy-vue-table-components'
+import type { TableColumn, SortInfo } from 'rayyy-vue-table-components'
+
+interface User {
+  id: number
+  name: string
+  email: string
+  age: number
+  score: number
+}
+
+const loading = ref(false)
+const tableData = ref<User[]>([
+  { id: 1, name: '張三', email: 'zhangsan@example.com', age: 30, score: 85 },
+  { id: 2, name: '李四', email: 'lisi@example.com', age: 25, score: 92 }
+])
+
+const columns: TableColumn<User>[] = [
+  { prop: 'id', label: 'ID', width: 80 },
+  { prop: 'name', label: '姓名', sortable: true },
+  { prop: 'email', label: '郵箱' },
+  { prop: 'age', label: '年齡', sortable: true },
+  { prop: 'score', label: '分數', sortable: true }
+]
+
+const handleSortChange = (sortInfo: SortInfo<User>) => {
+  console.log('排序變更:', sortInfo)
+}
+</script>
+```
+</details>
+
+#### TitleTable - 標題表格
+
+帶標題和操作按鈕的表格組件。
+
+<details>
+<summary>基本用法</summary>
+
+```vue
+<template>
+  <TitleTable
+    title="用戶列表"
+    :data="tableData"
+    :columns="columns"
+    :loading="loading"
+    @add="handleAdd"
+    @export="handleExport"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { TitleTable } from 'rayyy-vue-table-components'
+import type { TableColumn } from 'rayyy-vue-table-components'
+
+interface User {
+  id: number
+  name: string
+  email: string
+}
+
+const loading = ref(false)
+const tableData = ref<User[]>([
+  { id: 1, name: '張三', email: 'zhangsan@example.com' },
+  { id: 2, name: '李四', email: 'lisi@example.com' }
+])
+
+const columns: TableColumn<User>[] = [
+  { prop: 'id', label: 'ID', width: 80 },
+  { prop: 'name', label: '姓名' },
+  { prop: 'email', label: '郵箱' }
+]
+
+const handleAdd = () => {
+  console.log('新增用戶')
+}
+
+const handleExport = () => {
+  console.log('導出數據')
+}
+</script>
+```
+</details>
+
 ### 🎛️ 表單組件
 
 #### BaseInput - 基礎輸入框
@@ -399,43 +505,6 @@ const emailValue = ref('')
 const validateEmail = (value: string) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   return emailRegex.test(value) || '請輸入有效的郵箱地址'
-}
-</script>
-```
-</details>
-
-#### BaseMultipleInput - 多標籤輸入
-
-支援多標籤輸入的組件，適用於標籤管理和多值輸入場景。
-
-<details>
-<summary>基本用法</summary>
-
-```vue
-<template>
-  <BaseMultipleInput
-    v-model="tags"
-    placeholder="輸入標籤後按 Enter 確認"
-    :max-tags="10"
-    :validate="validateTag"
-    @change="handleTagsChange"
-  />
-</template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { BaseMultipleInput } from 'rayyy-vue-table-components'
-
-const tags = ref<string[]>(['Vue', 'TypeScript'])
-
-const validateTag = (tag: string) => {
-  if (tag.length < 2) return '標籤長度至少 2 個字符'
-  if (tag.length > 20) return '標籤長度不能超過 20 個字符'
-  return true
-}
-
-const handleTagsChange = (newTags: string[]) => {
-  console.log('標籤變更:', newTags)
 }
 </script>
 ```
@@ -578,6 +647,49 @@ const handleCancel = () => {
 ```
 </details>
 
+#### BaseWaringDialog - 警告對話框
+
+專門用於警告和確認操作的對話框組件。
+
+<details>
+<summary>基本用法</summary>
+
+```vue
+<template>
+  <div>
+    <BaseBtn type="danger" @click="showWarningDialog = true">
+      刪除項目
+    </BaseBtn>
+    
+    <BaseWaringDialog 
+      v-model="showWarningDialog" 
+      title="警告"
+      sub-title="此操作無法復原，確定要刪除嗎？"
+      @confirm="handleConfirm"
+      @cancel="handleCancel"
+    />
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { BaseBtn, BaseWaringDialog } from 'rayyy-vue-table-components'
+
+const showWarningDialog = ref(false)
+
+const handleConfirm = () => {
+  console.log('確認刪除')
+  showWarningDialog.value = false
+}
+
+const handleCancel = () => {
+  console.log('取消刪除')
+  showWarningDialog.value = false
+}
+</script>
+```
+</details>
+
 ### 🏗️ 佈局組件
 
 #### MainPanel - 主面板組件
@@ -647,45 +759,6 @@ const columns: TableColumn<User>[] = [
 const handleSearch = (keyword: string) => {
   console.log('搜尋關鍵字:', keyword)
 }
-</script>
-```
-</details>
-
-<details>
-<summary>自定義高度</summary>
-
-```vue
-<template>
-  <!-- 使用預設高度 -->
-  <MainPanel title="預設高度">
-    <template #main>
-      <div>內容區域</div>
-    </template>
-  </MainPanel>
-  
-  <!-- 自定義高度 -->
-  <MainPanel 
-    title="自定義高度" 
-    max-height="500px"
-  >
-    <template #main>
-      <div>固定高度 500px 的內容區域</div>
-    </template>
-  </MainPanel>
-  
-  <!-- 響應式高度 -->
-  <MainPanel 
-    title="響應式高度" 
-    max-height="calc(100vh-300px)"
-  >
-    <template #main>
-      <div>根據視窗高度動態調整的內容區域</div>
-    </template>
-  </MainPanel>
-</template>
-
-<script setup lang="ts">
-import { MainPanel } from 'rayyy-vue-table-components'
 </script>
 ```
 </details>
@@ -797,11 +870,6 @@ const handleBack = () => {
           label="關鍵字"
           placeholder="搜尋姓名或郵箱"
         />
-        <BaseSelector
-          v-model="filterForm.status"
-          label="狀態"
-          :options="statusOptions"
-        />
         <BaseInput
           v-model="filterForm.dateRange"
           label="創建時間"
@@ -814,19 +882,12 @@ const handleBack = () => {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { FilterLayout, BaseInput, BaseSelector } from 'rayyy-vue-table-components'
+import { FilterLayout, BaseInput } from 'rayyy-vue-table-components'
 
 const filterForm = ref({
   keyword: '',
-  status: '',
   dateRange: []
 })
-
-const statusOptions = [
-  { label: '全部', value: '' },
-  { label: '啟用', value: 'active' },
-  { label: '禁用', value: 'inactive' }
-]
 
 const handleFilterSubmit = () => {
   console.log('篩選條件:', filterForm.value)
@@ -835,7 +896,6 @@ const handleFilterSubmit = () => {
 const handleFilterReset = () => {
   filterForm.value = {
     keyword: '',
-    status: '',
     dateRange: []
   }
 }
@@ -845,7 +905,7 @@ const handleFilterReset = () => {
 
 #### SearchableListPanel - 整合式搜尋面板
 
-整合搜尋、篩選、分頁功能的綜合面板組件。
+整合搜尋、篩選、分頁功能的綜合面板組件。**支援 locale prop 來覆寫 i18n 設定**。
 
 <details>
 <summary>基本用法</summary>
@@ -869,39 +929,38 @@ const handleFilterReset = () => {
     </template>
     
     <template #customButton>
-      <BaseBtn type="default" @click="handleExport">
+      <BaseBtn type="success" @click="handleExport">
         導出數據
       </BaseBtn>
     </template>
     
-    <template #filter-content>
-      <div class="space-y-4">
-        <BaseInput
-          v-model="filterForm.keyword"
-          label="關鍵字"
-          placeholder="搜尋姓名或郵箱"
-        />
-        <BaseSelector
-          v-model="filterForm.status"
-          label="狀態"
-          :options="statusOptions"
-        />
-      </div>
+    <template #lastButton>
+      <BaseBtn type="warning" @click="handleBatch">
+        批量操作
+      </BaseBtn>
     </template>
   </SearchableListPanel>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { SearchableListPanel, BaseBtn, BaseInput, BaseSelector } from 'rayyy-vue-table-components'
+import { SearchableListPanel, BaseBtn } from 'rayyy-vue-table-components'
+import type { TableColumn } from 'rayyy-vue-table-components'
+
+interface User {
+  id: number
+  name: string
+  email: string
+  status: string
+}
 
 const loading = ref(false)
-const tableData = ref([
+const tableData = ref<User[]>([
   { id: 1, name: '張三', email: 'zhangsan@example.com', status: 'active' },
   { id: 2, name: '李四', email: 'lisi@example.com', status: 'inactive' }
 ])
 
-const columns = [
+const columns: TableColumn<User>[] = [
   { prop: 'id', label: 'ID', width: 80 },
   { prop: 'name', label: '姓名' },
   { prop: 'email', label: '郵箱' },
@@ -914,22 +973,11 @@ const pagination = ref({
   total: 100
 })
 
-const filterForm = ref({
-  keyword: '',
-  status: ''
-})
-
-const statusOptions = [
-  { label: '全部', value: '' },
-  { label: '啟用', value: 'active' },
-  { label: '禁用', value: 'inactive' }
-]
-
 const handleSearch = (keyword: string) => {
   console.log('搜尋:', keyword)
 }
 
-const handleFilter = (filters: any) => {
+const handleFilter = (filters: Record<string, any>) => {
   console.log('篩選:', filters)
 }
 
@@ -944,6 +992,82 @@ const handleAdd = () => {
 const handleExport = () => {
   console.log('導出數據')
 }
+
+const handleBatch = () => {
+  console.log('批量操作')
+}
+</script>
+```
+</details>
+
+<details>
+<summary>使用 locale prop 覆寫 i18n</summary>
+
+```vue
+<template>
+  <SearchableListPanel
+    title="User List"
+    :data="tableData"
+    :columns="columns"
+    :loading="loading"
+    :pagination="pagination"
+    :locale="elementLocale"
+    @search="handleSearch"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { SearchableListPanel } from 'rayyy-vue-table-components'
+import en from 'element-plus/es/locale/lang/en'
+import zhTw from 'element-plus/es/locale/lang/zh-tw'
+
+const currentLocale = ref('zh-TW')
+
+// 根據當前語系選擇 Element Plus locale
+const elementLocale = computed(() => {
+  return currentLocale.value === 'zh-TW' ? zhTw : en
+})
+
+// 切換語系
+const switchLocale = () => {
+  currentLocale.value = currentLocale.value === 'zh-TW' ? 'en-US' : 'zh-TW'
+}
+
+// 其他組件邏輯...
+</script>
+```
+</details>
+
+#### FunctionHeader - 功能頁面標題
+
+提供頁面標題、麵包屑和操作按鈕的功能標題組件。
+
+<details>
+<summary>基本用法</summary>
+
+```vue
+<template>
+  <FunctionHeader
+    title="用戶管理"
+    sub-title="管理系統用戶信息"
+    :breadcrumbs="breadcrumbs"
+  >
+    <template #actions>
+      <BaseBtn type="primary">新增用戶</BaseBtn>
+      <BaseBtn type="default">導出數據</BaseBtn>
+    </template>
+  </FunctionHeader>
+</template>
+
+<script setup lang="ts">
+import { FunctionHeader, BaseBtn } from 'rayyy-vue-table-components'
+
+const breadcrumbs = [
+  { label: '首頁', path: '/' },
+  { label: '系統管理', path: '/system' },
+  { label: '用戶管理' }
+]
 </script>
 ```
 </details>
@@ -1111,6 +1235,34 @@ type ComponentSize = 'default' | 'small' | 'large'
 
 ---
 
+### BaseInput
+
+增強的輸入框組件，支援多種類型和驗證功能。
+
+#### Props
+
+| 屬性 | 類型 | 默認值 | 說明 |
+|------|------|--------|------|
+| `modelValue` | `string \| number \| null` | - | 輸入值 |
+| `placeholder` | `string` | - | 佔位符 |
+| `type` | `string` | `'text'` | 輸入框類型 |
+| `class` | `string \| object` | - | 自定義類名 |
+| `showPassword` | `boolean` | `false` | 是否顯示密碼切換按鈕 |
+| `disabled` | `boolean` | `false` | 是否禁用 |
+| `readonly` | `boolean` | `false` | 是否只讀 |
+| `maxlength` | `string \| number` | - | 最大長度 |
+| `autocomplete` | `'on' \| 'off'` | - | 自動完成 |
+| `showSearch` | `boolean` | `false` | 是否顯示搜尋圖標 |
+
+#### Events
+
+| 事件名 | 參數 | 說明 |
+|--------|------|------|
+| `update:modelValue` | `value: string \| number \| null` | 輸入值變更時觸發 |
+| `update:clearValue` | - | 清除值時觸發 |
+
+---
+
 ### BaseDialog
 
 靈活的對話框組件，支援多種配置選項。
@@ -1142,6 +1294,113 @@ type ComponentSize = 'default' | 'small' | 'large'
 |--------|------|------|
 | `default` | - | 對話框內容 |
 | `footer` | - | 自定義底部按鈕區域 |
+
+---
+
+### BaseWaringDialog
+
+警告對話框組件，專門用於警告和確認操作。
+
+#### Props
+
+| 屬性 | 類型 | 默認值 | 說明 |
+|------|------|--------|------|
+| `modelValue` | `boolean` | - | 對話框顯示狀態 |
+| `title` | `string` | - | 對話框標題 |
+| `subTitle` | `string` | - | 副標題 |
+| `customWidth` | `string` | - | 自定義寬度 |
+
+#### Events
+
+| 事件名 | 參數 | 說明 |
+|--------|------|------|
+| `update:modelValue` | `value: boolean` | 對話框顯示狀態變更 |
+| `confirm` | - | 確認按鈕點擊時觸發 |
+| `cancel` | - | 取消按鈕點擊時觸發 |
+
+---
+
+### SortTable
+
+支援多列排序的高級表格組件。
+
+#### Props
+
+| 屬性 | 類型 | 默認值 | 說明 |
+|------|------|--------|------|
+| `data` | `T[]` | `[]` | 表格數據 |
+| `columns` | `TableColumn<T>[]` | `[]` | 表格列配置 |
+| `tableTitle` | `string` | - | 表格標題 |
+| `showSelection` | `boolean` | `false` | 是否顯示選擇列 |
+| `loading` | `boolean` | `false` | 加載狀態 |
+| `showSummary` | `boolean` | `false` | 是否顯示合計行 |
+| `showOverFlowTooltip` | `boolean` | `false` | 是否顯示溢出提示 |
+| `summaryMethod` | `SummaryMethod<T>` | - | 合計行計算方法 |
+| `sortTableRowClassName` | `RowClassNameGetter<T>` | - | 行樣式類名函數 |
+| `showCheckBtn` | `boolean` | `false` | 是否顯示查看按鈕 |
+| `showEditBtn` | `boolean` | `false` | 是否顯示編輯按鈕 |
+
+#### Events
+
+| 事件名 | 參數 | 說明 |
+|--------|------|------|
+| `open:transfer` | - | 打開轉移對話框時觸發 |
+| `click:downloadExcelFile` | - | 下載 Excel 檔案時觸發 |
+| `update:selectRow` | `value: T[]` | 更新選擇行時觸發 |
+| `click:cell` | `column: TableColumn<T>, row: T` | 單元格點擊時觸發 |
+| `sort-change` | `sortInfo: SortInfo<T>` | 排序變更時觸發 |
+
+---
+
+### TitleTable
+
+帶標題和操作按鈕的表格組件。
+
+#### Props
+
+| 屬性 | 類型 | 默認值 | 說明 |
+|------|------|--------|------|
+| `title` | `string` | - | 表格標題 |
+| `data` | `T[]` | `[]` | 表格數據 |
+| `columns` | `TableColumn<T>[]` | `[]` | 表格列配置 |
+| `loading` | `boolean` | `false` | 加載狀態 |
+| `showSelection` | `boolean` | `false` | 是否顯示選擇列 |
+| `showSummary` | `boolean` | `false` | 是否顯示合計行 |
+| `showOverFlowTooltip` | `boolean` | `false` | 是否顯示溢出提示 |
+| `summaryMethod` | `SummaryMethod<T>` | - | 合計行計算方法 |
+| `titleTableRowClassName` | `RowClassNameGetter<T>` | - | 行樣式類名函數 |
+| `showCheckBtn` | `boolean` | `false` | 是否顯示查看按鈕 |
+| `showEditBtn` | `boolean` | `false` | 是否顯示編輯按鈕 |
+
+#### Events
+
+| 事件名 | 參數 | 說明 |
+|--------|------|------|
+| `add` | - | 新增按鈕點擊時觸發 |
+| `export` | - | 導出按鈕點擊時觸發 |
+| `update:selectRow` | `value: T[]` | 更新選擇行時觸發 |
+| `click:cell` | `column: TableColumn<T>, row: T` | 單元格點擊時觸發 |
+| `sort-change` | `sortInfo: SortInfo<T>` | 排序變更時觸發 |
+
+---
+
+### SearchBar
+
+功能豐富的搜尋欄組件，支援即時搜尋和搜尋建議。
+
+#### Props
+
+| 屬性 | 類型 | 默認值 | 說明 |
+|------|------|--------|------|
+| `showSearch` | `boolean` | `false` | 是否顯示搜尋功能 |
+
+#### Events
+
+| 事件名 | 參數 | 說明 |
+|--------|------|------|
+| `keydown:enter` | `data: string` | 按下 Enter 鍵時觸發 |
+| `update:clear` | - | 清除時觸發 |
+| `update:resetFilter` | - | 重置篩選時觸發 |
 
 ---
 
@@ -1188,6 +1447,30 @@ interface ListContainerSlotProps<T = any> {
 
 ---
 
+### TransferItem
+
+轉移項目組件，用於 TransferDialog 中。
+
+#### Props
+
+| 屬性 | 類型 | 默認值 | 說明 |
+|------|------|--------|------|
+| `columnsValue` | `TableColumn<T>` | - | 列配置對象 |
+| `columnsIndex` | `number` | - | 列索引 |
+| `columnsLen` | `number` | - | 列總數 |
+
+#### Events
+
+| 事件名 | 參數 | 說明 |
+|--------|------|------|
+| `mousedown` | `prop: string` | 滑鼠按下時觸發 |
+| `update:toTop` | `index: number` | 移至頂部時觸發 |
+| `update:toBottom` | `index: number` | 移至底部時觸發 |
+| `update:toPre` | `index: number` | 移至前一位時觸發 |
+| `update:toNext` | `index: number` | 移至下一位時觸發 |
+
+---
+
 ### MainPanel
 
 主面板組件，提供標題、返回按鈕和可自定義高度的滾動區域。
@@ -1214,6 +1497,118 @@ interface ListContainerSlotProps<T = any> {
 | `searchBar` | - | 搜尋欄區域 |
 | `main` | - | 主要內容區域 |
 | `footer` | - | 底部區域（如分頁器） |
+
+---
+
+### SearchableListPanel
+
+整合式搜尋、篩選、分頁組件。**支援 locale prop 來覆寫 i18n 設定**。
+
+#### Props
+
+| 屬性 | 類型 | 默認值 | 說明 |
+|------|------|--------|------|
+| `title` | `string` | - | 面板標題 |
+| `pagination` | `Pager` | - | 分頁配置 |
+| `showBack` | `boolean \| string \| object` | `false` | 是否顯示返回按鈕 |
+| `showSearch` | `boolean` | `false` | 是否顯示搜尋功能 |
+| `pageSizeList` | `number[]` | `[10, 25, 50, 100, 200]` | 頁面大小選項 |
+| `showPagination` | `boolean` | - | 是否顯示分頁器 |
+| `locale` | `Language` | - | **Element Plus 語言設定，用於覆寫 i18n** |
+
+#### Events
+
+| 事件名 | 參數 | 說明 |
+|--------|------|------|
+| `search` | `data: string \| null` | 搜尋時觸發 |
+| `updatePage` | `page: number` | 頁碼變更時觸發 |
+| `updatePageSize` | `limit: number` | 頁面大小變更時觸發 |
+| `click:back` | - | 返回按鈕點擊時觸發 |
+
+#### Slots
+
+| 插槽名 | 參數 | 說明 |
+|--------|------|------|
+| `firstButton` | - | 第一個按鈕插槽 |
+| `customButton` | - | 自定義按鈕插槽 |
+| `lastButton` | - | 最後一個按鈕插槽 |
+| `filterButton` | - | 篩選按鈕插槽 |
+| `main` | - | 主要內容區域 |
+
+---
+
+### DetailLayout
+
+詳細頁面佈局組件，支援編輯模式和只讀模式切換。
+
+#### Props
+
+| 屬性 | 類型 | 默認值 | 說明 |
+|------|------|--------|------|
+| `title` | `string` | - | 頁面標題 |
+| `editable` | `boolean` | `false` | 是否可編輯 |
+| `loading` | `boolean` | `false` | 加載狀態 |
+
+#### Events
+
+| 事件名 | 參數 | 說明 |
+|--------|------|------|
+| `save` | - | 保存時觸發 |
+| `cancel` | - | 取消時觸發 |
+| `back` | - | 返回時觸發 |
+
+#### Slots
+
+| 插槽名 | 參數 | 說明 |
+|--------|------|------|
+| `header` | - | 標題區域 |
+| `main` | - | 主要內容區域 |
+
+---
+
+### FilterLayout
+
+篩選頁面佈局組件，支援自定義篩選表單。
+
+#### Props
+
+| 屬性 | 類型 | 默認值 | 說明 |
+|------|------|--------|------|
+| `mainTitle` | `string` | - | 主要標題 |
+| `filterTitle` | `string` | - | 篩選標題 |
+
+#### Events
+
+| 事件名 | 參數 | 說明 |
+|--------|------|------|
+| `submit` | - | 提交篩選時觸發 |
+| `reset` | - | 重置篩選時觸發 |
+
+#### Slots
+
+| 插槽名 | 參數 | 說明 |
+|--------|------|------|
+| `filter-form` | - | 篩選表單內容 |
+
+---
+
+### FunctionHeader
+
+功能頁面標題組件，提供頁面標題、麵包屑和操作按鈕。
+
+#### Props
+
+| 屬性 | 類型 | 默認值 | 說明 |
+|------|------|--------|------|
+| `title` | `string` | - | 頁面標題 |
+| `subTitle` | `string` | - | 頁面副標題 |
+| `breadcrumbs` | `BreadcrumbItem[]` | `[]` | 麵包屑配置 |
+
+#### Slots
+
+| 插槽名 | 參數 | 說明 |
+|--------|------|------|
+| `actions` | - | 操作按鈕區域 |
 
 ---
 
@@ -1245,6 +1640,26 @@ interface SortChangValue<T = any> {
   column: TableColumn<T>
   prop: keyof T | string
   order: 'ascending' | 'descending' | null
+}
+```
+
+#### SortInfo
+
+```typescript
+interface SortInfo<T = any> {
+  column: TableColumn<T>
+  prop: keyof T | string
+  order: 'ascending' | 'descending' | null
+}
+```
+
+#### Pager
+
+```typescript
+interface Pager {
+  page: number
+  limit: number
+  totalCount: number
 }
 ```
 
@@ -1448,8 +1863,7 @@ npm run release:major
 src/
 ├── components/          # 組件源碼
 │   ├── form/           # 表單組件
-│   │   ├── BaseInput.vue
-│   │   └── BaseMultipleInput.vue
+│   │   └── BaseInput.vue
 │   ├── items/          # 交互組件
 │   │   ├── BaseBtn.vue
 │   │   ├── BaseDialog.vue
@@ -1513,15 +1927,16 @@ src/
 
 查看 [CHANGELOG.md](./CHANGELOG.md) 了解詳細的版本更新記錄。
 
-#### 最新更新 (v2.0.1 - v2.0.6)
+#### 最新更新 (v2.0.22)
 
 **🌐 國際化 (i18n) 支持**
 - ✅ 新增完整的國際化支持，支援繁體中文 (zh-TW) 和英文 (en-US)
 - ✅ 所有組件文字已替換為 i18n 翻譯鍵值
-- ✅ 支援外部專案語系同步，無需維護組件庫的翻譯檔案
+- ✅ 支援外部專案語系同步，需要合併 JSON 檔案使用
 - ✅ 提供 `vue-i18n` 整合，支援 `>=10.0.0` 版本
 - ✅ 新增語系切換功能，支援動態語言切換
 - ✅ 提供翻譯檔案自動更新腳本，支援 Google Sheets 整合
+- ✅ **SearchableListPanel 支援 locale prop 來覆寫 i18n 設定**
 
 **🔧 技術改進**
 - ✅ 修復 `vue-i18n` 依賴版本衝突問題
@@ -1538,13 +1953,13 @@ src/
 
 ### 組件統計
 
-本組件庫目前包含 **17+ 個組件**，涵蓋以下類別：
+本組件庫目前包含 **15 個組件**，涵蓋以下類別：
 
 | 類別 | 組件數量 | 主要組件 |
 |------|----------|----------|
 | 🗂️ 表格組件 | 3 | BaseTable, SortTable, TitleTable |
-| 🎛️ 表單組件 | 2 | BaseInput, BaseMultipleInput |
-| 🎨 交互組件 | 4 | BaseBtn, BaseDialog, BaseWaringDialog, SearchBar |
+| 🎛️ 表單組件 | 1 | BaseInput |
+| 🎨 交互組件 | 3 | BaseBtn, BaseDialog, BaseWaringDialog, SearchBar |
 | 🏗️ 佈局組件 | 5 | MainPanel, DetailLayout, FilterLayout, FunctionHeader, SearchableListPanel |
 | 🔄 轉移組件 | 2 | TransferDialog, TransferItem |
 

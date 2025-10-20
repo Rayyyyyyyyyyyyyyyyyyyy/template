@@ -41,21 +41,6 @@ const demoPages = [
     icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
   },
   {
-    title: 'BaseMultipleInput',
-    description: '多標籤輸入組件',
-    route: ROUTES.BASE_MULTIPLE_INPUT,
-    features: [
-      '多標籤輸入：支持添加多個標籤，每個標籤可單獨刪除',
-      '輸入驗證：支持自定義驗證規則函數',
-      '鍵盤操作：Enter 鍵確認輸入，Delete 鍵刪除最後一個標籤',
-      '防重複：自動過濾重複的標籤',
-      '失焦確認：輸入框失焦時自動確認輸入',
-      '響應式設計：使用 Tailwind CSS 樣式',
-      '類型安全：完整的 TypeScript 支持',
-    ],
-    icon: 'M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z',
-  },
-  {
     title: 'TransferDialog',
     description: '表格列配置對話框組件',
     route: ROUTES.TRANSFER_DIALOG,
