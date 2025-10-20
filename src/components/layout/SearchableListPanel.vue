@@ -55,18 +55,13 @@ const showPager = computed(() => {
   }
 })
 
-// 在 computed 外部調用，保持引用穩定
-const fallbackLocale = useComponentElementLocale()
-
 // 優先使用 prop，沒有 prop 則使用 composable
 const elementLocale = computed(() => {
-  // 檢查 props.locale 是否為真正的 Language 對象（不是預設值）
-  if (props.locale && typeof props.locale === 'object' && 'name' in props.locale) {
+  if (props.locale) {
     return props.locale
   }
-
-  // 使用 fallbackLocale
-  return fallbackLocale.value
+  // 回退：使用簡化的 composable
+  return useComponentElementLocale().value
 })
 </script>
 

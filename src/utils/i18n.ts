@@ -1,8 +1,7 @@
 import { createI18n, type I18n, type Composer } from 'vue-i18n'
-import { getCurrentInstance, computed } from 'vue'
+import { computed } from 'vue'
 import { messages } from '../locales'
 import zhTw from 'element-plus/es/locale/lang/zh-tw'
-import enUs from 'element-plus/es/locale/lang/en'
 
 // 內部 i18n 實例
 let internalI18n: I18n | null = null
