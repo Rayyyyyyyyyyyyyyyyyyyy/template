@@ -12,6 +12,7 @@
 
   .el-dialog__header {
     @apply h-12 pt-2 bg-primary-15 border-b;
+    @apply border-solid border-x-0 border-t-0;
 
     .el-dialog__title {
       @apply text-base leading-8;
@@ -27,8 +28,9 @@
     }
   }
 
+
   .el-dialog__footer {
-    @apply py-1 px-2 border-t;
+    @apply py-1 px-2 border-t border-solid border-x-0 border-b-0;
     @apply flex items-center justify-end;
   }
 }
