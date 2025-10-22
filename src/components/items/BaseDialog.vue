@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useWindowSize } from '@vueuse/core'
 import BaseBtn from './BaseBtn.vue'
+import _ from 'lodash'
 
 const { t } = useI18n()
 
@@ -80,7 +81,7 @@ const handleSubmit = () => {
       <div
         class="sub-title"
         :class="{
-          'border-b mb-4': typeof subTitle == 'string',
+          'sub-title_border': !_.isEmpty(subTitle),
         }"
       >
         {{ subTitle }}
