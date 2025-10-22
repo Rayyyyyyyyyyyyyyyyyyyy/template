@@ -34,6 +34,11 @@
     @apply flex items-center justify-end;
   }
 }
+.normal-header {
+  .el-dialog__header {
+    @apply border-b-text-border/10;
+  }
+}
 
 // 警告對話框樣式
 .waring-dialog {

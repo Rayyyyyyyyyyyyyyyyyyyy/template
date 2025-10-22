@@ -57,7 +57,11 @@ const handleSubmit = () => {
     :close-on-click-modal="false"
     center
     class="rounded-md base-dialog"
-    :class="{ 'waring-dialog': props.isWaring, 'upload-result-dialog': props.isPrimary }"
+    :class="{
+      'waring-dialog': props.isWaring,
+      'upload-result-dialog': props.isPrimary,
+      'normal-header': !props.isPrimary && !props.isWaring,
+    }"
     align-center
     destroy-on-close
     append-to-body
