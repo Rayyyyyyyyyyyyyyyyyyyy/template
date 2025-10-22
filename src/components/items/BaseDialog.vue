@@ -78,12 +78,7 @@ const handleSubmit = () => {
     </template>
 
     <div class="p-2" v-loading="bodyLoading">
-      <div
-        class="sub-title"
-        :class="{
-          'sub-title_border': !_.isEmpty(subTitle),
-        }"
-      >
+      <div v-if="!_.isEmpty(subTitle)" class="sub-title">
         {{ subTitle }}
       </div>
 

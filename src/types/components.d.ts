@@ -326,7 +326,6 @@ export interface TransferDialogInstance<T = Record<string, unknown>> {
   $emit: TransferDialogEmits<T>
 }
 
-// ==================== 表單相關組件類型 ====================
 
 // ==================== BaseInput 組件類型 ====================
 
