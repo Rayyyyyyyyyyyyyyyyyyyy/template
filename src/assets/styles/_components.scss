@@ -37,8 +37,11 @@
 
 
 // ==================== TransferItem 組件樣式 ====================
+.transfer-item-wrapper + .transfer-item-wrapper {
+  @apply border-t border-b-transparent border-x-0 border-solid border-gray-200;
+}
 .transfer-item-wrapper {
-  @apply  px-4 ;
+  @apply  px-4;
   @apply flex items-center justify-between w-full;
 }
 
