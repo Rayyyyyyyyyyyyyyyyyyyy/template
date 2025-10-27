@@ -66,8 +66,6 @@ const handleSubmit = () => {
     align-center
     destroy-on-close
     append-to-body
-    :modal="false"
-    :modal-penetrable="true"
   >
     <template #header="{ titleId, titleClass }">
       <slot name="customHeader">
