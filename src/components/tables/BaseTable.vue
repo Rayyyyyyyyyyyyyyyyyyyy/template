@@ -81,6 +81,7 @@ const operatorWidth = computed(() => {
 
 <template>
   <el-table
+    v-if="data.length > 0"
     v-loading="loading"
     :element-loading-text="t('common.loading')"
     :data="data"
@@ -144,6 +145,8 @@ const operatorWidth = computed(() => {
       </template>
     </el-table-column>
   </el-table>
+
+  <el-empty v-else />
 </template>
 
 <style scoped lang="scss"></style>

@@ -239,6 +239,16 @@ const simulateLoading = () => {
           @click:checkRow="handleSortTableCheckRow"
           @click:editRow="handleSortTableEditRow"
         />
+
+        <SortTable
+          :data="[]"
+          :columns="tableColumns"
+          :loading="state.loading"
+          :show-selection="true"
+          :show-over-flow-tooltip="true"
+          :show-check-btn="true"
+          :show-edit-btn="true"
+        />
       </el-card>
 
       <!-- TitleTable 示範 -->
