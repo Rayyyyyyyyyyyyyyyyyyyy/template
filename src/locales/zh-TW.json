@@ -33,5 +33,6 @@
   "button.add": "添加",
   "button.delete": "刪除",
   "common.save": "儲存",
-  "common.discard": "捨棄"
+  "common.discard": "捨棄",
+  "table.empty": "暫無資料"
 }
