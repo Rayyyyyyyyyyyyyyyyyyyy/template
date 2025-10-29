@@ -68,7 +68,11 @@ const handlePageSizeChange = (size: number) => {
           <h2 class="text-xl font-semibold">語系切換</h2>
         </template>
         <div class="flex items-center gap-4">
-          <base-btn :text="`切換語系 (當前: ${currentLocale})`" type="primary" @click="switchLocale" />
+          <base-btn
+            :text="`切換語系 (當前: ${currentLocale})`"
+            type="primary"
+            @click="switchLocale"
+          />
           <span class="text-gray-600">點擊按鈕切換語系，觀察下方組件文字變化</span>
         </div>
       </el-card>
@@ -79,7 +83,11 @@ const handlePageSizeChange = (size: number) => {
           <h2 class="text-xl font-semibold">BaseTable 組件測試</h2>
         </template>
         <div class="mb-4">
-          <base-btn :text="loading ? '停止載入' : '開始載入'" type="primary" @click="toggleLoading" />
+          <base-btn
+            :text="loading ? '停止載入' : '開始載入'"
+            type="primary"
+            @click="toggleLoading"
+          />
           <p class="text-sm text-gray-600 mt-2">
             測試項目：
             <br />
@@ -92,6 +100,15 @@ const handlePageSizeChange = (size: number) => {
         </div>
         <base-table
           :data="testData"
+          :columns="testColumns"
+          :loading="loading"
+          :show-check-btn="true"
+          :show-edit-btn="true"
+          @click:checkRow="(row) => console.log('查看', row)"
+          @click:editRow="(row) => console.log('編輯', row)"
+        />
+        <base-table
+          :data="[]"
           :columns="testColumns"
           :loading="loading"
           :show-check-btn="true"
@@ -185,4 +202,3 @@ const handlePageSizeChange = (size: number) => {
 </template>
 
 <style scoped></style>
-

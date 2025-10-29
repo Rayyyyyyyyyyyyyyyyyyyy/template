@@ -4,6 +4,8 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { TableColumnCtx } from 'element-plus'
 import type { SortChangValue, TableColumn } from '@/types'
+import type { Language } from 'element-plus/es/locale'
+import { useComponentElementLocale } from '@/utils/i18n'
 
 const { t } = useI18n()
 
@@ -21,6 +23,7 @@ type Props<T extends Record<string, unknown> = Record<string, unknown>> = {
   baseTableRowClassName?: (data: { row: T; rowIndex: number }) => string
   showCheckBtn?: boolean
   showEditBtn?: boolean
+  locale?: Language // 新增：Element Plus locale
 }
 
 // 組件屬性默認值
@@ -76,6 +79,15 @@ const operatorWidth = computed(() => {
   } else if (props.showEditBtn && !props.showCheckBtn) {
     return 60
   }
+})
+
+// 優先使用 prop，沒有 prop 則使用 composable
+const elementLocale = computed(() => {
+  if (props.locale) {
+    return props.locale
+  }
+  // 回退：使用簡化的 composable
+  return useComponentElementLocale().value
 })
 </script>
 
@@ -145,8 +157,7 @@ const operatorWidth = computed(() => {
       </template>
     </el-table-column>
   </el-table>
-
-  <el-empty v-else />
+  <el-empty v-else :locale="elementLocale" />
 </template>
 
 <style scoped lang="scss"></style>
