@@ -5,7 +5,6 @@ import { useI18n } from 'vue-i18n'
 import type { TableColumnCtx } from 'element-plus'
 import type { SortChangValue, TableColumn } from '@/types'
 import type { Language } from 'element-plus/es/locale'
-import { useComponentElementLocale } from '@/utils/i18n'
 
 const { t } = useI18n()
 
@@ -80,91 +79,75 @@ const operatorWidth = computed(() => {
     return 60
   }
 })
-
-// 優先使用 prop，沒有 prop 則使用 composable
-const elementLocale = computed(() => {
-  if (props.locale) {
-    return props.locale
-  }
-  return useComponentElementLocale().value
-})
 </script>
 
 <template>
-  <el-config-provider :locale="elementLocale">
-    <el-table
-      v-if="data.length > 0"
-      v-loading="loading"
-      :element-loading-text="t('common.loading')"
-      :data="data"
-      border
-      :show-summary="showSummary"
-      :show-overflow-tooltip="showOverFlowTooltip"
-      :summary-method="getSummaries"
-      :row-class-name="tableRowClassName"
-      class="data-table"
-      @selection-change="handleSelectionChange"
-      @current-change="(currentRow: any) => emit('current-change', currentRow)"
-      :sort="() => {}"
-      @sort-change="onSortChange"
-    >
-      <!-- 選擇列 -->
-      <el-table-column
-        v-if="showSelection"
-        type="selection"
-        width="60"
-        fixed="left"
-        align="center"
-      />
+  <el-table
+    v-if="data.length > 0"
+    v-loading="loading"
+    :element-loading-text="t('common.loading')"
+    :data="data"
+    border
+    :show-summary="showSummary"
+    :show-overflow-tooltip="showOverFlowTooltip"
+    :summary-method="getSummaries"
+    :row-class-name="tableRowClassName"
+    class="data-table"
+    @selection-change="handleSelectionChange"
+    @current-change="(currentRow: any) => emit('current-change', currentRow)"
+    :sort="() => {}"
+    @sort-change="onSortChange"
+  >
+    <!-- 選擇列 -->
+    <el-table-column v-if="showSelection" type="selection" width="60" fixed="left" align="center" />
 
-      <!-- 數據列 -->
-      <el-table-column v-for="(column, index) in columns" :key="index" v-bind="column">
-        <template #default="{ row }">
-          <div class="cell-content" @click="handleCellClick(column, row)">
-            <template v-if="column.formatter">
-              {{ column.formatter(row) }}
-            </template>
-            <component
-              v-else-if="column.template"
-              :is="{
-                setup() {
-                  return () => column.template?.(row)
-                },
-              }"
-            />
-            <span v-else-if="column.prop">{{ row[column.prop] }}</span>
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column
-        v-if="props.showCheckBtn || props.showEditBtn"
-        :width="operatorWidth"
-        align="center"
-        fixed="right"
-      >
-        <template #default="{ row }">
-          <div class="flex items-center justify-center">
-            <p
-              class="blue-text cursor-pointer font-bold"
-              @click="handleOperateClick(row, 'check')"
-              v-if="showCheckBtn"
-            >
-              {{ t('common.view') }}
-            </p>
-            <el-divider direction="vertical" class="!mx-2" v-if="showCheckBtn && showEditBtn" />
-            <p
-              class="blue-text cursor-pointer font-bold"
-              @click="handleOperateClick(row, 'edit')"
-              v-if="showEditBtn"
-            >
-              {{ t('common.edit') }}
-            </p>
-          </div>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-empty :description="t('table.empty')" v-else />
-  </el-config-provider>
+    <!-- 數據列 -->
+    <el-table-column v-for="(column, index) in columns" :key="index" v-bind="column">
+      <template #default="{ row }">
+        <div class="cell-content" @click="handleCellClick(column, row)">
+          <template v-if="column.formatter">
+            {{ column.formatter(row) }}
+          </template>
+          <component
+            v-else-if="column.template"
+            :is="{
+              setup() {
+                return () => column.template?.(row)
+              },
+            }"
+          />
+          <span v-else-if="column.prop">{{ row[column.prop] }}</span>
+        </div>
+      </template>
+    </el-table-column>
+    <el-table-column
+      v-if="props.showCheckBtn || props.showEditBtn"
+      :width="operatorWidth"
+      align="center"
+      fixed="right"
+    >
+      <template #default="{ row }">
+        <div class="flex items-center justify-center">
+          <p
+            class="blue-text cursor-pointer font-bold"
+            @click="handleOperateClick(row, 'check')"
+            v-if="showCheckBtn"
+          >
+            {{ t('common.view') }}
+          </p>
+          <el-divider direction="vertical" class="!mx-2" v-if="showCheckBtn && showEditBtn" />
+          <p
+            class="blue-text cursor-pointer font-bold"
+            @click="handleOperateClick(row, 'edit')"
+            v-if="showEditBtn"
+          >
+            {{ t('common.edit') }}
+          </p>
+        </div>
+      </template>
+    </el-table-column>
+  </el-table>
+  <el-empty :description="t('table.empty')" v-else />
 </template>
 
 <style scoped lang="scss"></style>
