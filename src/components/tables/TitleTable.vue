@@ -77,6 +77,7 @@ const handleEditClick = (row: T) => {
             @click="addInvoiceDetail"
             v-if="!onlyDelete"
           />
+          <slot name="editBtn"></slot>
           <BaseBtn
             :text="t('button.delete')"
             type="primary"
