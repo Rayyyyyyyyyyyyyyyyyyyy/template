@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ElOptions } from '@/types/OptionDto.ts'
 
-export type Selection = string | string[]
+export type Selection = string | string[] | null
 
 const props = withDefaults(
   defineProps<{
