@@ -21,13 +21,6 @@ const multipleOptions: ElOptions[] = [
   { value: 'strawberry', label: '草莓' },
 ]
 
-// 響應式數據
-const basicValue = ref('')
-const multipleValue = ref<string[]>([])
-const clearableValue = ref('')
-const disabledValue = ref('option2')
-const collapseTagsValue = ref<string[]>(['apple', 'banana', 'orange'])
-
 // 狀態管理
 const state = reactive({
   basicValue: '',
@@ -38,27 +31,27 @@ const state = reactive({
 })
 
 // 事件處理
-const handleBasicChange = (value: string | string[] | undefined) => {
+const handleBasicChange = (value: string | string[] | undefined | null) => {
   console.log('基本選擇器值變更:', value)
   state.basicValue = value as string
 }
 
-const handleMultipleChange = (value: string | string[] | undefined) => {
+const handleMultipleChange = (value: string | string[] | undefined | null) => {
   console.log('多選選擇器值變更:', value)
   state.multipleValue = value as string[]
 }
 
-const handleClearableChange = (value: string | string[] | undefined) => {
+const handleClearableChange = (value: string | string[] | undefined | null) => {
   console.log('可清空選擇器值變更:', value)
   state.clearableValue = value as string
 }
 
-const handleDisabledChange = (value: string | string[] | undefined) => {
+const handleDisabledChange = (value: string | string[] | undefined | null) => {
   console.log('禁用選擇器值變更:', value)
   state.disabledValue = value as string
 }
 
-const handleCollapseTagsChange = (value: string | string[] | undefined) => {
+const handleCollapseTagsChange = (value: string | string[] | undefined | null) => {
   console.log('折疊標籤選擇器值變更:', value)
   state.collapseTagsValue = value as string[]
 }
@@ -111,7 +104,9 @@ const handleCollapseTagsChange = (value: string | string[] | undefined) => {
         <div class="space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">基本選擇器（可清空）</label>
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >基本選擇器（可清空）</label
+              >
               <BaseSelector
                 v-model="state.clearableValue"
                 :options="basicOptions"
@@ -123,7 +118,9 @@ const handleCollapseTagsChange = (value: string | string[] | undefined) => {
               </p>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">多選選擇器（可清空）</label>
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >多選選擇器（可清空）</label
+              >
               <BaseSelector
                 v-model="state.multipleValue"
                 :options="multipleOptions"
