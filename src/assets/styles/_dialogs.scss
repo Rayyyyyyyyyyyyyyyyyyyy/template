@@ -9,6 +9,7 @@
 // Element Plus 對話框樣式覆蓋
 .el-dialog.base-dialog {
   @apply p-0;
+  max-width: 500px;
 
   .el-dialog__header {
     @apply h-12 pt-2 bg-primary-15 border-b;
