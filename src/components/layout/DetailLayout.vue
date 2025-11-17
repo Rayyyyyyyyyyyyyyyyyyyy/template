@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { MainPanel, BaseBtn, SearchableListPanel } from '@/components'
+import { MainPanel, BaseBtn } from '@/components'
 
 const { t } = useI18n()
 
