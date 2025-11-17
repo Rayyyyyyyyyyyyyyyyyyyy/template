@@ -42,7 +42,6 @@ const resetFilter = () => {
         <base-input
           v-model="keyword"
           :placeholder="t('search.placeholder')"
-          :show-word-limit="true"
           :show-search="true"
           @keydown.enter="doSearch"
           @update:clearValue="clearableClick"
