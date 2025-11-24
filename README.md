@@ -1274,7 +1274,6 @@ type ComponentSize = 'default' | 'small' | 'large'
 | `modelValue` | `boolean` | - | 對話框顯示狀態 |
 | `title` | `string` | - | 對話框標題 |
 | `subTitle` | `string` | - | 副標題 |
-| `customWidth` | `string` | - | 自定義寬度 |
 | `isWarning` | `boolean` | `false` | 是否為警告對話框 |
 | `isPrimary` | `boolean` | `false` | 是否為主要對話框 |
 | `bodyLoading` | `boolean` | `false` | 內容區域加載狀態 |
@@ -1308,7 +1307,6 @@ type ComponentSize = 'default' | 'small' | 'large'
 | `modelValue` | `boolean` | - | 對話框顯示狀態 |
 | `title` | `string` | - | 對話框標題 |
 | `subTitle` | `string` | - | 副標題 |
-| `customWidth` | `string` | - | 自定義寬度 |
 
 #### Events
 

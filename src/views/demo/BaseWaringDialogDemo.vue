@@ -63,7 +63,6 @@ const handleSubmit4 = () => {
         title-text="刪除檔案"
         waring-text="請問是否確認刪除該檔案"
         sub-waring-text="此操作將永久刪除該檔案，且無法恢復"
-        modal-width="500px"
         @update:submit="handleSubmit2"
       />
 
@@ -87,13 +86,22 @@ const handleSubmit4 = () => {
         title-text="退出系統"
         waring-text="請問是否確認退出系統"
         sub-waring-text="您將失去所有未儲存的變更"
-        modal-width="450px"
         @update:submit="handleSubmit4"
       >
         <div class="w-full h-16 flex items-center justify-center flex-col">
           <div class="flex items-center mb-2">
-            <svg class="w-5 h-5 text-orange-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            <svg
+              class="w-5 h-5 text-orange-500 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+              />
             </svg>
             <p class="text-sm text-orange-600">您將失去所有未儲存的變更</p>
           </div>

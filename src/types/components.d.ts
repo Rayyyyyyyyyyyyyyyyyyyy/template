@@ -231,8 +231,6 @@ export interface BaseDialogProps {
   subTitle?: string
   /** 關閉前回調 */
   beforeClose?: () => void
-  /** 自定義寬度 */
-  customWidth?: string
   /** 是否為警告對話框 */
   isWaring?: boolean
   /** 是否為主要對話框 */
@@ -273,8 +271,6 @@ export interface BaseWaringDialogProps {
   subWaringText?: string
   /** 標題文字 */
   titleText?: string
-  /** 對話框寬度 */
-  modalWidth?: string
 }
 
 /** BaseWaringDialog 組件 Emits 類型 */
@@ -325,7 +321,6 @@ export interface TransferDialogInstance<T = Record<string, unknown>> {
   /** 組件 Emits */
   $emit: TransferDialogEmits<T>
 }
-
 
 // ==================== BaseInput 組件類型 ====================
 
@@ -404,7 +399,6 @@ export interface BaseSelectorInstance {
   /** 組件 Emits */
   $emit: BaseSelectorEmits
 }
-
 
 // ==================== 搜尋相關組件類型 ====================
 
@@ -799,7 +793,6 @@ export declare const BaseSelector: DefineComponent<
   /** 安裝方法 */
   install: (app: App) => void
 }
-
 
 /** SearchBar 組件定義 */
 export declare const SearchBar: DefineComponent<

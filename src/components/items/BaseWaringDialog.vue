@@ -6,12 +6,11 @@ import BaseDialog from './BaseDialog.vue'
 const { t } = useI18n()
 
 const props = defineProps<{
-    modelValue: boolean
-    waringText?: string
-    subWaringText?: string
-    titleText?: string
-    modalWidth?: string
-  }>()
+  modelValue: boolean
+  waringText?: string
+  subWaringText?: string
+  titleText?: string
+}>()
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
@@ -31,7 +30,6 @@ const handleSubmit = () => {
   <base-dialog
     v-model="dialogVisible"
     :title="titleText || t('common.warning')"
-    :custom-width="modalWidth"
     :is-waring="true"
     @click:submit="handleSubmit"
   >

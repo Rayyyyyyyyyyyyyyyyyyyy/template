@@ -33,10 +33,8 @@ const v = computed({
 })
 
 const getWidth = computed(() => {
-  if (width.value < 1000) {
-    return '80%'
-  } else if (props.customWidth) {
-    return props.customWidth
+  if (width.value < 500) {
+    return '100%'
   }
   return '50%'
 })
