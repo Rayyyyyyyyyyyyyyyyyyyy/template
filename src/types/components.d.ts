@@ -16,6 +16,8 @@ export interface BaseTableProps<T extends Record<string, unknown> = Record<strin
   columns: TableColumn<T>[]
   /** 是否顯示選擇列 */
   showSelection?: boolean
+  /** 是否顯示索引列 */
+  showIndex?: boolean
   /** 是否顯示匯總行 */
   showSummary?: boolean
   /** 是否顯示溢出提示 */

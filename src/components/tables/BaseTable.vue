@@ -13,6 +13,7 @@ type Props<T extends Record<string, unknown> = Record<string, unknown>> = {
   data: T[]
   columns: TableColumn<T>[]
   showSelection?: boolean
+  showIndex?: boolean
   showSummary?: boolean
   showOverFlowTooltip?: boolean
   summaryMethod?: (param: {
@@ -30,6 +31,7 @@ const props = withDefaults(defineProps<Props<T>>(), {
   loading: false,
   data: () => [],
   showSelection: false,
+  showIndex: false,
   showSummary: false,
   showOverFlowTooltip: false,
   showCheckBtn: false,
@@ -100,6 +102,9 @@ const operatorWidth = computed(() => {
   >
     <!-- 選擇列 -->
     <el-table-column v-if="showSelection" type="selection" width="60" fixed="left" align="center" />
+
+    <!-- 索引列 -->
+    <el-table-column v-if="showIndex" type="index" width="60" fixed="left" align="center" label="No" />
 
     <!-- 數據列 -->
     <el-table-column v-for="(column, index) in columns" :key="index" v-bind="column">
