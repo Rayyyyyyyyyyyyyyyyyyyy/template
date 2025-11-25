@@ -10,6 +10,7 @@ defineProps<{
   columns: TableColumn<T>[]
   tableTitle?: string
   showSelection?: boolean
+  showIndex?: boolean
   loading?: boolean
   showSummary?: boolean
   showOverFlowTooltip?: boolean
@@ -106,6 +107,7 @@ const state = reactive({
       :show-over-flow-tooltip="showOverFlowTooltip"
       :summary-method="summaryMethod"
       :show-selection="showSelection"
+      :show-index="showIndex"
       :base-table-row-class-name="sortTableRowClassName"
       :show-check-btn="showCheckBtn"
       :show-edit-btn="showEditBtn"

@@ -71,6 +71,8 @@ export interface SortTableProps<T extends Record<string, unknown> = Record<strin
   tableTitle?: string
   /** 是否顯示選擇列 */
   showSelection?: boolean
+  /** 是否顯示索引列 */
+  showIndex?: boolean
   /** 是否顯示加載狀態 */
   loading?: boolean
   /** 是否顯示匯總行 */
@@ -130,6 +132,8 @@ export interface TitleTableProps<T extends Record<string, unknown> = Record<stri
   propIsEditable?: boolean
   /** 是否顯示選擇列 */
   showSelection?: boolean
+  /** 是否顯示索引列 */
+  showIndex?: boolean
   /** 是否只顯示刪除按鈕（隱藏新增按鈕） */
   onlyDelete?: boolean
   /** 是否顯示刪除按鈕 */

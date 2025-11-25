@@ -14,6 +14,7 @@ defineProps<{
   tableTitle?: string
   propIsEditable?: boolean
   showSelection?: boolean
+  showIndex?: boolean
   onlyDelete?: boolean
   showDelete?: boolean
   loading?: boolean
@@ -96,6 +97,7 @@ const handleEditClick = (row: T) => {
       :show-summary="showSummary"
       :summary-method="summaryMethod"
       :show-selection="propIsEditable || showSelection"
+      :show-index="showIndex"
       :show-over-flow-tooltip="showOverFlowTooltip"
       :show-check-btn="showCheckBtn"
       :show-edit-btn="showEditBtn"
