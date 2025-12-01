@@ -21,7 +21,7 @@ const attrs = useAttrs()
 const keyword = ref('')
 
 const doSearch = () => {
-  emits('keydown:enter', keyword.value)
+  emits('keydown:enter', keyword.value.trim())
 }
 const clearableClick = () => {
   emits('update:clear')
