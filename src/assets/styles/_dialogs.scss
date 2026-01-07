@@ -21,6 +21,7 @@
 
   .el-dialog__body {
     @apply p-4 overflow-auto;
+    max-height: calc(100vh - 200px);
 
     .sub-title {
       @apply pb-2 font-bold text-base;
