@@ -29,10 +29,20 @@ export interface BaseTableProps<T extends Record<string, unknown> = Record<strin
   }) => (string | VNode)[]
   /** 行樣式類名 */
   baseTableRowClassName?: (data: { row: T; rowIndex: number }) => string
+  /** 是否顯示展開列 */
+  showExpand?: boolean
   /** 是否顯示查看按鈕 */
   showCheckBtn?: boolean
   /** 是否顯示編輯按鈕 */
   showEditBtn?: boolean
+  /** 是否保留展開內容 */
+  preserveExpanded?: boolean
+}
+
+/** BaseTable 組件 Slots 類型 */
+export interface BaseTableSlots<T extends Record<string, unknown> = Record<string, unknown>> {
+  /** 展開行內容 slot */
+  expand?: (props: { row: T; $index: number }) => VNode[]
 }
 
 /** BaseTable 組件 Emits 類型 */
@@ -86,10 +96,22 @@ export interface SortTableProps<T extends Record<string, unknown> = Record<strin
   }) => (string | import('vue').VNode)[]
   /** 行樣式類名 */
   sortTableRowClassName?: (data: { row: T; rowIndex: number }) => string
+  /** 是否顯示展開列 */
+  showExpand?: boolean
   /** 是否顯示查看按鈕 */
   showCheckBtn?: boolean
   /** 是否顯示編輯按鈕 */
   showEditBtn?: boolean
+  /** 是否保留展開內容 */
+  preserveExpanded?: boolean
+}
+
+/** SortTable 組件 Slots 類型 */
+export interface SortTableSlots<T extends Record<string, unknown> = Record<string, unknown>> {
+  /** 第一個按鈕 slot */
+  firstButton?: () => VNode[]
+  /** 展開行內容 slot */
+  expand?: (props: { row: T; $index: number }) => VNode[]
 }
 
 /** SortTable 組件 Emits 類型 */
@@ -149,10 +171,24 @@ export interface TitleTableProps<T extends Record<string, unknown> = Record<stri
     columns: import('element-plus').TableColumnCtx<Record<string, unknown>>[]
     data: T[]
   }) => (string | import('vue').VNode)[]
+  /** 是否顯示展開列 */
+  showExpand?: boolean
   /** 是否顯示查看按鈕 */
   showCheckBtn?: boolean
   /** 是否顯示編輯按鈕 */
   showEditBtn?: boolean
+  /** 是否保留展開內容 */
+  preserveExpanded?: boolean
+}
+
+/** TitleTable 組件 Slots 類型 */
+export interface TitleTableSlots<T extends Record<string, unknown> = Record<string, unknown>> {
+  /** 搜尋 slot */
+  tableSearch?: () => VNode[]
+  /** 編輯按鈕 slot */
+  editBtn?: () => VNode[]
+  /** 展開行內容 slot */
+  expand?: (props: { row: T; $index: number }) => VNode[]
 }
 
 /** TitleTable 組件 Emits 類型 */
@@ -663,7 +699,7 @@ export declare const BaseTable: DefineComponent<
   {},
   {},
   {},
-  {},
+  BaseTableSlots<any>,
   BaseTableEmits<any>
 > & {
   /** 安裝方法 */
@@ -679,7 +715,7 @@ export declare const SortTable: DefineComponent<
   {},
   {},
   {},
-  {},
+  SortTableSlots<any>,
   SortTableEmits<any>
 > & {
   /** 安裝方法 */
@@ -695,7 +731,7 @@ export declare const TitleTable: DefineComponent<
   {},
   {},
   {},
-  {},
+  TitleTableSlots<any>,
   TitleTableEmits<any>
 > & {
   /** 安裝方法 */

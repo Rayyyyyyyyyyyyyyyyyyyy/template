@@ -14,6 +14,7 @@ type Props<T extends Record<string, unknown> = Record<string, unknown>> = {
   columns: TableColumn<T>[]
   showSelection?: boolean
   showIndex?: boolean
+  showExpand?: boolean
   showSummary?: boolean
   showOverFlowTooltip?: boolean
   summaryMethod?: (param: {
@@ -23,7 +24,8 @@ type Props<T extends Record<string, unknown> = Record<string, unknown>> = {
   baseTableRowClassName?: (data: { row: T; rowIndex: number }) => string
   showCheckBtn?: boolean
   showEditBtn?: boolean
-  locale?: Language // 新增：Element Plus locale
+  preserveExpanded?: boolean
+  locale?: Language
 }
 
 // 組件屬性默認值
@@ -32,10 +34,12 @@ const props = withDefaults(defineProps<Props<T>>(), {
   data: () => [],
   showSelection: false,
   showIndex: false,
+  showExpand: false,
   showSummary: false,
   showOverFlowTooltip: false,
   showCheckBtn: false,
   showEditBtn: false,
+  preserveExpanded: false,
   summaryMethod: () => [],
   baseTableRowClassName: () => '',
 })
@@ -47,6 +51,10 @@ const emit = defineEmits<{
   (e: 'column-sort-change', value: SortChangValue<T>): void
   (e: 'click:checkRow', row: T): void
   (e: 'click:editRow', row: T): void
+}>()
+
+defineSlots<{
+  expand?: (props: { row: T; $index: number }) => VNode[]
 }>()
 
 const handleCellClick = (column: TableColumn<T>, row: T) => {
@@ -97,6 +105,7 @@ const operatorWidth = computed(() => {
     class="data-table"
     @selection-change="handleSelectionChange"
     @current-change="(currentRow: any) => emit('current-change', currentRow)"
+    :preserve-expanded-content="preserveExpanded"
     :sort="() => {}"
     @sort-change="onSortChange"
   >
@@ -105,6 +114,13 @@ const operatorWidth = computed(() => {
 
     <!-- 索引列 -->
     <el-table-column v-if="showIndex" type="index" width="60" fixed="left" align="center" label="No" />
+
+    <!-- 展開列 -->
+    <el-table-column v-if="showExpand" type="expand">
+      <template #default="{ row, $index }">
+        <slot name="expand" :row="row" :$index="$index" />
+      </template>
+    </el-table-column>
 
     <!-- 數據列 -->
     <el-table-column v-for="(column, index) in columns" :key="index" v-bind="column">

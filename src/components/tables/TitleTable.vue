@@ -26,6 +26,8 @@ defineProps<{
   }) => (string | VNode)[]
   showCheckBtn?: boolean
   showEditBtn?: boolean
+  showExpand?: boolean
+  preserveExpanded?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -98,14 +100,20 @@ const handleEditClick = (row: T) => {
       :summary-method="summaryMethod"
       :show-selection="propIsEditable || showSelection"
       :show-index="showIndex"
+      :show-expand="showExpand"
       :show-over-flow-tooltip="showOverFlowTooltip"
       :show-check-btn="showCheckBtn"
       :show-edit-btn="showEditBtn"
+      :preserve-expanded="preserveExpanded"
       @selection-change="handleSelectionChange"
       @cell-click="handleCellClick"
       @click:checkRow="handleCheckClick"
       @click:editRow="handleEditClick"
-    />
+    >
+      <template #expand="{ row, $index }" v-if="showExpand">
+        <slot name="expand" :row="row" :$index="$index" />
+      </template>
+    </base-table>
   </div>
 </template>
 

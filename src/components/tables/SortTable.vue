@@ -21,6 +21,8 @@ defineProps<{
   sortTableRowClassName?: (data: { row: T; rowIndex: number }) => string
   showCheckBtn?: boolean
   showEditBtn?: boolean
+  showExpand?: boolean
+  preserveExpanded?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -108,15 +110,21 @@ const state = reactive({
       :summary-method="summaryMethod"
       :show-selection="showSelection"
       :show-index="showIndex"
+      :show-expand="showExpand"
       :base-table-row-class-name="sortTableRowClassName"
       :show-check-btn="showCheckBtn"
       :show-edit-btn="showEditBtn"
+      :preserve-expanded="preserveExpanded"
       @selection-change="handleSelectionChange"
       @cell-click="handleCellClick"
       @column-sort-change="handleColumnSortChange"
       @click:checkRow="handleCheckClick"
       @click:editRow="handleEditClick"
-    />
+    >
+      <template #expand="{ row, $index }" v-if="showExpand">
+        <slot name="expand" :row="row" :$index="$index" />
+      </template>
+    </base-table>
   </div>
 </template>
 

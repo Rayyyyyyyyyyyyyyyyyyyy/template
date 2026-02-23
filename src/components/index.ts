@@ -22,6 +22,7 @@ export type {
   BaseTableProps,
   BaseTableEmits,
   BaseTableInstance,
+  BaseTableSlots,
   // BaseBtn 組件類型
   BaseBtnProps,
   BaseBtnEmits,
@@ -42,10 +43,12 @@ export type {
   SortTableProps,
   SortTableEmits,
   SortTableInstance,
+  SortTableSlots,
   // TitleTable 組件類型
   TitleTableProps,
   TitleTableEmits,
   TitleTableInstance,
+  TitleTableSlots,
   // SearchBar 組件類型
   SearchBarProps,
   SearchBarEmits,
