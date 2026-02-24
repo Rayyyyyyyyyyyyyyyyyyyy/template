@@ -358,6 +358,137 @@ const handleSelectionChange = (selection: Product[]) => {
 ```
 </details>
 
+<details>
+<summary>展開行用法</summary>
+
+```vue
+<template>
+  <BaseTable
+    :data="tableData"
+    :columns="columns"
+    show-expand
+    preserve-expanded
+  >
+    <template #expand="{ row }">
+      <div class="m-4">
+        <p>State: {{ row.state }}</p>
+        <p>City: {{ row.city }}</p>
+        <el-table :data="row.family" border>
+          <el-table-column label="Name" prop="name" />
+          <el-table-column label="State" prop="state" />
+        </el-table>
+      </div>
+    </template>
+  </BaseTable>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { BaseTable } from 'rayyy-vue-table-components'
+import type { TableColumn } from 'rayyy-vue-table-components'
+
+interface Family {
+  name: string
+  state: string
+}
+
+interface UserWithFamily {
+  id: number
+  name: string
+  state: string
+  city: string
+  family: Family[]
+}
+
+const tableData = ref<UserWithFamily[]>([
+  {
+    id: 1,
+    name: '張三',
+    state: '台北',
+    city: '信義區',
+    family: [
+      { name: '張小明', state: '台北' },
+      { name: '張小華', state: '新北' },
+    ],
+  },
+])
+
+const columns: TableColumn<UserWithFamily>[] = [
+  { prop: 'id', label: 'ID', width: 80 },
+  { prop: 'name', label: '姓名' },
+  { prop: 'state', label: '縣市' },
+  { prop: 'city', label: '區域' },
+]
+</script>
+```
+</details>
+
+<details>
+<summary>樹形資料與懶加載用法</summary>
+
+```vue
+<template>
+  <BaseTable
+    :data="treeData"
+    :columns="columns"
+    row-key="id"
+    :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+    :lazy="true"
+    :load="loadChildren"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { BaseTable } from 'rayyy-vue-table-components'
+import type { TableColumn } from 'rayyy-vue-table-components'
+
+interface TreeItem {
+  id: string
+  name: string
+  department: string
+  hasChildren?: boolean
+  children?: TreeItem[]
+}
+
+const treeData = ref<TreeItem[]>([
+  {
+    id: 'dept-tech',
+    name: '技術部',
+    department: '技術部',
+    children: [{ id: 'u-101', name: '林工程師', department: '技術部' }],
+  },
+  {
+    id: 'dept-product',
+    name: '產品部',
+    department: '產品部',
+    hasChildren: true,
+  },
+])
+
+const columns: TableColumn<TreeItem>[] = [
+  { prop: 'name', label: '名稱' },
+  { prop: 'department', label: '部門' },
+]
+
+const loadChildren = (
+  row: TreeItem,
+  _treeNode: unknown,
+  resolve: (data: TreeItem[]) => void,
+) => {
+  // 模擬 API
+  setTimeout(() => {
+    if (row.id === 'dept-product') {
+      resolve([{ id: 'u-201', name: '蔡產品', department: '產品部' }])
+      return
+    }
+    resolve([])
+  }, 500)
+}
+</script>
+```
+</details>
+
 #### SortTable - 排序表格
 
 支援多列排序的高級表格組件。
@@ -1179,8 +1310,17 @@ const handleColumnSubmit = (newColumns: TableColumn<User>[]) => {
 | `showOverFlowTooltip` | `boolean` | `false` | 是否顯示溢出提示 |
 | `summaryMethod` | `SummaryMethod<T>` | - | 合計行計算方法 |
 | `baseTableRowClassName` | `RowClassNameGetter<T>` | - | 行樣式類名函數 |
+| `showIndex` | `boolean` | `false` | 是否顯示索引列 |
+| `showExpand` | `boolean` | `false` | 是否顯示展開列 |
+| `rowKey` | `string \| ((row: T) => string)` | - | 行資料的唯一鍵（樹形資料與懶加載建議必填） |
+| `treeProps` | `{ children?: string; hasChildren?: string; checkStrictly?: boolean }` | `{ children: 'children', hasChildren: 'hasChildren' }` | 樹形資料欄位配置 |
+| `defaultExpandAll` | `boolean` | `false` | 是否預設展開所有節點 |
+| `expandRowKeys` | `string[]` | `[]` | 指定展開節點 keys |
+| `lazy` | `boolean` | `false` | 是否啟用懶加載子節點 |
+| `load` | `(row, treeNode, resolve) => void` | - | 懶加載函式 |
 | `showCheckBtn` | `boolean` | `false` | 是否顯示查看按鈕 |
 | `showEditBtn` | `boolean` | `false` | 是否顯示編輯按鈕 |
+| `preserveExpanded` | `boolean` | `false` | 資料更新時是否保留已展開狀態 |
 
 #### Events
 
@@ -1197,8 +1337,7 @@ const handleColumnSubmit = (newColumns: TableColumn<User>[]) => {
 
 | 插槽名 | 參數 | 說明 |
 |--------|------|------|
-| `empty` | - | 空數據時的內容 |
-| `append` | - | 插入至表格最後一行之後的內容 |
+| `expand` | `{ row: T, $index: number }` | 展開行的自訂內容（需搭配 `showExpand`） |
 
 ---
 
@@ -1335,8 +1474,17 @@ type ComponentSize = 'default' | 'small' | 'large'
 | `showOverFlowTooltip` | `boolean` | `false` | 是否顯示溢出提示 |
 | `summaryMethod` | `SummaryMethod<T>` | - | 合計行計算方法 |
 | `sortTableRowClassName` | `RowClassNameGetter<T>` | - | 行樣式類名函數 |
+| `showIndex` | `boolean` | `false` | 是否顯示索引列 |
+| `showExpand` | `boolean` | `false` | 是否顯示展開列 |
+| `rowKey` | `string \| ((row: T) => string)` | - | 行資料的唯一鍵（樹形資料與懶加載建議必填） |
+| `treeProps` | `{ children?: string; hasChildren?: string; checkStrictly?: boolean }` | `{ children: 'children', hasChildren: 'hasChildren' }` | 樹形資料欄位配置 |
+| `defaultExpandAll` | `boolean` | `false` | 是否預設展開所有節點 |
+| `expandRowKeys` | `string[]` | `[]` | 指定展開節點 keys |
+| `lazy` | `boolean` | `false` | 是否啟用懶加載子節點 |
+| `load` | `(row, treeNode, resolve) => void` | - | 懶加載函式 |
 | `showCheckBtn` | `boolean` | `false` | 是否顯示查看按鈕 |
 | `showEditBtn` | `boolean` | `false` | 是否顯示編輯按鈕 |
+| `preserveExpanded` | `boolean` | `false` | 資料更新時是否保留已展開狀態 |
 
 #### Events
 
@@ -1347,6 +1495,13 @@ type ComponentSize = 'default' | 'small' | 'large'
 | `update:selectRow` | `value: T[]` | 更新選擇行時觸發 |
 | `click:cell` | `column: TableColumn<T>, row: T` | 單元格點擊時觸發 |
 | `sort-change` | `sortInfo: SortInfo<T>` | 排序變更時觸發 |
+
+#### Slots
+
+| 插槽名 | 參數 | 說明 |
+|--------|------|------|
+| `firstButton` | - | 第一個按鈕插槽 |
+| `expand` | `{ row: T, $index: number }` | 展開行的自訂內容（需搭配 `showExpand`） |
 
 ---
 
@@ -1367,8 +1522,17 @@ type ComponentSize = 'default' | 'small' | 'large'
 | `showOverFlowTooltip` | `boolean` | `false` | 是否顯示溢出提示 |
 | `summaryMethod` | `SummaryMethod<T>` | - | 合計行計算方法 |
 | `titleTableRowClassName` | `RowClassNameGetter<T>` | - | 行樣式類名函數 |
+| `showIndex` | `boolean` | `false` | 是否顯示索引列 |
+| `showExpand` | `boolean` | `false` | 是否顯示展開列 |
+| `rowKey` | `string \| ((row: T) => string)` | - | 行資料的唯一鍵（樹形資料與懶加載建議必填） |
+| `treeProps` | `{ children?: string; hasChildren?: string; checkStrictly?: boolean }` | `{ children: 'children', hasChildren: 'hasChildren' }` | 樹形資料欄位配置 |
+| `defaultExpandAll` | `boolean` | `false` | 是否預設展開所有節點 |
+| `expandRowKeys` | `string[]` | `[]` | 指定展開節點 keys |
+| `lazy` | `boolean` | `false` | 是否啟用懶加載子節點 |
+| `load` | `(row, treeNode, resolve) => void` | - | 懶加載函式 |
 | `showCheckBtn` | `boolean` | `false` | 是否顯示查看按鈕 |
 | `showEditBtn` | `boolean` | `false` | 是否顯示編輯按鈕 |
+| `preserveExpanded` | `boolean` | `false` | 資料更新時是否保留已展開狀態 |
 
 #### Events
 
@@ -1379,6 +1543,14 @@ type ComponentSize = 'default' | 'small' | 'large'
 | `update:selectRow` | `value: T[]` | 更新選擇行時觸發 |
 | `click:cell` | `column: TableColumn<T>, row: T` | 單元格點擊時觸發 |
 | `sort-change` | `sortInfo: SortInfo<T>` | 排序變更時觸發 |
+
+#### Slots
+
+| 插槽名 | 參數 | 說明 |
+|--------|------|------|
+| `tableSearch` | - | 搜尋區域插槽 |
+| `editBtn` | - | 編輯按鈕區域插槽 |
+| `expand` | `{ row: T, $index: number }` | 展開行的自訂內容（需搭配 `showExpand`） |
 
 ---
 
@@ -1925,7 +2097,16 @@ src/
 
 查看 [CHANGELOG.md](./CHANGELOG.md) 了解詳細的版本更新記錄。
 
-#### 最新更新 (v2.0.22)
+#### 最新更新 (v2.0.52)
+
+**🗂️ 表格組件增強**
+- ✅ 新增展開行功能：`showExpand` prop + `expand` slot，支援自訂展開內容
+- ✅ 新增 `preserveExpanded` prop，資料更新時可保留已展開狀態
+- ✅ 新增 `showIndex` prop，支援索引列顯示
+- ✅ BaseTable、SortTable、TitleTable 三個表格組件皆支援上述功能
+- ✅ 新增 `BaseTableSlots`、`SortTableSlots`、`TitleTableSlots` 類型定義
+
+#### v2.0.22
 
 **🌐 國際化 (i18n) 支持**
 - ✅ 新增完整的國際化支持，支援繁體中文 (zh-TW) 和英文 (en-US)

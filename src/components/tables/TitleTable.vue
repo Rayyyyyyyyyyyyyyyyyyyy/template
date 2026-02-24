@@ -11,6 +11,16 @@ const { t } = useI18n()
 defineProps<{
   data: T[]
   columns: TableColumn<T>[]
+  rowKey?: string | ((row: T) => string)
+  treeProps?: {
+    children?: string
+    hasChildren?: string
+    checkStrictly?: boolean
+  }
+  defaultExpandAll?: boolean
+  expandRowKeys?: string[]
+  lazy?: boolean
+  load?: (row: T, treeNode: unknown, resolve: (data: T[]) => void) => void
   tableTitle?: string
   propIsEditable?: boolean
   showSelection?: boolean
@@ -96,6 +106,12 @@ const handleEditClick = (row: T) => {
       v-loading="loading"
       :data="data"
       :columns="columns"
+      :row-key="rowKey"
+      :tree-props="treeProps"
+      :default-expand-all="defaultExpandAll"
+      :expand-row-keys="expandRowKeys"
+      :lazy="lazy"
+      :load="load"
       :show-summary="showSummary"
       :summary-method="summaryMethod"
       :show-selection="propIsEditable || showSelection"

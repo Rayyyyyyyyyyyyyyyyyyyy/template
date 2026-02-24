@@ -14,6 +14,22 @@ export interface BaseTableProps<T extends Record<string, unknown> = Record<strin
   data: T[]
   /** 表格列配置 */
   columns: TableColumn<T>[]
+  /** 行資料的 Key（樹形資料與懶加載建議必填） */
+  rowKey?: string | ((row: T) => string)
+  /** 樹形資料配置 */
+  treeProps?: {
+    children?: string
+    hasChildren?: string
+    checkStrictly?: boolean
+  }
+  /** 是否預設展開所有節點 */
+  defaultExpandAll?: boolean
+  /** 指定預設展開的行 keys */
+  expandRowKeys?: string[]
+  /** 是否啟用懶加載子節點 */
+  lazy?: boolean
+  /** 懶加載函式 */
+  load?: (row: T, treeNode: unknown, resolve: (data: T[]) => void) => void
   /** 是否顯示選擇列 */
   showSelection?: boolean
   /** 是否顯示索引列 */
@@ -77,6 +93,22 @@ export interface SortTableProps<T extends Record<string, unknown> = Record<strin
   data: T[]
   /** 表格列配置 */
   columns: import('./index').TableColumn<T>[]
+  /** 行資料的 Key（樹形資料與懶加載建議必填） */
+  rowKey?: string | ((row: T) => string)
+  /** 樹形資料配置 */
+  treeProps?: {
+    children?: string
+    hasChildren?: string
+    checkStrictly?: boolean
+  }
+  /** 是否預設展開所有節點 */
+  defaultExpandAll?: boolean
+  /** 指定預設展開的行 keys */
+  expandRowKeys?: string[]
+  /** 是否啟用懶加載子節點 */
+  lazy?: boolean
+  /** 懶加載函式 */
+  load?: (row: T, treeNode: unknown, resolve: (data: T[]) => void) => void
   /** 表格標題 */
   tableTitle?: string
   /** 是否顯示選擇列 */
@@ -148,6 +180,22 @@ export interface TitleTableProps<T extends Record<string, unknown> = Record<stri
   data: T[]
   /** 表格列配置 */
   columns: import('./index').TableColumn<T>[]
+  /** 行資料的 Key（樹形資料與懶加載建議必填） */
+  rowKey?: string | ((row: T) => string)
+  /** 樹形資料配置 */
+  treeProps?: {
+    children?: string
+    hasChildren?: string
+    checkStrictly?: boolean
+  }
+  /** 是否預設展開所有節點 */
+  defaultExpandAll?: boolean
+  /** 指定預設展開的行 keys */
+  expandRowKeys?: string[]
+  /** 是否啟用懶加載子節點 */
+  lazy?: boolean
+  /** 懶加載函式 */
+  load?: (row: T, treeNode: unknown, resolve: (data: T[]) => void) => void
   /** 表格標題 */
   tableTitle?: string
   /** 是否可編輯（顯示新增/刪除按鈕） */

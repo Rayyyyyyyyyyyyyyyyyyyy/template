@@ -8,10 +8,13 @@
     @apply h-10;
 
     .el-tooltip {
+      @apply flex items-center;
+
       .cell-content {
         @apply truncate;
       }
     }
+
   }
 
   .is-dismissed {

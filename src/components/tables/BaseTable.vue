@@ -12,6 +12,16 @@ type Props<T extends Record<string, unknown> = Record<string, unknown>> = {
   loading?: boolean
   data: T[]
   columns: TableColumn<T>[]
+  rowKey?: string | ((row: T) => string)
+  treeProps?: {
+    children?: string
+    hasChildren?: string
+    checkStrictly?: boolean
+  }
+  defaultExpandAll?: boolean
+  expandRowKeys?: string[]
+  lazy?: boolean
+  load?: (row: T, treeNode: unknown, resolve: (data: T[]) => void) => void
   showSelection?: boolean
   showIndex?: boolean
   showExpand?: boolean
@@ -32,6 +42,12 @@ type Props<T extends Record<string, unknown> = Record<string, unknown>> = {
 const props = withDefaults(defineProps<Props<T>>(), {
   loading: false,
   data: () => [],
+  defaultExpandAll: false,
+  lazy: false,
+  treeProps: () => ({
+    children: 'children',
+    hasChildren: 'hasChildren',
+  }),
   showSelection: false,
   showIndex: false,
   showExpand: false,
@@ -97,6 +113,12 @@ const operatorWidth = computed(() => {
     v-loading="loading"
     :element-loading-text="t('common.loading')"
     :data="data"
+    :row-key="rowKey"
+    :tree-props="treeProps"
+    :default-expand-all="defaultExpandAll"
+    :expand-row-keys="expandRowKeys"
+    :lazy="lazy"
+    :load="load"
     border
     :show-summary="showSummary"
     :show-overflow-tooltip="showOverFlowTooltip"

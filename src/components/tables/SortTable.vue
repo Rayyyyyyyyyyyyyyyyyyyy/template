@@ -8,6 +8,16 @@ import { BaseTable } from '@/components'
 defineProps<{
   data: T[]
   columns: TableColumn<T>[]
+  rowKey?: string | ((row: T) => string)
+  treeProps?: {
+    children?: string
+    hasChildren?: string
+    checkStrictly?: boolean
+  }
+  defaultExpandAll?: boolean
+  expandRowKeys?: string[]
+  lazy?: boolean
+  load?: (row: T, treeNode: unknown, resolve: (data: T[]) => void) => void
   tableTitle?: string
   showSelection?: boolean
   showIndex?: boolean
@@ -105,6 +115,12 @@ const state = reactive({
       v-loading="loading"
       :data="data"
       :columns="columns"
+      :row-key="rowKey"
+      :tree-props="treeProps"
+      :default-expand-all="defaultExpandAll"
+      :expand-row-keys="expandRowKeys"
+      :lazy="lazy"
+      :load="load"
       :show-summary="showSummary"
       :show-over-flow-tooltip="showOverFlowTooltip"
       :summary-method="summaryMethod"
