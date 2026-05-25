@@ -1,10 +1,12 @@
 <script setup lang="ts" generic="T extends Record<string, unknown> = Record<string, unknown>">
-import type { VNode } from 'vue'
+import type { FunctionalComponent, VNode } from 'vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { TableColumnCtx } from 'element-plus'
 import type { SortChangValue, TableColumn } from '@/types'
 import type { Language } from 'element-plus/es/locale'
+
+const TemplateCell: FunctionalComponent<{ vnode: VNode }> = props => props.vnode
 
 const { t } = useI18n()
 
@@ -145,20 +147,13 @@ const operatorWidth = computed(() => {
     </el-table-column>
 
     <!-- 數據列 -->
-    <el-table-column v-for="(column, index) in columns" :key="index" v-bind="column">
+    <el-table-column v-for="(column, index) in columns" :key="column.prop ?? index" v-bind="column">
       <template #default="{ row }">
         <div class="cell-content" @click="handleCellClick(column, row)">
           <template v-if="column.formatter">
             {{ column.formatter(row) }}
           </template>
-          <component
-            v-else-if="column.template"
-            :is="{
-              setup() {
-                return () => column.template?.(row)
-              },
-            }"
-          />
+          <TemplateCell v-else-if="column.template" :vnode="column.template(row)" />
           <span v-else-if="column.prop">{{ row[column.prop] }}</span>
         </div>
       </template>
