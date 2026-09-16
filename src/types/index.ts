@@ -100,3 +100,5 @@ export interface TableColumn<T = Record<string, unknown>> {
   /** 是否勾選啟用 */
   checkActive?: boolean
 }
+
+export type * from './components'

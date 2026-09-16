@@ -86,7 +86,7 @@ export type {
   // 插件類型
   PluginOptions,
   VueTableComponentsPlugin
-} from '../types/components.d'
+} from '../types/components'
 
 // 重新導出組件定義類型
 export type { default as BaseTableType } from './tables/BaseTable.vue'

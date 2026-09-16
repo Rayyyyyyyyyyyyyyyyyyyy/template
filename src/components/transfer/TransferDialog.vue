@@ -1,26 +1,19 @@
 <script setup lang="ts" generic="T = Record<string, unknown>">
-import { computed, reactive, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { TableColumn } from 'src/types'
-import _ from 'lodash'
+import type { TableColumn } from '../../types'
 import type { CheckboxValueType } from 'element-plus'
 import BaseDialog from '../items/BaseDialog.vue'
-import TransferItem from '@/components/transfer/transferItem.vue'
+import TransferItem from './transferItem.vue'
 import SearchBar from '../items/SearchBar.vue'
+import type { TransferDialogEventMap, TransferDialogProps, TransferDialogSlots } from '../../types/components'
 
 const { t } = useI18n()
 
-const props = defineProps<{
-  modelValue: boolean
-  columnsValue: TableColumn<T>[]
-  transferTitle: string
-}>()
+const props = defineProps<TransferDialogProps<T>>()
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: boolean): void
-  (e: 'update:submit', data: TableColumn<T>[]): void
-  (e: 'update:checkChange', data: { columns: TableColumn<T>[]; checkList: string[] }): void
-}>()
+const emit = defineEmits<TransferDialogEventMap<T>>()
+defineSlots<TransferDialogSlots<T>>()
 
 const dialogVisible = computed({
   get: () => props.modelValue,
@@ -33,56 +26,80 @@ interface State {
   checkList: string[]
 }
 const state = reactive<State>({
-  localColumns: _.cloneDeep(props.columnsValue),
+  localColumns: props.columnsValue.map((column) => ({ ...column })),
   clickItemProp: '',
-  checkList: props.columnsValue.map((item) => item.prop) as string[],
+  checkList: props.columnsValue
+    .filter((item) => item.checkActive)
+    .map((item) => item.prop || ''),
 })
+
+const searchKeyword = ref('')
+const displayedColumns = computed(() => {
+  const keyword = searchKeyword.value.trim()
+  if (!keyword) return state.localColumns
+  return state.localColumns.filter((column) => column.label.includes(keyword))
+})
+
+const resolveDraftIndex = (displayIndex: number) => {
+  const column = displayedColumns.value[displayIndex]
+  if (!column) return -1
+  return state.localColumns.indexOf(column)
+}
+
+const moveColumn = (from: number, to: number) => {
+  if (from < 0 || to < 0 || from === to || to >= state.localColumns.length) return
+  const [item] = state.localColumns.splice(from, 1)
+  state.localColumns.splice(to, 0, item)
+}
 
 const handleItemEvents = {
   toTop: (index: number) => {
-    if (index <= 0) return
-    const item = state.localColumns.splice(index, 1)[0]
-    state.localColumns.unshift(item)
+    moveColumn(resolveDraftIndex(index), 0)
   },
   toBottom: (index: number) => {
-    if (index >= state.localColumns.length - 1) return
-    const item = state.localColumns.splice(index, 1)[0]
-    state.localColumns.push(item)
+    moveColumn(resolveDraftIndex(index), state.localColumns.length - 1)
   },
   toPre: (index: number) => {
-    if (index > 0) {
-      const temp = state.localColumns[index]
-      state.localColumns[index] = state.localColumns[index - 1]
-      state.localColumns[index - 1] = temp
-    }
+    const draftIndex = resolveDraftIndex(index)
+    moveColumn(draftIndex, draftIndex - 1)
   },
   toNext: (index: number) => {
-    if (index < state.localColumns.length - 1) {
-      const temp = state.localColumns[index]
-      state.localColumns[index] = state.localColumns[index + 1]
-      state.localColumns[index + 1] = temp
-    }
+    const draftIndex = resolveDraftIndex(index)
+    moveColumn(draftIndex, draftIndex + 1)
   },
   toLock: (index: number) => {
-    if (index <= 0) return
-    const item = state.localColumns.splice(index, 1)[0]
+    const draftIndex = resolveDraftIndex(index)
+    if (draftIndex < 0) return
+    const item = state.localColumns.splice(draftIndex, 1)[0]
     item.fixed = 'left'
     state.localColumns.unshift(item)
   },
 
   toUnLock: (index: number) => {
-    if (index < state.localColumns.length - 1) {
-      const temp = state.localColumns[index]
-      delete temp.fixed
-    }
+    const draftIndex = resolveDraftIndex(index)
+    if (draftIndex >= 0) delete state.localColumns[draftIndex].fixed
   },
 }
 
+// Accept only a permutation of the visible draft identities. A malformed slot
+// payload must never drop, duplicate, or replace hidden columns or their edits.
+const handleReorder = (columns: TableColumn<T>[]) => {
+  const visible = displayedColumns.value
+  if (columns.length !== visible.length || new Set(columns).size !== visible.length ||
+      columns.some((column) => !visible.includes(column))) return
+  const visibleSet = new Set(visible)
+  let index = 0
+  state.localColumns = state.localColumns.map((column) =>
+    visibleSet.has(column) ? columns[index++] : column,
+  )
+}
+
 const initializeState = () => {
-  state.localColumns = _.cloneDeep(props.columnsValue)
+  state.localColumns = props.columnsValue.map((column) => ({ ...column }))
   state.checkList = props.columnsValue
     .filter((item) => item.checkActive)
     .map((item) => item.prop || '') as string[]
+  searchKeyword.value = ''
 }
 
 watch(
@@ -94,27 +111,29 @@ watch(
       state.clickItemProp = ''
       state.localColumns = []
       state.checkList = []
+      searchKeyword.value = ''
     }
   },
 )
 const handlerSubmit = () => {
-  emit('update:submit', state.localColumns)
+  emit('update:submit', state.localColumns.map((column) => ({ ...column })))
 }
 
 const handleCheckAllChange = (val: CheckboxValueType) => {
-  const allProp = props.columnsValue.map((item) => item.prop)
+  const allProp = state.localColumns.map((item) => item.prop)
   state.checkList = val ? (allProp as string[]) : ([] as string[])
   handleCheckChange(state.checkList)
 }
 const handleCheckChange = (val: CheckboxValueType[]) => {
   const stringValues = val.map((v) => String(v))
+  state.checkList = stringValues
   state.localColumns.forEach((column) => {
     column.checkActive = stringValues.includes(column.prop as string)
   })
   // 即時 emit checkbox 狀態變更
   emit('update:checkChange', {
-    columns: state.localColumns,
-    checkList: state.checkList,
+    columns: state.localColumns.map((column) => ({ ...column })),
+    checkList: [...state.checkList],
   })
 }
 
@@ -127,15 +146,10 @@ const checkAll = computed({
   set: (val) => handleCheckAllChange(val),
 })
 const resetFilterColumn = () => {
-  state.localColumns = _.cloneDeep(props.columnsValue)
+  searchKeyword.value = ''
 }
 const doFilterColumn = (keyword: string) => {
-  if (keyword.length > 0) {
-    const cloneList = _.cloneDeep(state.localColumns)
-    state.localColumns = cloneList.filter((item) => item.label.includes(keyword))
-  } else {
-    resetFilterColumn()
-  }
+  searchKeyword.value = keyword
 }
 </script>
 
@@ -149,24 +163,25 @@ const doFilterColumn = (keyword: string) => {
       />
     </div>
     <div class="transfer-sort-wrapper">
-      <el-checkbox v-model="checkAll" class="px-4" @change="handleCheckAllChange">
+      <el-checkbox v-model="checkAll" class="px-4">
         {{ t('common.column') }} ({{ state.checkList.length }}/{{ state.localColumns.length }})
       </el-checkbox>
       <el-checkbox-group v-model="state.checkList" @change="handleCheckChange">
         <!-- 自定義列表容器 slot，讓外部可以選擇是否使用 draggable -->
         <slot
           name="list-container"
-          :columns="state.localColumns"
+          :columns="displayedColumns"
           :click-item-prop="state.clickItemProp"
           :handle-item-events="handleItemEvents"
+          :handle-reorder="handleReorder"
           :handle-mousedown="(prop: string) => (state.clickItemProp = prop)"
         >
           <!-- 默認的靜態列表 -->
-          <template v-for="(element, index) in state.localColumns" :key="element.prop">
+          <template v-for="(element, index) in displayedColumns" :key="element.prop">
             <transfer-item
               :dialog-modal-visible="dialogVisible"
               :columns-value="element"
-              :columns-index="index"
+              :columns-index="state.localColumns.indexOf(element)"
               :columns-len="state.localColumns.length"
               :class="{
                 'transfer-active-bg': element.checkActive,

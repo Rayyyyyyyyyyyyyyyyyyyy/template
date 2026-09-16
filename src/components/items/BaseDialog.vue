@@ -1,31 +1,22 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useWindowSize } from '@vueuse/core'
 import BaseBtn from './BaseBtn.vue'
-import _ from 'lodash'
+import type { BaseDialogSlots, BaseDialogEventMap, BaseDialogProps } from '../../types/components'
 
 const { t } = useI18n()
 
-const props = defineProps<{
-  modelValue: boolean
-  title?: string
-  subTitle?: string
-  beforeClose?: () => void
-  customWidth?: string
-  isWaring?: boolean
-  isPrimary?: boolean
-  bodyLoading?: boolean
-  submitLoading?: boolean
-  showClose?: boolean
-}>()
+const props = defineProps<BaseDialogProps>()
 
-const { width } = useWindowSize()
+const viewportWidth = ref(typeof window === 'undefined' ? 1024 : window.innerWidth)
+const updateViewportWidth = () => {
+  viewportWidth.value = window.innerWidth
+}
 
-const emits = defineEmits<{
-  (e: 'update:modelValue', data: boolean): void
-  (e: 'click:submit'): void
-}>()
+onMounted(() => window.addEventListener('resize', updateViewportWidth))
+onBeforeUnmount(() => window.removeEventListener('resize', updateViewportWidth))
+
+const emits = defineEmits<BaseDialogEventMap>()
 
 const v = computed({
   get: () => props.modelValue,
@@ -33,10 +24,8 @@ const v = computed({
 })
 
 const getWidth = computed(() => {
-  if (width.value < 500) {
-    return '100%'
-  }
-  return '50%'
+  if (props.customWidth !== undefined) return props.customWidth
+  return viewportWidth.value < 500 ? '100%' : '50%'
 })
 
 const handleCancel = () => {
@@ -45,6 +34,7 @@ const handleCancel = () => {
 const handleSubmit = () => {
   emits('click:submit')
 }
+defineSlots<BaseDialogSlots>()
 </script>
 
 <template>
@@ -74,7 +64,7 @@ const handleSubmit = () => {
     </template>
 
     <div class="p-2" v-loading="bodyLoading">
-      <div v-if="!_.isEmpty(subTitle)" class="sub-title">
+      <div v-if="subTitle" class="sub-title">
         {{ subTitle }}
       </div>
 

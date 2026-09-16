@@ -20,6 +20,7 @@ import autoprefixer from 'autoprefixer'
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const isLib = mode === 'lib'
+  const elementPlusResolver = ElementPlusResolver({ importStyle: isLib ? false : 'css' })
 
   return {
     plugins: [
@@ -28,26 +29,35 @@ export default defineConfig(({ mode }) => {
 
       ...(isLib ? [] : [vueDevTools()]), // 只在開發模式啟用 devtools
       AutoImport({
-        resolvers: [ElementPlusResolver()],
+        resolvers: [elementPlusResolver],
+        dts: false,
       }),
       Components({
-        resolvers: [ElementPlusResolver()],
+        resolvers: [elementPlusResolver],
+        dts: false,
       }),
       ...(isLib ? [
         dts({
           insertTypesEntry: true,
-          include: ['src/**/*'],
+          include: [
+            'src/index.ts',
+            'src/components/**/*',
+            'src/types/**/*',
+            'src/utils/**/*',
+            'src/locales/**/*',
+          ],
           exclude: ['src/**/*.spec.ts', 'src/**/*.test.ts', 'src/**/__tests__/**', 'src/types/usage-examples.ts'],
-          outDir: 'dist',
+          outDir: 'dist/lib',
           copyDtsFiles: true,
           tsconfigPath: './tsconfig.app.json'
         })
       ] : [])
     ],
     resolve: {
-      alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url))
-      },
+      alias: [
+        { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
+        ...(isLib ? [{ find: /^element-plus\/es$/, replacement: 'element-plus' }] : []),
+      ],
     },
     css: {
       postcss: {
@@ -59,13 +69,26 @@ export default defineConfig(({ mode }) => {
     },
     ...(isLib ? {
       build: {
+        outDir: 'dist/lib',
         lib: {
-          entry: resolve(__dirname, 'src/index.ts'),
+          entry: {
+            index: resolve(__dirname, 'src/index.ts'),
+            components: resolve(__dirname, 'src/components/index.ts'),
+            types: resolve(__dirname, 'src/types/index.ts'),
+            utils: resolve(__dirname, 'src/utils/tableHelper.ts'),
+            'utils-styles': resolve(__dirname, 'src/utils/tableStyles.ts'),
+            locales: resolve(__dirname, 'src/locales/index.ts'),
+          },
           name: 'VueTableComponents',
-          fileName: (format) => `index.${format}.js`
+          formats: ['es', 'cjs'],
+          fileName: (format, entryName) => `${entryName}.${format === 'es' ? 'js' : 'cjs'}`,
         },
         rollupOptions: {
-          external: ['vue', 'element-plus', 'vue-i18n'],
+          external: [
+            'vue',
+            'element-plus',
+            'vue-i18n',
+          ],
           output: {
             globals: {
               vue: 'Vue',
@@ -77,6 +100,10 @@ export default defineConfig(({ mode }) => {
         cssCodeSplit: false,
         copyPublicDir: false
       }
-    } : {})
+    } : {
+      build: {
+        outDir: 'dist/demo',
+      },
+    })
   }
 })

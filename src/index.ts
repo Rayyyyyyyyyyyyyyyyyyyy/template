@@ -1,4 +1,5 @@
 import type { App } from 'vue'
+import type { PluginOptions, VueTableComponentsPlugin } from './types/components'
 import BaseTable from './components/tables/BaseTable.vue'
 import BaseBtn from './components/items/BaseBtn.vue'
 import BaseInput from './components/form/BaseInput.vue'
@@ -71,7 +72,7 @@ export type {
 export * from './components'
 
 // 組件列表（參考 ElementUI 的做法）
-const components: any[] = [
+const componentMap = {
   BaseTable,
   BaseBtn,
   BaseInput,
@@ -88,13 +89,11 @@ const components: any[] = [
   SearchableListPanel,
   DetailLayout,
   FilterLayout,
-]
+}
+const components = Object.values(componentMap)
 
 // Vue 插件安裝函數
-export function install(
-  app: App,
-  options?: { autoImportStyles?: boolean; prefix?: string; locale?: string },
-) {
+export function install(app: App, options?: PluginOptions) {
   // 如果提供了 locale，設定內部 i18n 的預設語系
   if (options?.locale) {
     setLocale(options.locale)
@@ -102,16 +101,18 @@ export function install(
 
   // 只註冊組件，不處理 Element Plus
   // 外部專案需要自行安裝和配置 Element Plus
-  components.forEach((component) => {
-    app.component(component.name || 'VueTableComponent', component)
+  Object.entries(componentMap).forEach(([name, component]) => {
+    app.component(component.name || name, component)
   })
 }
 
-// 默認導出（支持 app.use() 語法）
+// 默認導出（支持 app.use() 語法）。下方為同一批 SFC 附加 install；
+// 明確公共型別避免 TypeScript 展開所有泛型 SFC 而超過 declaration 長度限制。
 export default {
   install,
   ...components,
-}
+  ...componentMap,
+} as unknown as VueTableComponentsPlugin & { [index: number]: any }
 
 // 支援單個組件安裝（使用類型斷言）
 ;(BaseTable as unknown as Record<string, unknown>).install = (app: App) => {

@@ -1,21 +1,14 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { MainPanel, BaseBtn } from '@/components'
+import MainPanel from './MainPanel.vue'
+import BaseBtn from '../items/BaseBtn.vue'
+import type { DetailLayoutSlots, DetailLayoutEventMap, DetailLayoutProps } from '../../types/components'
 
 const { t } = useI18n()
 
-defineProps<{
-  title: string
-  showBack?: boolean | string | object
-  isEditable: boolean
-  pageLoading?: boolean
-}>()
+defineProps<DetailLayoutProps>()
 
-const emit = defineEmits<{
-  (e: 'update:saveEdit', value: boolean): void
-  (e: 'update:cancelEdit'): void
-  (e: 'click:back'): void
-}>()
+const emit = defineEmits<DetailLayoutEventMap>()
 
 const saveDetailEdit = () => {
   emit('update:saveEdit', false)
@@ -26,6 +19,7 @@ const cancelDetailEdit = () => {
 const handleBackClick = () => {
   emit('click:back')
 }
+defineSlots<DetailLayoutSlots>()
 </script>
 
 <template>

@@ -1,53 +1,18 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
-import type { VNode } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { TableColumnCtx } from 'element-plus'
-import type { TableColumn } from 'src/types'
-import { BaseTable, BaseBtn } from '@/components'
+import type { TableColumn } from '../../types'
+import BaseTable from './BaseTable.vue'
+import BaseBtn from '../items/BaseBtn.vue'
+import type { TitleTableEventMap, TitleTableProps, TitleTableSlots } from '../../types/components'
 
 const { t } = useI18n()
 
 // 使用泛型 T 來定義數據類型
-defineProps<{
-  data: T[]
-  columns: TableColumn<T>[]
-  rowKey?: string | ((row: T) => string)
-  treeProps?: {
-    children?: string
-    hasChildren?: string
-    checkStrictly?: boolean
-  }
-  defaultExpandAll?: boolean
-  expandRowKeys?: string[]
-  lazy?: boolean
-  load?: (row: T, treeNode: unknown, resolve: (data: T[]) => void) => void
-  tableTitle?: string
-  propIsEditable?: boolean
-  showSelection?: boolean
-  showIndex?: boolean
-  onlyDelete?: boolean
-  showDelete?: boolean
-  loading?: boolean
-  showSummary?: boolean
-  showOverFlowTooltip?: boolean
-  summaryMethod?: (param: {
-    columns: TableColumnCtx<Record<string, unknown>>[]
-    data: T[]
-  }) => (string | VNode)[]
-  showCheckBtn?: boolean
-  showEditBtn?: boolean
-  showExpand?: boolean
-  preserveExpanded?: boolean
-}>()
+defineProps<TitleTableProps<T>>()
 
-const emit = defineEmits<{
-  (e: 'click:add'): void
-  (e: 'click:delete'): void
-  (e: 'update:selectRow', value: T[]): void
-  (e: 'click:cell', column: TableColumn<T>, row: T): void
-  (e: 'click:checkRow', row: T): void
-  (e: 'click:editRow', row: T): void
-}>()
+const emit = defineEmits<TitleTableEventMap<T>>()
+
+defineSlots<TitleTableSlots<T>>()
 
 const addInvoiceDetail = () => {
   emit('click:add')
@@ -127,7 +92,7 @@ const handleEditClick = (row: T) => {
       @click:editRow="handleEditClick"
     >
       <template #expand="{ row, $index }" v-if="showExpand">
-        <slot name="expand" :row="row" :$index="$index" />
+        <slot name="expand" v-bind="{ row, $index }" />
       </template>
     </base-table>
   </div>

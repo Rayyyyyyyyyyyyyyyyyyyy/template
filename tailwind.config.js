@@ -1,8 +1,8 @@
-/* eslint-env node */
+import preset from './tailwind-preset.cjs'
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: ['./index.html', './src/**/*.{js,vue,ts,scss}'],
-  presets: [require('./tailwind-preset.js')],
+  presets: [preset],
   /**
    * To avoid the conflicts on button style with Element Plus
    * https://juejin.cn/post/7084614555598323719

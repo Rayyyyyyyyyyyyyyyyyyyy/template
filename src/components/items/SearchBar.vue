@@ -2,18 +2,15 @@
 import { ref, useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BaseInput from '../form/BaseInput.vue'
+import type { SearchBarEventMap, SearchBarProps, SearchBarSlots } from '../../types/components'
 
 const { t } = useI18n()
 
-defineProps<{
-  showSearch?: boolean
-}>()
+defineProps<SearchBarProps>()
 
-const emits = defineEmits<{
-  (e: 'keydown:enter', data: string): void
-  (e: 'update:clear'): void
-  (e: 'update:resetFilter'): void
-}>()
+const emits = defineEmits<SearchBarEventMap>()
+
+defineSlots<SearchBarSlots>()
 
 // 獲取所有非 props 屬性
 const attrs = useAttrs()
@@ -25,9 +22,6 @@ const doSearch = () => {
 }
 const clearableClick = () => {
   emits('update:clear')
-}
-const resetFilter = () => {
-  emits('update:resetFilter')
 }
 </script>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FunctionHeader } from '@/components'
+import FunctionHeader from '../components/layout/FunctionHeader.vue'
 import { ROUTES } from '@/router/constants.ts'
 import { useRoute, useRouter } from 'vue-router'
 import { computed } from 'vue'

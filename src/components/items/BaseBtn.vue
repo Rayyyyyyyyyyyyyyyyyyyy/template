@@ -1,23 +1,10 @@
 <script lang="ts" setup>
 import { computed, useAttrs } from 'vue'
+import type { BaseBtnSlots, BaseBtnEventMap, BaseBtnProps } from '../../types/components'
 
-const props = defineProps<{
-  text?: string
-  type?: 'default' | 'primary' | 'success' | 'warning' | 'info' | 'danger'
-  size?: 'default' | 'small' | 'large'
-  plain?: boolean
-  class?: string
-  disabled?: boolean
-  textBtn?: boolean
-  icon?: object
-  link?: boolean
-  isFill?: boolean
-  loading?: boolean
-}>()
+const props = defineProps<BaseBtnProps>()
 
-const emits = defineEmits<{
-  (e: 'click', evt: MouseEvent): void
-}>()
+const emits = defineEmits<BaseBtnEventMap>()
 
 // 獲取所有非 props 屬性
 const attrs = useAttrs()
@@ -32,6 +19,7 @@ const buttonClass = computed(() => {
     'is-fill': props.isFill,
   }
 })
+defineSlots<BaseBtnSlots>()
 </script>
 
 <template>

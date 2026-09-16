@@ -1,13 +1,9 @@
 <script lang="ts" setup>
-import { FunctionHeader } from '@/components'
-import { useRouter } from 'vue-router'
+import FunctionHeader from './FunctionHeader.vue'
+import type { MainPanelSlots, MainPanelEventMap, MainPanelProps } from '../../types/components'
 
 const props = withDefaults(
-  defineProps<{
-    title?: string
-    showBack?: boolean | string | object
-    depth?: number
-  }>(),
+  defineProps<MainPanelProps>(),
   {
     title: '',
     showBack: false,
@@ -15,12 +11,11 @@ const props = withDefaults(
   },
 )
 
-const emit = defineEmits<{
-  (e: 'click:back'): void
-}>()
+const emit = defineEmits<MainPanelEventMap>()
 const onBackClick = () => {
   emit('click:back')
 }
+defineSlots<MainPanelSlots>()
 </script>
 
 <template>

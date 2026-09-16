@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import { BaseBtn } from '@/components'
-import { useRouter } from 'vue-router'
+import listExample from '../../tests/consumer/src/examples/ListExample.vue?raw'
+import transferExample from '../../tests/consumer/src/examples/TransferExample.vue?raw'
+import dialogExample from '../../tests/consumer/src/examples/DialogExample.vue?raw'
+import hostLocale from '../../tests/consumer/src/examples/HostLocale.vue?raw'
 import { useClipboard } from '@vueuse/core'
-import { ROUTES } from '@/router/constants'
 
-const router = useRouter()
 const { copy } = useClipboard()
-
-const goBack = () => {
-  router.push(ROUTES.DEMO)
-}
 
 const copyToClipboard = (text: string) => {
   copy(text).then(() => {
@@ -42,6 +39,12 @@ const openGitHubRepo = () => {
       </div>
 
 
+      <el-card class="mb-8">
+        <h2 class="text-xl font-semibold">宿主語系與公共入口</h2>
+        <p>JS 使用 root、/components、/utils、/utils/styles、/locales；型別可從 /types 或 /types/components 匯入。樣式使用 /styles、/styles/element 與 /tailwind-preset。</p>
+        <p>setLocale、套件 useI18n 與 plugin locale 已 deprecated；保留獨立 composer 用途，元件文字由宿主 vue-i18n 擁有。以下範例也納入 tarball consumer 型別檢查。</p>
+        <pre class="overflow-auto"><code v-text="hostLocale" /></pre>
+      </el-card>
       <!-- 組件示例 -->
       <el-card class="mb-8" shadow="always">
         <template #header>
@@ -52,58 +55,12 @@ const openGitHubRepo = () => {
           <!-- SearchableListPanel -->
           <div>
             <h3 class="text-xl font-semibold text-gray-900 mb-4">SearchableListPanel - 整合式搜尋面板</h3>
-            <p class="text-gray-600 mb-4">整合式搜尋、篩選、分頁組件，提供完整的數據管理功能。</p>
+            <p class="text-gray-600 mb-4">整合搜尋與分頁 UI；資料搜尋、切片和持久化由宿主事件處理。</p>
 
             <div class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm relative overflow-x-auto">
-              <pre><code>&lt;template&gt;
-  &lt;SearchableListPanel
-    :data="listData"
-    :loading="loading"
-    :total="total"
-    :page-size="pageSize"
-    :current-page="currentPage"
-    @search="handleSearch"
-    @filter="handleFilter"
-    @page-change="handlePageChange"
-  &gt;
-    &lt;template #firstButton&gt;
-      &lt;BaseBtn type="primary"&gt;新增&lt;/BaseBtn&gt;
-    &lt;/template&gt;
-
-    &lt;template #customButton&gt;
-      &lt;BaseBtn type="success"&gt;導出&lt;/BaseBtn&gt;
-    &lt;/template&gt;
-
-    &lt;template #lastButton&gt;
-      &lt;BaseBtn type="warning"&gt;批量操作&lt;/BaseBtn&gt;
-    &lt;/template&gt;
-  &lt;/SearchableListPanel&gt;
-&lt;/template&gt;
-
-&lt;script setup lang="ts"&gt;
-import { ref } from 'vue'
-import { SearchableListPanel, BaseBtn } from 'rayyy-vue-table-components'
-
-const loading = ref(false)
-const listData = ref([])
-const total = ref(0)
-const pageSize = ref(10)
-const currentPage = ref(1)
-
-const handleSearch = (keyword: string) => {
-  console.log('搜尋:', keyword)
-}
-
-const handleFilter = (filters: Record&lt;string, any&gt;) => {
-  console.log('篩選:', filters)
-}
-
-const handlePageChange = (page: number) => {
-  currentPage.value = page
-}
-&lt;/script&gt;</code></pre>
+              <pre><code v-text="listExample" /></pre>
               <button
-                @click="copyToClipboard('&lt;template&gt;\n  &lt;SearchableListPanel\n    :data=&quot;listData&quot;\n    :loading=&quot;loading&quot;\n    :total=&quot;total&quot;\n    :page-size=&quot;pageSize&quot;\n    :current-page=&quot;currentPage&quot;\n    @search=&quot;handleSearch&quot;\n    @filter=&quot;handleFilter&quot;\n    @page-change=&quot;handlePageChange&quot;\n  &gt;\n    &lt;template #firstButton&gt;\n      &lt;BaseBtn type=&quot;primary&quot;&gt;新增&lt;/BaseBtn&gt;\n    &lt;/template&gt;\n    \n    &lt;template #customButton&gt;\n      &lt;BaseBtn type=&quot;success&quot;&gt;導出&lt;/BaseBtn&gt;\n    &lt;/template&gt;\n    \n    &lt;template #lastButton&gt;\n      &lt;BaseBtn type=&quot;warning&quot;&gt;批量操作&lt;/BaseBtn&gt;\n    &lt;/template&gt;\n  &lt;/SearchableListPanel&gt;\n&lt;/template&gt;\n\n&lt;script setup lang=&quot;ts&quot;&gt;\nimport { ref } from \'vue\'\nimport { SearchableListPanel, BaseBtn } from \'rayyy-vue-table-components\'\n\nconst loading = ref(false)\nconst listData = ref([])\nconst total = ref(0)\nconst pageSize = ref(10)\nconst currentPage = ref(1)\n\nconst handleSearch = (keyword: string) => {\n  console.log(\'搜尋:\', keyword)\n}\n\nconst handleFilter = (filters: Record&lt;string, any&gt;) => {\n  console.log(\'篩選:\', filters)\n}\n\nconst handlePageChange = (page: number) => {\n  currentPage.value = page\n}\n&lt;/script&gt;')"
+                @click="copyToClipboard(listExample)"
                 class="absolute top-2 right-2 text-gray-400 hover:text-white"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -120,47 +77,9 @@ const handlePageChange = (page: number) => {
             <p class="text-gray-600 mb-4">支持拖拽排序和批量選擇的表格列配置對話框。</p>
 
             <div class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm relative overflow-x-auto">
-              <pre><code>&lt;template&gt;
-  &lt;div&gt;
-    &lt;BaseBtn type="primary" @click="showTransferDialog = true"&gt;
-      配置表格列
-    &lt;/BaseBtn&gt;
-
-    &lt;TransferDialog
-      v-model="showTransferDialog"
-      :columns="tableColumns"
-      :visible-columns="visibleColumns"
-      @confirm="handleColumnConfirm"
-      @cancel="handleColumnCancel"
-    /&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
-
-&lt;script setup lang="ts"&gt;
-import { ref } from 'vue'
-import { TransferDialog, BaseBtn } from 'rayyy-vue-table-components'
-import type { TableColumn } from 'rayyy-vue-table-components'
-
-const showTransferDialog = ref(false)
-const tableColumns = ref&lt;TableColumn[]&gt;([
-  { prop: 'id', label: 'ID' },
-  { prop: 'name', label: '姓名' },
-  { prop: 'email', label: '郵箱' },
-  { prop: 'age', label: '年齡' }
-])
-const visibleColumns = ref&lt;string[]&gt;(['id', 'name', 'email'])
-
-const handleColumnConfirm = (columns: TableColumn[]) => {
-  console.log('確認配置:', columns)
-  showTransferDialog.value = false
-}
-
-const handleColumnCancel = () => {
-  showTransferDialog.value = false
-}
-&lt;/script&gt;</code></pre>
+              <pre><code v-text="transferExample" /></pre>
               <button
-                @click="copyToClipboard('&lt;template&gt;\n  &lt;div&gt;\n    &lt;BaseBtn type=&quot;primary&quot; @click=&quot;showTransferDialog = true&quot;&gt;\n      配置表格列\n    &lt;/BaseBtn&gt;\n\n    &lt;TransferDialog\n      v-model=&quot;showTransferDialog&quot;\n      :columns=&quot;tableColumns&quot;\n      :visible-columns=&quot;visibleColumns&quot;\n      @confirm=&quot;handleColumnConfirm&quot;\n      @cancel=&quot;handleColumnCancel&quot;\n    /&gt;\n  &lt;/div&gt;\n&lt;/template&gt;\n\n&lt;script setup lang=&quot;ts&quot;&gt;\nimport { ref } from \'vue\'\nimport { TransferDialog, BaseBtn } from \'rayyy-vue-table-components\'\nimport type { TableColumn } from \'rayyy-vue-table-components\'\n\nconst showTransferDialog = ref(false)\nconst tableColumns = ref&lt;TableColumn[]&gt;([\n  { prop: \'id\', label: \'ID\' },\n  { prop: \'name\', label: \'姓名\' },\n  { prop: \'email\', label: \'郵箱\' },\n  { prop: \'age\', label: \'年齡\' }\n])\nconst visibleColumns = ref&lt;string[]&gt;([\'id\', \'name\', \'email\'])\n\nconst handleColumnConfirm = (columns: TableColumn[]) => {\n  console.log(\'確認配置:\', columns)\n  showTransferDialog.value = false\n}\n\nconst handleColumnCancel = () => {\n  showTransferDialog.value = false\n}\n&lt;/script&gt;')"
+                @click="copyToClipboard(transferExample)"
                 class="absolute top-2 right-2 text-gray-400 hover:text-white"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -524,43 +443,9 @@ import { MainPanel, BaseBtn } from 'rayyy-vue-table-components'
             <p class="text-gray-600 mb-4">靈活的對話框組件，支援多種配置選項。</p>
 
             <div class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm relative overflow-x-auto">
-              <pre><code>&lt;template&gt;
-  &lt;div&gt;
-    &lt;BaseBtn type="primary" @click="showDialog = true"&gt;
-      打開對話框
-    &lt;/BaseBtn&gt;
-
-    &lt;BaseDialog
-      v-model="showDialog"
-      title="確認操作"
-      sub-title="此操作將永久刪除該文件，是否繼續？"
-      :is-warning="true"
-      @confirm="handleConfirm"
-      @cancel="handleCancel"
-    &gt;
-      &lt;p&gt;這是對話框的內容區域，您可以放置任何內容。&lt;/p&gt;
-    &lt;/BaseDialog&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
-
-&lt;script setup lang="ts"&gt;
-import { ref } from 'vue'
-import { BaseBtn, BaseDialog } from 'rayyy-vue-table-components'
-
-const showDialog = ref(false)
-
-const handleConfirm = () => {
-  console.log('確認操作')
-  showDialog.value = false
-}
-
-const handleCancel = () => {
-  console.log('取消操作')
-  showDialog.value = false
-}
-&lt;/script&gt;</code></pre>
+              <pre><code v-text="dialogExample" /></pre>
               <button
-                @click="copyToClipboard('&lt;template&gt;\n  &lt;div&gt;\n    &lt;BaseBtn type=&quot;primary&quot; @click=&quot;showDialog = true&quot;&gt;\n      打開對話框\n    &lt;/BaseBtn&gt;\n    \n    &lt;BaseDialog \n      v-model=&quot;showDialog&quot; \n      title=&quot;確認操作&quot;\n      sub-title=&quot;此操作將永久刪除該文件，是否繼續？&quot;\n      :is-warning=&quot;true&quot;\n      @confirm=&quot;handleConfirm&quot;\n      @cancel=&quot;handleCancel&quot;\n    &gt;\n      &lt;p&gt;這是對話框的內容區域，您可以放置任何內容。&lt;/p&gt;\n    &lt;/BaseDialog&gt;\n  &lt;/div&gt;\n&lt;/template&gt;\n\n&lt;script setup lang=&quot;ts&quot;&gt;\nimport { ref } from \'vue\'\nimport { BaseBtn, BaseDialog } from \'rayyy-vue-table-components\'\n\nconst showDialog = ref(false)\n\nconst handleConfirm = () => {\n  console.log(\'確認操作\')\n  showDialog.value = false\n}\n\nconst handleCancel = () => {\n  console.log(\'取消操作\')\n  showDialog.value = false\n}\n&lt;/script&gt;')"
+                @click="copyToClipboard(dialogExample)"
                 class="absolute top-2 right-2 text-gray-400 hover:text-white"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -599,40 +484,40 @@ const handleCancel = () => {
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                       <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>data</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>T[]</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>[]</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600">列表數據</td>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>title</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>string</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>-</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600">面板標題</td>
                       </tr>
                       <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>loading</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>pagination</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>Pager</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>-</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600">page、limit 與 totalCount</td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>showSearch</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600"><code>boolean</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600"><code>false</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600">加載狀態</td>
+                        <td class="px-4 py-2 text-sm text-gray-600">是否顯示搜尋</td>
                       </tr>
                       <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>total</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>number</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>0</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600">總數據量</td>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>pageSizeList</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>number[]</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>[10,25,50,100,200]</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600">可選每頁筆數</td>
                       </tr>
                       <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>pageSize</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>number</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>10</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600">每頁顯示數量</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>currentPage</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>number</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>1</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600">當前頁碼</td>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>showPagination</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>boolean</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>undefined</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600">缺省依 totalCount；明確 true/false 優先</td>
                       </tr>
                       <tr>
                         <td class="px-4 py-2 text-sm text-gray-900"><code>locale</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600"><code>Language</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600"><code>undefined</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><strong>Element Plus 語言設定，用於覆寫 i18n</strong></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><strong>未傳時繼承外層 provider；傳入時局部覆寫</strong></td>
                       </tr>
                     </tbody>
                   </table>
@@ -653,16 +538,16 @@ const handleCancel = () => {
                     <tbody class="divide-y divide-gray-200">
                       <tr>
                         <td class="px-4 py-2 text-sm text-gray-900"><code>search</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>keyword: string</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>keyword: string | null</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600">搜尋時觸發</td>
                       </tr>
                       <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>filter</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>filters: Record&lt;string, any&gt;</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600">篩選時觸發</td>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>updatePageSize</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>limit: number</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600">每頁筆數變更</td>
                       </tr>
                       <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>page-change</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>updatePage</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600"><code>page: number</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600">頁碼變更時觸發</td>
                       </tr>
@@ -700,23 +585,18 @@ const handleCancel = () => {
                         <td class="px-4 py-2 text-sm text-gray-600">對話框顯示狀態</td>
                       </tr>
                       <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>columns</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>columnsValue</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600"><code>TableColumn[]</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600"><code>[]</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600">表格列配置</td>
                       </tr>
                       <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>visibleColumns</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>string[]</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>[]</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600">可見列屬性名數組</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>title</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>transferTitle</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600"><code>string</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>'列配置'</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600">對話框標題</td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>[]</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600">對話框標題（必填）</td>
                       </tr>
+
                     </tbody>
                   </table>
                 </div>
@@ -735,14 +615,14 @@ const handleCancel = () => {
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                       <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>confirm</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>update:submit</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600"><code>columns: TableColumn[]</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600">確認配置時觸發</td>
                       </tr>
                       <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>cancel</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>void</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600">取消配置時觸發</td>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>update:modelValue</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>boolean</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600">取消時更新可見狀態</td>
                       </tr>
                     </tbody>
                   </table>
@@ -1172,16 +1052,16 @@ const options = [
                         <td class="px-4 py-2 text-sm text-gray-600">對話框副標題</td>
                       </tr>
                       <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>isWarning</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>isWaring</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600"><code>boolean</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600"><code>false</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600">是否為警告對話框</td>
                       </tr>
                       <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>width</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>customWidth</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600"><code>string</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>'50%'</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600">對話框寬度</td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>responsive</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600">明確值優先；小螢幕 100%，其餘 50%</td>
                       </tr>
                     </tbody>
                   </table>
@@ -1201,14 +1081,14 @@ const options = [
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                       <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>confirm</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>click:submit</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600"><code>void</code></td>
                         <td class="px-4 py-2 text-sm text-gray-600">確認時觸發</td>
                       </tr>
                       <tr>
-                        <td class="px-4 py-2 text-sm text-gray-900"><code>cancel</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600"><code>void</code></td>
-                        <td class="px-4 py-2 text-sm text-gray-600">取消時觸發</td>
+                        <td class="px-4 py-2 text-sm text-gray-900"><code>update:modelValue</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600"><code>boolean</code></td>
+                        <td class="px-4 py-2 text-sm text-gray-600">取消會更新可見狀態</td>
                       </tr>
                     </tbody>
                   </table>

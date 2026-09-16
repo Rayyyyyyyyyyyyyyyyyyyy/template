@@ -37,11 +37,7 @@ export default defineConfig({
     __VUE_OPTIONS_API__: true,
     __VUE_PROD_DEVTOOLS__: false
   },
-  // 禁用所有優化
-  esbuild: false,
-  build: {
-    rollupOptions: {
-      external: []
-    }
+  esbuild: {
+    target: 'es2022'
   }
 })

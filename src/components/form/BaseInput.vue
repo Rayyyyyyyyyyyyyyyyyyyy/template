@@ -1,24 +1,11 @@
 <script lang="ts" setup>
 import { computed, useAttrs } from 'vue'
 import { Search } from '@element-plus/icons-vue'
+import type { BaseInputEventMap, BaseInputProps } from '../../types/components'
 
-const props = defineProps<{
-  modelValue?: string | number | null
-  placeholder?: string
-  type?: string
-  class?: string | { [key: string]: boolean }
-  showPassword?: boolean
-  disabled?: boolean
-  readonly?: boolean
-  maxlength?: string | number
-  autocomplete?: 'on' | 'off'
-  showSearch?: boolean
-}>()
+const props = defineProps<BaseInputProps>()
 
-const emits = defineEmits<{
-  (e: 'update:modelValue', data: string | number | undefined | null): void
-  (e: 'update:clearValue'): void
-}>()
+const emits = defineEmits<BaseInputEventMap>()
 
 // 獲取所有非 props 屬性
 const attrs = useAttrs()

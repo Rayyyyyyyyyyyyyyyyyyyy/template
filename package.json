@@ -3,53 +3,56 @@
   "version": "2.0.56",
   "description": "Vue 3 + Element Plus 表格組件庫",
   "type": "module",
-  "main": "./dist/index.umd.js",
-  "module": "./dist/index.es.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/lib/index.cjs",
+  "module": "./dist/lib/index.js",
+  "types": "./dist/lib/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.umd.js"
+      "types": "./dist/lib/index.d.ts",
+      "import": "./dist/lib/index.js",
+      "require": "./dist/lib/index.cjs"
     },
-    "./tailwind-preset": "./tailwind-preset.js",
+    "./tailwind-preset": {
+      "types": "./tailwind-preset.d.cts",
+      "import": "./tailwind-preset.cjs",
+      "require": "./tailwind-preset.cjs"
+    },
     "./types": {
-      "types": "./src/types/index.ts",
-      "import": "./src/types/index.ts"
+      "types": "./dist/lib/src/types/index.d.ts",
+      "import": "./dist/lib/types.js",
+      "require": "./dist/lib/types.cjs"
     },
     "./components": {
-      "types": "./src/components/index.ts",
-      "import": "./src/components/index.ts"
+      "types": "./dist/lib/src/components/index.d.ts",
+      "import": "./dist/lib/components.js",
+      "require": "./dist/lib/components.cjs"
     },
     "./types/components": {
-      "types": "./src/types/components.d.ts",
-      "import": "./src/types/components.d.ts"
+      "types": "./dist/lib/src/types/components.d.ts"
     },
     "./utils": {
-      "types": "./dist/src/utils/tableHelper.d.ts",
-      "import": "./src/utils/tableHelper.ts"
+      "types": "./dist/lib/src/utils/tableHelper.d.ts",
+      "import": "./dist/lib/utils.js",
+      "require": "./dist/lib/utils.cjs"
     },
     "./utils/styles": {
-      "types": "./dist/src/utils/tableStyles.d.ts",
-      "import": "./src/utils/tableStyles.ts"
+      "types": "./dist/lib/src/utils/tableStyles.d.ts",
+      "import": "./dist/lib/utils-styles.js",
+      "require": "./dist/lib/utils-styles.cjs"
     },
     "./locales": {
-      "types": "./src/locales/index.d.ts",
-      "import": "./src/locales/index.ts"
+      "types": "./dist/lib/src/locales/index.d.ts",
+      "import": "./dist/lib/locales.js",
+      "require": "./dist/lib/locales.cjs"
     },
-    "./styles": "./dist/rayyy-vue-table-components.css",
+    "./styles": "./dist/lib/rayyy-vue-table-components.css",
     "./styles/element": "./src/assets/styles/element/index.scss"
   },
   "files": [
-    "dist/*",
-    "src/components/*",
-    "src/components/index.ts",
-    "src/types/*",
-    "src/types/components.d.ts",
-    "src/utils/*",
-    "src/locales/*",
-    "src/assets/styles/*",
-    "tailwind-preset.js",
+    "dist/lib/**/*",
+    "src/assets/styles/element/index.scss",
+    "tailwind-preset.cjs",
+    "tailwind-preset.d.cts",
     "README.md"
   ],
   "keywords": [
@@ -77,20 +80,24 @@
     "build-lib": "vite build --mode lib",
     "build-demo": "vite build",
     "build:netlify": "run-p type-check \"build-demo {@}\" --",
-    "preview": "vite preview",
+    "preview": "vite preview --host 127.0.0.1 --outDir dist/demo",
     "test:unit": "vitest",
     "test:unit:ci": "vitest run --config vitest.ci.config.ts --reporter=verbose",
     "prepare": "cypress install",
     "test:e2e": "start-server-and-test preview http://localhost:4173 'cypress run --e2e'",
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' http://localhost:4173 'cypress open --e2e'",
     "type-check": "vue-tsc --build",
-    "lint": "eslint . --fix",
+    "lint": "eslint . --max-warnings 0",
     "format": "prettier --write src/",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "npm run verify",
     "fetchI18n": "node ./scripts/fetch-i18n.js",
     "release:patch": "./scripts/release.sh patch",
     "release:minor": "./scripts/release.sh minor",
-    "release:major": "./scripts/release.sh major"
+    "release:major": "./scripts/release.sh major",
+    "check:package": "node scripts/check-package.mjs",
+    "lint:fix": "eslint . --fix",
+    "check:release-boundaries": "node scripts/check-release-boundaries.mjs",
+    "verify": "run-s lint type-check test:unit:ci build-lib build-demo check:package test:e2e check:release-boundaries"
   },
   "peerDependencies": {
     "element-plus": "^2.9.3",
@@ -98,6 +105,7 @@
     "vue-i18n": ">=10.0.0"
   },
   "devDependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
     "@tsconfig/node22": "^22.0.0",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^22.13.9",
@@ -118,7 +126,6 @@
     "jiti": "^2.4.2",
     "jsdom": "^26.0.0",
     "npm-run-all2": "^7.0.2",
-    "pinia": "^3.0.1",
     "postcss": "^8.5.3",
     "postcss-import": "^16.1.0",
     "prettier": "3.5.3",

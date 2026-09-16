@@ -29,6 +29,9 @@ function getInternalI18n(): I18n {
 
 /**
  * 設定內部 i18n 的語系
+ *
+ * @deprecated This only controls the legacy standalone composer. Component text
+ * follows the host application's vue-i18n instance.
  */
 export function setLocale(locale: string): void {
   const i18n = getInternalI18n()
@@ -38,6 +41,9 @@ export function setLocale(locale: string): void {
 
 /**
  * 全域 i18n 實例（用於非組件環境）
+ *
+ * @deprecated Use the host application's composer. This legacy composer does
+ * not control text rendered by library components.
  */
 export function useI18n() {
   const i18n = getInternalI18n()
@@ -47,6 +53,9 @@ export function useI18n() {
 /**
  * 組件庫內部使用的 Element Plus locale composable
  * 專門用於組件庫內部的 Element Plus 組件
+ *
+ * @deprecated Let pagination inherit the host ElConfigProvider or pass the
+ * component's locale prop for a local override.
  */
 export function useComponentElementLocale() {
   // 直接返回預設中文

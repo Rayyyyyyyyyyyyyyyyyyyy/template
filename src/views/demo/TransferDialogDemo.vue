@@ -172,11 +172,11 @@ const simulateLoading = () => {
             </li>
             <li class="flex items-start">
               <span class="text-blue-600 mr-2 mt-0.5">•</span>
-              <span><strong>即時預覽：</strong>配置變更即時反映到表格</span>
+              <span><strong>草稿隔離：</strong>確認前不改寫宿主表格欄位</span>
             </li>
             <li class="flex items-start">
               <span class="text-blue-600 mr-2 mt-0.5">•</span>
-              <span><strong>狀態保持：</strong>記住列的顯示/隱藏狀態</span>
+              <span><strong>確認套用：</strong>本地 mock 狀態僅在確認後更新，未做持久化</span>
             </li>
           </ul>
         </div>
@@ -254,8 +254,21 @@ const simulateLoading = () => {
           transfer-title="配置用戶表格列"
           @update:submit="handleTransferSubmit"
         >
-          <template #list-container="{ columns, clickItemProp, handleItemEvents, handleMousedown }">
-            <draggable :list="columns" item-key="prop" delay="200">
+          <template
+            #list-container="{
+              columns,
+              clickItemProp,
+              handleItemEvents,
+              handleMousedown,
+              handleReorder,
+            }"
+          >
+            <draggable
+              :model-value="columns"
+              item-key="prop"
+              delay="200"
+              @update:model-value="handleReorder"
+            >
               <template #item="{ element, index }">
                 <transfer-item
                   :dialog-modal-visible="state.showTransferDialog"

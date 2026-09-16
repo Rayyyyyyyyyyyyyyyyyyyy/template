@@ -1,4 +1,4 @@
-import type { TableColumn } from 'src/types'
+import type { TableColumn } from '../types'
 
 export function setActiveColumn<T>(tableColumns: TableColumn<T>[]) {
   return tableColumns.map((col) => ({

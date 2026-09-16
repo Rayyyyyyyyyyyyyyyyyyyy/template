@@ -2,20 +2,17 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BaseDialog from './BaseDialog.vue'
+import type {
+  BaseWaringDialogEventMap,
+  BaseWaringDialogProps,
+  BaseWaringDialogSlots,
+} from '../../types/components'
 
 const { t } = useI18n()
 
-const props = defineProps<{
-  modelValue: boolean
-  waringText?: string
-  subWaringText?: string
-  titleText?: string
-}>()
+const props = defineProps<BaseWaringDialogProps>()
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: boolean): void
-  (e: 'update:submit'): void
-}>()
+const emit = defineEmits<BaseWaringDialogEventMap>()
 const dialogVisible = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value),
@@ -24,6 +21,7 @@ const dialogVisible = computed({
 const handleSubmit = () => {
   emit('update:submit')
 }
+defineSlots<BaseWaringDialogSlots>()
 </script>
 
 <template>

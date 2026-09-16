@@ -1,19 +1,10 @@
 <script lang="ts" setup>
-import type { ElOptions } from '@/types/OptionDto.ts'
+import type { BaseSelectorEventMap, BaseSelectorProps } from '../../types/components'
 
 export type Selection = string | string[] | null
 
 const props = withDefaults(
-  defineProps<{
-    modelValue?: Selection
-    options?: ElOptions[]
-    placeholder?: string
-    collapseTags?: boolean
-    collapseTagsTooltip?: boolean
-    multiple?: boolean
-    disabled?: boolean
-    class?: string
-  }>(),
+  defineProps<BaseSelectorProps>(),
   {
     modelValue: () => '',
     options: () => [{ value: '', label: '' }],
@@ -22,9 +13,7 @@ const props = withDefaults(
   },
 )
 
-const emits = defineEmits<{
-  (e: 'update:modelValue', data?: Selection): void
-}>()
+const emits = defineEmits<BaseSelectorEventMap>()
 
 function updateValue(val: Selection) {
   let value: Selection | undefined = val

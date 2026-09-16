@@ -4,44 +4,18 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { TableColumnCtx } from 'element-plus'
 import type { SortChangValue, TableColumn } from '@/types'
-import type { Language } from 'element-plus/es/locale'
+import type {
+  BaseTableEventMap,
+  BaseTableProps,
+  BaseTableSlots,
+} from '../../types/components'
 
 const TemplateCell: FunctionalComponent<{ vnode: VNode }> = props => props.vnode
 
 const { t } = useI18n()
 
-type Props<T extends Record<string, unknown> = Record<string, unknown>> = {
-  loading?: boolean
-  data: T[]
-  columns: TableColumn<T>[]
-  rowKey?: string | ((row: T) => string)
-  treeProps?: {
-    children?: string
-    hasChildren?: string
-    checkStrictly?: boolean
-  }
-  defaultExpandAll?: boolean
-  expandRowKeys?: string[]
-  lazy?: boolean
-  load?: (row: T, treeNode: unknown, resolve: (data: T[]) => void) => void
-  showSelection?: boolean
-  showIndex?: boolean
-  showExpand?: boolean
-  showSummary?: boolean
-  showOverFlowTooltip?: boolean
-  summaryMethod?: (param: {
-    columns: TableColumnCtx<Record<string, unknown>>[]
-    data: T[]
-  }) => (string | VNode)[]
-  baseTableRowClassName?: (data: { row: T; rowIndex: number }) => string
-  showCheckBtn?: boolean
-  showEditBtn?: boolean
-  preserveExpanded?: boolean
-  locale?: Language
-}
-
 // 組件屬性默認值
-const props = withDefaults(defineProps<Props<T>>(), {
+const props = withDefaults(defineProps<BaseTableProps<T>>(), {
   loading: false,
   data: () => [],
   defaultExpandAll: false,
@@ -62,18 +36,9 @@ const props = withDefaults(defineProps<Props<T>>(), {
   baseTableRowClassName: () => '',
 })
 
-const emit = defineEmits<{
-  (e: 'selection-change', selection: T[]): void
-  (e: 'current-change', currentRow: T): void
-  (e: 'cell-click', column: TableColumn<T>, row: T): void
-  (e: 'column-sort-change', value: SortChangValue<T>): void
-  (e: 'click:checkRow', row: T): void
-  (e: 'click:editRow', row: T): void
-}>()
+const emit = defineEmits<BaseTableEventMap<T>>()
 
-defineSlots<{
-  expand?: (props: { row: T; $index: number }) => VNode[]
-}>()
+defineSlots<BaseTableSlots<T>>()
 
 const handleCellClick = (column: TableColumn<T>, row: T) => {
   emit('cell-click', column, row)
@@ -96,7 +61,8 @@ const onSortChange = (value: SortChangValue<T>) => {
   emit('column-sort-change', value)
 }
 const handleOperateClick = (value: T, clickType: 'check' | 'edit') => {
-  clickType == 'check' ? emit('click:checkRow', value) : emit('click:editRow', value)
+  if (clickType === 'check') emit('click:checkRow', value)
+  else emit('click:editRow', value)
 }
 const operatorWidth = computed(() => {
   if (props.showCheckBtn && props.showEditBtn) {
@@ -106,6 +72,7 @@ const operatorWidth = computed(() => {
   } else if (props.showEditBtn && !props.showCheckBtn) {
     return 60
   }
+  return undefined
 })
 </script>
 
@@ -142,7 +109,7 @@ const operatorWidth = computed(() => {
     <!-- 展開列 -->
     <el-table-column v-if="showExpand" type="expand">
       <template #default="{ row, $index }">
-        <slot name="expand" :row="row" :$index="$index" />
+        <slot name="expand" v-bind="{ row, $index }" />
       </template>
     </el-table-column>
 

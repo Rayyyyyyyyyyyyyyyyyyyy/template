@@ -32,6 +32,7 @@ export default defineConfig({
     __VUE_OPTIONS_API__: true,
     __VUE_PROD_DEVTOOLS__: false
   },
-  // 禁用 esbuild 優化
-  esbuild: false
+  esbuild: {
+    target: 'es2022'
+  }
 })

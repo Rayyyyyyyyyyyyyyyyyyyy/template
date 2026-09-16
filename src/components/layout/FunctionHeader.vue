@@ -1,19 +1,14 @@
 <script lang="ts" setup>
 import { ArrowLeftBold } from '@element-plus/icons-vue'
+import type { FunctionHeaderSlots, FunctionHeaderEventMap, FunctionHeaderProps } from '../../types/components'
 
-const props = defineProps({
-  title: { type: String, required: false, default: '' },
-  showBack: {
-    type: [Boolean, String, Object],
-    required: false,
-    default: false,
-  },
-  depth: { type: Number, required: false, default: 1 },
+const props = withDefaults(defineProps<FunctionHeaderProps>(), {
+  title: '',
+  showBack: false,
+  depth: 1,
 })
 
-const emit = defineEmits<{
-  back: [payload: { path?: string; [key: string]: unknown }]
-}>()
+const emit = defineEmits<FunctionHeaderEventMap>()
 
 const handleClick = () => {
   const backPayload: { path?: string; [key: string]: unknown } = {}
@@ -32,6 +27,7 @@ const handleClick = () => {
 
   emit('back', backPayload)
 }
+defineSlots<FunctionHeaderSlots>()
 </script>
 
 <template>

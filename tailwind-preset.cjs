@@ -1,3 +1,4 @@
+/** CommonJS preset so both import and require work in a type=module package. */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [],

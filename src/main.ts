@@ -1,5 +1,4 @@
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
 import { createI18n } from 'vue-i18n'
 import { computed } from 'vue'
 
@@ -40,7 +39,6 @@ app.use(ElementPlus, {
 // 提供全域的 Element Plus locale 響應式更新
 app.provide('elementLocale', elementLocale)
 
-app.use(createPinia())
 app.use(router)
 
 app.mount('#app')

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { reactive } from 'vue'
 import { DetailLayout, BaseInput, BaseBtn } from '@/components'
 
 // ==================== 響應式數據 ====================

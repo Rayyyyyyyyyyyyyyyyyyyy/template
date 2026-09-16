@@ -14,13 +14,13 @@
 - 🚀 **現代化技術棧** - 基於 Vue 3 + TypeScript + Element Plus + Tailwind CSS
 - 📦 **開箱即用** - 提供完整的組件解決方案，包含表格、表單、佈局、交互組件
 - 🎯 **類型安全** - 完整的 TypeScript 類型定義，支援智能提示和類型檢查
-- 🌐 **國際化支持** - 支援多語言切換，與外部專案 i18n 完美整合
+- 🌐 **國際化支持** - 元件文字跟隨宿主 `vue-i18n`，分頁可繼承或局部覆寫 Element Plus locale
 - 📱 **響應式設計** - 使用 Tailwind CSS，適配各種設備尺寸
 - 🔧 **高度可配置** - 靈活的配置選項和豐富的插槽支持
 - 🎨 **樣式系統** - 多種樣式導入方式，支援自定義主題和 Tailwind CSS 集成
 - 🛠️ **現代化工具** - Sass 模組化 + TypeScript 樣式工具 + 自動導入
 - 💡 **豐富組件** - 15 個組件，涵蓋表格、表單、佈局、對話框、穿梭框等
-- 🧪 **完整測試** - 單元測試 + E2E 測試，確保組件穩定性
+- 🧪 **契約驗證** - 核心行為、型別、tarball 消費與 demo smoke journey 納入共同檢查
 - 📚 **詳細文檔** - 完整的 API 文檔和使用示例
 
 ## 📦 安裝
@@ -40,6 +40,8 @@ pnpm add rayyy-vue-table-components
 
 > **注意**: 本組件庫需要 Vue 3.0+、Element Plus 和 vue-i18n (>=10.0.0) 作為對等依賴。
 
+公開子路徑包含 `/components`、`/types`、`/utils`、`/utils/styles`、`/locales`、`/styles`、`/styles/element` 與 `/tailwind-preset`。JavaScript 與 declarations 來自建置產物；SCSS 和 Tailwind preset 是明確的資產入口。
+
 ## 🚀 快速開始
 
 ### 完整引入
@@ -48,14 +50,22 @@ pnpm add rayyy-vue-table-components
 
 ```typescript
 import { createApp } from 'vue'
+import { createI18n } from 'vue-i18n'
 import ElementPlus from 'element-plus'
+import zhTw from 'element-plus/es/locale/lang/zh-tw'
 import 'element-plus/dist/index.css'
-import VueTableComponents from 'rayyy-vue-table-components'
+import VueTableComponents, { messages } from 'rayyy-vue-table-components'
 import 'rayyy-vue-table-components/styles'
 
 import App from './App.vue'
 
 const app = createApp(App)
+const i18n = createI18n({
+  legacy: false,
+  locale: 'zh-TW',
+  fallbackLocale: 'zh-TW',
+  messages,
+})
 
 // 安裝 Element Plus（可自定義語系）
 app.use(ElementPlus, {
@@ -63,6 +73,7 @@ app.use(ElementPlus, {
 })
 
 // 安裝組件庫
+app.use(i18n)
 app.use(VueTableComponents)
 
 app.mount('#app')
@@ -134,8 +145,11 @@ app.mount('#app')
 ```
 
 **支援的語系：**
+
 - `zh-TW` - 繁體中文（預設）
 - `en-US` - 英文
+
+`setLocale`、套件 `useI18n` 與 plugin 的 `locale` option 為 deprecated 相容入口；它們只控制舊的獨立 composer，不會改變元件文字。請修改宿主 composer 的 `locale`，並將上述 messages 合併到宿主。分頁未傳 `locale` 時繼承外層 `ElConfigProvider`，明確傳入時只覆寫該面板。
 
 **導入翻譯檔案：**
 ```typescript
@@ -740,41 +754,20 @@ const handleSuggestionClick = (suggestion: string) => {
 <summary>基本用法</summary>
 
 ```vue
-<template>
-  <div>
-    <BaseBtn type="primary" @click="showDialog = true">
-      打開對話框
-    </BaseBtn>
-    
-    <BaseDialog 
-      v-model="showDialog" 
-      title="確認操作"
-      sub-title="此操作將永久刪除該文件，是否繼續？"
-      :is-warning="true"
-      @confirm="handleConfirm"
-      @cancel="handleCancel"
-    >
-      <p>這是對話框的內容區域，您可以放置任何內容。</p>
-    </BaseDialog>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue'
-import { BaseBtn, BaseDialog } from 'rayyy-vue-table-components'
-
-const showDialog = ref(false)
-
-const handleConfirm = () => {
-  console.log('確認操作')
-  showDialog.value = false
-}
-
-const handleCancel = () => {
-  console.log('取消操作')
-  showDialog.value = false
-}
+import { BaseDialog, BaseBtn } from 'rayyy-vue-table-components/components'
+const open = ref(false)
+function confirm() { open.value = false }
 </script>
+
+<template>
+  <BaseBtn text="開啟" @click="open = true" />
+  <!-- customWidth 優先；未傳時 <500px 視窗為 100%，其餘 50%。 -->
+  <BaseDialog v-model="open" title="確認操作" custom-width="720px" is-waring @click:submit="confirm">
+    <p>取消會發出 update:modelValue(false)，確認使用既有 click:submit。</p>
+  </BaseDialog>
+</template>
 ```
 </details>
 
@@ -796,8 +789,7 @@ const handleCancel = () => {
       v-model="showWarningDialog" 
       title="警告"
       sub-title="此操作無法復原，確定要刪除嗎？"
-      @confirm="handleConfirm"
-      @cancel="handleCancel"
+      @update:submit="handleConfirm"
     />
   </div>
 </template>
@@ -1036,98 +1028,37 @@ const handleFilterReset = () => {
 
 #### SearchableListPanel - 整合式搜尋面板
 
-整合搜尋、篩選、分頁功能的綜合面板組件。**支援 locale prop 來覆寫 i18n 設定**。
+整合搜尋與分頁 UI；宿主負責資料更新。`locale` 只局部覆寫該分頁的 Element Plus 語系。
 
 <details>
 <summary>基本用法</summary>
 
 ```vue
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { BaseTable, SearchableListPanel } from 'rayyy-vue-table-components/components'
+import type { TableColumn } from 'rayyy-vue-table-components/types'
+
+type User = { id: number; name: string }
+// 本地 mock；搜尋、分頁由宿主處理，沒有 API 或持久化。
+const rows = ref<User[]>([{ id: 1, name: 'Ada' }, { id: 2, name: 'Grace' }, { id: 3, name: 'Lin' }])
+const columns: TableColumn<User>[] = [{ prop: 'name', label: '姓名' }]
+const keyword = ref('')
+const page = ref(1)
+const limit = ref(2)
+const filtered = computed(() => rows.value.filter((row) => row.name.toLowerCase().includes(keyword.value.toLowerCase())))
+const pagination = computed(() => ({ page: page.value, limit: limit.value, totalCount: filtered.value.length }))
+const visible = computed(() => filtered.value.slice((page.value - 1) * limit.value, page.value * limit.value))
+function search(value: string | null) { keyword.value = value ?? ''; page.value = 1 }
+function resize(value: number) { limit.value = value; page.value = 1 }
+</script>
+
 <template>
-  <SearchableListPanel
-    title="用戶列表"
-    :data="tableData"
-    :columns="columns"
-    :loading="loading"
-    :pagination="pagination"
-    @search="handleSearch"
-    @filter="handleFilter"
-    @page-change="handlePageChange"
-  >
-    <template #firstButton>
-      <BaseBtn type="primary" @click="handleAdd">
-        新增用戶
-      </BaseBtn>
-    </template>
-    
-    <template #customButton>
-      <BaseBtn type="success" @click="handleExport">
-        導出數據
-      </BaseBtn>
-    </template>
-    
-    <template #lastButton>
-      <BaseBtn type="warning" @click="handleBatch">
-        批量操作
-      </BaseBtn>
-    </template>
+  <SearchableListPanel title="用戶" show-search :pagination="pagination" :page-size-list="[2, 5, 10]"
+    @search="search" @update-page="page = $event" @update-page-size="resize">
+    <template #main><BaseTable :data="visible" :columns="columns" /></template>
   </SearchableListPanel>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { SearchableListPanel, BaseBtn } from 'rayyy-vue-table-components'
-import type { TableColumn } from 'rayyy-vue-table-components'
-
-interface User {
-  id: number
-  name: string
-  email: string
-  status: string
-}
-
-const loading = ref(false)
-const tableData = ref<User[]>([
-  { id: 1, name: '張三', email: 'zhangsan@example.com', status: 'active' },
-  { id: 2, name: '李四', email: 'lisi@example.com', status: 'inactive' }
-])
-
-const columns: TableColumn<User>[] = [
-  { prop: 'id', label: 'ID', width: 80 },
-  { prop: 'name', label: '姓名' },
-  { prop: 'email', label: '郵箱' },
-  { prop: 'status', label: '狀態' }
-]
-
-const pagination = ref({
-  current: 1,
-  pageSize: 10,
-  total: 100
-})
-
-const handleSearch = (keyword: string) => {
-  console.log('搜尋:', keyword)
-}
-
-const handleFilter = (filters: Record<string, any>) => {
-  console.log('篩選:', filters)
-}
-
-const handlePageChange = (page: number, pageSize: number) => {
-  console.log('分頁變更:', page, pageSize)
-}
-
-const handleAdd = () => {
-  console.log('新增用戶')
-}
-
-const handleExport = () => {
-  console.log('導出數據')
-}
-
-const handleBatch = () => {
-  console.log('批量操作')
-}
-</script>
 ```
 </details>
 
@@ -1138,9 +1069,6 @@ const handleBatch = () => {
 <template>
   <SearchableListPanel
     title="User List"
-    :data="tableData"
-    :columns="columns"
-    :loading="loading"
     :pagination="pagination"
     :locale="elementLocale"
     @search="handleSearch"
@@ -1223,10 +1151,11 @@ const breadcrumbs = [
       transfer-title="配置表格列"
       @update:submit="handleColumnSubmit"
     >
-      <template #list-container="{ columns, clickItemProp, handleItemEvents, handleMousedown }">
-        <draggable :list="columns" item-key="prop" delay="200">
+      <template #list-container="{ columns, clickItemProp, handleItemEvents, handleMousedown, handleReorder }">
+        <draggable :model-value="columns" item-key="prop" delay="200" @update:model-value="handleReorder">
           <template #item="{ element, index }">
             <TransferItem
+              :dialog-modal-visible="showTransferDialog"
               :columns-value="element"
               :columns-index="index"
               :columns-len="columns.length"
@@ -1413,25 +1342,25 @@ type ComponentSize = 'default' | 'small' | 'large'
 | `modelValue` | `boolean` | - | 對話框顯示狀態 |
 | `title` | `string` | - | 對話框標題 |
 | `subTitle` | `string` | - | 副標題 |
-| `isWarning` | `boolean` | `false` | 是否為警告對話框 |
+| `isWaring` | `boolean` | `false` | 是否為警告對話框（保留既有拼字） |
 | `isPrimary` | `boolean` | `false` | 是否為主要對話框 |
 | `bodyLoading` | `boolean` | `false` | 內容區域加載狀態 |
 | `submitLoading` | `boolean` | `false` | 提交按鈕加載狀態 |
+| `customWidth` | `string` | 響應式 | 明確值優先；未傳時小於 500px 為 100%，其餘 50% |
 
 #### Events
 
 | 事件名 | 參數 | 說明 |
 |--------|------|------|
 | `update:modelValue` | `value: boolean` | 對話框顯示狀態變更 |
-| `confirm` | - | 確認按鈕點擊時觸發 |
-| `cancel` | - | 取消按鈕點擊時觸發 |
+| `click:submit` | - | 確認按鈕點擊時觸發 |
 
 #### Slots
 
 | 插槽名 | 參數 | 說明 |
 |--------|------|------|
 | `default` | - | 對話框內容 |
-| `footer` | - | 自定義底部按鈕區域 |
+| `customFooter` | - | 自定義底部按鈕區域 |
 
 ---
 
@@ -1452,7 +1381,7 @@ type ComponentSize = 'default' | 'small' | 'large'
 | 事件名 | 參數 | 說明 |
 |--------|------|------|
 | `update:modelValue` | `value: boolean` | 對話框顯示狀態變更 |
-| `confirm` | - | 確認按鈕點擊時觸發 |
+| `update:submit` | - | 確認按鈕點擊時觸發 |
 | `cancel` | - | 取消按鈕點擊時觸發 |
 
 ---
@@ -1672,7 +1601,7 @@ interface ListContainerSlotProps<T = any> {
 
 ### SearchableListPanel
 
-整合式搜尋、篩選、分頁組件。**支援 locale prop 來覆寫 i18n 設定**。
+整合式搜尋、篩選、分頁組件；資料變更由宿主事件處理，`locale` 僅局部覆寫分頁。
 
 #### Props
 
@@ -1683,8 +1612,8 @@ interface ListContainerSlotProps<T = any> {
 | `showBack` | `boolean \| string \| object` | `false` | 是否顯示返回按鈕 |
 | `showSearch` | `boolean` | `false` | 是否顯示搜尋功能 |
 | `pageSizeList` | `number[]` | `[10, 25, 50, 100, 200]` | 頁面大小選項 |
-| `showPagination` | `boolean` | - | 是否顯示分頁器 |
-| `locale` | `Language` | - | **Element Plus 語言設定，用於覆寫 i18n** |
+| `showPagination` | `boolean` | `undefined` | 未提供時依 `totalCount > 0`；明確 true/false 優先 |
+| `locale` | `Language` | - | 未傳時繼承外層 provider；傳入時局部覆寫 |
 
 #### Events
 
@@ -2160,3 +2089,13 @@ src/
 <p align="center">
   Made with ❤️ by the Vue Table Components Team
 </p>
+
+## 契約驗證與相容性
+
+`npm run verify` 執行非寫入 lint、Vue 型別、核心掛載測試、獨立 lib/demo build、乾淨 tarball consumer、Cypress 與隔離 release 阻斷測試。`npm run lint:fix` 才會修正原始碼。lib 位於 `dist/lib`，demo 位於 `dist/demo`。
+
+保留 `BaseTableEmits<Row>['selection-change']` handler map、`BaseDialogEmits` callable、`BaseSelectorEmits` handler map 與舊 instance 型別。共同契約位於 `src/types/components.ts`，declarations 由建置生成。`/types/components` 是型別入口，請使用 `import type`。
+
+TransferDialog 搜尋只改變顯示集合，確認提交完整草稿。`update:checkChange` 是草稿通知，宿主若要隔離取消操作應在 `update:submit` 才套用欄位。自訂拖曳 slot 使用 `handleReorder(columns)` 提交顯示集合的完整排列；隱藏欄位與未提交修改會保留。示範不包含 API 或持久化。
+
+可執行範例位於 `tests/consumer/src/examples`，文件中心直接呈現相同來源。詳細基線、驗證與相容性紀錄見 [package-contract](docs/package-contract.md)。3.0 可另評估 BaseWarningDialog alias、事件命名與文件生成；這次保留 BaseWaringDialog 及所有現有事件名稱，不升版或發布。

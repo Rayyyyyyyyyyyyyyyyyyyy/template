@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import bootstrapExample from '../../tests/consumer/src/examples/main.ts?raw'
 import { BaseBtn } from '@/components'
 import { useRouter } from 'vue-router'
 import { useClipboard } from '@vueuse/core'
@@ -6,10 +7,6 @@ import { ROUTES } from '@/router/constants'
 
 const router = useRouter()
 const { copy } = useClipboard()
-
-const goBack = () => {
-  router.push(ROUTES.DEMO)
-}
 
 const copyToClipboard = (text: string) => {
   copy(text).then(() => {
@@ -166,7 +163,7 @@ const openGitHubRepo = () => {
 
         <div class="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
           <p class="text-yellow-800">
-            <strong>注意:</strong> 本組件庫需要 Vue 3.0+ 和 Element Plus 作為對等依賴。
+            <strong>注意:</strong> 本組件庫需要 Vue 3.0+、Element Plus 與 vue-i18n 10+ 作為對等依賴。元件文字使用宿主 i18n；請合併套件 messages。
           </p>
         </div>
       </el-card>
@@ -183,13 +180,9 @@ const openGitHubRepo = () => {
             <h3 class="text-xl font-semibold text-gray-900 mb-4">樣式引入</h3>
             <p class="text-gray-600 mb-4">在 <code class="bg-gray-100 px-2 py-1 rounded">main.ts</code> 引入樣式</p>
             <div class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm relative overflow-x-auto">
-              <pre><code>
-
-import 'rayyy-vue-table-components/styles'
-
-</code></pre>
+              <pre><code v-text="bootstrapExample" /></pre>
               <button
-                @click="copyToClipboard('import { createApp } from \'vue\'\nimport ElementPlus from \'element-plus\'\nimport \'element-plus/dist/index.css\'\nimport VueTableComponents from \'rayyy-vue-table-components\'\nimport \'rayyy-vue-table-components/styles\'\n\nimport App from \'./App.vue\'\n\nconst app = createApp(App)\n\n// 安裝 Element Plus（可自定義語系）\napp.use(ElementPlus, {\n  locale: zhTw  // 設定繁體中文\n})\n\n// 安裝組件庫\napp.use(VueTableComponents)\n\napp.mount(\'#app\')')"
+                @click="copyToClipboard(bootstrapExample)"
                 class="absolute top-2 right-2 text-gray-400 hover:text-white"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -197,6 +190,16 @@ import 'rayyy-vue-table-components/styles'
                 </svg>
               </button>
             </div>
+          </div>
+
+          <!-- 按需引入 -->
+          <div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">宿主語系</h3>
+            <p class="text-gray-600 mb-4">
+              從 <code>rayyy-vue-table-components/locales</code> 匯入 messages 並交給宿主
+              <code>createI18n</code>。分頁預設繼承外層 ElConfigProvider；locale prop 只做局部覆寫。
+              舊 setLocale/useI18n/plugin locale 保留相容，但不控制元件文字。
+            </p>
           </div>
 
           <!-- 按需引入 -->

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { SortTable, TitleTable, BaseBtn } from '@/components'
+import { SortTable, TitleTable } from '@/components'
 import type { TableColumn } from '@/types'
 import { h } from 'vue'
 
@@ -15,7 +15,7 @@ interface TableDataItem {
   status: 'active' | 'inactive'
 }
 
-interface TreeTableItem {
+interface TreeTableItem extends Record<string, unknown> {
   id: string
   name: string
   department: string
@@ -394,6 +394,7 @@ const simulateLoading = () => {
             </ul>
           </div>
           <div class="lg:col-span-2">
+            <!-- @vue-generic {TreeTableItem} -->
             <BaseTable
               :data="treeTableData"
               :columns="treeTableColumns"

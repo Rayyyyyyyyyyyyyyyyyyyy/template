@@ -1,6 +1,10 @@
-import type { App, DefineComponent, VNode } from 'vue'
+import type { App, VNode } from 'vue'
 import type { TableColumnCtx } from 'element-plus'
 import type { SortChangValue, TableColumn } from './index'
+import type { ElOptions } from './OptionDto'
+
+// Keep event names literal so Vue can extract runtime emits from consumer
+// defineEmits<...>() calls. Payload tuples still come from the shared event maps.
 
 // ==================== 表格相關組件類型 ====================
 
@@ -53,6 +57,7 @@ export interface BaseTableProps<T extends Record<string, unknown> = Record<strin
   showEditBtn?: boolean
   /** 是否保留展開內容 */
   preserveExpanded?: boolean
+  locale?: import('element-plus/es/locale').Language
 }
 
 /** BaseTable 組件 Slots 類型 */
@@ -61,20 +66,27 @@ export interface BaseTableSlots<T extends Record<string, unknown> = Record<strin
   expand?: (props: { row: T; $index: number }) => VNode[]
 }
 
-/** BaseTable 組件 Emits 類型 */
-export interface BaseTableEmits<T extends Record<string, unknown> = Record<string, unknown>> {
-  /** 選擇變更事件 */
-  'selection-change': (selection: T[]) => void
-  /** 當前行變更事件 */
-  'current-change': (currentRow: T) => void
-  /** 單元格點擊事件 */
-  'cell-click': (column: TableColumn<T>, row: T) => void
-  /** 列排序變更事件 */
-  'column-sort-change': (value: SortChangValue<T>) => void
-  /** 查看按鈕點擊事件 */
-  'click:checkRow': (row: T) => void
-  /** 編輯按鈕點擊事件 */
-  'click:editRow': (row: T) => void
+export interface BaseTableEventMap<
+  T extends Record<string, unknown> = Record<string, unknown>,
+> {
+  'selection-change': [selection: T[]]
+  'current-change': [currentRow: T]
+  'cell-click': [column: TableColumn<T>, row: T]
+  'column-sort-change': [value: SortChangValue<T>]
+  'click:checkRow': [row: T]
+  'click:editRow': [row: T]
+}
+
+/** Handler-map shape retained for indexed access compatibility. */
+export interface BaseTableEmits<
+  T extends Record<string, unknown> = Record<string, unknown>,
+> {
+  'selection-change': (...args: BaseTableEventMap<T>['selection-change']) => void
+  'current-change': (...args: BaseTableEventMap<T>['current-change']) => void
+  'cell-click': (...args: BaseTableEventMap<T>['cell-click']) => void
+  'column-sort-change': (...args: BaseTableEventMap<T>['column-sort-change']) => void
+  'click:checkRow': (...args: BaseTableEventMap<T>['click:checkRow']) => void
+  'click:editRow': (...args: BaseTableEventMap<T>['click:editRow']) => void
 }
 
 /** BaseTable 組件實例類型 */
@@ -146,22 +158,24 @@ export interface SortTableSlots<T extends Record<string, unknown> = Record<strin
   expand?: (props: { row: T; $index: number }) => VNode[]
 }
 
-/** SortTable 組件 Emits 類型 */
+export interface SortTableEventMap<T extends Record<string, unknown> = Record<string, unknown>> {
+  'open:transfer': []
+  'click:downloadExcelFile': []
+  'update:selectRow': [value: T[]]
+  'click:cell': [column: TableColumn<T>, row: T]
+  'click:columnSort': [data: SortChangValue<T>]
+  'click:checkRow': [row: T]
+  'click:editRow': [row: T]
+}
+
 export interface SortTableEmits<T extends Record<string, unknown> = Record<string, unknown>> {
-  /** 打開轉移對話框事件 */
-  (e: 'open:transfer'): void
-  /** 下載表單excel */
-  (e: 'click:downloadExcelFile'): void
-  /** 更新選擇行事件 */
-  (e: 'update:selectRow', value: T[]): void
-  /** 單元格點擊事件 */
-  (e: 'click:cell', column: import('./index').TableColumn<T>, row: T): void
-  /** 列排序點擊事件 */
-  (e: 'click:columnSort', data: import('./index').SortChangValue<T>): void
-  /** 查看按鈕點擊事件 */
-  (e: 'click:checkRow', row: T): void
-  /** 編輯按鈕點擊事件 */
-  (e: 'click:editRow', row: T): void
+  (event: 'open:transfer', ...args: SortTableEventMap<T>['open:transfer']): void
+  (event: 'click:downloadExcelFile', ...args: SortTableEventMap<T>['click:downloadExcelFile']): void
+  (event: 'update:selectRow', ...args: SortTableEventMap<T>['update:selectRow']): void
+  (event: 'click:cell', ...args: SortTableEventMap<T>['click:cell']): void
+  (event: 'click:columnSort', ...args: SortTableEventMap<T>['click:columnSort']): void
+  (event: 'click:checkRow', ...args: SortTableEventMap<T>['click:checkRow']): void
+  (event: 'click:editRow', ...args: SortTableEventMap<T>['click:editRow']): void
 }
 
 /** SortTable 組件實例類型 */
@@ -239,20 +253,24 @@ export interface TitleTableSlots<T extends Record<string, unknown> = Record<stri
   expand?: (props: { row: T; $index: number }) => VNode[]
 }
 
-/** TitleTable 組件 Emits 類型 */
+export interface TitleTableEventMap<
+  T extends Record<string, unknown> = Record<string, unknown>,
+> {
+  'click:add': []
+  'click:delete': []
+  'update:selectRow': [value: T[]]
+  'click:cell': [column: TableColumn<T>, row: T]
+  'click:checkRow': [row: T]
+  'click:editRow': [row: T]
+}
+
 export interface TitleTableEmits<T extends Record<string, unknown> = Record<string, unknown>> {
-  /** 新增按鈕點擊事件 */
-  (e: 'click:add'): void
-  /** 刪除按鈕點擊事件 */
-  (e: 'click:delete'): void
-  /** 更新選擇行事件 */
-  (e: 'update:selectRow', value: T[]): void
-  /** 單元格點擊事件 */
-  (e: 'click:cell', column: import('./index').TableColumn<T>, row: T): void
-  /** 查看按鈕點擊事件 */
-  (e: 'click:checkRow', row: T): void
-  /** 編輯按鈕點擊事件 */
-  (e: 'click:editRow', row: T): void
+  (event: 'click:add', ...args: TitleTableEventMap<T>['click:add']): void
+  (event: 'click:delete', ...args: TitleTableEventMap<T>['click:delete']): void
+  (event: 'update:selectRow', ...args: TitleTableEventMap<T>['update:selectRow']): void
+  (event: 'click:cell', ...args: TitleTableEventMap<T>['click:cell']): void
+  (event: 'click:checkRow', ...args: TitleTableEventMap<T>['click:checkRow']): void
+  (event: 'click:editRow', ...args: TitleTableEventMap<T>['click:editRow']): void
 }
 
 /** TitleTable 組件實例類型 */
@@ -293,10 +311,12 @@ export interface BaseBtnProps {
   loading?: boolean
 }
 
-/** BaseBtn 組件 Emits 類型 */
+export interface BaseBtnEventMap {
+  click: [evt: MouseEvent]
+}
+
 export interface BaseBtnEmits {
-  /** 點擊事件 */
-  (e: 'click', evt: MouseEvent): void
+  (event: 'click', ...args: BaseBtnEventMap['click']): void
 }
 
 /** BaseBtn 組件實例類型 */
@@ -321,6 +341,8 @@ export interface BaseDialogProps {
   subTitle?: string
   /** 關閉前回調 */
   beforeClose?: () => void
+  /** 明確指定對話框寬度；優先於響應式預設 */
+  customWidth?: string
   /** 是否為警告對話框 */
   isWaring?: boolean
   /** 是否為主要對話框 */
@@ -333,12 +355,15 @@ export interface BaseDialogProps {
   showClose?: boolean
 }
 
-/** BaseDialog 組件 Emits 類型 */
+export interface BaseDialogEventMap {
+  'update:modelValue': [data: boolean]
+  'click:submit': []
+}
+
+/** Callable shape retained for existing consumer code. */
 export interface BaseDialogEmits {
-  /** 更新 modelValue */
-  (e: 'update:modelValue', data: boolean): void
-  /** 提交按鈕點擊事件 */
-  (e: 'click:submit'): void
+  (event: 'update:modelValue', ...args: BaseDialogEventMap['update:modelValue']): void
+  (event: 'click:submit', ...args: BaseDialogEventMap['click:submit']): void
 }
 
 /** BaseDialog 組件實例類型 */
@@ -363,12 +388,14 @@ export interface BaseWaringDialogProps {
   titleText?: string
 }
 
-/** BaseWaringDialog 組件 Emits 類型 */
+export interface BaseWaringDialogEventMap {
+  'update:modelValue': [value: boolean]
+  'update:submit': []
+}
+
 export interface BaseWaringDialogEmits {
-  /** 更新 modelValue 事件 */
-  (e: 'update:modelValue', value: boolean): void
-  /** 提交事件 */
-  (e: 'update:submit'): void
+  (event: 'update:modelValue', ...args: BaseWaringDialogEventMap['update:modelValue']): void
+  (event: 'update:submit', ...args: BaseWaringDialogEventMap['update:submit']): void
 }
 
 /** BaseWaringDialog 組件實例類型 */
@@ -391,17 +418,16 @@ export interface TransferDialogProps<T = Record<string, unknown>> {
   transferTitle: string
 }
 
-/** TransferDialog 組件 Emits 類型 */
+export interface TransferDialogEventMap<T = Record<string, unknown>> {
+  'update:modelValue': [value: boolean]
+  'update:submit': [data: TableColumn<T>[]]
+  'update:checkChange': [data: { columns: TableColumn<T>[]; checkList: string[] }]
+}
+
 export interface TransferDialogEmits<T = Record<string, unknown>> {
-  /** 更新 modelValue */
-  (e: 'update:modelValue', value: boolean): void
-  /** 提交事件 */
-  (e: 'update:submit', data: import('./index').TableColumn<T>[]): void
-  /** checkbox 狀態變更事件 */
-  (
-    e: 'update:checkChange',
-    data: { columns: import('./index').TableColumn<T>[]; checkList: string[] },
-  ): void
+  (event: 'update:modelValue', ...args: TransferDialogEventMap<T>['update:modelValue']): void
+  (event: 'update:submit', ...args: TransferDialogEventMap<T>['update:submit']): void
+  (event: 'update:checkChange', ...args: TransferDialogEventMap<T>['update:checkChange']): void
 }
 
 /** TransferDialog 組件實例類型 */
@@ -438,12 +464,14 @@ export interface BaseInputProps {
   showSearch?: boolean
 }
 
-/** BaseInput 組件 Emits 類型 */
+export interface BaseInputEventMap {
+  'update:modelValue': [data: string | number | undefined | null]
+  'update:clearValue': []
+}
+
 export interface BaseInputEmits {
-  /** 更新模型值事件 */
-  (e: 'update:modelValue', data: string | number | undefined | null): void
-  /** 清除值事件 */
-  (e: 'update:clearValue'): void
+  (event: 'update:modelValue', ...args: BaseInputEventMap['update:modelValue']): void
+  (event: 'update:clearValue', ...args: BaseInputEventMap['update:clearValue']): void
 }
 
 /** BaseInput 組件實例類型 */
@@ -459,9 +487,9 @@ export interface BaseInputInstance {
 /** BaseSelector 組件 Props 類型 */
 export interface BaseSelectorProps {
   /** 模型值 */
-  modelValue?: string | string[]
+  modelValue?: string | string[] | null
   /** 選項數據 */
-  options?: Array<{ value: string; label: string }>
+  options?: ElOptions[]
   /** 佔位符 */
   placeholder?: string
   /** 是否折疊標籤 */
@@ -476,10 +504,13 @@ export interface BaseSelectorProps {
   class?: string
 }
 
-/** BaseSelector 組件 Emits 類型 */
+export interface BaseSelectorEventMap {
+  'update:modelValue': [value?: string | string[] | null]
+}
+
+/** Handler-map shape retained for existing indexed access. */
 export interface BaseSelectorEmits {
-  /** 模型值更新事件 */
-  'update:modelValue': (value?: string | string[]) => void
+  'update:modelValue': (value?: Exclude<BaseSelectorEventMap['update:modelValue'][0], null>) => void
 }
 
 /** BaseSelector 組件實例類型 */
@@ -500,14 +531,16 @@ export interface SearchBarProps {
   showSearch?: boolean
 }
 
-/** SearchBar 組件 Emits 類型 */
+export interface SearchBarEventMap {
+  'keydown:enter': [data: string]
+  'update:clear': []
+  'update:resetFilter': []
+}
+
 export interface SearchBarEmits {
-  /** 按下 Enter 鍵事件 */
-  (e: 'keydown:enter', data: string): void
-  /** 清除事件 */
-  (e: 'update:clear'): void
-  /** 重置篩選事件 */
-  (e: 'update:resetFilter'): void
+  (event: 'keydown:enter', ...args: SearchBarEventMap['keydown:enter']): void
+  (event: 'update:clear', ...args: SearchBarEventMap['update:clear']): void
+  (event: 'update:resetFilter', ...args: SearchBarEventMap['update:resetFilter']): void
 }
 
 /** SearchBar 組件實例類型 */
@@ -546,16 +579,18 @@ export interface SearchableListPanelProps {
   locale?: import('element-plus/es/locale').Language
 }
 
-/** SearchableListPanel 組件 Emits 類型 */
+export interface SearchableListPanelEventMap {
+  search: [data: string | null]
+  updatePage: [page: number]
+  updatePageSize: [limit: number]
+  'click:back': []
+}
+
 export interface SearchableListPanelEmits {
-  /** 搜尋事件 */
-  (e: 'search', data: string | null): void
-  /** 更新頁面事件 */
-  (e: 'updatePage', page: number): boolean
-  /** 更新頁面大小事件 */
-  (e: 'updatePageSize', limit: number): boolean
-  /** 返回按鈕點擊事件 */
-  (e: 'click:back'): void
+  (event: 'search', ...args: SearchableListPanelEventMap['search']): void
+  (event: 'updatePage', ...args: SearchableListPanelEventMap['updatePage']): boolean
+  (event: 'updatePageSize', ...args: SearchableListPanelEventMap['updatePageSize']): boolean
+  (event: 'click:back', ...args: SearchableListPanelEventMap['click:back']): void
 }
 
 /** SearchableListPanel 組件實例類型 */
@@ -594,10 +629,12 @@ export interface FunctionHeaderProps {
   depth?: number
 }
 
-/** FunctionHeader 組件 Emits 類型 */
+export interface FunctionHeaderEventMap {
+  back: [payload: { path?: string; [key: string]: unknown }]
+}
+
 export interface FunctionHeaderEmits {
-  /** 返回按鈕點擊事件 */
-  (e: 'back', payload: { path?: string; [key: string]: unknown }): void
+  (event: 'back', ...args: FunctionHeaderEventMap['back']): void
 }
 
 /** FunctionHeader 組件實例類型 */
@@ -620,10 +657,12 @@ export interface MainPanelProps {
   depth?: number
 }
 
-/** MainPanel 組件 Emits 類型 */
+export interface MainPanelEventMap {
+  'click:back': []
+}
+
 export interface MainPanelEmits {
-  /** 返回按鈕點擊事件 */
-  (e: 'click:back'): void
+  (event: 'click:back', ...args: MainPanelEventMap['click:back']): void
 }
 
 /** MainPanel 組件實例類型 */
@@ -648,14 +687,16 @@ export interface DetailLayoutProps {
   pageLoading?: boolean
 }
 
-/** DetailLayout 組件 Emits 類型 */
+export interface DetailLayoutEventMap {
+  'update:saveEdit': [value: boolean]
+  'update:cancelEdit': []
+  'click:back': []
+}
+
 export interface DetailLayoutEmits {
-  /** 保存編輯事件 */
-  (e: 'update:saveEdit', value: boolean): void
-  /** 取消編輯事件 */
-  (e: 'update:cancelEdit'): void
-  /** 返回按鈕點擊事件 */
-  (e: 'click:back'): void
+  (event: 'update:saveEdit', ...args: DetailLayoutEventMap['update:saveEdit']): void
+  (event: 'update:cancelEdit', ...args: DetailLayoutEventMap['update:cancelEdit']): void
+  (event: 'click:back', ...args: DetailLayoutEventMap['click:back']): void
 }
 
 /** DetailLayout 組件實例類型 */
@@ -678,14 +719,16 @@ export interface FilterLayoutProps {
   filterTitle: string
 }
 
-/** FilterLayout 組件 Emits 類型 */
+export interface FilterLayoutEventMap {
+  submitEmit: []
+  resetEmit: []
+  'click:back': []
+}
+
 export interface FilterLayoutEmits {
-  /** 提交篩選事件 */
-  (e: 'submitEmit'): void
-  /** 重置篩選事件 */
-  (e: 'resetEmit'): void
-  /** 返回按鈕點擊事件 */
-  (e: 'click:back'): void
+  (event: 'submitEmit', ...args: FilterLayoutEventMap['submitEmit']): void
+  (event: 'resetEmit', ...args: FilterLayoutEventMap['resetEmit']): void
+  (event: 'click:back', ...args: FilterLayoutEventMap['click:back']): void
 }
 
 /** FilterLayout 組件實例類型 */
@@ -712,20 +755,22 @@ export interface TransferItemProps<T = Record<string, unknown>> {
   columnsLen: number
 }
 
-/** TransferItem 組件 Emits 類型 */
+export interface TransferItemEventMap {
+  'update:toUnLock': []
+  'update:toLock': []
+  'update:toTop': []
+  'update:toPre': []
+  'update:toNext': []
+  'update:toBottom': []
+}
+
 export interface TransferItemEmits {
-  /** 解鎖事件 */
-  (e: 'update:toUnLock'): void
-  /** 鎖定事件 */
-  (e: 'update:toLock'): void
-  /** 移到頂部事件 */
-  (e: 'update:toTop'): void
-  /** 移到上一個事件 */
-  (e: 'update:toPre'): void
-  /** 移到下一個事件 */
-  (e: 'update:toNext'): void
-  /** 移到底部事件 */
-  (e: 'update:toBottom'): void
+  (event: 'update:toUnLock', ...args: TransferItemEventMap['update:toUnLock']): void
+  (event: 'update:toLock', ...args: TransferItemEventMap['update:toLock']): void
+  (event: 'update:toTop', ...args: TransferItemEventMap['update:toTop']): void
+  (event: 'update:toPre', ...args: TransferItemEventMap['update:toPre']): void
+  (event: 'update:toNext', ...args: TransferItemEventMap['update:toNext']): void
+  (event: 'update:toBottom', ...args: TransferItemEventMap['update:toBottom']): void
 }
 
 /** TransferItem 組件實例類型 */
@@ -738,263 +783,52 @@ export interface TransferItemInstance {
 
 // ==================== 組件定義類型 ====================
 
-/** BaseTable 組件定義 */
-export declare const BaseTable: DefineComponent<
-  BaseTableProps<any>,
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  BaseTableSlots<any>,
-  BaseTableEmits<any>
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
+/** Component values are derived from the implementation declarations. */
+export declare const BaseTable: typeof import('../components/tables/BaseTable.vue')['default'] & { install: (app: App) => void }
 
-/** SortTable 組件定義 */
-export declare const SortTable: DefineComponent<
-  SortTableProps<any>,
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  SortTableSlots<any>,
-  SortTableEmits<any>
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
+export declare const SortTable: typeof import('../components/tables/SortTable.vue')['default'] & { install: (app: App) => void }
 
 /** TitleTable 組件定義 */
-export declare const TitleTable: DefineComponent<
-  TitleTableProps<any>,
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  TitleTableSlots<any>,
-  TitleTableEmits<any>
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
+export declare const TitleTable: typeof import('../components/tables/TitleTable.vue')['default'] & { install: (app: App) => void }
 
 /** BaseBtn 組件定義 */
-export declare const BaseBtn: DefineComponent<
-  BaseBtnProps,
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  BaseBtnEmits
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
+export declare const BaseBtn: typeof import('../components/items/BaseBtn.vue')['default'] & { install: (app: App) => void }
 
 /** BaseDialog 組件定義 */
-export declare const BaseDialog: DefineComponent<
-  BaseDialogProps,
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  BaseDialogEmits
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
+export declare const BaseDialog: typeof import('../components/items/BaseDialog.vue')['default'] & { install: (app: App) => void }
 
 /** BaseWaringDialog 組件定義 */
-export declare const BaseWaringDialog: DefineComponent<
-  BaseWaringDialogProps,
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  BaseWaringDialogEmits
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
+export declare const BaseWaringDialog: typeof import('../components/items/BaseWaringDialog.vue')['default'] & { install: (app: App) => void }
 
 /** TransferDialog 組件定義 */
-export declare const TransferDialog: DefineComponent<
-  TransferDialogProps<any>,
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  TransferDialogEmits<any>
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
+export declare const TransferDialog: typeof import('../components/transfer/TransferDialog.vue')['default'] & { install: (app: App) => void }
 
 /** BaseInput 組件定義 */
-export declare const BaseInput: DefineComponent<
-  BaseInputProps,
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  BaseInputEmits
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
+export declare const BaseInput: typeof import('../components/form/BaseInput.vue')['default'] & { install: (app: App) => void }
 
 /** BaseSelector 組件定義 */
-export declare const BaseSelector: DefineComponent<
-  BaseSelectorProps,
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  BaseSelectorEmits
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
+export declare const BaseSelector: typeof import('../components/form/BaseSelector.vue')['default'] & { install: (app: App) => void }
 
 /** SearchBar 組件定義 */
-export declare const SearchBar: DefineComponent<
-  SearchBarProps,
-  {},
-  {},
-  {},
-  {},
-  {},
-  SearchBarSlots,
-  {},
-  SearchBarEmits
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
+export declare const SearchBar: typeof import('../components/items/SearchBar.vue')['default'] & { install: (app: App) => void }
 
 /** SearchableListPanel 組件定義 */
-export declare const SearchableListPanel: DefineComponent<
-  SearchableListPanelProps,
-  {},
-  {},
-  {},
-  {},
-  {},
-  SearchableListPanelSlots,
-  {},
-  SearchableListPanelEmits
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
+export declare const SearchableListPanel: typeof import('../components/layout/SearchableListPanel.vue')['default'] & { install: (app: App) => void }
 
 /** FunctionHeader 組件定義 */
-export declare const FunctionHeader: DefineComponent<
-  FunctionHeaderProps,
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  FunctionHeaderEmits
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
+export declare const FunctionHeader: typeof import('../components/layout/FunctionHeader.vue')['default'] & { install: (app: App) => void }
 
 /** MainPanel 組件定義 */
-export declare const MainPanel: DefineComponent<
-  MainPanelProps,
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  MainPanelEmits
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
+export declare const MainPanel: typeof import('../components/layout/MainPanel.vue')['default'] & { install: (app: App) => void }
 
 /** DetailLayout 組件定義 */
-export declare const DetailLayout: DefineComponent<
-  DetailLayoutProps,
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  DetailLayoutEmits
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
+export declare const DetailLayout: typeof import('../components/layout/DetailLayout.vue')['default'] & { install: (app: App) => void }
 
 /** FilterLayout 組件定義 */
-export declare const FilterLayout: DefineComponent<
-  FilterLayoutProps,
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  FilterLayoutEmits
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
+export declare const FilterLayout: typeof import('../components/layout/FilterLayout.vue')['default'] & { install: (app: App) => void }
 
 /** TransferItem 組件定義 */
-export declare const TransferItem: DefineComponent<
-  TransferItemProps<any>,
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  TransferItemEmits
-> & {
-  /** 安裝方法 */
-  install: (app: App) => void
-}
+export declare const TransferItem: typeof import('../components/transfer/transferItem.vue')['default'] & { install: (app: App) => void }
 
 // ==================== 插件類型 ====================
 
@@ -1004,7 +838,10 @@ export interface PluginOptions {
   autoImportStyles?: boolean
   /** 自定義前綴 */
   prefix?: string
-  /** 預設語系 (預設: 'zh-TW') */
+  /**
+   * Legacy standalone composer locale.
+   * @deprecated Component text follows the host vue-i18n instance.
+   */
   locale?: string
 }
 
@@ -1067,4 +904,56 @@ declare module '@vue/runtime-core' {
     FilterLayout: typeof FilterLayout
     TransferItem: typeof TransferItem
   }
+}
+
+export interface BaseDialogSlots {
+  default?: () => VNode[]
+  customHeader?: () => VNode[]
+  customFooter?: () => VNode[]
+}
+
+export interface BaseBtnSlots {
+  default?: () => VNode[]
+}
+
+export interface BaseWaringDialogSlots {
+  default?: () => VNode[]
+}
+
+export interface FunctionHeaderSlots {
+  default?: () => VNode[]
+}
+
+export interface MainPanelSlots {
+  searchBar?: () => VNode[]
+  main?: () => VNode[]
+  footer?: () => VNode[]
+}
+
+export interface DetailLayoutSlots {
+  detailHeader?: () => VNode[]
+  main?: () => VNode[]
+}
+
+export interface FilterLayoutSlots {
+  default?: () => VNode[]
+}
+
+export interface TransferDialogSlots<T = Record<string, unknown>> {
+  'list-container'?: (props: {
+    columns: TableColumn<T>[]
+    clickItemProp: string
+    handleItemEvents: TransferColumnActions
+    handleMousedown: (prop: string) => void
+    handleReorder: (columns: TableColumn<T>[]) => void
+  }) => VNode[]
+}
+
+export interface TransferColumnActions {
+  toTop: (index: number) => void
+  toBottom: (index: number) => void
+  toPre: (index: number) => void
+  toNext: (index: number) => void
+  toLock: (index: number) => void
+  toUnLock: (index: number) => void
 }

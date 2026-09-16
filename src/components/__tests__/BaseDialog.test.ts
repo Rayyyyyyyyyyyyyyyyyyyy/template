@@ -1,0 +1,49 @@
+import { mount } from '@vue/test-utils'
+import { afterEach, describe, expect, it } from 'vitest'
+import BaseDialog from '../items/BaseDialog.vue'
+import { commonStubs, createHostI18n } from './testHelpers'
+
+const originalWidth = window.innerWidth
+
+afterEach(() => {
+  Object.defineProperty(window, 'innerWidth', { configurable: true, value: originalWidth })
+})
+
+const mountDialog = (props: Record<string, unknown>) =>
+  mount(BaseDialog, {
+    props: { modelValue: true, ...props },
+    global: {
+      plugins: [createHostI18n()],
+      stubs: commonStubs,
+      directives: { loading: () => undefined },
+    },
+  })
+
+describe('BaseDialog width contract', () => {
+  it('updates on resize, and keeps explicit widths on prop updates', async () => {
+    const wrapper = mountDialog({})
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 499 })
+    window.dispatchEvent(new Event('resize'))
+    await wrapper.vm.$nextTick()
+    expect(wrapper.findComponent({ name: 'ElDialog' }).props('width')).toBe('100%')
+    await wrapper.setProps({ customWidth: '720px' })
+    expect(wrapper.findComponent({ name: 'ElDialog' }).props('width')).toBe('720px')
+    wrapper.unmount()
+  })
+  it('uses customWidth before the responsive default', () => {
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 320 })
+    const wrapper = mountDialog({ customWidth: '720px' })
+    expect(wrapper.findComponent({ name: 'ElDialog' }).props('width')).toBe('720px')
+  })
+
+  it.each([
+    [320, '100%'],
+    [499, '100%'],
+    [500, '50%'],
+    [900, '50%'],
+  ])('uses %s px viewport to select %s', (innerWidth, expected) => {
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: innerWidth })
+    const wrapper = mountDialog({})
+    expect(wrapper.findComponent({ name: 'ElDialog' }).props('width')).toBe(expected)
+  })
+})

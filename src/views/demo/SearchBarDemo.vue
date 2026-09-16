@@ -4,21 +4,10 @@ import { SearchBar, BaseBtn } from '@/components'
 
 const searchKeyword = ref('')
 const searchKeyword2 = ref('')
-const searchKeyword3 = ref('')
 const searchResult = ref('')
 const loading = ref(false)
 
 // 搜尋建議
-const suggestions = ref([
-  'Vue.js',
-  'React',
-  'Angular',
-  'TypeScript',
-  'JavaScript',
-  'Node.js',
-  'Python',
-  'Java'
-])
 
 // 事件處理
 const handleSearch = (keyword: string) => {
@@ -31,16 +20,7 @@ const handleSearch2 = (keyword: string) => {
   searchResult.value = `搜尋關鍵字: ${keyword}`
 }
 
-const handleSearch3 = (keyword: string) => {
-  console.log('搜尋3:', keyword)
-  searchResult.value = `搜尋關鍵字: ${keyword}`
-}
 
-const handleSuggestionClick = (suggestion: string) => {
-  console.log('點擊建議:', suggestion)
-  searchKeyword3.value = suggestion
-  searchResult.value = `選擇建議: ${suggestion}`
-}
 
 const handleClear = () => {
   console.log('清除搜尋')
@@ -54,12 +34,6 @@ const handleResetFilter = () => {
 }
 
 // 模擬加載
-const simulateLoading = () => {
-  loading.value = true
-  setTimeout(() => {
-    loading.value = false
-  }, 2000)
-}
 </script>
 
 <template>

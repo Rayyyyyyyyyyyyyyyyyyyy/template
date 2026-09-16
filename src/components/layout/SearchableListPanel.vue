@@ -1,33 +1,26 @@
 <script setup lang="ts">
 import { toRefs, computed } from 'vue'
-import type { Pager } from '@/types'
-import { MainPanel, SearchBar } from '@/components'
-import { useComponentElementLocale } from '@/utils/i18n'
-import type { Language } from 'element-plus/es/locale'
+import MainPanel from './MainPanel.vue'
+import SearchBar from '../items/SearchBar.vue'
+import type {
+  SearchableListPanelEventMap,
+  SearchableListPanelProps,
+  SearchableListPanelSlots,
+} from '../../types/components'
 
 const props = withDefaults(
-  defineProps<{
-    title: string
-    pagination: Pager
-    showBack?: boolean | string | object
-    showSearch?: boolean
-    pageSizeList?: number[]
-    showPagination?: boolean
-    locale?: Language // 新增：Element Plus locale
-  }>(),
+  defineProps<SearchableListPanelProps>(),
   {
     pageSizeList: () => [10, 25, 50, 100, 200],
+    showPagination: undefined,
   },
 )
 
 const { pagination } = toRefs(props)
 
-const emits = defineEmits<{
-  (e: 'search', data: string | null): void
-  (e: 'updatePage', page: number): boolean
-  (e: 'updatePageSize', limit: number): boolean
-  (e: 'click:back'): void
-}>()
+const emits = defineEmits<SearchableListPanelEventMap>()
+
+defineSlots<SearchableListPanelSlots>()
 
 const search = (keyword: string) => {
   emits('search', keyword)
@@ -48,20 +41,7 @@ const onBackClick = () => {
   emits('click:back')
 }
 const showPager = computed(() => {
-  if (props.showPagination) {
-    return props.showPagination
-  } else {
-    return props.pagination.totalCount > 0
-  }
-})
-
-// 優先使用 prop，沒有 prop 則使用 composable
-const elementLocale = computed(() => {
-  if (props.locale) {
-    return props.locale
-  }
-  // 回退：使用簡化的 composable
-  return useComponentElementLocale().value
+  return props.showPagination ?? props.pagination.totalCount > 0
 })
 </script>
 
@@ -84,7 +64,7 @@ const elementLocale = computed(() => {
     </template>
 
     <template #footer>
-      <el-config-provider :locale="elementLocale">
+      <el-config-provider v-if="props.locale" :locale="props.locale">
         <el-pagination
           v-if="showPager"
           layout="jumper, prev, pager, next, total, sizes"
@@ -96,6 +76,16 @@ const elementLocale = computed(() => {
           @size-change="changePageSize"
         />
       </el-config-provider>
+      <el-pagination
+        v-else-if="showPager"
+        layout="jumper, prev, pager, next, total, sizes"
+        :page-sizes="pageSizeList"
+        :current-page="pagination.page"
+        :page-size="pagination.limit"
+        :total="pagination.totalCount"
+        @current-change="updatePage"
+        @size-change="changePageSize"
+      />
     </template>
   </main-panel>
 </template>

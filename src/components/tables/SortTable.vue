@@ -1,49 +1,15 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
 import type { SortChangValue, TableColumn } from '@/types'
-import type { TableColumnCtx } from 'element-plus'
-import { reactive, type VNode } from 'vue'
+import { reactive } from 'vue'
 import { Setting } from '@element-plus/icons-vue'
-import { BaseTable } from '@/components'
+import BaseTable from './BaseTable.vue'
+import type { SortTableEventMap, SortTableProps, SortTableSlots } from '../../types/components'
 
-defineProps<{
-  data: T[]
-  columns: TableColumn<T>[]
-  rowKey?: string | ((row: T) => string)
-  treeProps?: {
-    children?: string
-    hasChildren?: string
-    checkStrictly?: boolean
-  }
-  defaultExpandAll?: boolean
-  expandRowKeys?: string[]
-  lazy?: boolean
-  load?: (row: T, treeNode: unknown, resolve: (data: T[]) => void) => void
-  tableTitle?: string
-  showSelection?: boolean
-  showIndex?: boolean
-  loading?: boolean
-  showSummary?: boolean
-  showOverFlowTooltip?: boolean
-  summaryMethod?: (param: {
-    columns: TableColumnCtx<Record<string, unknown>>[]
-    data: T[]
-  }) => (string | VNode)[]
-  sortTableRowClassName?: (data: { row: T; rowIndex: number }) => string
-  showCheckBtn?: boolean
-  showEditBtn?: boolean
-  showExpand?: boolean
-  preserveExpanded?: boolean
-}>()
+defineProps<SortTableProps<T>>()
 
-const emit = defineEmits<{
-  (e: 'open:transfer'): void
-  (e: 'click:downloadExcelFile'): void
-  (e: 'update:selectRow', value: T[]): void
-  (e: 'click:cell', column: TableColumn<T>, row: T): void
-  (e: 'click:columnSort', data: SortChangValue<T>): void
-  (e: 'click:checkRow', row: T): void
-  (e: 'click:editRow', row: T): void
-}>()
+const emit = defineEmits<SortTableEventMap<T>>()
+
+defineSlots<SortTableSlots<T>>()
 
 const openTransferDialog = () => {
   emit('open:transfer')
@@ -138,7 +104,7 @@ const state = reactive({
       @click:editRow="handleEditClick"
     >
       <template #expand="{ row, $index }" v-if="showExpand">
-        <slot name="expand" :row="row" :$index="$index" />
+        <slot name="expand" v-bind="{ row, $index }" />
       </template>
     </base-table>
   </div>

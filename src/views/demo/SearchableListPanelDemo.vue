@@ -112,27 +112,40 @@ const state = reactive({
 
   // 分頁數據
   pagination: {
-    totalCount: 100,
-    limit: 10,
+    limit: 2,
     page: 1,
   },
+})
+
+const filteredUserData = computed(() => {
+  const keyword = state.searchKeyword.trim().toLocaleLowerCase()
+  if (!keyword) return state.userData
+  return state.userData.filter((user) =>
+    [user.name, user.email, user.department].some((value) =>
+      value.toLocaleLowerCase().includes(keyword),
+    ),
+  )
+})
+
+const pagedUserData = computed(() => {
+  const start = (state.pagination.page - 1) * state.pagination.limit
+  return filteredUserData.value.slice(start, start + state.pagination.limit)
 })
 
 // ==================== 事件處理函數 ====================
 // SearchableListPanel 相關事件處理
 const handleSearchableListSearch = (keyword: string | null) => {
-  console.log('SearchableListPanel 搜尋:', keyword)
   state.searchKeyword = keyword || ''
+  state.pagination.page = 1
 }
 
 const handleSearchableListPageChange = (page: number) => {
-  console.log('SearchableListPanel 頁面變更:', page)
   state.pagination.page = page
 }
 
 const handleSearchableListPageSizeChange = (limit: number) => {
-  console.log('SearchableListPanel 頁面大小變更:', limit)
   state.pagination.limit = limit
+  state.pagination.page = 1
 }
 
 const router = useRouter()
@@ -150,7 +163,7 @@ const handleSearchableListBackClick = () => {
           <div>
             <h2 class="text-2xl font-semibold text-gray-900 mb-2">SearchableListPanel 示範</h2>
             <p class="text-gray-600 text-base leading-relaxed">
-              展示 SearchableListPanel 組件的完整功能
+              以本地 mock 資料展示可執行的搜尋與分頁，不包含 API 或持久化。
             </p>
           </div>
           <div class="flex items-center gap-4">
@@ -166,7 +179,8 @@ const handleSearchableListBackClick = () => {
       <div class="p-8">
         <SearchableListPanel
           title="用戶管理"
-          :pagination="state.pagination"
+          :pagination="{ ...state.pagination, totalCount: filteredUserData.length }"
+          :page-size-list="[2, 5, 10]"
           :show-back="true"
           :show-search="true"
           :locale="elementLocale"
@@ -195,7 +209,7 @@ const handleSearchableListBackClick = () => {
           <template #main>
             <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
               <BaseTable
-                :data="state.userData.slice(0, state.pagination.limit)"
+                :data="pagedUserData"
                 :columns="state.userColumns.filter((item) => item.checkActive)"
                 :loading="state.sortTableLoading"
                 :show-selection="true"

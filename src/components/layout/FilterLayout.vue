@@ -1,20 +1,14 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { MainPanel, BaseBtn } from '@/components'
+import MainPanel from './MainPanel.vue'
+import BaseBtn from '../items/BaseBtn.vue'
+import type { FilterLayoutSlots, FilterLayoutEventMap, FilterLayoutProps } from '../../types/components'
 
 const { t } = useI18n()
 
-defineProps<{
-  mainTitle: string
-  showBack?: boolean | string | object
-  filterTitle: string
-}>()
+defineProps<FilterLayoutProps>()
 
-const emit = defineEmits<{
-  (e: 'submitEmit'): void
-  (e: 'resetEmit'): void
-  (e: 'click:back'): void
-}>()
+const emit = defineEmits<FilterLayoutEventMap>()
 
 const doFilter = () => {
   emit('submitEmit')
@@ -26,6 +20,7 @@ const resetFilter = () => {
 const handleBackClick = () => {
   emit('click:back')
 }
+defineSlots<FilterLayoutSlots>()
 </script>
 
 <template>

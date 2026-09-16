@@ -1,37 +1,19 @@
 <script setup lang="ts" generic="T = Record<string, unknown>">
-import type { TableColumn } from 'src/types'
 import { ArrowUp, ArrowDown, Top, Bottom, Lock, Unlock } from '@element-plus/icons-vue'
 import { computed, reactive, watch } from 'vue'
-import { BaseBtn } from '@/components'
+import BaseBtn from '../items/BaseBtn.vue'
 import type { Component } from 'vue'
+import type { TransferItemEventMap, TransferItemProps } from '../../types/components'
 
-const props = defineProps<{
-  dialogModalVisible: boolean
-  columnsValue: TableColumn<T>
-  columnsIndex: number
-  columnsLen: number
-}>()
+const props = defineProps<TransferItemProps<T>>()
 const state = reactive({
   itemOnHover: false,
   itemOnClick: false,
 })
 
-type TEmitKey =
-  | 'update:toLock'
-  | 'update:toUnLock'
-  | 'update:toTop'
-  | 'update:toPre'
-  | 'update:toNext'
-  | 'update:toBottom'
+type TEmitKey = keyof TransferItemEventMap
 
-const emits = defineEmits<{
-  (e: 'update:toUnLock'): void
-  (e: 'update:toLock'): void
-  (e: 'update:toTop'): void
-  (e: 'update:toPre'): void
-  (e: 'update:toNext'): void
-  (e: 'update:toBottom'): void
-}>()
+const emits = defineEmits<TransferItemEventMap>()
 
 const onMouseDown = () => {
   state.itemOnClick = true
@@ -114,7 +96,7 @@ const onItemBtnClick = (key: TEmitKey) => {
     <el-checkbox :label="columnsValue.label" :value="columnsValue.prop" :key="columnsValue.prop" />
 
     <el-row class="transfer-arrow-wrapper" justify="space-around" :gutter="8">
-      <el-col :span="itemSpan" v-for="item in btnList">
+      <el-col :span="itemSpan" v-for="item in btnList" :key="item.emitKey">
         <base-btn
           :icon="item.icon"
           :disabled="item.isDisabled"
