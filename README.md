@@ -1900,6 +1900,8 @@ const getRowClass = ({ row, rowIndex }: any) => {
 
 ### 本地開發
 
+驗證與發布使用 Node.js 22.16+、npm 11.6.0，與 CI 的 npm 版本一致。npm 10.9.2 的 `npm pack --ignore-scripts` 仍會執行 `prepare`，因此不適用於本專案的隔離打包驗證。
+
 ```bash
 # 克隆項目
 git clone https://github.com/your-username/vue-table-components.git
