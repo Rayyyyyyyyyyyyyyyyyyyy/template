@@ -1,15 +1,25 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
 import type { SortChangValue, TableColumn } from '@/types'
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import { Setting } from '@element-plus/icons-vue'
+import { useI18n } from 'vue-i18n'
 import BaseTable from './BaseTable.vue'
 import type { SortTableEventMap, SortTableProps, SortTableSlots } from '../../types/components'
 
-defineProps<SortTableProps<T>>()
+const props = defineProps<SortTableProps<T>>()
+const { t } = useI18n()
+const tableProps = computed(() => {
+  const { tableTitle: _title, sortTableRowClassName, ...shared } = props
+  return { ...shared, baseTableRowClassName: sortTableRowClassName ?? shared.baseTableRowClassName }
+})
 
 const emit = defineEmits<SortTableEventMap<T>>()
 
-defineSlots<SortTableSlots<T>>()
+const slots = defineSlots<SortTableSlots<T>>()
+const tableSlots = () => {
+  const { firstButton: _firstButton, ...shared } = slots
+  return shared
+}
 
 const openTransferDialog = () => {
   emit('open:transfer')
@@ -43,20 +53,24 @@ const state = reactive({
 
 <template>
   <div class="w-full mb-4">
-    <div class="flex items-center h-12 bg-gray-200 px-1.5 rounded-t justify-end">
-      <div class="flex items-center mr-4">
+    <div class="flex flex-wrap items-center min-h-12 bg-gray-200 px-1.5 rounded-t justify-end">
+      <div class="flex flex-wrap items-center gap-1">
         <slot name="firstButton"></slot>
-        <div
-          class="cursor-pointer text-text text-xl flex items-center justify-center hover:text-blue-600"
+        <button
+          type="button"
+          :aria-label="t('table.configureColumns')"
+          class="table-icon-action cursor-pointer text-text text-xl flex items-center justify-center hover:text-blue-600"
           @click="openTransferDialog"
         >
-          <el-icon>
+          <el-icon aria-hidden="true">
             <Setting />
           </el-icon>
-        </div>
+        </button>
 
-        <div
-          class="cursor-pointer flex items-center justify-center ml-1"
+        <button
+          type="button"
+          :aria-label="t('table.exportExcel')"
+          class="table-icon-action cursor-pointer flex items-center justify-center"
           @mouseenter="state.itemOnHover = true"
           @mouseleave="state.itemOnHover = false"
           @click="handelExcelClick"
@@ -64,50 +78,42 @@ const state = reactive({
           <img
             v-if="!state.itemOnHover"
             src="@/assets/icons/excel.svg"
-            alt="Excel"
+            alt=""
             class="w-6 h-6"
           />
           <img
             v-if="state.itemOnHover"
             src="@/assets/icons/excel-active.svg"
-            alt="Excel-active"
+            alt=""
             class="w-6 h-6"
           />
-        </div>
+        </button>
       </div>
     </div>
 
     <base-table
-      v-loading="loading"
-      :data="data"
-      :columns="columns"
-      :row-key="rowKey"
-      :tree-props="treeProps"
-      :default-expand-all="defaultExpandAll"
-      :expand-row-keys="expandRowKeys"
-      :lazy="lazy"
-      :load="load"
-      :show-summary="showSummary"
-      :show-over-flow-tooltip="showOverFlowTooltip"
-      :summary-method="summaryMethod"
-      :show-selection="showSelection"
-      :show-index="showIndex"
-      :show-expand="showExpand"
-      :base-table-row-class-name="sortTableRowClassName"
-      :show-check-btn="showCheckBtn"
-      :show-edit-btn="showEditBtn"
-      :preserve-expanded="preserveExpanded"
+      v-bind="tableProps"
       @selection-change="handleSelectionChange"
       @cell-click="handleCellClick"
       @column-sort-change="handleColumnSortChange"
       @click:checkRow="handleCheckClick"
       @click:editRow="handleEditClick"
     >
-      <template #expand="{ row, $index }" v-if="showExpand">
-        <slot name="expand" v-bind="{ row, $index }" />
+      <template v-for="(_, name) in tableSlots()" #[name]="scope">
+        <slot :name="name" v-bind="scope" />
       </template>
     </base-table>
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.table-icon-action {
+  min-width: 44px;
+  min-height: 44px;
+
+  &:focus-visible {
+    outline: 2px solid var(--main-color);
+    outline-offset: 2px;
+  }
+}
+</style>

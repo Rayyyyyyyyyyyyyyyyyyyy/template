@@ -34,5 +34,15 @@
   "button.delete": "刪除",
   "common.save": "儲存",
   "common.discard": "捨棄",
-  "table.empty": "暫無資料"
+  "table.empty": "暫無資料",
+  "common.back": "返回",
+  "search.label": "搜尋",
+  "table.configureColumns": "設定欄位",
+  "table.exportExcel": "匯出 Excel",
+  "transfer.unlock": "解鎖 {column}",
+  "transfer.lock": "鎖定 {column}",
+  "transfer.top": "將 {column} 置頂",
+  "transfer.previous": "將 {column} 上移",
+  "transfer.next": "將 {column} 下移",
+  "transfer.bottom": "將 {column} 置底"
 }

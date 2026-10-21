@@ -1,10 +1,5 @@
 import { createApp } from 'vue'
 import { createI18n } from 'vue-i18n'
-import { computed } from 'vue'
-
-import ElementPlus from 'element-plus'
-import zhTw from 'element-plus/es/locale/lang/zh-tw'
-import enUs from 'element-plus/es/locale/lang/en'
 
 import App from './App.vue'
 import router from './router'
@@ -12,7 +7,6 @@ import { messages as componentMessages } from './locales'
 import '@/assets/base.css'
 import '@/assets/styles/tailwind.scss'
 import '@/assets/styles/element/index.scss'
-import 'element-plus/dist/index.css'
 
 const app = createApp(App)
 
@@ -26,18 +20,6 @@ const i18n = createI18n({
 })
 
 app.use(i18n)
-
-// Element Plus 也要跟著語系切換（響應式）
-const elementLocale = computed(() => {
-  return i18n.global.locale.value === 'zh-TW' ? zhTw : enUs
-})
-
-app.use(ElementPlus, {
-  locale: zhTw, // 預設使用繁體中文
-})
-
-// 提供全域的 Element Plus locale 響應式更新
-app.provide('elementLocale', elementLocale)
 
 app.use(router)
 

@@ -35,6 +35,16 @@ $colors: (
   --main-color-dark-2: #005b96;
   --main-color-border: #c5c8cc;
 
+  // Control text/fills keep decorative status colors unchanged.
+  --control-success: #357a1c;
+  --control-success-hover: #2a6116;
+  --control-warning: #8a570b;
+  --control-warning-hover: #6e4609;
+  --control-danger: #c23030;
+  --control-danger-hover: #9b2626;
+  --control-info: #606266;
+  --control-info-hover: #4d4e52;
+
   // 成功色系
   --el-color-success: #67c23a;
   --el-color-success-light-3: #85ce61;

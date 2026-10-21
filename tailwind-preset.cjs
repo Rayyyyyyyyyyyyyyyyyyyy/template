@@ -95,6 +95,7 @@ module.exports = {
           50: '#58ffc7',
           70: '#16ffb1',
           dark: '#008e5e',
+          control: { DEFAULT: '#006b47', hover: '#005437' },
         },
         purple: '#8246af',
         orange: '#d76b00',

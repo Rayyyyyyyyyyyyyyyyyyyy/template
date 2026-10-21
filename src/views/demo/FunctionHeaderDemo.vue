@@ -1,18 +1,13 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 import { FunctionHeader } from '@/components'
+import HeaderExample from '../../../tests/consumer/src/examples/HeaderExample.vue'
+import headerSource from '../../../tests/consumer/src/examples/HeaderExample.vue?raw'
+import ExampleCode from '../docs/ExampleCode.vue'
 
-const router = useRouter()
-
-
-// 處理返回按鈕點擊事件
+const lastBack = ref('尚未返回')
 const handleBack = (payload: { path?: string; [key: string]: unknown }) => {
-  if (payload.path) {
-    router.push(payload.path)
-  } else {
-    // 預設返回上一頁
-    router.go(-1)
-  }
+  lastBack.value = JSON.stringify(payload)
 }
 </script>
 
@@ -67,62 +62,13 @@ const handleBack = (payload: { path?: string; [key: string]: unknown }) => {
         />
       </el-card>
 
-      <!-- 帶深度的返回按鈕 -->
       <el-card class="mb-8" shadow="always">
-        <template #header>
-          <h2 class="text-xl font-semibold">帶深度的返回按鈕</h2>
-        </template>
-        <FunctionHeader
-          title="多層級頁面"
-          :show-back="true"
-          :depth="2"
-          @back="handleBack"
-        />
+        <template #header><h2 class="text-xl font-semibold">完整使用範例與操作插槽</h2></template>
+        <HeaderExample />
+        <ExampleCode :source="headerSource" />
       </el-card>
-
-      <!-- 帶副標題的標題 -->
-      <el-card class="mb-8" shadow="always">
-        <template #header>
-          <h2 class="text-xl font-semibold">帶副標題的標題</h2>
-        </template>
-        <FunctionHeader
-          title="用戶管理系統"
-          sub-title="管理系統中的所有用戶信息"
-        />
-      </el-card>
-
-      <!-- 帶麵包屑的標題 -->
-      <el-card class="mb-8" shadow="always">
-        <template #header>
-          <h2 class="text-xl font-semibold">帶麵包屑的標題</h2>
-        </template>
-        <FunctionHeader
-          title="編輯用戶"
-          :breadcrumbs="[
-            { label: '首頁', path: '/' },
-            { label: '用戶管理', path: '/users' },
-            { label: '編輯用戶', path: '/users/edit' }
-          ]"
-          @back="handleBack"
-        />
-      </el-card>
-
-      <!-- 完整功能展示 -->
-      <el-card class="mb-8" shadow="always">
-        <template #header>
-          <h2 class="text-xl font-semibold">完整功能展示</h2>
-        </template>
-        <FunctionHeader
-          title="產品管理系統"
-          sub-title="管理所有產品信息和庫存"
-          :breadcrumbs="[
-            { label: '首頁', path: '/' },
-            { label: '產品管理', path: '/products' }
-          ]"
-          :show-back="true"
-          @back="handleBack"
-        />
-      </el-card>
+      <p>上方返回操作只記錄 payload；實際導頁由宿主決定。</p>
+      <output aria-live="polite">{{ lastBack }}</output>
 
       <!-- 功能展示說明 -->
       <el-card class="mb-8" shadow="always">
@@ -142,7 +88,7 @@ const handleBack = (payload: { path?: string; [key: string]: unknown }) => {
             </li>
             <li class="flex items-start">
               <span class="text-gray-600 mr-2 mt-0.5">•</span>
-              <span><strong>返回深度：</strong>支持指定返回的層級數量</span>
+              <span><strong>操作插槽：</strong>使用 default slot 放置自訂操作</span>
             </li>
             <li class="flex items-start">
               <span class="text-gray-600 mr-2 mt-0.5">•</span>

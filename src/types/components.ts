@@ -100,62 +100,19 @@ export interface BaseTableInstance<T extends Record<string, unknown> = Record<st
 // ==================== SortTable 組件類型 ====================
 
 /** SortTable 組件 Props 類型 */
-export interface SortTableProps<T extends Record<string, unknown> = Record<string, unknown>> {
-  /** 表格數據 */
-  data: T[]
-  /** 表格列配置 */
-  columns: import('./index').TableColumn<T>[]
-  /** 行資料的 Key（樹形資料與懶加載建議必填） */
-  rowKey?: string | ((row: T) => string)
-  /** 樹形資料配置 */
-  treeProps?: {
-    children?: string
-    hasChildren?: string
-    checkStrictly?: boolean
-  }
-  /** 是否預設展開所有節點 */
-  defaultExpandAll?: boolean
-  /** 指定預設展開的行 keys */
-  expandRowKeys?: string[]
-  /** 是否啟用懶加載子節點 */
-  lazy?: boolean
-  /** 懶加載函式 */
-  load?: (row: T, treeNode: unknown, resolve: (data: T[]) => void) => void
-  /** 表格標題 */
+export interface SortTableProps<T extends Record<string, unknown> = Record<string, unknown>>
+  extends BaseTableProps<T> {
+  /** 表格標題（保留既有契約） */
   tableTitle?: string
-  /** 是否顯示選擇列 */
-  showSelection?: boolean
-  /** 是否顯示索引列 */
-  showIndex?: boolean
-  /** 是否顯示加載狀態 */
-  loading?: boolean
-  /** 是否顯示匯總行 */
-  showSummary?: boolean
-  /** 是否顯示溢出提示 */
-  showOverFlowTooltip?: boolean
-  /** 匯總方法 */
-  summaryMethod?: (param: {
-    columns: import('element-plus').TableColumnCtx<Record<string, unknown>>[]
-    data: T[]
-  }) => (string | import('vue').VNode)[]
-  /** 行樣式類名 */
-  sortTableRowClassName?: (data: { row: T; rowIndex: number }) => string
-  /** 是否顯示展開列 */
-  showExpand?: boolean
-  /** 是否顯示查看按鈕 */
-  showCheckBtn?: boolean
-  /** 是否顯示編輯按鈕 */
-  showEditBtn?: boolean
-  /** 是否保留展開內容 */
-  preserveExpanded?: boolean
+  /** 舊名稱優先於 baseTableRowClassName */
+  sortTableRowClassName?: BaseTableProps<T>['baseTableRowClassName']
 }
 
 /** SortTable 組件 Slots 類型 */
-export interface SortTableSlots<T extends Record<string, unknown> = Record<string, unknown>> {
+export interface SortTableSlots<T extends Record<string, unknown> = Record<string, unknown>>
+  extends BaseTableSlots<T> {
   /** 第一個按鈕 slot */
   firstButton?: () => VNode[]
-  /** 展開行內容 slot */
-  expand?: (props: { row: T; $index: number }) => VNode[]
 }
 
 export interface SortTableEventMap<T extends Record<string, unknown> = Record<string, unknown>> {
@@ -189,68 +146,25 @@ export interface SortTableInstance<T extends Record<string, unknown> = Record<st
 // ==================== TitleTable 組件類型 ====================
 
 /** TitleTable 組件 Props 類型 */
-export interface TitleTableProps<T extends Record<string, unknown> = Record<string, unknown>> {
-  /** 表格數據 */
-  data: T[]
-  /** 表格列配置 */
-  columns: import('./index').TableColumn<T>[]
-  /** 行資料的 Key（樹形資料與懶加載建議必填） */
-  rowKey?: string | ((row: T) => string)
-  /** 樹形資料配置 */
-  treeProps?: {
-    children?: string
-    hasChildren?: string
-    checkStrictly?: boolean
-  }
-  /** 是否預設展開所有節點 */
-  defaultExpandAll?: boolean
-  /** 指定預設展開的行 keys */
-  expandRowKeys?: string[]
-  /** 是否啟用懶加載子節點 */
-  lazy?: boolean
-  /** 懶加載函式 */
-  load?: (row: T, treeNode: unknown, resolve: (data: T[]) => void) => void
+export interface TitleTableProps<T extends Record<string, unknown> = Record<string, unknown>>
+  extends BaseTableProps<T> {
   /** 表格標題 */
   tableTitle?: string
-  /** 是否可編輯（顯示新增/刪除按鈕） */
+  /** 是否可編輯（顯示新增/刪除按鈕，並啟用選取） */
   propIsEditable?: boolean
-  /** 是否顯示選擇列 */
-  showSelection?: boolean
-  /** 是否顯示索引列 */
-  showIndex?: boolean
-  /** 是否只顯示刪除按鈕（隱藏新增按鈕） */
+  /** 是否只顯示刪除按鈕 */
   onlyDelete?: boolean
   /** 是否顯示刪除按鈕 */
   showDelete?: boolean
-  /** 是否顯示加載狀態 */
-  loading?: boolean
-  /** 是否顯示匯總行 */
-  showSummary?: boolean
-  /** 是否顯示溢出提示 */
-  showOverFlowTooltip?: boolean
-  /** 匯總方法 */
-  summaryMethod?: (param: {
-    columns: import('element-plus').TableColumnCtx<Record<string, unknown>>[]
-    data: T[]
-  }) => (string | import('vue').VNode)[]
-  /** 是否顯示展開列 */
-  showExpand?: boolean
-  /** 是否顯示查看按鈕 */
-  showCheckBtn?: boolean
-  /** 是否顯示編輯按鈕 */
-  showEditBtn?: boolean
-  /** 是否保留展開內容 */
-  preserveExpanded?: boolean
 }
 
 /** TitleTable 組件 Slots 類型 */
-export interface TitleTableSlots<T extends Record<string, unknown> = Record<string, unknown>> {
+export interface TitleTableSlots<T extends Record<string, unknown> = Record<string, unknown>>
+  extends BaseTableSlots<T> {
   /** 搜尋 slot */
   tableSearch?: () => VNode[]
   /** 編輯按鈕 slot */
   editBtn?: () => VNode[]
-  /** 展開行內容 slot */
-  expand?: (props: { row: T; $index: number }) => VNode[]
 }
 
 export interface TitleTableEventMap<
@@ -625,7 +539,7 @@ export interface FunctionHeaderProps {
   title?: string
   /** 是否顯示返回按鈕 */
   showBack?: boolean | string | object
-  /** 返回深度 */
+  /** 歷史相容欄位，目前不影響返回行為或 payload */
   depth?: number
 }
 
@@ -653,7 +567,7 @@ export interface MainPanelProps {
   title?: string
   /** 是否顯示返回按鈕 */
   showBack?: boolean | string | object
-  /** 返回深度 */
+  /** 歷史相容欄位，目前不影響返回行為或 payload */
   depth?: number
 }
 

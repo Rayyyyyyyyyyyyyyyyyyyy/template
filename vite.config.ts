@@ -56,6 +56,7 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: [
         { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
+        ...(!isLib ? [{ find: 'rayyy-vue-table-components/components', replacement: fileURLToPath(new URL('./src/components/index.ts', import.meta.url)) }] : []),
         ...(isLib ? [{ find: /^element-plus\/es$/, replacement: 'element-plus' }] : []),
       ],
     },

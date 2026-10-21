@@ -1,7 +1,17 @@
 import assert from 'node:assert/strict'
 import { createApp } from 'vue'
 import { createRequire } from 'node:module'
+import { execFileSync } from 'node:child_process'
+import { fileURLToPath } from 'node:url'
 import { compileEmitsConsumer, emitContracts } from './emits-contract.mjs'
+
+for (const format of ['esm', 'cjs']) {
+  const root = 'rayyy-vue-table-components'
+  const components = `${root}/components`
+  for (const entries of [[components], [root], [components, root], [root, components]]) {
+    execFileSync(process.execPath, [fileURLToPath(new URL('./install-check.mjs', import.meta.url)), format, ...entries], { stdio: 'inherit' })
+  }
+}
 
 const require = createRequire(import.meta.url)
 for (const [typeName, events] of emitContracts) {

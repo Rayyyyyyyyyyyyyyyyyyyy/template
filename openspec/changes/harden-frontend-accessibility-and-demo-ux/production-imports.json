@@ -1,0 +1,75 @@
+[
+  {
+    "file": "src/components/tables/BaseTable.vue",
+    "resolvedImports": [
+      "ElLoadingDirective",
+      "ElTable",
+      "ElTableColumn",
+      "ElEmpty"
+    ],
+    "styles": [
+      "element-plus/es/components/base/style/css.mjs",
+      "element-plus/es/components/loading/style/css.mjs",
+      "element-plus/es/components/empty/style/css.mjs",
+      "element-plus/es/components/table/style/css.mjs",
+      "element-plus/es/components/divider/style/css.mjs",
+      "element-plus/es/components/table-column/style/css.mjs"
+    ]
+  },
+  {
+    "file": "src/components/items/BaseDialog.vue",
+    "resolvedImports": [
+      "ElLoadingDirective",
+      "ElDialog"
+    ],
+    "styles": [
+      "element-plus/es/components/base/style/css.mjs",
+      "element-plus/es/components/loading/style/css.mjs",
+      "element-plus/es/components/dialog/style/css.mjs"
+    ]
+  },
+  {
+    "file": "src/components/layout/DetailLayout.vue",
+    "resolvedImports": [
+      "ElLoadingDirective"
+    ],
+    "styles": [
+      "element-plus/es/components/base/style/css.mjs",
+      "element-plus/es/components/loading/style/css.mjs"
+    ]
+  },
+  {
+    "file": "src/components/form/BaseInput.vue",
+    "resolvedImports": [
+      "ElInput",
+      "ElIcon"
+    ],
+    "styles": [
+      "element-plus/es/components/base/style/css.mjs",
+      "element-plus/es/components/input/style/css.mjs",
+      "element-plus/es/components/icon/style/css.mjs"
+    ]
+  },
+  {
+    "file": "src/components/layout/SearchableListPanel.vue",
+    "resolvedImports": [
+      "ElPagination",
+      "ElConfigProvider"
+    ],
+    "styles": [
+      "element-plus/es/components/base/style/css.mjs",
+      "element-plus/es/components/config-provider/style/css.mjs",
+      "element-plus/es/components/pagination/style/css.mjs"
+    ]
+  },
+  {
+    "file": "src/App.vue",
+    "resolvedImports": [
+      "ElConfigProvider"
+    ],
+    "styles": [
+      "element-plus/es/components/base/style/css.mjs",
+      "element-plus/es/components/config-provider/style/css.mjs"
+    ]
+  }
+]

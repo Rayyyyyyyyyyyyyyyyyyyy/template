@@ -29,6 +29,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      'rayyy-vue-table-components/components': fileURLToPath(new URL('./src/components/index.ts', import.meta.url)),
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },

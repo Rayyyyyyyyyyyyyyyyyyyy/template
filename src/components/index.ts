@@ -1,20 +1,37 @@
-// 單獨導出組件
-export { default as BaseTable } from './tables/BaseTable.vue'
-export { default as BaseBtn } from './items/BaseBtn.vue'
-export { default as BaseInput } from './form/BaseInput.vue'
-export { default as BaseSelector } from './form/BaseSelector.vue'
-export { default as BaseDialog } from './items/BaseDialog.vue'
-export { default as BaseWaringDialog } from './items/BaseWaringDialog.vue'
-export { default as SortTable } from './tables/SortTable.vue'
-export { default as TitleTable } from './tables/TitleTable.vue'
-export { default as SearchBar } from './items/SearchBar.vue'
-export { default as TransferDialog } from './transfer/TransferDialog.vue'
-export { default as TransferItem } from './transfer/transferItem.vue'
-export { default as FunctionHeader } from './layout/FunctionHeader.vue'
-export { default as MainPanel } from './layout/MainPanel.vue'
-export { default as SearchableListPanel } from './layout/SearchableListPanel.vue'
-export { default as DetailLayout } from './layout/DetailLayout.vue'
-export { default as FilterLayout } from './layout/FilterLayout.vue'
+import { withInstall } from './withInstall'
+import BaseTableSfc from './tables/BaseTable.vue'
+import BaseBtnSfc from './items/BaseBtn.vue'
+import BaseInputSfc from './form/BaseInput.vue'
+import BaseSelectorSfc from './form/BaseSelector.vue'
+import BaseDialogSfc from './items/BaseDialog.vue'
+import BaseWaringDialogSfc from './items/BaseWaringDialog.vue'
+import SortTableSfc from './tables/SortTable.vue'
+import TitleTableSfc from './tables/TitleTable.vue'
+import SearchBarSfc from './items/SearchBar.vue'
+import TransferDialogSfc from './transfer/TransferDialog.vue'
+import TransferItemSfc from './transfer/transferItem.vue'
+import FunctionHeaderSfc from './layout/FunctionHeader.vue'
+import MainPanelSfc from './layout/MainPanel.vue'
+import SearchableListPanelSfc from './layout/SearchableListPanel.vue'
+import DetailLayoutSfc from './layout/DetailLayout.vue'
+import FilterLayoutSfc from './layout/FilterLayout.vue'
+
+export const BaseTable = withInstall(BaseTableSfc, 'BaseTable')
+export const BaseBtn = withInstall(BaseBtnSfc, 'BaseBtn')
+export const BaseInput = withInstall(BaseInputSfc, 'BaseInput')
+export const BaseSelector = withInstall(BaseSelectorSfc, 'BaseSelector')
+export const BaseDialog = withInstall(BaseDialogSfc, 'BaseDialog')
+export const BaseWaringDialog = withInstall(BaseWaringDialogSfc, 'BaseWaringDialog')
+export const SortTable = withInstall(SortTableSfc, 'SortTable')
+export const TitleTable = withInstall(TitleTableSfc, 'TitleTable')
+export const SearchBar = withInstall(SearchBarSfc, 'SearchBar')
+export const TransferDialog = withInstall(TransferDialogSfc, 'TransferDialog')
+export const TransferItem = withInstall(TransferItemSfc, 'TransferItem')
+export const FunctionHeader = withInstall(FunctionHeaderSfc, 'FunctionHeader')
+export const MainPanel = withInstall(MainPanelSfc, 'MainPanel')
+export const SearchableListPanel = withInstall(SearchableListPanelSfc, 'SearchableListPanel')
+export const DetailLayout = withInstall(DetailLayoutSfc, 'DetailLayout')
+export const FilterLayout = withInstall(FilterLayoutSfc, 'FilterLayout')
 
 // 導出組件類型
 export type {

@@ -1,5 +1,7 @@
 # 元件庫封包契約與驗證紀錄
 
+2026-10-20 可及性與 demo UX apply 的實作、相容性及本次驗證結果，見 [獨立證據紀錄](../openspec/changes/harden-frontend-accessibility-and-demo-ux/evidence.md)。該紀錄區分非瀏覽器檢查與尚未授權的瀏覽器驗收；不沿用下方歷史結果作為本次驗收。
+
 ## 基線（161589c / 2.0.56，2026-09-16）
 
 未找到適用的 AGENTS.md。工作目錄起始乾淨。這次另在 git 的 `c04d947` archive-cleanup 快照找到未合併的實作；取用前逐項審查，所有結果以本次重新執行為準，不沿用該快照的驗證宣稱。
@@ -95,3 +97,33 @@
 - 保留歷史 callable／handler map 及事件名稱；其中分頁 boolean 回傳型別是相容宣告，不能視為 Vue `$emit` 在 runtime 有 boolean 回傳保證。
 - 3.0 另案候選：`BaseWarningDialog` alias／命名遷移、事件名稱統一、API 文件生成、deprecated standalone locale API 的移除策略。本 change 不做改名、升版、tag 或發布。
 
+
+## 2026-10-19：共同 table、可執行範例與安裝所有權
+
+本次保留版本 2.1.0、公開名稱、事件與 subpaths，沒有 tag、push 或發布。
+
+### 決策與相容性
+
+- BaseTable 擁有共同 props、slots、預設值與 loading 顯示。SortTableProps、TitleTableProps 及兩者的 slots 繼承相同來源；adapter 僅排除自己的工具列設定、保留自己的事件轉換，其他共同 props / slots 直接傳給 BaseTable。
+- SortTable 的 `sortTableRowClassName` 保留，優先於共同名稱 `baseTableRowClassName`。TitleTable 的 `propIsEditable || showSelection` 選取政策保留；沒有把各自公開事件重新命名或直接轉發所有 attrs。
+- BaseTable 增加一個包住表格與空狀態的 loading 容器。首次載入空資料時顯示等待訊息與 aria-busy，載入完成才顯示空結果；已有資料時保留表格。此 DOM 結構改動尚未做瀏覽器版面驗證。
+- 安裝能力在 `/components` 匯出值建立時附加，root 使用相同值；單項安裝不再依賴 root 的頂層初始化。兩個入口的同名值保持 identity，ESM/CJS 各自適用。root default 的歷史數字索引順序另外保留，避免 namespace key 排序改變它。
+- 完整文件範例以 `tests/consumer/src/examples` 為唯一來源。文件中心透過 raw import 展示、複製；安裝指南使用其中的兩個入口；README 連到完整來源。移除手抄的程式片段與型別鏡像，以公開 declarations 與來源連結取代；沒有建立全面文件產生器。
+- 18 份來源均納入 consumer 的型別檢查與獨立 Vite entry；保留 entry exports，避免未使用的範例內容被整份消除。新增檔案後，文件中心自動列出，README 完整性測試要求補上來源連結。
+- 複製操作明確處理等待、成功、失敗、重試與不支援的環境；失敗時仍可手動選取來源。BaseBtn 恢復可見的鍵盤 focus outline。
+
+### 驗證方式
+
+- `TableFamily.test.ts` 從兩個公開 adapter 驗證共同列樣式、展開、選取、列操作、樹形懶載入、loading 與歷史事件／alias；不以抽出的純函式代替接線測試。
+- `ExampleBehavior.test.ts` 直接掛載 canonical examples，驗證排序／取消排序、新增／選取刪除、搜尋重設頁碼與編輯取消／儲存。這些本地掛載測試使用明確的 test-only source aliases，避免依賴舊 dist；消費端仍完全使用 tarball，沒有 repo aliases。
+- `DocumentationExamples.test.ts` 比對文件實際展示的原文與全部 fixture 檔案，並確認安裝指南與 README 指向相同來源。`ExampleCode.test.ts` 驗證複製文字與狀態、重複操作、失敗後重試及不支援環境。
+- `install-check.mjs` 在八個獨立 Node process 驗證 root-only、components-only 及兩種匯入順序，涵蓋 ESM/CJS、全部 16 個單項、plugin 註冊、identity 與歷史數字索引。
+- 共同 gate 的發布與升版阻斷仍透過隔離 stub / dry-run fixtures 驗證，沒有執行真實發布。
+
+### 本次實際結果
+
+- lint、Vue 型別檢查、12 個測試檔／59 個測試、lib build、demo build、乾淨 tarball consumer 與隔離 release 阻斷檢查全部通過。
+- consumer 完成 18 份範例的型別檢查／保留 exports 的建置、10 個公開入口及八組獨立安裝檢查。
+- 初次 consumer 檢查遭全域 npm 快取寫入限制；改用 `/tmp/template-npm-cache`。其後 registry DNS 受限，允許隔離安裝連線後通過；最後一輪使用該暫存快取重跑通過，未修改全域快取權限或使用 legacy-peer-deps。
+- 保留既有建置提示：Browserslist 資料過期、vue-i18n 10 的維護提示、部分 chunk 超過 500 kB，以及 Rollup 的空 types chunk／混合 named-default exports 提示；本次沒有新增依賴、升級套件或宣稱體積優化。
+- 未執行瀏覽器、Cypress、完整 verify、遠端 CI、部署或正式發布；本地掛載測試不等於瀏覽器版面或真實剪貼簿權限驗證。

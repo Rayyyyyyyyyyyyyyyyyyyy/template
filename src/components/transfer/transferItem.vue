@@ -1,11 +1,13 @@
 <script setup lang="ts" generic="T = Record<string, unknown>">
 import { ArrowUp, ArrowDown, Top, Bottom, Lock, Unlock } from '@element-plus/icons-vue'
 import { computed, reactive, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import BaseBtn from '../items/BaseBtn.vue'
 import type { Component } from 'vue'
 import type { TransferItemEventMap, TransferItemProps } from '../../types/components'
 
 const props = defineProps<TransferItemProps<T>>()
+const { t } = useI18n()
 const state = reactive({
   itemOnHover: false,
   itemOnClick: false,
@@ -37,6 +39,7 @@ watch(
 interface IItem {
   icon: Component
   emitKey: TEmitKey
+  labelKey: string
   isDisabled: boolean
 }
 
@@ -46,31 +49,37 @@ const btnList = computed((): IItem[] => [
   {
     icon: Unlock,
     emitKey: 'update:toUnLock',
+    labelKey: 'transfer.unlock',
     isDisabled: !isLockItem.value,
   },
   {
     icon: Lock,
     emitKey: 'update:toLock',
+    labelKey: 'transfer.lock',
     isDisabled: isLockItem.value,
   },
   {
     icon: Top,
     emitKey: 'update:toTop',
+    labelKey: 'transfer.top',
     isDisabled: props.columnsIndex === 0,
   },
   {
     icon: ArrowUp,
     emitKey: 'update:toPre',
+    labelKey: 'transfer.previous',
     isDisabled: props.columnsIndex === 0,
   },
   {
     icon: ArrowDown,
     emitKey: 'update:toNext',
+    labelKey: 'transfer.next',
     isDisabled: props.columnsIndex === props.columnsLen - 1,
   },
   {
     icon: Bottom,
     emitKey: 'update:toBottom',
+    labelKey: 'transfer.bottom',
     isDisabled: props.columnsIndex === props.columnsLen - 1,
   },
 ])
@@ -98,12 +107,14 @@ const onItemBtnClick = (key: TEmitKey) => {
     <el-row class="transfer-arrow-wrapper" justify="space-around" :gutter="8">
       <el-col :span="itemSpan" v-for="item in btnList" :key="item.emitKey">
         <base-btn
-          :icon="item.icon"
+          :aria-label="t(item.labelKey, { column: columnsValue.label })"
           :disabled="item.isDisabled"
           link
           type="primary"
           @click="onItemBtnClick(item.emitKey)"
-        />
+        >
+          <el-icon aria-hidden="true"><component :is="item.icon" /></el-icon>
+        </base-btn>
       </el-col>
     </el-row>
   </div>

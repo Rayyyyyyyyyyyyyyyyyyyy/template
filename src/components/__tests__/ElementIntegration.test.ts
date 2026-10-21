@@ -34,6 +34,35 @@ it('real Element Plus pager inherits a reactive host locale and locally override
   expect(totals()).toEqual(['Total 20', '共 20 項', 'Total 20'])
 })
 
+it('keeps controlled paging and all controls through locale and visibility changes without extra events', async () => {
+  const wrapper = mount(SearchableListPanel, {
+    props: { title: 'Controlled', pagination: { page: 3, limit: 25, totalCount: 1000000 }, pageSizeList: [10, 25, 50], showPagination: true },
+    global: global(),
+  })
+  await flushPromises()
+  const pager = () => wrapper.findComponent(ElPagination)
+  expect(pager().props()).toMatchObject({ currentPage: 3, pageSize: 25, pagerCount: 5 })
+  for (const selector of ['.btn-prev', '.btn-next', '.el-pager .is-active', '.el-pagination__total', '.el-pagination__sizes', '.el-pagination__jump']) {
+    expect(wrapper.find(selector).exists(), selector).toBe(true)
+  }
+  await wrapper.get('.btn-next').trigger('click')
+  expect(wrapper.emitted('updatePage')).toEqual([[4]])
+  pager().vm.$emit('size-change', 50)
+  await wrapper.setProps({ pagination: { page: 4, limit: 50, totalCount: 1000000 } })
+  expect(wrapper.emitted('updatePageSize')).toEqual([[50]])
+  await wrapper.setProps({ locale: en })
+  expect(wrapper.get('.el-pagination__total').text()).toBe('Total 1000000')
+  await wrapper.setProps({ locale: zhTw })
+  expect(wrapper.get('.el-pagination__total').text()).toBe('共 1000000 項')
+  await wrapper.setProps({ showPagination: false })
+  expect(pager().exists()).toBe(false)
+  await wrapper.setProps({ showPagination: true, locale: en })
+  await flushPromises()
+  expect(pager().props()).toMatchObject({ currentPage: 4, pageSize: 50 })
+  expect(wrapper.emitted('updatePage')).toEqual([[4]])
+  expect(wrapper.emitted('updatePageSize')).toEqual([[50]])
+})
+
 it('real table selection, sort, template, expand and cell click retain row identity', async () => {
   const row = { id: 1, name: 'Ada' }
   const column: TableColumn<typeof row> = { prop: 'name', label: 'Name', sortable: 'custom', template: (r) => h('b', r.name) }

@@ -1,0 +1,360 @@
+{
+  "node": "v22.16.0",
+  "gzip": "node:zlib gzipSync defaults (per file)",
+  "lockfileSha256": "5f52efd009146dfd5755af09ec7b5d4047664c0079d8d7614c94ad2da6843658",
+  "entryKeys": [
+    "index.html"
+  ],
+  "preloadFiles": [],
+  "bootstrap": {
+    "js": {
+      "files": [
+        {
+          "file": "assets/index-NlxPCxA3.js",
+          "bytes": 227722,
+          "gzip": 86253
+        }
+      ],
+      "bytes": 227722,
+      "gzip": 86253
+    },
+    "css": {
+      "files": [
+        {
+          "file": "assets/index-BiBl2Q0I.css",
+          "bytes": 38466,
+          "gzip": 7746
+        }
+      ],
+      "bytes": 38466,
+      "gzip": 7746
+    }
+  },
+  "homepage": {
+    "js": {
+      "files": [
+        {
+          "file": "assets/FunctionHeader-CuSwRiAO.js",
+          "bytes": 1225,
+          "gzip": 719
+        },
+        {
+          "file": "assets/HomeLayout-DcNwH8rH.js",
+          "bytes": 2338,
+          "gzip": 994
+        },
+        {
+          "file": "assets/HomePage-CaWdHV7k.js",
+          "bytes": 1468,
+          "gzip": 694
+        },
+        {
+          "file": "assets/index-D3uFQuci.js",
+          "bytes": 14459,
+          "gzip": 4425
+        },
+        {
+          "file": "assets/index-NlxPCxA3.js",
+          "bytes": 227722,
+          "gzip": 86253
+        }
+      ],
+      "bytes": 247212,
+      "gzip": 93085
+    },
+    "css": {
+      "files": [
+        {
+          "file": "assets/FunctionHeader-Bu_E5lrA.css",
+          "bytes": 211,
+          "gzip": 153
+        },
+        {
+          "file": "assets/HomeLayout-DlAu2NI1.css",
+          "bytes": 706,
+          "gzip": 270
+        },
+        {
+          "file": "assets/index-BiBl2Q0I.css",
+          "bytes": 38466,
+          "gzip": 7746
+        }
+      ],
+      "bytes": 39383,
+      "gzip": 8169
+    }
+  },
+  "routes": [
+    {
+      "route": "src/layout/HomeLayout.vue",
+      "js": {
+        "bytes": 245744,
+        "gzip": 92391
+      },
+      "css": {
+        "bytes": 39383,
+        "gzip": 8169
+      }
+    },
+    {
+      "route": "src/views/DemoPage.vue",
+      "js": {
+        "bytes": 535743,
+        "gzip": 189404
+      },
+      "css": {
+        "bytes": 172870,
+        "gzip": 25672
+      }
+    },
+    {
+      "route": "src/views/DocsCenterPage.vue",
+      "js": {
+        "bytes": 285408,
+        "gzip": 107050
+      },
+      "css": {
+        "bytes": 62589,
+        "gzip": 10338
+      }
+    },
+    {
+      "route": "src/views/HomePage.vue",
+      "js": {
+        "bytes": 229190,
+        "gzip": 86947
+      },
+      "css": {
+        "bytes": 38466,
+        "gzip": 7746
+      }
+    },
+    {
+      "route": "src/views/InstallGuidePage.vue",
+      "js": {
+        "bytes": 271624,
+        "gzip": 102425
+      },
+      "css": {
+        "bytes": 62589,
+        "gzip": 10338
+      }
+    },
+    {
+      "route": "src/views/NotFoundPage.vue",
+      "js": {
+        "bytes": 228239,
+        "gzip": 86636
+      },
+      "css": {
+        "bytes": 38466,
+        "gzip": 7746
+      }
+    },
+    {
+      "route": "src/views/demo/BaseBtnDemo.vue",
+      "js": {
+        "bytes": 527535,
+        "gzip": 185239
+      },
+      "css": {
+        "bytes": 172784,
+        "gzip": 25574
+      }
+    },
+    {
+      "route": "src/views/demo/BaseDialogDemo.vue",
+      "js": {
+        "bytes": 558230,
+        "gzip": 196608
+      },
+      "css": {
+        "bytes": 177510,
+        "gzip": 26459
+      }
+    },
+    {
+      "route": "src/views/demo/BaseInputDemo.vue",
+      "js": {
+        "bytes": 528698,
+        "gzip": 185603
+      },
+      "css": {
+        "bytes": 172784,
+        "gzip": 25574
+      }
+    },
+    {
+      "route": "src/views/demo/BaseSelectorDemo.vue",
+      "js": {
+        "bytes": 533074,
+        "gzip": 186119
+      },
+      "css": {
+        "bytes": 172784,
+        "gzip": 25574
+      }
+    },
+    {
+      "route": "src/views/demo/BaseWaringDialogDemo.vue",
+      "js": {
+        "bytes": 526694,
+        "gzip": 185513
+      },
+      "css": {
+        "bytes": 172784,
+        "gzip": 25574
+      }
+    },
+    {
+      "route": "src/views/demo/DetailLayoutDemo.vue",
+      "js": {
+        "bytes": 530860,
+        "gzip": 186349
+      },
+      "css": {
+        "bytes": 171921,
+        "gzip": 25281
+      }
+    },
+    {
+      "route": "src/views/demo/FilterLayoutDemo.vue",
+      "js": {
+        "bytes": 530500,
+        "gzip": 186374
+      },
+      "css": {
+        "bytes": 171921,
+        "gzip": 25281
+      }
+    },
+    {
+      "route": "src/views/demo/FunctionHeaderDemo.vue",
+      "js": {
+        "bytes": 531033,
+        "gzip": 187926
+      },
+      "css": {
+        "bytes": 172784,
+        "gzip": 25574
+      }
+    },
+    {
+      "route": "src/views/demo/I18nTestDemo.vue",
+      "js": {
+        "bytes": 528138,
+        "gzip": 186035
+      },
+      "css": {
+        "bytes": 172784,
+        "gzip": 25574
+      }
+    },
+    {
+      "route": "src/views/demo/MainPanelDemo.vue",
+      "js": {
+        "bytes": 532600,
+        "gzip": 188156
+      },
+      "css": {
+        "bytes": 172784,
+        "gzip": 25574
+      }
+    },
+    {
+      "route": "src/views/demo/SearchBarDemo.vue",
+      "js": {
+        "bytes": 527395,
+        "gzip": 185540
+      },
+      "css": {
+        "bytes": 172784,
+        "gzip": 25574
+      }
+    },
+    {
+      "route": "src/views/demo/SearchableListPanelDemo.vue",
+      "js": {
+        "bytes": 528244,
+        "gzip": 186448
+      },
+      "css": {
+        "bytes": 171921,
+        "gzip": 25281
+      }
+    },
+    {
+      "route": "src/views/demo/TableDemo.vue",
+      "js": {
+        "bytes": 538544,
+        "gzip": 189270
+      },
+      "css": {
+        "bytes": 176705,
+        "gzip": 26524
+      }
+    },
+    {
+      "route": "src/views/demo/TransferDialogDemo.vue",
+      "js": {
+        "bytes": 709388,
+        "gzip": 249441
+      },
+      "css": {
+        "bytes": 171921,
+        "gzip": 25281
+      }
+    }
+  ],
+  "allCss": {
+    "files": [
+      {
+        "file": "assets/BaseBtn-D8MSn7wK.css",
+        "bytes": 24123,
+        "gzip": 2592
+      },
+      {
+        "file": "assets/BaseDialogDemo-C8K1804s.css",
+        "bytes": 4726,
+        "gzip": 885
+      },
+      {
+        "file": "assets/DemoPage-mDQnhJLm.css",
+        "bytes": 86,
+        "gzip": 98
+      },
+      {
+        "file": "assets/FunctionHeader-Bu_E5lrA.css",
+        "bytes": 211,
+        "gzip": 153
+      },
+      {
+        "file": "assets/HomeLayout-DlAu2NI1.css",
+        "bytes": 706,
+        "gzip": 270
+      },
+      {
+        "file": "assets/TableDemo-pqxnpAn2.css",
+        "bytes": 3921,
+        "gzip": 950
+      },
+      {
+        "file": "assets/el-card-fwQOLwdi.css",
+        "bytes": 863,
+        "gzip": 293
+      },
+      {
+        "file": "assets/index-BiBl2Q0I.css",
+        "bytes": 38466,
+        "gzip": 7746
+      },
+      {
+        "file": "assets/index-VQr0KqWd.css",
+        "bytes": 109121,
+        "gzip": 14790
+      }
+    ],
+    "bytes": 182223,
+    "gzip": 27777
+  }
+}

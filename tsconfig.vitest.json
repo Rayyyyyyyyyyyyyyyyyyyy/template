@@ -1,10 +1,15 @@
 {
   "extends": "./tsconfig.app.json",
-  "include": ["src/**/__tests__/*", "env.d.ts", "src/**/*", "src/**/*.json"],
+  "include": ["src/**/__tests__/*", "env.d.ts", "src/**/*", "src/**/*.json", "tests/consumer/src/examples/**/*.vue"],
   "exclude": [],
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.vitest.tsbuildinfo",
 
+    "paths": {
+      "@/*": ["./src/*"],
+      "rayyy-vue-table-components/components": ["./src/components/index.ts"],
+      "rayyy-vue-table-components/types": ["./src/types/index.ts"]
+    },
     "lib": [],
     "types": ["node", "jsdom"]
   }

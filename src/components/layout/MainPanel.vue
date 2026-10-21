@@ -36,7 +36,7 @@ defineSlots<MainPanelSlots>()
     </div>
   </el-scrollbar>
 
-  <div v-if="$slots.footer" class="flex justify-start pl-1.5 pt-0">
+  <div v-if="$slots.footer" class="panel-footer flex flex-wrap justify-start gap-3 px-4 py-2">
     <!-- 這個 slot 在列表可放 pagination -->
     <slot name="footer" />
   </div>
@@ -47,5 +47,9 @@ defineSlots<MainPanelSlots>()
   max-height: calc(100vh - 180px);
   max-width: 100vw;
   @apply overflow-auto;
+}
+.panel-footer {
+  min-width: 0;
+  max-width: 100%;
 }
 </style>

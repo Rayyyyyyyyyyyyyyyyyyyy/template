@@ -15,22 +15,23 @@ const goToDemo = () => {
       <p class="text-xl text-gray-600 mb-8">基於 Vue 3 + Element Plus 的強大表格組件庫</p>
       <div class="space-x-4">
         <button
+          type="button"
           @click="goToDemo"
-          class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors"
+          class="px-6 py-3 bg-primary-dark text-white rounded-lg hover:bg-navy-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark transition-colors"
         >
           查看示範
         </button>
         <a
           href="https://www.npmjs.com/package/rayyy-vue-table-components"
           target="_blank"
-          class="inline-block px-6 py-3 bg-green text-white rounded-lg hover:bg-green-dark transition-colors"
+          class="inline-block px-6 py-3 bg-green-control text-white rounded-lg hover:bg-green-control-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-control transition-colors"
         >
           安裝套件
         </a>
         <a
           href="https://github.com/Rayyyyyyyyyyyyyyyyyyyy/template"
           target="_blank"
-          class="inline-block px-6 py-3 bg-navy-40 text-white rounded-lg hover:bg-navy-50 transition-colors"
+          class="inline-block px-6 py-3 bg-navy-40 text-white rounded-lg hover:bg-navy-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-40 transition-colors"
         >
           GitHub
         </a>

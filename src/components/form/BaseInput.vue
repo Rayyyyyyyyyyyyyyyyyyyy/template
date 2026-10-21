@@ -4,6 +4,7 @@ import { Search } from '@element-plus/icons-vue'
 import type { BaseInputEventMap, BaseInputProps } from '../../types/components'
 
 const props = defineProps<BaseInputProps>()
+defineOptions({ inheritAttrs: false })
 
 const emits = defineEmits<BaseInputEventMap>()
 

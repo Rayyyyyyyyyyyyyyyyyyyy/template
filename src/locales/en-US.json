@@ -34,5 +34,15 @@
   "button.delete": "Delete",
   "common.save": "Save",
   "common.discard": "Discard",
-  "table.empty": "No data"
+  "table.empty": "No data",
+  "common.back": "Back",
+  "search.label": "Search",
+  "table.configureColumns": "Configure columns",
+  "table.exportExcel": "Export Excel",
+  "transfer.unlock": "Unlock {column}",
+  "transfer.lock": "Lock {column}",
+  "transfer.top": "Move {column} to top",
+  "transfer.previous": "Move {column} up",
+  "transfer.next": "Move {column} down",
+  "transfer.bottom": "Move {column} to bottom"
 }

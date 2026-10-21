@@ -67,7 +67,9 @@ const showPager = computed(() => {
       <el-config-provider v-if="props.locale" :locale="props.locale">
         <el-pagination
           v-if="showPager"
-          layout="jumper, prev, pager, next, total, sizes"
+          class="list-pagination"
+          layout="prev, pager, next, total, sizes, jumper"
+          :pager-count="5"
           :page-sizes="pageSizeList"
           :current-page="pagination.page"
           :page-size="pagination.limit"
@@ -78,7 +80,9 @@ const showPager = computed(() => {
       </el-config-provider>
       <el-pagination
         v-else-if="showPager"
-        layout="jumper, prev, pager, next, total, sizes"
+        class="list-pagination"
+        layout="prev, pager, next, total, sizes, jumper"
+        :pager-count="5"
         :page-sizes="pageSizeList"
         :current-page="pagination.page"
         :page-size="pagination.limit"
@@ -90,4 +94,31 @@ const showPager = computed(() => {
   </main-panel>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.list-pagination.el-pagination {
+  max-width: 100%;
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: 8px;
+  white-space: normal;
+
+  :deep(> *) {
+    margin-left: 0;
+    max-width: 100%;
+  }
+
+  :deep(.el-pager),
+  :deep(.el-pagination__jump) {
+    flex-wrap: wrap;
+  }
+
+  :deep(.el-pagination__total) {
+    overflow-wrap: anywhere;
+  }
+
+  :deep(.el-select) {
+    width: max(128px, 9em);
+    max-width: 100%;
+  }
+}
+</style>

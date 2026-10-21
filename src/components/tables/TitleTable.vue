@@ -1,4 +1,5 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { TableColumn } from '../../types'
 import BaseTable from './BaseTable.vue'
@@ -8,11 +9,19 @@ import type { TitleTableEventMap, TitleTableProps, TitleTableSlots } from '../..
 const { t } = useI18n()
 
 // 使用泛型 T 來定義數據類型
-defineProps<TitleTableProps<T>>()
+const props = defineProps<TitleTableProps<T>>()
+const tableProps = computed(() => {
+  const { tableTitle: _title, propIsEditable, onlyDelete: _onlyDelete, showDelete: _showDelete, ...shared } = props
+  return { ...shared, showSelection: propIsEditable || shared.showSelection }
+})
 
 const emit = defineEmits<TitleTableEventMap<T>>()
 
-defineSlots<TitleTableSlots<T>>()
+const slots = defineSlots<TitleTableSlots<T>>()
+const tableSlots = () => {
+  const { tableSearch: _tableSearch, editBtn: _editBtn, ...shared } = slots
+  return shared
+}
 
 const addInvoiceDetail = () => {
   emit('click:add')
@@ -68,31 +77,14 @@ const handleEditClick = (row: T) => {
 
     <!-- 表格主體 -->
     <base-table
-      v-loading="loading"
-      :data="data"
-      :columns="columns"
-      :row-key="rowKey"
-      :tree-props="treeProps"
-      :default-expand-all="defaultExpandAll"
-      :expand-row-keys="expandRowKeys"
-      :lazy="lazy"
-      :load="load"
-      :show-summary="showSummary"
-      :summary-method="summaryMethod"
-      :show-selection="propIsEditable || showSelection"
-      :show-index="showIndex"
-      :show-expand="showExpand"
-      :show-over-flow-tooltip="showOverFlowTooltip"
-      :show-check-btn="showCheckBtn"
-      :show-edit-btn="showEditBtn"
-      :preserve-expanded="preserveExpanded"
+      v-bind="tableProps"
       @selection-change="handleSelectionChange"
       @cell-click="handleCellClick"
       @click:checkRow="handleCheckClick"
       @click:editRow="handleEditClick"
     >
-      <template #expand="{ row, $index }" v-if="showExpand">
-        <slot name="expand" v-bind="{ row, $index }" />
+      <template v-for="(_, name) in tableSlots()" #[name]="scope">
+        <slot :name="name" v-bind="scope" />
       </template>
     </base-table>
   </div>
