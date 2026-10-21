@@ -31,3 +31,6 @@ coverage
 
 # Auto-generated files
 components.d.ts
+
+# Local design direction and browser QA artifacts
+/.taste-skill/

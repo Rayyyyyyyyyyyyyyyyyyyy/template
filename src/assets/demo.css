@@ -35,7 +35,7 @@
 }
 
 .site-header__inner {
-  max-width: 1280px;
+  max-width: 1216px;
   min-height: 72px;
   margin: 0 auto;
   padding: 0 32px;
@@ -126,7 +126,7 @@
 }
 
 .demo-page h1 {
-  margin-bottom: 16px;
+  margin: 0 0 16px;
   color: var(--el-text-color-primary);
   font-size: 30px;
   font-weight: 600;
@@ -204,73 +204,128 @@
 }
 
 .catalog-heading p {
+  margin: 0;
   max-width: 65ch;
   color: var(--el-text-color-regular);
   line-height: 1.8;
 }
 
-.catalog-grid {
+.catalog-layout {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: 180px minmax(0, 1fr);
+  align-items: start;
+  gap: 48px;
+}
+
+.catalog-nav {
+  display: grid;
+  gap: 4px;
+  position: sticky;
+  top: 24px;
+  padding: 12px;
+  border-radius: 6px;
+  background: var(--el-fill-color-light);
+}
+
+.catalog-nav a {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px;
+  color: var(--el-text-color-regular);
+  text-decoration: none;
+}
+
+.catalog-nav a:hover {
+  color: var(--main-color);
+  background: var(--el-fill-color-blank);
+}
+
+.catalog-nav span {
+  font-variant-numeric: tabular-nums;
+}
+
+.catalog-groups {
+  min-width: 0;
+  display: grid;
+  gap: 40px;
+}
+
+.catalog-group {
+  scroll-margin-top: 24px;
+}
+
+.catalog-group h2 {
+  margin: 0 0 12px;
+  font-size: 22px;
 }
 
 .demo-card {
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
 }
 
-.demo-card .el-card__header {
-  border-bottom: 0;
-  padding-bottom: 0;
+.demo-card + .demo-card {
+  border-top: 1px solid var(--el-border-color-lighter);
 }
 
-.demo-card__heading {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
+.demo-card__content {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(180px, 0.85fr) minmax(0, 1fr);
+  column-gap: 24px;
 }
 
-.demo-card__heading svg {
+.demo-card > .el-button {
   flex-shrink: 0;
-  color: var(--main-color);
+}
+
+.demo-card__details {
+  grid-column: 2;
 }
 
 .demo-card h3 {
+  margin: 0;
   color: var(--el-text-color-primary);
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   line-height: 1.5;
 }
 
+.demo-card h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.demo-card h3 a:hover {
+  color: var(--main-color);
+}
+
 .demo-card p,
-.demo-card__features {
+.demo-card__details {
+  margin: 0;
   color: var(--el-text-color-regular);
-  font-size: 13px;
+  font-size: 14px;
 }
 
-.demo-card .el-card__body {
-  flex: 1;
-  padding-top: 16px;
-  padding-bottom: 16px;
+.demo-card__details summary {
+  width: fit-content;
+  min-height: 32px;
+  padding: 4px 0;
+  cursor: pointer;
 }
 
-.demo-card__features {
+.demo-card__details ul {
   display: grid;
-  gap: 8px;
-  padding: 0;
-  list-style: none;
-  line-height: 1.7;
-}
-
-.demo-card__more {
-  color: var(--el-text-color-regular);
-}
-
-.demo-card .el-card__footer {
-  border-top: 0;
-  padding-top: 0;
+  gap: 6px;
+  padding: 8px 0 0 18px;
+  list-style: disc;
 }
 
 .catalog-start {
@@ -282,7 +337,7 @@
 
 .catalog-start h2,
 .home-reference h2 {
-  margin-bottom: 8px;
+  margin: 0 0 8px;
   font-size: 20px;
   font-weight: 600;
 }
@@ -321,25 +376,68 @@
 .home-page {
   max-width: 1216px;
   margin: 0 auto;
-  padding: 96px 32px 64px;
+  padding: 64px 32px;
+}
+
+.home-showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: center;
+  gap: 48px;
 }
 
 .home-intro h1 {
+  margin: 0;
   color: var(--el-text-color-primary);
-  font-size: clamp(36px, 6vw, 64px);
+  font-size: clamp(32px, 3.4vw, 46px);
   font-weight: 650;
-  line-height: 1.15;
+  line-height: 1.12;
   letter-spacing: -0.03em;
-}
-
-.home-intro h1 span {
-  color: var(--main-color);
+  text-wrap: balance;
 }
 
 .home-intro > p {
-  margin-top: 24px;
-  color: var(--el-text-color-regular);
+  margin: 24px 0 0;
+  max-width: 32ch;
+  color: var(--el-text-color-primary);
   font-size: 18px;
+  line-height: 1.8;
+}
+
+.home-preview {
+  min-width: 0;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--el-fill-color-light);
+}
+
+.home-preview .function-header {
+  background: var(--el-fill-color-blank);
+}
+
+.home-preview .panel-scrollbar,
+.home-preview .panel-footer {
+  background: var(--el-fill-color-blank);
+}
+
+.home-page .home-preview .search-bar {
+  display: block;
+  padding-block: 12px;
+}
+
+.home-page .home-preview .search-input {
+  width: 100%;
+}
+
+.home-preview .el-empty {
+  --el-text-color-secondary: var(--el-text-color-regular);
+}
+
+.home-preview__hint {
+  margin: 12px 4px 0;
+  color: var(--el-text-color-regular);
+  font-size: 13px;
+  line-height: 1.8;
 }
 
 .home-actions {
@@ -387,9 +485,7 @@
 }
 
 .home-reference {
-  margin-top: 72px;
-  padding-top: 32px;
-  border-top: 1px solid var(--el-border-color-lighter);
+  margin-top: 48px;
 }
 
 .home-components {
@@ -397,6 +493,20 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
   margin-top: 24px;
+}
+
+.home-components dd,
+.catalog-notes dd {
+  margin: 0;
+}
+
+.home-components dt a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.home-components dt a:hover {
+  color: var(--main-color);
 }
 
 .install-command {
@@ -412,8 +522,26 @@
 }
 
 @media (max-width: 1024px) {
-  .catalog-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .home-showcase {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .home-intro > p {
+    max-width: 65ch;
+  }
+
+  .catalog-layout {
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .demo-card__content {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .demo-card__details {
+    grid-column: auto;
   }
 }
 
@@ -439,10 +567,19 @@
     font-size: 26px;
   }
 
-  .catalog-grid,
+  .catalog-layout,
   .catalog-notes,
   .home-components {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .catalog-nav {
+    position: static;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .demo-card {
+    flex-wrap: wrap;
   }
 
   .demo-page .el-card {
@@ -455,7 +592,7 @@
   }
 
   .home-page {
-    padding: 48px 20px 40px;
+    padding: 32px 20px 40px;
   }
 
   .home-reference {

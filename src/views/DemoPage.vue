@@ -29,6 +29,7 @@ const demoPages = [
     title: 'SearchableListPanel',
     description: '整合式搜尋、篩選、分頁組件',
     route: ROUTES.SEARCHABLE_LIST_PANEL,
+    group: 'tables',
     features: [
       '整合式設計：結合搜尋、篩選、分頁於一體',
       '多個按鈕插槽：支持 firstButton、customButton、lastButton',
@@ -37,12 +38,12 @@ const demoPages = [
       '徽章顯示：篩選條件數量徽章提示',
       '響應式設計：適配不同螢幕尺寸',
     ],
-    icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
   },
   {
     title: 'TransferDialog',
     description: '表格列配置對話框組件',
     route: ROUTES.TRANSFER_DIALOG,
+    group: 'dialogs',
     features: [
       '拖拽排序：支持拖拽調整列順序',
       '批量選擇：支持全選/取消全選列',
@@ -51,12 +52,12 @@ const demoPages = [
       '即時預覽：配置變更即時反映到表格',
       '狀態保持：記住列的顯示/隱藏狀態',
     ],
-    icon: 'M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4',
   },
   {
     title: 'BaseBtn',
     description: '基礎按鈕組件',
     route: ROUTES.BASE_BTN,
+    group: 'forms',
     features: [
       '多種樣式：支持 primary、default、danger 等樣式',
       '多種尺寸：支持 small、medium、large 尺寸',
@@ -65,12 +66,12 @@ const demoPages = [
       '禁用狀態：支持禁用按鈕功能',
       '路由跳轉：支持 Vue Router 跳轉',
     ],
-    icon: 'M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122',
   },
   {
     title: 'BaseInput',
     description: '基礎輸入框組件',
     route: ROUTES.BASE_INPUT,
+    group: 'forms',
     features: [
       '多種類型：支持 text、password、email 等類型',
       '驗證功能：支持表單驗證和錯誤提示',
@@ -79,12 +80,12 @@ const demoPages = [
       '禁用狀態：支持禁用輸入功能',
       '只讀狀態：支持只讀模式',
     ],
-    icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z',
   },
   {
     title: 'BaseSelector',
     description: '基礎選擇器組件',
     route: ROUTES.BASE_SELECTOR,
+    group: 'forms',
     features: [
       '單選/多選：支持單選和多選模式',
       '自動清空：始終支持一鍵清空選擇',
@@ -93,12 +94,12 @@ const demoPages = [
       '自定義樣式：支持自定義 CSS 類名',
       'z-index 修復：解決在 Dialog 中的層級問題',
     ],
-    icon: 'M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
   },
   {
     title: 'BaseDialog',
     description: '基礎對話框組件',
     route: ROUTES.BASE_DIALOG,
+    group: 'dialogs',
     features: [
       '多種尺寸：支持 small、medium、large 尺寸',
       '自定義標題：支持自定義對話框標題',
@@ -107,12 +108,12 @@ const demoPages = [
       '動畫效果：支持開啟和關閉動畫',
       '插槽支持：支持 header、body、footer 插槽',
     ],
-    icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z',
   },
   {
     title: 'BaseWaringDialog',
     description: '警告對話框組件',
     route: ROUTES.BASE_WARING_DIALOG,
+    group: 'dialogs',
     features: [
       '警告樣式：專門用於警告和確認操作',
       '自定義文字：支持自定義警告文字和副標題',
@@ -121,12 +122,12 @@ const demoPages = [
       '事件處理：支持提交和取消事件',
       '視覺提示：使用警告色彩和圖示',
     ],
-    icon: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z',
   },
   {
     title: 'Table',
     description: '表格組件集合',
     route: ROUTES.TABLE,
+    group: 'tables',
     features: [
       'SortTable：帶排序功能的表格組件',
       'TitleTable：帶標題和操作按鈕的表格組件',
@@ -135,12 +136,12 @@ const demoPages = [
       '轉移對話框：列配置轉移功能',
       '完整 API：詳細的 Props 和 Events 文檔',
     ],
-    icon: 'M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4',
   },
   {
     title: 'SearchBar',
     description: '搜尋欄組件',
     route: ROUTES.SEARCH_BAR,
+    group: 'forms',
     features: [
       '即時搜尋：支持輸入即時搜尋',
       '搜尋建議：支持搜尋建議和自動完成',
@@ -149,12 +150,12 @@ const demoPages = [
       '自定義樣式：可自定義搜尋欄樣式',
       '響應式設計：適配不同螢幕尺寸',
     ],
-    icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z',
   },
   {
     title: 'FunctionHeader',
     description: '功能頁面標題組件',
     route: ROUTES.FUNCTION_HEADER,
+    group: 'layouts',
     features: [
       '標題顯示：支持頁面標題和副標題',
       '麵包屑：支持麵包屑導航',
@@ -163,12 +164,12 @@ const demoPages = [
       '響應式設計：適配不同螢幕尺寸',
       '主題支持：支持多種主題樣式',
     ],
-    icon: 'M4 6h16M4 10h16M4 14h16M4 18h16',
   },
   {
     title: 'MainPanel',
     description: '主要面板組件',
     route: ROUTES.MAIN_PANEL,
+    group: 'layouts',
     features: [
       '內容容器：提供統一的內容容器',
       '邊距控制：支持自定義內外邊距',
@@ -177,12 +178,12 @@ const demoPages = [
       '響應式布局：適配不同螢幕尺寸',
       '插槽支持：支持多個內容插槽',
     ],
-    icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
   },
   {
     title: 'DetailLayout',
     description: '詳細頁面佈局組件',
     route: ROUTES.DETAIL_LAYOUT,
+    group: 'layouts',
     features: [
       '響應式佈局：自適應不同螢幕尺寸',
       '編輯模式：支持可編輯和只讀模式切換',
@@ -191,12 +192,12 @@ const demoPages = [
       '操作按鈕：內建保存和取消按鈕',
       '返回功能：支持返回按鈕配置',
     ],
-    icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
   },
   {
     title: 'FilterLayout',
     description: '篩選頁面佈局組件',
     route: ROUTES.FILTER_LAYOUT,
+    group: 'layouts',
     features: [
       '響應式佈局：自適應不同螢幕尺寸的篩選表單',
       '靈活配置：支持自定義主要標題和篩選標題',
@@ -205,12 +206,12 @@ const demoPages = [
       '事件處理：提供篩選提交和重置事件',
       '統一樣式：與其他佈局組件保持一致的設計風格',
     ],
-    icon: 'M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z',
   },
   {
     title: 'i18n Test',
     description: 'i18n 國際化測試頁面',
     route: ROUTES.I18N_TEST,
+    group: 'forms',
     features: [
       '語系切換：即時切換繁體中文和英文',
       'BaseTable 測試：測試表格組件的載入文字和操作按鈕',
@@ -219,9 +220,15 @@ const demoPages = [
       '完整展示：展示所有組件的 i18n 整合效果',
       '開發工具：用於驗證 i18n 功能是否正常運作',
     ],
-    icon: 'M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129',
   },
 ]
+const demoGroups = [
+  { id: 'tables', title: '表格與列表' },
+  { id: 'forms', title: '表單與控制' },
+  { id: 'layouts', title: '版面配置' },
+  { id: 'dialogs', title: '對話框' },
+].map((group) => ({ ...group, pages: demoPages.filter((demo) => demo.group === group.id) }))
+
 const router = useRouter()
 const goDemoPage = (path: string) => {
   router.push(path)
@@ -245,44 +252,43 @@ const goDemoPage = (path: string) => {
         />
       </header>
 
-      <div class="catalog-grid">
-        <el-card v-for="demo in demoPages" :key="demo.title" class="demo-card" shadow="never">
-          <template #header>
-            <div class="demo-card__heading">
-              <svg
-                aria-hidden="true"
-                width="20"
-                height="20"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+      <div class="catalog-layout">
+        <nav class="catalog-nav" aria-label="組件分類">
+          <a v-for="group in demoGroups" :key="group.id" :href="`#${group.id}`"
+            >{{ group.title }}<span>{{ group.pages.length }}</span></a
+          >
+        </nav>
+        <div class="catalog-groups">
+          <section
+            v-for="group in demoGroups"
+            :id="group.id"
+            :key="group.id"
+            class="catalog-group"
+            :aria-labelledby="`${group.id}-heading`"
+          >
+            <h2 :id="`${group.id}-heading`">{{ group.title }}</h2>
+            <article v-for="demo in group.pages" :key="demo.title" class="demo-card">
+              <div class="demo-card__content">
+                <h3>
+                  <RouterLink :to="demo.route">{{ demo.title }}</RouterLink>
+                </h3>
+                <p>{{ demo.description }}</p>
+                <details class="demo-card__details">
+                  <summary>功能特色</summary>
+                  <ul>
+                    <li v-for="feature in demo.features" :key="feature">{{ feature }}</li>
+                  </ul>
+                </details>
+              </div>
+              <BaseBtn
+                type="primary"
+                @click="goDemoPage(demo.route)"
+                :aria-label="`查看 ${demo.title} 示範`"
+                >查看示範</BaseBtn
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.5"
-                  :d="demo.icon"
-                />
-              </svg>
-              <h3>{{ demo.title }}</h3>
-            </div>
-            <p>{{ demo.description }}</p>
-          </template>
-          <ul class="demo-card__features">
-            <li v-for="feature in demo.features.slice(0, 4)" :key="feature">{{ feature }}</li>
-            <li v-if="demo.features.length > 4" class="demo-card__more">
-              還有 {{ demo.features.length - 4 }} 個功能特色…
-            </li>
-          </ul>
-          <template #footer>
-            <BaseBtn
-              type="primary"
-              @click="goDemoPage(demo.route)"
-              :aria-label="`查看 ${demo.title} 示範`"
-              >查看示範</BaseBtn
-            >
-          </template>
-        </el-card>
+            </article>
+          </section>
+        </div>
       </div>
 
       <section class="catalog-start">

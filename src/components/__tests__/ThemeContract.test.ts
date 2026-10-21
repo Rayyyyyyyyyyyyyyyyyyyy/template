@@ -54,7 +54,7 @@ it('keeps primary and secondary homepage actions readable in normal and hover st
   const stylesheet = postcss.parse(read('src/assets/demo.css'))
   const template = document.createElement('template')
   template.innerHTML = read('src/views/HomePage.vue').split('<template>')[1].split('</template>')[0]
-  const controls = [...template.content.querySelectorAll('button, a')]
+  const controls = [...template.content.querySelectorAll('.home-actions button, .home-actions a')]
   expect(controls).toHaveLength(3)
   for (const control of controls) {
     expect(control.classList.contains('site-button')).toBe(true)
