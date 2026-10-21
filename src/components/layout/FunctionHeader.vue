@@ -39,7 +39,7 @@ defineSlots<FunctionHeaderSlots>()
         class="back-action flex shrink-0 items-center justify-center text-black" @click="handleClick">
         <el-icon :size="16" aria-hidden="true"><ArrowLeftBold /></el-icon>
       </button>
-      <div class="font-bold text-text text-xl md:text-2xl break-words min-w-0">{{ props.title }}</div>
+      <div class="font-semibold text-text text-lg break-words min-w-0">{{ props.title }}</div>
     </div>
     <div class="flex items-center gap-3">
       <slot />
@@ -50,6 +50,7 @@ defineSlots<FunctionHeaderSlots>()
 <style scoped>
 .function-header {
   min-height: 60px;
+  border-bottom: 1px solid var(--el-border-color-lighter);
 }
 .back-action {
   min-width: 44px;

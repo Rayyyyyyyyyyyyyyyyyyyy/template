@@ -33,6 +33,6 @@ async function copySource() {
       <BaseBtn text="複製程式碼" :loading="copying" :aria-busy="copying" @click="copySource" />
       <span role="status">{{ status }}</span>
     </div>
-    <pre class="overflow-x-auto rounded-lg bg-gray-900 p-4 text-sm text-green-400"><code v-text="source" /></pre>
+    <pre class="example-code"><code v-text="source" /></pre>
   </div>
 </template>

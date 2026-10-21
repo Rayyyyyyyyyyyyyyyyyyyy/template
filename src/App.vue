@@ -15,7 +15,7 @@ const elLocale = computed<Language>(() => {
 </script>
 
 <template>
-  <div class="app__container bg-primary-20">
+  <div class="app__container">
     <el-config-provider :locale="elLocale">
       <router-view></router-view>
     </el-config-provider>
@@ -24,7 +24,7 @@ const elLocale = computed<Language>(() => {
 <style scoped lang="scss">
 .app__container {
   min-height: 100vh;
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

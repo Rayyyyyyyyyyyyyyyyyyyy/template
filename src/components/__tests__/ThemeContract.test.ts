@@ -11,9 +11,9 @@ const tokens = Object.fromEntries([...read('src/assets/styles/element/index.scss
 const button = read('src/components/items/BaseBtn.vue')
 const css = compileString(button.match(/<style[^>]*>([\s\S]*?)<\/style>/)![1]).css
 const rules = postcss.parse(css)
-const declarations = (selector: string) => {
+const declarations = (selector: string, stylesheet = rules) => {
   const values: Record<string, string> = {}
-  rules.walkRules((rule) => {
+  stylesheet.walkRules((rule) => {
     if (rule.selector === selector) rule.walkDecls((declaration) => { values[declaration.prop] = declaration.value })
   })
   return values
@@ -50,23 +50,46 @@ it('keeps enabled button token pairs above 4.5 for normal, filled, hover and foc
   expect(css).toContain('.el-button:focus-visible')
 })
 
-it('keeps every homepage CTA background above 4.5 with white text for normal, hover and focus', () => {
-  const preset = createRequire(import.meta.url)(resolve(root, 'tailwind-preset.cjs'))
+it('keeps primary and secondary homepage actions readable in normal and hover states', () => {
+  const stylesheet = postcss.parse(read('src/assets/demo.css'))
   const template = document.createElement('template')
   template.innerHTML = read('src/views/HomePage.vue').split('<template>')[1].split('</template>')[0]
   const controls = [...template.content.querySelectorAll('button, a')]
   expect(controls).toHaveLength(3)
-  const background = (name: string): string => {
-    let value = preset.theme.extend.colors
-    for (const part of name.split('-')) value = value[part]
-    return typeof value === 'string' ? value : value.DEFAULT
-  }
   for (const control of controls) {
-    expect(control.classList.contains('text-white')).toBe(true)
-    const backgrounds = [...control.classList].filter((name) => /^(hover:)?bg-/.test(name))
-    expect(backgrounds).toHaveLength(2)
-    for (const name of backgrounds) expect(contrast('#ffffff', background(name.replace(/^(hover:)?bg-/, ''))), name).toBeGreaterThanOrEqual(4.5)
-    expect([...control.classList].some((name) => name.startsWith('focus-visible:outline-'))).toBe(true)
+    expect(control.classList.contains('site-button')).toBe(true)
+    const normal = {
+      ...declarations('.site-button', stylesheet),
+      ...(control.classList.contains('site-button--primary') ? declarations('.site-button--primary', stylesheet) : {}),
+    }
+    const hover = {
+      ...normal,
+      ...declarations('.site-button:hover', stylesheet),
+      ...(control.classList.contains('site-button--primary') ? declarations('.site-button--primary:hover', stylesheet) : {}),
+    }
+    for (const values of [normal, hover]) {
+      expect(contrast(color(values.color), color(values.background))).toBeGreaterThanOrEqual(4.5)
+    }
+  }
+  expect(read('src/assets/demo.css')).toContain('.site-shell :focus-visible')
+})
+
+it('keeps native primary button hover and plain text readable in the demo site', () => {
+  const stylesheet = postcss.parse(read('src/assets/demo.css'))
+  const primary = declarations('.site-shell .el-button--primary', stylesheet)
+  expect(contrast('#ffffff', color(primary['--el-button-hover-bg-color']))).toBeGreaterThanOrEqual(4.5)
+  expect(contrast('#ffffff', color(primary['--el-button-hover-link-text-color']))).toBeGreaterThanOrEqual(4.5)
+  const plain = declarations('.site-shell .el-button--primary.is-plain', stylesheet)
+  expect(contrast(color(plain['--el-button-text-color']), tokens['--main-color-light-9'])).toBeGreaterThanOrEqual(4.5)
+})
+
+it('shares the primary palette between native Element Plus, wrapped controls and Tailwind', () => {
+  const theme = read('src/assets/styles/element/index.scss')
+  const preset = createRequire(import.meta.url)(resolve(root, 'tailwind-preset.cjs'))
+  expect(preset.theme.extend.colors.primary.DEFAULT).toBe(tokens['--main-color'])
+  expect(preset.theme.extend.colors.primary.dark).toBe(tokens['--main-color-dark-2'])
+  for (const suffix of ['', '-light-3', '-light-5', '-light-7', '-light-8', '-light-9', '-dark-2']) {
+    expect(theme).toContain(`--el-color-primary${suffix}: var(--main-color${suffix})`)
   }
 })
 
@@ -74,11 +97,11 @@ it('keeps the explicit demo light theme outside the library style import graph',
   const base = read('src/assets/base.css')
   expect(base).toContain('color-scheme: light')
   expect(base).not.toContain('prefers-color-scheme')
-  expect(base).toContain('--color-text: var(--vt-c-text-light-1)')
-  expect(contrast('#2c3e50', '#ffffff')).toBeGreaterThanOrEqual(4.5)
-  expect(read('src/index.ts')).not.toContain("'./assets/base.css'")
+  expect(base).toContain('--color-text: #303133')
+  expect(contrast('#303133', '#ffffff')).toBeGreaterThanOrEqual(4.5)
+  expect(read('src/index.ts')).not.toMatch(/base\.css|demo\.css/)
   for (const file of ['tailwind.scss', '_base.scss', '_components.scss', '_tables.scss', '_dialogs.scss', 'element/index.scss']) {
-    expect(read(`src/assets/styles/${file}`)).not.toMatch(/base\.css|color-scheme|prefers-color-scheme/)
+    expect(read(`src/assets/styles/${file}`)).not.toMatch(/base\.css|demo\.css|color-scheme|prefers-color-scheme/)
   }
 })
 

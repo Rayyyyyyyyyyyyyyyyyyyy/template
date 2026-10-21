@@ -48,7 +48,7 @@ defineSlots<BaseBtnSlots>()
   line-height: 1.25rem;
 
   :deep(span) {
-    font-weight: 700 !important;
+    font-weight: 500;
   }
 
   &:focus-visible {

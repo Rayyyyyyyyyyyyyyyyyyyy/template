@@ -40,12 +40,12 @@ const handleWarningCancel = () => {
 </script>
 
 <template>
-  <div class="p-8 bg-gray-50 min-h-screen">
-    <div class="max-w-6xl mx-auto">
+  <div class="demo-page">
+    <div class="demo-container">
       <h1 class="text-3xl font-bold text-gray-900 mb-8">BaseDialog 組件示範</h1>
 
       <!-- 基礎對話框 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">基礎對話框</h2>
         </template>

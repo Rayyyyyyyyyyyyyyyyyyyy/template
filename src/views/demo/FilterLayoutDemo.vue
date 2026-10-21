@@ -56,15 +56,15 @@ const clearResults = () => {
 
 <template>
   <!-- FilterLayout 示範 -->
-  <section class="mb-12">
-    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-      <div class="px-8 py-6 border-b border-gray-100">
+  <section class="demo-page demo-container">
+    <div class="demo-section overflow-hidden">
+      <div class="example-heading">
         <h2 class="text-2xl font-semibold text-gray-900 mb-2">FilterLayout 示範</h2>
         <p class="text-gray-600 text-base leading-relaxed">
           展示 FilterLayout 組件的篩選頁面佈局功能
         </p>
       </div>
-      <div class="p-8">
+      <div class="example-body">
         <div class="bg-white border border-gray-200 rounded-lg overflow-hidden mb-8">
           <FilterLayout
             main-title="產品篩選"

@@ -10,8 +10,8 @@ const examples = Object.entries(sources).map(([path, source]) => ({
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 py-8">
-    <div class="mx-auto max-w-5xl space-y-8 px-4 sm:px-6">
+  <div class="demo-page docs-page">
+    <div class="demo-container space-y-8">
       <header class="space-y-3">
         <h1 class="text-4xl font-bold text-gray-900">Vue Table Components 文件中心</h1>
         <p class="text-gray-600">
@@ -25,7 +25,7 @@ const examples = Object.entries(sources).map(([path, source]) => ({
         </nav>
       </header>
 
-      <section class="rounded-lg bg-white p-6 shadow-sm">
+      <section class="demo-section p-6">
         <h2 class="text-xl font-semibold">公開契約</h2>
         <p class="mt-3">共同 table props 由 BaseTable 定義；SortTable、TitleTable 保留各自的工具列與事件。</p>
         <p>文字使用宿主 vue-i18n；分頁繼承 ElConfigProvider，也可用 locale prop 局部覆寫。</p>
@@ -41,7 +41,7 @@ const examples = Object.entries(sources).map(([path, source]) => ({
       </section>
 
       <section v-for="example in examples" :id="example.name" :key="example.name"
-        class="scroll-mt-6 rounded-lg bg-white p-6 shadow-sm">
+        class="scroll-mt-24 demo-section p-6">
         <h2 class="mb-4 text-xl font-semibold">{{ example.name }}</h2>
         <ExampleCode :source="example.source" />
       </section>

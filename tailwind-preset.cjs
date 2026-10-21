@@ -47,16 +47,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // 專案可用顏色 (NTT Data)
+        // Shared palette for Element Plus and library utilities
         primary: {
-          DEFAULT: '#6785c1',
-          10: '#e0e0e0', // function header background
-          15: '#F5F5F5', // table header background & Dialog title background
-          20: '#E0E0E0', // table Frame background
-          40: '#b1c4e4',
-          60: '#8facd9',
-          80: '#7198ce',
-          dark: '#4566a8', // for element+
+          DEFAULT: '#256fc0',
+          10: '#f5f7fa', // function header background
+          15: '#f5f7fa', // table header background & Dialog title background
+          20: '#ebeef5', // table Frame background
+          40: '#d9e8f7',
+          60: '#a8c8e9',
+          80: '#6e9fd3',
+          dark: '#1d599a', // for element+
         },
         navy: {
           DEFAULT: '#070f26',
@@ -70,7 +70,7 @@ module.exports = {
         },
         blue: {
           DEFAULT: '#238dad',
-          10: '#0072BC', //Hyperlink
+          10: '#256fc0', //Hyperlink
           20: '#d5e4f5',
         },
         yellow: {

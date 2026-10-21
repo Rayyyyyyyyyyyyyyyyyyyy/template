@@ -37,14 +37,14 @@ const handleResetFilter = () => {
 </script>
 
 <template>
-  <div class="p-8 bg-gray-50 min-h-screen">
-    <div class="max-w-6xl mx-auto">
+  <div class="demo-page">
+    <div class="demo-container">
       <h1 class="text-3xl font-bold text-gray-900 mb-8">SearchBar 組件示範</h1>
 
 
 
       <!-- 基礎搜尋欄 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">基礎搜尋欄</h2>
         </template>
@@ -69,7 +69,7 @@ const handleResetFilter = () => {
 
 
       <!-- 帶自定義按鈕的搜尋欄 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">帶自定義按鈕的搜尋欄</h2>
         </template>
@@ -99,7 +99,7 @@ const handleResetFilter = () => {
       </el-card>
 
       <!-- 帶自定義篩選的搜尋欄 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">帶自定義篩選的搜尋欄</h2>
         </template>
@@ -135,7 +135,7 @@ const handleResetFilter = () => {
 
 
       <!-- 搜尋欄功能展示 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">搜尋欄功能展示</h2>
         </template>

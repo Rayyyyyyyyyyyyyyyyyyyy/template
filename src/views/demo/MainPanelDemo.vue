@@ -14,12 +14,12 @@ const handleBackClick = () => {
 </script>
 
 <template>
-  <div class="p-8 bg-gray-50 min-h-screen">
-    <div class="max-w-6xl mx-auto">
+  <div class="demo-page">
+    <div class="demo-container">
       <h1 class="text-3xl font-bold text-gray-900 mb-8">MainPanel 組件示範</h1>
 
       <!-- 基礎主面板 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">基礎主面板</h2>
         </template>
@@ -28,7 +28,7 @@ const handleBackClick = () => {
       </el-card>
 
       <!-- 帶標題的主面板 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">帶標題的主面板</h2>
         </template>
@@ -44,9 +44,9 @@ const handleBackClick = () => {
                   <h4 class="text-lg font-semibold text-green-600">活躍用戶</h4>
                   <p class="text-2xl font-bold text-green-800">856</p>
                 </div>
-                <div class="bg-purple-50 p-4 rounded-lg">
-                  <h4 class="text-lg font-semibold text-purple-600">新增用戶</h4>
-                  <p class="text-2xl font-bold text-purple-800">42</p>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                  <h4 class="text-lg font-semibold text-gray-600">新增用戶</h4>
+                  <p class="text-2xl font-bold text-gray-900">42</p>
                 </div>
               </div>
             </div>
@@ -55,7 +55,7 @@ const handleBackClick = () => {
       </el-card>
 
       <!-- 帶返回按鈕的主面板 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">帶返回按鈕的主面板</h2>
         </template>
@@ -91,16 +91,16 @@ const handleBackClick = () => {
       </el-card>
 
       <!-- 自定義樣式的主面板 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">自定義樣式的主面板</h2>
         </template>
         <MainPanel title="自定義面板">
           <template #main>
             <div class="p-6">
-              <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-lg">
-                <h3 class="text-xl font-bold mb-2">漸變背景</h3>
-                <p>這是一個帶有漸變背景的自定義面板內容。</p>
+              <div class="bg-blue-50 text-gray-900 p-6 rounded-lg">
+                <h3 class="text-xl font-bold mb-2">淺色背景</h3>
+                <p>這是一個帶有淺色背景的自定義面板內容。</p>
               </div>
             </div>
           </template>
@@ -108,7 +108,7 @@ const handleBackClick = () => {
       </el-card>
 
       <!-- 功能展示說明 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">功能展示說明</h2>
         </template>

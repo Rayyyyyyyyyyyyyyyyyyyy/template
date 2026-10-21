@@ -1,0 +1,470 @@
+/* Documentation-site chrome is separate from the published component styles. */
+.site-shell {
+  width: 100%;
+  --el-card-border-radius: 6px;
+}
+
+/* Native button hover colors need the same readable contrast as BaseBtn. */
+.site-shell .el-button--primary {
+  --el-button-hover-bg-color: var(--main-color-dark-2);
+  --el-button-hover-border-color: var(--main-color-dark-2);
+  --el-button-hover-link-text-color: var(--main-color-dark-2);
+}
+
+.site-shell .el-button--primary.is-plain {
+  --el-button-text-color: var(--main-color-dark-2);
+}
+
+.site-shell :focus-visible {
+  outline: 2px solid var(--main-color);
+  outline-offset: 3px;
+}
+
+.site-shell ::selection {
+  color: var(--el-text-color-primary);
+  background: var(--main-color-light-7);
+}
+
+.site-shell a {
+  text-underline-offset: 4px;
+}
+
+.site-header {
+  border-bottom: 1px solid var(--el-border-color-lighter);
+  background: var(--el-bg-color, #ffffff);
+}
+
+.site-header__inner {
+  max-width: 1280px;
+  min-height: 72px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 32px;
+}
+
+.site-brand {
+  color: var(--el-text-color-primary);
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.site-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--el-text-color-regular);
+  text-decoration: none;
+}
+
+.site-nav a:hover,
+.site-nav .router-link-active {
+  color: var(--main-color);
+}
+
+.site-nav .router-link-active {
+  text-decoration: underline;
+}
+
+.skip-link {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  z-index: 100;
+  padding: 8px 16px;
+  color: var(--main-color);
+  background: white;
+  transform: translateY(-160%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.site-shell main,
+.demo-container,
+.demo-section,
+.demo-card {
+  min-width: 0;
+}
+
+.site-breadcrumb {
+  max-width: 1216px;
+  margin: 24px auto 0;
+  padding: 0 32px;
+  color: var(--main-color);
+  font-size: 14px;
+}
+
+.demo-page {
+  padding: 40px 32px 64px;
+  background: var(--el-fill-color-blank);
+}
+
+.demo-container {
+  width: 100%;
+  max-width: 1152px;
+  margin: 0 auto;
+}
+
+.demo-page.demo-container {
+  max-width: 1216px;
+}
+
+.docs-page .demo-container {
+  max-width: 960px;
+}
+
+.demo-page h1 {
+  margin-bottom: 16px;
+  color: var(--el-text-color-primary);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.demo-page h2,
+.demo-page h3 {
+  overflow-wrap: anywhere;
+}
+
+.demo-page h2 {
+  font-weight: 600;
+}
+
+.demo-section {
+  border: 1px solid var(--el-border-color-lighter);
+  border-radius: 6px;
+  background: var(--el-fill-color-blank);
+}
+
+.demo-page .el-card {
+  --el-card-padding: 24px;
+  --el-card-border-color: var(--el-border-color-lighter);
+  --el-card-border-radius: 6px;
+}
+
+.example-heading {
+  padding: 24px;
+  border-bottom: 1px solid var(--el-border-color-lighter);
+}
+
+.example-heading > .flex {
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.example-body > .flex {
+  flex-wrap: wrap;
+}
+
+.example-body {
+  padding: 24px;
+}
+
+.example-code {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 20px;
+  border: 1px solid var(--el-border-color-lighter);
+  border-radius: 4px;
+  background: var(--el-fill-color-light);
+  color: var(--el-text-color-primary);
+  font:
+    13px/1.8 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Consolas,
+    monospace;
+  tab-size: 2;
+}
+
+.catalog-heading,
+.catalog-start {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.catalog-heading {
+  margin-bottom: 32px;
+}
+
+.catalog-heading p {
+  max-width: 65ch;
+  color: var(--el-text-color-regular);
+  line-height: 1.8;
+}
+
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.demo-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.demo-card .el-card__header {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.demo-card__heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.demo-card__heading svg {
+  flex-shrink: 0;
+  color: var(--main-color);
+}
+
+.demo-card h3 {
+  color: var(--el-text-color-primary);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.demo-card p,
+.demo-card__features {
+  color: var(--el-text-color-regular);
+  font-size: 13px;
+}
+
+.demo-card .el-card__body {
+  flex: 1;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.demo-card__features {
+  display: grid;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+  line-height: 1.7;
+}
+
+.demo-card__more {
+  color: var(--el-text-color-regular);
+}
+
+.demo-card .el-card__footer {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.catalog-start {
+  align-items: center;
+  margin-top: 40px;
+  padding: 24px 0;
+  border-block: 1px solid var(--el-border-color-lighter);
+}
+
+.catalog-start h2,
+.home-reference h2 {
+  margin-bottom: 8px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.catalog-start p,
+.catalog-notes dd,
+.home-reference p,
+.home-components dd {
+  color: var(--el-text-color-regular);
+}
+
+.catalog-start__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.catalog-start__actions .el-button {
+  margin-left: 0;
+}
+
+.catalog-notes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.catalog-notes dt,
+.home-components dt {
+  margin-bottom: 8px;
+  color: var(--el-text-color-primary);
+  font-weight: 600;
+}
+
+.home-page {
+  max-width: 1216px;
+  margin: 0 auto;
+  padding: 96px 32px 64px;
+}
+
+.home-intro h1 {
+  color: var(--el-text-color-primary);
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 650;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.home-intro h1 span {
+  color: var(--main-color);
+}
+
+.home-intro > p {
+  margin-top: 24px;
+  color: var(--el-text-color-regular);
+  font-size: 18px;
+}
+
+.home-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.site-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 20px;
+  border: 1px solid var(--el-border-color);
+  border-radius: 4px;
+  background: #ffffff;
+  color: var(--el-text-color-regular);
+  font: inherit;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 150ms,
+    border-color 150ms;
+}
+
+.site-button:hover {
+  border-color: var(--main-color);
+  background: var(--el-fill-color-light);
+  color: var(--main-color);
+}
+
+.site-button--primary {
+  border-color: var(--main-color);
+  background: var(--main-color);
+  color: #ffffff;
+}
+
+.site-button--primary:hover {
+  border-color: var(--main-color-dark-2);
+  background: var(--main-color-dark-2);
+  color: #ffffff;
+}
+
+.home-reference {
+  margin-top: 72px;
+  padding-top: 32px;
+  border-top: 1px solid var(--el-border-color-lighter);
+}
+
+.home-components {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.install-command {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 32px;
+  padding: 12px 16px;
+  border-radius: 4px;
+  background: var(--el-fill-color-light);
+  color: var(--el-text-color-regular);
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1024px) {
+  .catalog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .site-header__inner {
+    padding: 16px 20px 8px;
+  }
+
+  .site-nav {
+    width: 100%;
+    gap: 20px;
+  }
+
+  .demo-page {
+    padding: 28px 20px 40px;
+  }
+
+  .site-breadcrumb {
+    padding-inline: 20px;
+  }
+
+  .demo-page h1 {
+    font-size: 26px;
+  }
+
+  .catalog-grid,
+  .catalog-notes,
+  .home-components {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .demo-page .el-card {
+    --el-card-padding: 20px;
+  }
+
+  .example-heading,
+  .example-body {
+    padding: 20px;
+  }
+
+  .home-page {
+    padding: 48px 20px 40px;
+  }
+
+  .home-reference {
+    margin-top: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-button {
+    transition: none;
+  }
+}

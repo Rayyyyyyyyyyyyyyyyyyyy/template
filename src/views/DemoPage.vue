@@ -12,7 +12,6 @@ const currentLocale = ref(locale.value)
 const switchLocale = () => {
   currentLocale.value = currentLocale.value === 'zh-TW' ? 'en-US' : 'zh-TW'
   locale.value = currentLocale.value
-  console.log('locale.value', locale.value)
 }
 
 // 新開頁面方法
@@ -230,196 +229,87 @@ const goDemoPage = (path: string) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 py-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- 語系切換按鈕 -->
-      <div class="flex justify-end mb-4">
+  <div class="demo-page">
+    <div class="demo-container">
+      <header class="catalog-heading">
+        <div>
+          <h1>組件示範中心</h1>
+          <p>
+            探索我們精心設計的 Vue 3 組件庫，每個組件都經過精心設計和測試，提供完整的 TypeScript
+            支持和現代化的用戶體驗。
+          </p>
+        </div>
         <base-btn
           :text="currentLocale === 'zh-TW' ? '中文 / English' : 'English / 中文'"
-          type="primary"
           @click="switchLocale"
         />
-      </div>
+      </header>
 
-      <!-- 頁面標題 -->
-      <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold text-gray-900 mb-4">組件示範中心</h1>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-          探索我們精心設計的 Vue 3 組件庫，每個組件都經過精心設計和測試，提供完整的 TypeScript
-          支持和現代化的用戶體驗。
-        </p>
-      </div>
-
-      <!-- 組件卡片網格 -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <el-card
-          v-for="demo in demoPages"
-          :key="demo.title"
-          class="demo-card h-full flex flex-col"
-          shadow="hover"
-        >
-          <!-- 卡片頭部 -->
+      <div class="catalog-grid">
+        <el-card v-for="demo in demoPages" :key="demo.title" class="demo-card" shadow="never">
           <template #header>
-            <div class="flex items-center">
-              <div class="flex-shrink-0">
-                <svg
-                  class="w-8 h-8 text-blue-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    :d="demo.icon"
-                  />
-                </svg>
-              </div>
-              <div class="ml-4">
-                <h3 class="text-xl font-semibold text-gray-900">{{ demo.title }}</h3>
-                <p class="text-gray-600">{{ demo.description }}</p>
-              </div>
-            </div>
-          </template>
-
-          <!-- 功能特色 -->
-          <div>
-            <h4 class="text-sm font-medium text-gray-900 mb-3">功能特色</h4>
-            <ul class="space-y-2">
-              <li
-                v-for="feature in demo.features.slice(0, 4)"
-                :key="feature"
-                class="flex items-start text-sm text-gray-600"
+            <div class="demo-card__heading">
+              <svg
+                aria-hidden="true"
+                width="20"
+                height="20"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                <svg
-                  class="w-4 h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                <span>{{ feature }}</span>
-              </li>
-              <li v-if="demo.features.length > 4" class="text-sm text-gray-500">
-                還有 {{ demo.features.length - 4 }} 個功能特色...
-              </li>
-            </ul>
-          </div>
-
-          <!-- 卡片底部 -->
-          <template #footer>
-            <BaseBtn type="primary" @click="goDemoPage(demo.route)" class="w-full justify-center">
-              查看示範
-              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
+                  stroke-width="1.5"
+                  :d="demo.icon"
                 />
               </svg>
-            </BaseBtn>
+              <h3>{{ demo.title }}</h3>
+            </div>
+            <p>{{ demo.description }}</p>
+          </template>
+          <ul class="demo-card__features">
+            <li v-for="feature in demo.features.slice(0, 4)" :key="feature">{{ feature }}</li>
+            <li v-if="demo.features.length > 4" class="demo-card__more">
+              還有 {{ demo.features.length - 4 }} 個功能特色…
+            </li>
+          </ul>
+          <template #footer>
+            <BaseBtn
+              type="primary"
+              @click="goDemoPage(demo.route)"
+              :aria-label="`查看 ${demo.title} 示範`"
+              >查看示範</BaseBtn
+            >
           </template>
         </el-card>
       </div>
 
-      <!-- 快速開始 -->
-      <el-card class="mt-16" shadow="always">
-        <div class="text-center">
-          <h2 class="text-2xl font-bold text-gray-900 mb-4">快速開始</h2>
-          <p class="text-gray-600 mb-6">
-            想要在自己的專案中使用這些組件嗎？查看我們的安裝和使用指南。
-          </p>
-          <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <BaseBtn type="primary" size="large" class="px-8 py-3" @click="openInstallGuide">
-              安裝指南
-            </BaseBtn>
-            <BaseBtn type="default" size="large" class="px-8 py-3" @click="openDocsCenter">
-              文檔中心
-            </BaseBtn>
-          </div>
+      <section class="catalog-start">
+        <div>
+          <h2>快速開始</h2>
+          <p>想要在自己的專案中使用這些組件嗎？查看我們的安裝和使用指南。</p>
         </div>
-      </el-card>
+        <div class="catalog-start__actions">
+          <BaseBtn type="primary" is-fill @click="openInstallGuide">安裝指南</BaseBtn>
+          <BaseBtn @click="openDocsCenter">文檔中心</BaseBtn>
+        </div>
+      </section>
 
-      <!-- 技術特色 -->
-      <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-        <el-card class="text-center" shadow="hover">
-          <div
-            class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4"
-          >
-            <svg
-              class="w-8 h-8 text-blue-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-              />
-            </svg>
-          </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">TypeScript 支持</h3>
-          <p class="text-gray-600">完整的類型定義，提供更好的開發體驗和代碼提示。</p>
-        </el-card>
-        <el-card class="text-center" shadow="hover">
-          <div
-            class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4"
-          >
-            <svg
-              class="w-8 h-8 text-green-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 10V3L4 14h7v7l9-11h-7z"
-              />
-            </svg>
-          </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">高性能</h3>
-          <p class="text-gray-600">基於 Vue 3 Composition API，提供更好的性能和更小的包大小。</p>
-        </el-card>
-        <el-card class="text-center" shadow="hover">
-          <div
-            class="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4"
-          >
-            <svg
-              class="w-8 h-8 text-purple-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"
-              />
-            </svg>
-          </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">響應式設計</h3>
-          <p class="text-gray-600">使用 Tailwind CSS，適配各種螢幕尺寸和設備。</p>
-        </el-card>
-      </div>
+      <dl class="catalog-notes">
+        <div>
+          <dt>TypeScript 支持</dt>
+          <dd>完整的類型定義，提供更好的開發體驗和代碼提示。</dd>
+        </div>
+        <div>
+          <dt>高性能</dt>
+          <dd>基於 Vue 3 Composition API，提供更好的性能和更小的包大小。</dd>
+        </div>
+        <div>
+          <dt>響應式設計</dt>
+          <dd>使用 Tailwind CSS，適配各種螢幕尺寸和設備。</dd>
+        </div>
+      </dl>
     </div>
   </div>
 </template>
-
-<style scoped>
-.demo-card :deep(.el-card__body) {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-</style>

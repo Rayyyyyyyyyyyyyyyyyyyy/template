@@ -12,12 +12,12 @@ const handleBack = (payload: { path?: string; [key: string]: unknown }) => {
 </script>
 
 <template>
-  <div class="p-8 bg-gray-50 min-h-screen">
-    <div class="max-w-6xl mx-auto">
+  <div class="demo-page">
+    <div class="demo-container">
       <h1 class="text-3xl font-bold text-gray-900 mb-8">FunctionHeader 組件示範</h1>
 
       <!-- 基礎功能標題 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">基礎功能標題</h2>
         </template>
@@ -27,7 +27,7 @@ const handleBack = (payload: { path?: string; [key: string]: unknown }) => {
       </el-card>
 
       <!-- 帶返回按鈕的標題 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">帶返回按鈕的標題</h2>
         </template>
@@ -39,7 +39,7 @@ const handleBack = (payload: { path?: string; [key: string]: unknown }) => {
       </el-card>
 
       <!-- 帶自定義返回路徑的標題 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">帶自定義返回路徑的標題</h2>
         </template>
@@ -51,7 +51,7 @@ const handleBack = (payload: { path?: string; [key: string]: unknown }) => {
       </el-card>
 
       <!-- 帶自定義返回對象的標題 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">帶自定義返回對象的標題</h2>
         </template>
@@ -62,7 +62,7 @@ const handleBack = (payload: { path?: string; [key: string]: unknown }) => {
         />
       </el-card>
 
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header><h2 class="text-xl font-semibold">完整使用範例與操作插槽</h2></template>
         <HeaderExample />
         <ExampleCode :source="headerSource" />
@@ -71,7 +71,7 @@ const handleBack = (payload: { path?: string; [key: string]: unknown }) => {
       <output aria-live="polite">{{ lastBack }}</output>
 
       <!-- 功能展示說明 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">功能展示說明</h2>
         </template>

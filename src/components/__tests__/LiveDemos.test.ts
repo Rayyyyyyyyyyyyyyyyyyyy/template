@@ -21,7 +21,7 @@ it('renders the main content of all four panels, canonical search/footer slots, 
   await flushPromises()
   const panels = wrapper.findAllComponents(MainPanel)
   expect(panels).toHaveLength(4)
-  for (const [index, text] of ['主要內容', '1,234', '數據項目 3', '這是一個帶有漸變背景的自定義面板內容。'].entries()) {
+  for (const [index, text] of ['主要內容', '1,234', '數據項目 3', '這是一個帶有淺色背景的自定義面板內容。'].entries()) {
     expect(panels[index].get('.panel-scrollbar').text()).toContain(text)
   }
   expect(panels[0].text()).toContain('搜尋操作區')

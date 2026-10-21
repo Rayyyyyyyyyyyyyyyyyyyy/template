@@ -58,8 +58,8 @@ const handleCollapseTagsChange = (value: string | string[] | undefined | null) =
 </script>
 
 <template>
-  <div class="p-8 bg-gray-50 min-h-screen">
-    <div class="max-w-6xl mx-auto">
+  <div class="demo-page">
+    <div class="demo-container">
       <h1 class="text-3xl font-bold text-gray-900 mb-8">BaseSelector 組件示範</h1>
 
       <!-- 基本用法 -->

@@ -6,7 +6,7 @@ import router from './router'
 import { messages as componentMessages } from './locales'
 import '@/assets/base.css'
 import '@/assets/styles/tailwind.scss'
-import '@/assets/styles/element/index.scss'
+import '@/assets/demo.css'
 
 const app = createApp(App)
 

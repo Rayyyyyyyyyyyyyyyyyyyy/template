@@ -44,12 +44,12 @@ const handleBlur = () => {
 </script>
 
 <template>
-  <div class="p-8 bg-gray-50 min-h-screen">
-    <div class="max-w-6xl mx-auto">
+  <div class="demo-page">
+    <div class="demo-container">
       <h1 class="text-3xl font-bold text-gray-900 mb-8">BaseInput 組件示範</h1>
 
       <!-- 基礎輸入框 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">基礎輸入框</h2>
         </template>
@@ -76,7 +76,7 @@ const handleBlur = () => {
       </el-card>
 
       <!-- 輸入框狀態 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">輸入框狀態</h2>
         </template>
@@ -103,7 +103,7 @@ const handleBlur = () => {
       </el-card>
 
       <!-- 可清除輸入框 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">可清除輸入框</h2>
         </template>
@@ -129,7 +129,7 @@ const handleBlur = () => {
       </el-card>
 
       <!-- 帶驗證的輸入框 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">帶驗證的輸入框</h2>
         </template>

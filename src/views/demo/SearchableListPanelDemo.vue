@@ -156,9 +156,9 @@ const handleSearchableListBackClick = () => {
 
 <template>
   <!-- SearchableListPanel 示範 -->
-  <section id="searchable-list-panel-demo" class="mb-12">
-    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-      <div class="px-8 py-6 border-b border-gray-100">
+  <section id="searchable-list-panel-demo" class="demo-page demo-container">
+    <div class="demo-section overflow-hidden">
+      <div class="example-heading">
         <div class="flex justify-between items-center">
           <div>
             <h2 class="text-2xl font-semibold text-gray-900 mb-2">SearchableListPanel 示範</h2>
@@ -176,7 +176,7 @@ const handleSearchableListBackClick = () => {
           </div>
         </div>
       </div>
-      <div class="p-8">
+      <div class="example-body">
         <SearchableListPanel
           title="用戶管理"
           :pagination="{ ...state.pagination, totalCount: filteredUserData.length }"

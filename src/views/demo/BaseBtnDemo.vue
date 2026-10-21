@@ -4,12 +4,12 @@ import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 </script>
 
 <template>
-  <div class="p-8 bg-gray-50 min-h-screen">
-    <div class="max-w-6xl mx-auto">
+  <div class="demo-page">
+    <div class="demo-container">
       <h1 class="text-3xl font-bold text-gray-900 mb-8">BaseBtn 組件示範</h1>
 
       <!-- 按鈕樣式 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">按鈕樣式</h2>
         </template>
@@ -26,7 +26,7 @@ import { Plus, Edit, Delete } from '@element-plus/icons-vue'
       </el-card>
 
       <!-- 按鈕尺寸 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">按鈕尺寸</h2>
         </template>
@@ -40,7 +40,7 @@ import { Plus, Edit, Delete } from '@element-plus/icons-vue'
       </el-card>
 
       <!-- 按鈕狀態 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">按鈕狀態</h2>
         </template>
@@ -54,7 +54,7 @@ import { Plus, Edit, Delete } from '@element-plus/icons-vue'
       </el-card>
 
       <!-- 禁用狀態樣式展示 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">禁用狀態樣式</h2>
         </template>
@@ -107,7 +107,7 @@ import { Plus, Edit, Delete } from '@element-plus/icons-vue'
       </el-card>
 
       <!-- 帶圖標的按鈕 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">帶圖標的按鈕</h2>
         </template>

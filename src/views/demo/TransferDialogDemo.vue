@@ -113,15 +113,15 @@ const simulateLoading = () => {
 
 <template>
   <!-- TransferDialog 示範 -->
-  <section class="mb-12">
-    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-      <div class="px-8 py-6 border-b border-gray-100">
+  <section class="demo-page demo-container">
+    <div class="demo-section overflow-hidden">
+      <div class="example-heading">
         <h2 class="text-2xl font-semibold text-gray-900 mb-2">TransferDialog 示範</h2>
         <p class="text-gray-600 text-base leading-relaxed">
           展示 TransferDialog 組件的表格列配置功能
         </p>
       </div>
-      <div class="p-8">
+      <div class="example-body">
         <div class="flex items-center gap-3 mb-8">
           <BaseBtn type="primary" @click="state.showTransferDialog = true" class="px-6 py-2.5">
             配置用戶表格列

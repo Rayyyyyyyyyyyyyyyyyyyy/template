@@ -1,39 +1,34 @@
-
-// 聲明變數
-$namespace: 'ep';
-$colors: (
-  'main': (
-    'base': #0072bc,
-    'light-3': #3391c9,
-    'light-5': #66b0d6,
-    'light-7': #99cfe3,
-    'light-8': #b3def0,
-    'light-9': #ccedf7,
-    'dark-2': #005b96
-  )
-);
-
 // 主題變數覆蓋
 :root {
   // Tailwind 自定義顏色
-  --color-primary: #6785c1;
-  --color-primary-10: #e0e0e0;
-  --color-primary-15: #F5F5F5;
-  --color-primary-20: #E0E0E0;
-  --color-primary-40: #b1c4e4;
-  --color-primary-60: #8facd9;
-  --color-primary-80: #7198ce;
-  --color-primary-dark: #4566a8;
+  --color-primary: #256fc0;
+  --color-primary-10: #f5f7fa;
+  --color-primary-15: #f5f7fa;
+  --color-primary-20: #ebeef5;
+  --color-primary-40: #d9e8f7;
+  --color-primary-60: #a8c8e9;
+  --color-primary-80: #6e9fd3;
+  --color-primary-dark: #1d599a;
 
   // 主色系
-  --main-color: #0072bc;
-  --main-color-light-3: #3391c9;
-  --main-color-light-5: #66b0d6;
-  --main-color-light-7: #99cfe3;
-  --main-color-light-8: #b3def0;
-  --main-color-light-9: #ccedf7;
-  --main-color-dark-2: #005b96;
-  --main-color-border: #c5c8cc;
+  --main-color: #256fc0;
+  --main-color-light-3: #669ad3;
+  --main-color-light-5: #92b7df;
+  --main-color-light-7: #bed4ec;
+  --main-color-light-8: #d3e2f2;
+  --main-color-light-9: #e9f1f9;
+  --main-color-dark-2: #1d599a;
+  --main-color-border: #dcdfe6;
+
+  // Keep native Element Plus controls and library wrappers on the same palette.
+  --el-color-primary: var(--main-color);
+  --el-color-primary-rgb: 37, 111, 192;
+  --el-color-primary-light-3: var(--main-color-light-3);
+  --el-color-primary-light-5: var(--main-color-light-5);
+  --el-color-primary-light-7: var(--main-color-light-7);
+  --el-color-primary-light-8: var(--main-color-light-8);
+  --el-color-primary-light-9: var(--main-color-light-9);
+  --el-color-primary-dark-2: var(--main-color-dark-2);
 
   // Control text/fills keep decorative status colors unchanged.
   --control-success: #357a1c;

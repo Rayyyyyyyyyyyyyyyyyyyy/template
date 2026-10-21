@@ -1,32 +1,32 @@
 <script setup lang="ts">
-import FunctionHeader from '../components/layout/FunctionHeader.vue'
-import { ROUTES } from '@/router/constants.ts'
-import { useRoute, useRouter } from 'vue-router'
-import { computed } from 'vue'
+import { ROUTES } from '@/router/constants'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const router = useRouter()
-
-const showBack = computed(() => route.path !== ROUTES.DEMO && route.path !== ROUTES.ROOT)
 </script>
 
 <template>
-  <el-container class="w-full">
-    <el-main class="bg-white !p-0">
-      <function-header
-        v-if="showBack"
-        :showBack="true"
-        @back="router.push(ROUTES.DEMO)"
-        title="Back to home"
-      />
-
+  <div class="site-shell">
+    <a class="skip-link" href="#main-content">跳至主要內容</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <RouterLink :to="ROUTES.ROOT" class="site-brand">Vue Table Components</RouterLink>
+        <nav class="site-nav" aria-label="主要導覽">
+          <RouterLink :to="ROUTES.DEMO">組件示範</RouterLink>
+          <RouterLink :to="ROUTES.INSTALL_GUIDE">安裝指南</RouterLink>
+          <RouterLink :to="ROUTES.DOCS_CENTER">文件中心</RouterLink>
+        </nav>
+      </div>
+    </header>
+    <main id="main-content" tabindex="-1">
+      <div v-if="route.path.startsWith(`${ROUTES.DEMO}/`)" class="site-breadcrumb">
+        <RouterLink :to="ROUTES.DEMO">返回組件示範</RouterLink>
+      </div>
       <router-view v-slot="{ Component }">
         <keep-alive :include="/.*(Page|Detail)$/">
           <component :is="Component" />
         </keep-alive>
       </router-view>
-    </el-main>
-  </el-container>
+    </main>
+  </div>
 </template>
-
-<style scoped lang="scss"></style>

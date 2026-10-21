@@ -58,12 +58,12 @@ const handlePageSizeChange = (size: number) => {
 </script>
 
 <template>
-  <div class="p-8 bg-gray-50 min-h-screen">
+  <div class="demo-page">
     <div class="max-w-4xl mx-auto">
       <h1 class="text-3xl font-bold text-gray-900 mb-8">i18n 測試頁面</h1>
 
       <!-- 語系切換 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">語系切換</h2>
         </template>
@@ -78,7 +78,7 @@ const handlePageSizeChange = (size: number) => {
       </el-card>
 
       <!-- BaseTable 測試 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">BaseTable 組件測試</h2>
         </template>
@@ -119,7 +119,7 @@ const handlePageSizeChange = (size: number) => {
       </el-card>
 
       <!-- BaseDialog 測試 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">BaseDialog 組件測試</h2>
         </template>
@@ -139,7 +139,7 @@ const handlePageSizeChange = (size: number) => {
       </el-card>
 
       <!-- SearchBar 測試 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">SearchBar 組件測試</h2>
         </template>
@@ -154,7 +154,7 @@ const handlePageSizeChange = (size: number) => {
       </el-card>
 
       <!-- Element Plus Pagination 測試 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">Element Plus Pagination 測試</h2>
         </template>
@@ -188,7 +188,7 @@ const handlePageSizeChange = (size: number) => {
       </el-card>
 
       <!-- 當前語系資訊 -->
-      <el-card class="mb-8" shadow="always">
+      <el-card class="mb-8" shadow="never">
         <template #header>
           <h2 class="text-xl font-semibold">當前語系資訊</h2>
         </template>

@@ -256,17 +256,16 @@ const simulateLoading = () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-100 p-6 md:p-8">
-    <div class="mx-auto max-w-7xl space-y-6">
-      <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <p class="text-sm font-medium text-blue-600">Table Playground</p>
+  <div class="demo-page">
+    <div class="demo-container space-y-6">
+      <section class="demo-section p-6">
         <h1 class="mt-1 text-3xl font-bold tracking-tight text-slate-900">表格組件示範中心</h1>
         <p class="mt-2 text-sm text-slate-500">
           一頁測試 `SortTable`、`TitleTable`、`BaseTable` 的展開列、索引列、樹形資料與懶加載。
         </p>
       </section>
 
-      <el-card shadow="never" class="rounded-2xl border border-slate-200 bg-white">
+      <el-card shadow="never" class="demo-section">
         <template #header>
           <div class="flex items-center justify-between">
             <h2 class="text-lg font-semibold text-slate-800">互動控制面板</h2>
@@ -289,7 +288,7 @@ const simulateLoading = () => {
       </el-card>
 
       <section class="grid gap-6 xl:grid-cols-2">
-        <el-card shadow="never" class="rounded-2xl border border-slate-200 bg-white">
+        <el-card shadow="never" class="demo-section">
           <template #header>
             <div class="flex items-center justify-between">
               <h3 class="text-lg font-semibold text-slate-800">SortTable 展示</h3>
@@ -328,7 +327,7 @@ const simulateLoading = () => {
           </SortTable>
         </el-card>
 
-        <el-card shadow="never" class="rounded-2xl border border-slate-200 bg-white">
+        <el-card shadow="never" class="demo-section">
           <template #header>
             <div class="flex items-center justify-between">
               <h3 class="text-lg font-semibold text-slate-800">TitleTable 展示</h3>
@@ -377,7 +376,7 @@ const simulateLoading = () => {
         </el-card>
       </section>
 
-      <el-card shadow="never" class="rounded-2xl border border-slate-200 bg-white">
+      <el-card shadow="never" class="demo-section">
         <template #header>
           <div class="flex items-center justify-between">
             <h3 class="text-lg font-semibold text-slate-800">BaseTable 樹形資料 + 懶加載</h3>
@@ -410,7 +409,7 @@ const simulateLoading = () => {
         </div>
       </el-card>
 
-      <el-card shadow="never" class="rounded-2xl border border-slate-200 bg-white">
+      <el-card shadow="never" class="demo-section">
         <template #header>
           <h3 class="text-lg font-semibold text-slate-800">快速參數參考</h3>
         </template>
