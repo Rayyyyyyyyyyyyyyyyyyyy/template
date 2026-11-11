@@ -302,3 +302,43 @@ src/main.ts、src/views、src/router、src/layout、src/const   （demo，只能
 - A3 提到的透明度寫法（`bg-primary/10` 等）用到幾處沒有盤點。
 - 沒有評估 SSR 支援程度，沒列入計劃。
 - agency-agents 的角色檔在 `~/.claude/agents/` 找不到，改讀 catalog 列出的 `~/.codex/agents/software-architect.toml` 與 `ux-architect.toml`，內容完整讀過。
+
+## 12. 修訂與執行紀錄（2026-11-11）
+
+### 12.1 審查修訂
+
+執行前審查本計劃，發現下列 6 點。前 5 點已更正對應章節的理解，第 6 點要在 2.7 動手前確認。
+
+| # | 位置 | 問題 | 修訂 |
+| --- | --- | --- | --- |
+| R1 | 8.2 | 宿主載入 Element Plus 的 dark css-vars 後，`html.dark` 選擇器的優先權高於 `:root`，套件在 `:root` 設的 `--el-color-primary-light-*` 色階會被蓋掉 | 8.2 的交付內容加一項：主色色階也要在 `html.dark` 下補一組值，並在 `ThemeContract.test.ts` 檢查 |
+| R2 | 8.3、8.4 | U3.4（預設文字）、U3.6（確認鈕改 danger、焦點落在取消）、U4.1（640px 以下分頁只留三段）會改變既有預設行為，和第 1 節「2.x 只做向後相容」衝突 | 這三項在 2.x 改成宿主自行開啟（新增 prop，預設維持現狀），預設值的改變移到 3.0 |
+| R3 | 第 4–6 節 | 小節編號 2.1–2.7、3.1–3.8、4.1–4.7 和章節編號撞號，例如「2.2」可能指第 2 節，也可能指樣式入口那一項 | 小節編號是項目代號，不是章節號。本次不重新編號，以免既有引用失效；引用時寫「項目 2.2」 |
+| R4 | 8.6 U6.1 | 「從型別檔產生 props／events／slots 表格」需要新的文件產生工具鏈，一項放不下 | 拆成兩步：先手寫最常用的 5 個元件，再評估產生工具 |
+| R5 | 4 項目 2.1 | tree-shake 只對具名 import 有效。`app.use(plugin)` 全量安裝一定會帶進所有元件 | 本輪的檢查只驗證 `rayyy-vue-table-components/components` 具名 import `BaseBtn`；根入口的具名 import 尚未量測 |
+| R6 | 4 項目 2.7 | 事件改名成 `update:page`／`update:pageSize`，會讓人以為可以用 `v-model:page`。元件目前沒有 `page` prop | 動手前先決定：補上 `page`／`pageSize` prop 支援 v-model，或改用不帶 `update:` 的事件名 |
+
+### 12.2 本輪已完成（branch `ft/upgrade-2x`）
+
+每項都有一個先失敗再通過的測試或檢查，並經過另一個 reviewer 驗收。
+
+| 項目 | commit | 說明 |
+| --- | --- | --- |
+| 1.1、1.5 | `6ee3037` | TransferDialog：沒有 `prop` 的欄位保留 `checkActive`；搜尋不分大小寫 |
+| 1.2 | `b15e17f` | `click:back` 帶 payload，四個 layout 的 EventMap 同步 |
+| 1.3、1.4 | `1248cff` | BaseSelector 的 placeholder 跟隨語系（沿用既有的 `common.select`，沒有新增 key）；option key 改用 value |
+| 1.6、1.8 | `b6d5a22` | vue peer `^3.3.0`；LICENSE、CHANGELOG、author、repository |
+| 1.7 | `f6fb42e` | 刪除沒人用的檔案與常數 |
+| U3.3、U3.5、U4.2 | `8279f65` | 序號欄跟隨語系；警告對話框 `min-h-16`；TitleTable 標題列 `min-h-12 flex-wrap` |
+| A1、A2 | `96b0796` | ESLint 鎖住 lib→demo 依賴方向，lib 內禁用 `@/` alias |
+| A6 | `70dccbe` | `check:package` 加產物大小上限（esm 100000、cjs 85000、css 42000 bytes） |
+| 項目 2.1 | `38ff3f6` | `sideEffects` 加上 `withInstall` 的 `/*#__PURE__*/`。只 import BaseBtn 時從 82583 bytes 降到 1780 bytes |
+| 項目 2.3 | `4c13aac` | `--rvtc-panel-max-height`、`--rvtc-detail-min-height`、`--rvtc-detail-content-max-height` |
+| 項目 2.4 | `40f7d4b` | 三個表格透過 ref 開放 `clearSelection`、`toggleRowSelection`、`doLayout`，新增型別 `TableExposed` |
+
+未驗證：U3.5、U4.2、項目 2.3 的視覺效果需要瀏覽器，本輪沒有授權，沒有看過。
+
+後續項目：
+- `SortTable.vue` 模板用 `@/assets/icons/*.svg`，ESLint 抓不到，產物仍隱性依賴 alias。
+- TransferDialog 所有欄位都沒有 `prop` 時，全選框會顯示為已勾選。
+- 沒有 BaseSelector 傳 `placeholder: ''` 的測試。
