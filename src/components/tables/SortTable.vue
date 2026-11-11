@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
-import type { SortChangValue, TableColumn } from '@/types'
+import type { SortChangValue, TableColumn } from '../../types'
 import { computed, reactive } from 'vue'
 import { Setting } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'

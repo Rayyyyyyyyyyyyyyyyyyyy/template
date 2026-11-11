@@ -3,7 +3,7 @@ import type { FunctionalComponent, VNode } from 'vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { TableColumnCtx } from 'element-plus'
-import type { SortChangValue, TableColumn } from '@/types'
+import type { SortChangValue, TableColumn } from '../../types'
 import type {
   BaseTableEventMap,
   BaseTableProps,
