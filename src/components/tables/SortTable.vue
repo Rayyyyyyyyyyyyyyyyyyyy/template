@@ -1,10 +1,10 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
 import type { SortChangValue, TableColumn } from '../../types'
-import { computed, reactive } from 'vue'
+import { computed, ref, reactive } from 'vue'
 import { Setting } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import BaseTable from './BaseTable.vue'
-import type { SortTableEventMap, SortTableProps, SortTableSlots } from '../../types/components'
+import type { SortTableEventMap, SortTableProps, SortTableSlots, TableExposed } from '../../types/components'
 
 const props = defineProps<SortTableProps<T>>()
 const { t } = useI18n()
@@ -12,6 +12,8 @@ const tableProps = computed(() => {
   const { tableTitle: _title, sortTableRowClassName, ...shared } = props
   return { ...shared, baseTableRowClassName: sortTableRowClassName ?? shared.baseTableRowClassName }
 })
+
+const tableRef = ref<TableExposed<T>>()
 
 const emit = defineEmits<SortTableEventMap<T>>()
 
@@ -48,6 +50,12 @@ const handelExcelClick = () => {
 }
 const state = reactive({
   itemOnHover: false,
+})
+
+defineExpose({
+  clearSelection: () => tableRef.value?.clearSelection(),
+  toggleRowSelection: (row: T, selected?: boolean) => tableRef.value?.toggleRowSelection(row, selected),
+  doLayout: () => tableRef.value?.doLayout(),
 })
 </script>
 
@@ -92,6 +100,7 @@ const state = reactive({
     </div>
 
     <base-table
+      ref="tableRef"
       v-bind="tableProps"
       @selection-change="handleSelectionChange"
       @cell-click="handleCellClick"

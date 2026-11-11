@@ -5,6 +5,7 @@
 ### Added
 
 - `--rvtc-panel-max-height`、`--rvtc-detail-min-height`、`--rvtc-detail-content-max-height` 三個 CSS 變數，可覆寫版面高度
+- BaseTable、SortTable、TitleTable 透過 ref 開放 `clearSelection`、`toggleRowSelection`、`doLayout`
 
 ### Fixed
 

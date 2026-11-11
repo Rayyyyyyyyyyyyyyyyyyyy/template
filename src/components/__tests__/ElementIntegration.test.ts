@@ -7,9 +7,12 @@ import en from 'element-plus/es/locale/lang/en'
 import zhTw from 'element-plus/es/locale/lang/zh-tw'
 import BaseSelector from '../form/BaseSelector.vue'
 import BaseTable from '../tables/BaseTable.vue'
+import SortTable from '../tables/SortTable.vue'
+import TitleTable from '../tables/TitleTable.vue'
 import SearchableListPanel from '../layout/SearchableListPanel.vue'
 import TransferDialog from '../transfer/TransferDialog.vue'
 import type { TableColumn } from '../../types'
+import type { TableExposed } from '../../types/components'
 import { createHostI18n } from './testHelpers'
 
 enableAutoUnmount(afterEach)
@@ -168,4 +171,41 @@ it.each([['zh-TW', '序號'], ['en-US', 'No']])('BaseTable index column label fo
   })
   await flushPromises()
   expect(wrapper.find('.el-table__header').text()).toContain(label)
+})
+
+describe('table exposed methods with real ElTable', () => {
+  const row = { id: 1, name: 'Ada' }
+  const other = { id: 2, name: 'Bob' }
+  const columns = [{ prop: 'name', label: 'Name' }]
+
+  it('BaseTable toggleRowSelection and clearSelection drive selection-change', async () => {
+    const wrapper = mount(BaseTable, { props: { data: [row, other], columns, showSelection: true }, global: global() })
+    await flushPromises()
+    const exposed = wrapper.vm as unknown as TableExposed<typeof row>
+    exposed.toggleRowSelection(row, true)
+    await nextTick()
+    expect(wrapper.emitted('selection-change')?.at(-1)?.[0]).toEqual([row])
+    exposed.clearSelection()
+    await nextTick()
+    expect(wrapper.emitted('selection-change')?.at(-1)?.[0]).toEqual([])
+  })
+
+  it.each([['SortTable', SortTable], ['TitleTable', TitleTable]])('%s forwards clearSelection to the inner ElTable', async (_name, Comp) => {
+    const wrapper = mount(Comp as typeof SortTable, { props: { data: [row], columns }, global: global() })
+    await flushPromises()
+    const spy = vi.spyOn(wrapper.findComponent(ElTable).vm, 'clearSelection')
+    ;(wrapper.vm as unknown as TableExposed<typeof row>).clearSelection()
+    expect(spy).toHaveBeenCalledTimes(1)
+  })
+
+  it.each([['BaseTable', BaseTable], ['SortTable', SortTable], ['TitleTable', TitleTable]])('%s methods are safe with empty data', async (_name, Comp) => {
+    const wrapper = mount(Comp as typeof BaseTable, { props: { data: [], columns }, global: global() })
+    await flushPromises()
+    const exposed = wrapper.vm as unknown as TableExposed<typeof row>
+    expect(() => {
+      exposed.clearSelection()
+      exposed.toggleRowSelection(row, true)
+      exposed.doLayout()
+    }).not.toThrow()
+  })
 })

@@ -39,6 +39,7 @@ export type {
   BaseTableProps,
   BaseTableEmits,
   BaseTableInstance,
+  TableExposed,
   BaseTableSlots,
   // BaseBtn 組件類型
   BaseBtnProps,

@@ -1,8 +1,8 @@
 <script setup lang="ts" generic="T extends Record<string, unknown> = Record<string, unknown>">
 import type { FunctionalComponent, VNode } from 'vue'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { TableColumnCtx } from 'element-plus'
+import type { ElTable, TableColumnCtx } from 'element-plus'
 import type { SortChangValue, TableColumn } from '../../types'
 import type {
   BaseTableEventMap,
@@ -37,6 +37,8 @@ const props = withDefaults(defineProps<BaseTableProps<T>>(), {
 })
 
 const emit = defineEmits<BaseTableEventMap<T>>()
+
+const tableRef = ref<InstanceType<typeof ElTable>>()
 
 defineSlots<BaseTableSlots<T>>()
 
@@ -74,11 +76,18 @@ const operatorWidth = computed(() => {
   }
   return undefined
 })
+
+defineExpose({
+  clearSelection: () => tableRef.value?.clearSelection(),
+  toggleRowSelection: (row: T, selected?: boolean) => tableRef.value?.toggleRowSelection(row, selected),
+  doLayout: () => tableRef.value?.doLayout(),
+})
 </script>
 
 <template>
   <div v-loading="loading" :aria-busy="loading" :element-loading-text="t('common.loading')">
     <el-table
+      ref="tableRef"
       v-if="data.length > 0"
       :data="data"
       :row-key="rowKey"

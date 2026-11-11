@@ -89,8 +89,15 @@ export interface BaseTableEmits<
   'click:editRow': (...args: BaseTableEventMap<T>['click:editRow']) => void
 }
 
+/** 表格透過 ref 開放的 el-table 方法 */
+export interface TableExposed<T extends Record<string, unknown> = Record<string, unknown>> {
+  clearSelection: () => void
+  toggleRowSelection: (row: T, selected?: boolean) => void
+  doLayout: () => void
+}
+
 /** BaseTable 組件實例類型 */
-export interface BaseTableInstance<T extends Record<string, unknown> = Record<string, unknown>> {
+export interface BaseTableInstance<T extends Record<string, unknown> = Record<string, unknown>> extends TableExposed<T> {
   /** 組件 Props */
   $props: BaseTableProps<T>
   /** 組件 Emits */
@@ -136,7 +143,7 @@ export interface SortTableEmits<T extends Record<string, unknown> = Record<strin
 }
 
 /** SortTable 組件實例類型 */
-export interface SortTableInstance<T extends Record<string, unknown> = Record<string, unknown>> {
+export interface SortTableInstance<T extends Record<string, unknown> = Record<string, unknown>> extends TableExposed<T> {
   /** 組件 Props */
   $props: SortTableProps<T>
   /** 組件 Emits */
@@ -188,7 +195,7 @@ export interface TitleTableEmits<T extends Record<string, unknown> = Record<stri
 }
 
 /** TitleTable 組件實例類型 */
-export interface TitleTableInstance<T extends Record<string, unknown> = Record<string, unknown>> {
+export interface TitleTableInstance<T extends Record<string, unknown> = Record<string, unknown>> extends TableExposed<T> {
   /** 組件 Props */
   $props: TitleTableProps<T>
   /** 組件 Emits */
