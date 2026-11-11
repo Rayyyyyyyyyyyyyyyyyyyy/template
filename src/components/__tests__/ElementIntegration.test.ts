@@ -1,10 +1,11 @@
 import { defineComponent, h, nextTick, ref } from 'vue'
 import { flushPromises, mount, enableAutoUnmount } from '@vue/test-utils'
-import { afterEach, describe, expect, it } from 'vitest'
-import ElementPlus, { ElConfigProvider, ElPagination, ElTable } from 'element-plus'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import ElementPlus, { ElConfigProvider, ElPagination, ElSelect, ElTable } from 'element-plus'
 import type { Language } from 'element-plus/es/locale'
 import en from 'element-plus/es/locale/lang/en'
 import zhTw from 'element-plus/es/locale/lang/zh-tw'
+import BaseSelector from '../form/BaseSelector.vue'
 import BaseTable from '../tables/BaseTable.vue'
 import SearchableListPanel from '../layout/SearchableListPanel.vue'
 import TransferDialog from '../transfer/TransferDialog.vue'
@@ -133,4 +134,29 @@ describe('real TransferDialog draft interactions', () => {
     await flushPromises()
     expect(await submit(wrapper)).toEqual(latest)
   })
+})
+
+it('BaseSelector placeholder follows host locale unless the host passes one', () => {
+  const plugins = [ElementPlus, createHostI18n('en-US')]
+  expect(mount(BaseSelector, { global: { plugins } }).findComponent(ElSelect).props('placeholder')).toBe('Please select')
+  expect(mount(BaseSelector, { props: { placeholder: 'X' }, global: { plugins } }).findComponent(ElSelect).props('placeholder')).toBe('X')
+})
+
+it('BaseSelector keys options by value so equal labels do not warn about duplicate keys', async () => {
+  const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+  const wrapper = mount(BaseSelector, {
+    props: { options: [{ label: 'X', value: '0' }] },
+    global: {
+      plugins: [createHostI18n()],
+      components: {
+        ElSelect: { name: 'ElSelect', template: '<div><slot /></div>' },
+        ElOption: { name: 'ElOption', props: ['label', 'value'], template: '<i />' },
+      },
+    },
+  })
+  // Vue only checks duplicate keys when patching, not on first mount
+  await wrapper.setProps({ options: [{ label: 'A', value: '1' }, { label: 'A', value: '2' }] })
+  expect(warn.mock.calls.filter((args) => args.some((a) => String(a).includes('Duplicate keys')))).toEqual([])
+  expect(wrapper.findAllComponents({ name: 'ElOption' })).toHaveLength(2)
+  warn.mockRestore()
 })

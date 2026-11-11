@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
 import type { BaseSelectorEventMap, BaseSelectorProps } from '../../types/components'
 
 export type Selection = string | string[] | null
@@ -8,12 +9,12 @@ const props = withDefaults(
   {
     modelValue: () => '',
     options: () => [{ value: '', label: '' }],
-    placeholder: '請選擇',
     class: 'w-full',
   },
 )
 
 const emits = defineEmits<BaseSelectorEventMap>()
+const { t } = useI18n()
 
 function updateValue(val: Selection) {
   let value: Selection | undefined = val
@@ -31,7 +32,7 @@ function updateValue(val: Selection) {
   <el-select
     :model-value="modelValue"
     :class="props.class"
-    :placeholder="props.placeholder"
+    :placeholder="props.placeholder ?? t('common.select')"
     :clearable="true"
     :collapse-tags="props.collapseTags"
     :collapse-tags-tooltip="props.collapseTagsTooltip"
@@ -42,6 +43,6 @@ function updateValue(val: Selection) {
     @update:model-value="updateValue"
     popper-class="my-select-popper"
   >
-    <el-option v-for="it in options" :key="it.label" :label="it.label" :value="it.value" />
+    <el-option v-for="it in options" :key="String(it.value)" :label="it.label" :value="it.value" />
   </el-select>
 </template>
