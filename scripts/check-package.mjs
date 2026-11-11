@@ -56,6 +56,7 @@ try {
   run('npm', ['run', 'type-check'], consumer)
   run('npm', ['run', 'build'], consumer)
   run('node', ['runtime-check.mjs'], consumer)
+  run('node', ['treeshake-check.mjs'], consumer)
   console.log(`Verified ${Object.keys(pkg.exports).length} public entries from installed ${pack.filename}`)
 } finally {
   rmSync(temp, { recursive: true, force: true })

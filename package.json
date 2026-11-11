@@ -48,6 +48,7 @@
     "./styles": "./dist/lib/rayyy-vue-table-components.css",
     "./styles/element": "./src/assets/styles/element/index.scss"
   },
+  "sideEffects": ["**/*.css", "**/*.scss"],
   "files": [
     "dist/lib/**/*",
     "src/assets/styles/element/index.scss",
