@@ -1,4 +1,4 @@
-import { defineComponent, h } from 'vue'
+import { defineComponent, h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import TransferDialog from '../transfer/TransferDialog.vue'
@@ -113,4 +113,53 @@ describe('TransferDialog draft contract', () => {
     expect(original.map((column) => column.prop)).toEqual(['a', 'b', 'c'])
   })
 
+  describe('columns without prop and case-insensitive search', () => {
+    const columns: TableColumn<Row>[] = [
+      { prop: 'a', label: 'Alpha', checkActive: true },
+      { prop: 'b', label: 'Beta', checkActive: false },
+      { label: 'Actions', checkActive: true },
+    ]
+    const mountWithColumns = () =>
+      mount(TransferDialog<Row>, {
+        props: { modelValue: true, columnsValue: columns, transferTitle: 'Columns' },
+        global: {
+          plugins: [createHostI18n()],
+          stubs: { BaseDialog, SearchBar, TransferItem, ElCheckboxGroup, ElCheckbox },
+        },
+      })
+    const lastColumns = (wrapper: ReturnType<typeof mountWithColumns>) => {
+      const events = wrapper.emitted('update:checkChange') as { columns: TableColumn<Row>[] }[][]
+      return events[events.length - 1][0].columns
+    }
+
+    it('A: a check change leaves the prop-less column untouched', () => {
+      const wrapper = mountWithColumns()
+      wrapper.findComponent({ name: 'ElCheckboxGroup' }).vm.$emit('change', ['a'])
+      expect(lastColumns(wrapper).map((column) => column.checkActive)).toEqual([true, false, true])
+    })
+
+    it('B: check all selects only columns with prop and keeps the prop-less column', async () => {
+      const wrapper = mountWithColumns()
+      ;(wrapper.vm as unknown as { checkAll: boolean }).checkAll = true
+      await nextTick()
+      expect(lastColumns(wrapper).map((column) => column.checkActive)).toEqual([true, true, true])
+      expect(wrapper.findComponent({ name: 'ElCheckboxGroup' }).props('modelValue')).toEqual(['a', 'b'])
+    })
+
+    it('B2: check all reports checkAll as true', async () => {
+      const wrapper = mountWithColumns()
+      ;(wrapper.vm as unknown as { checkAll: boolean }).checkAll = true
+      await nextTick()
+      expect((wrapper.vm as unknown as { checkAll: boolean }).checkAll).toBe(true)
+    })
+
+    it('C: search ignores case', async () => {
+      const wrapper = mountWithColumns()
+      for (const keyword of ['alpha', 'ALPHA']) {
+        wrapper.findComponent(SearchBar).vm.$emit('keydown:enter', keyword)
+        await nextTick()
+        expect(wrapper.findAll('.transfer-item').map((item) => item.text())).toEqual(['Alpha'])
+      }
+    })
+  })
 })
