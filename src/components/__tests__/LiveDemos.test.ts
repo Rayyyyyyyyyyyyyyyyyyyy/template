@@ -28,7 +28,7 @@ it('renders the main content of all four panels, canonical search/footer slots, 
   expect(panels[0].get('.panel-footer').text()).toBe('頁尾操作區')
   expect(wrapper.get('pre code').element.textContent).toBe(source('MainPanelExample.vue'))
   await panels[2].get('button[aria-label="返回"]').trigger('click')
-  expect(panels[2].emitted('click:back')).toEqual([[]])
+  expect(panels[2].emitted('click:back')).toEqual([[{ path: '' }]])
   expect(push).toHaveBeenCalledExactlyOnceWith('/demo')
   expect(wrapper.text()).not.toContain('返回深度')
 })

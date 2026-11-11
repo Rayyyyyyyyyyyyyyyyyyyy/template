@@ -497,7 +497,7 @@ export interface SearchableListPanelEventMap {
   search: [data: string | null]
   updatePage: [page: number]
   updatePageSize: [limit: number]
-  'click:back': []
+  'click:back': [payload: FunctionHeaderEventMap['back'][0]]
 }
 
 export interface SearchableListPanelEmits {
@@ -572,7 +572,7 @@ export interface MainPanelProps {
 }
 
 export interface MainPanelEventMap {
-  'click:back': []
+  'click:back': [payload: FunctionHeaderEventMap['back'][0]]
 }
 
 export interface MainPanelEmits {
@@ -604,7 +604,7 @@ export interface DetailLayoutProps {
 export interface DetailLayoutEventMap {
   'update:saveEdit': [value: boolean]
   'update:cancelEdit': []
-  'click:back': []
+  'click:back': [payload: FunctionHeaderEventMap['back'][0]]
 }
 
 export interface DetailLayoutEmits {
@@ -636,7 +636,7 @@ export interface FilterLayoutProps {
 export interface FilterLayoutEventMap {
   submitEmit: []
   resetEmit: []
-  'click:back': []
+  'click:back': [payload: FunctionHeaderEventMap['back'][0]]
 }
 
 export interface FilterLayoutEmits {

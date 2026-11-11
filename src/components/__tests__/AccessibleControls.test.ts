@@ -5,6 +5,10 @@ import ElementPlus, { ElInput } from 'element-plus'
 import SortTable from '../tables/SortTable.vue'
 import BaseTable from '../tables/BaseTable.vue'
 import FunctionHeader from '../layout/FunctionHeader.vue'
+import MainPanel from '../layout/MainPanel.vue'
+import SearchableListPanel from '../layout/SearchableListPanel.vue'
+import DetailLayout from '../layout/DetailLayout.vue'
+import FilterLayout from '../layout/FilterLayout.vue'
 import TransferItem from '../transfer/transferItem.vue'
 import SearchBar from '../items/SearchBar.vue'
 import BaseInput from '../form/BaseInput.vue'
@@ -165,4 +169,18 @@ it('forwards standalone BaseInput naming to the actual input without duplicating
   expect(wrapper.attributes('id')).toBeUndefined()
   await wrapper.get('input').trigger('keydown', { key: 'Enter' })
   expect(keydown).toHaveBeenCalledOnce()
+})
+
+it.each([
+  ['MainPanel', MainPanel, { title: 'T' }],
+  ['SearchableListPanel', SearchableListPanel, { title: 'T', pagination: { totalCount: 0, limit: 10, page: 1 } }],
+  ['DetailLayout', DetailLayout, { title: 'T', isEditable: false }],
+  ['FilterLayout', FilterLayout, { mainTitle: 'T', filterTitle: 'F' }],
+])('%s forwards the back payload in click:back', async (_name, component, props) => {
+  for (const [showBack, payload] of [['/users', { path: '/users' }], [{ name: 'list' }, { name: 'list' }]] as const) {
+    const wrapper = mount(component, { props: { ...props, showBack }, global: global() })
+    onTestFinished(() => wrapper.unmount())
+    await wrapper.get('button[aria-label="返回"]').trigger('click')
+    expect(wrapper.emitted('click:back')).toEqual([[payload]])
+  }
 })

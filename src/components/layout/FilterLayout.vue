@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n'
 import MainPanel from './MainPanel.vue'
 import BaseBtn from '../items/BaseBtn.vue'
-import type { FilterLayoutSlots, FilterLayoutEventMap, FilterLayoutProps } from '../../types/components'
+import type { FunctionHeaderEventMap, FilterLayoutSlots, FilterLayoutEventMap, FilterLayoutProps } from '../../types/components'
 
 const { t } = useI18n()
 
@@ -17,8 +17,8 @@ const resetFilter = () => {
   emit('resetEmit')
 }
 
-const handleBackClick = () => {
-  emit('click:back')
+const handleBackClick = (payload: FunctionHeaderEventMap['back'][0]) => {
+  emit('click:back', payload)
 }
 defineSlots<FilterLayoutSlots>()
 </script>

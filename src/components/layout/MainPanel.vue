@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import FunctionHeader from './FunctionHeader.vue'
-import type { MainPanelSlots, MainPanelEventMap, MainPanelProps } from '../../types/components'
+import type { FunctionHeaderEventMap, MainPanelSlots, MainPanelEventMap, MainPanelProps } from '../../types/components'
 
 const props = withDefaults(
   defineProps<MainPanelProps>(),
@@ -12,8 +12,8 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<MainPanelEventMap>()
-const onBackClick = () => {
-  emit('click:back')
+const onBackClick = (payload: FunctionHeaderEventMap['back'][0]) => {
+  emit('click:back', payload)
 }
 defineSlots<MainPanelSlots>()
 </script>

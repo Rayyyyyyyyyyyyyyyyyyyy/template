@@ -3,6 +3,7 @@ import { toRefs, computed } from 'vue'
 import MainPanel from './MainPanel.vue'
 import SearchBar from '../items/SearchBar.vue'
 import type {
+  FunctionHeaderEventMap,
   SearchableListPanelEventMap,
   SearchableListPanelProps,
   SearchableListPanelSlots,
@@ -37,8 +38,8 @@ const updatePage = (page: number) => {
 const changePageSize = (limit: number) => {
   emits('updatePageSize', limit)
 }
-const onBackClick = () => {
-  emits('click:back')
+const onBackClick = (payload: FunctionHeaderEventMap['back'][0]) => {
+  emits('click:back', payload)
 }
 const showPager = computed(() => {
   return props.showPagination ?? props.pagination.totalCount > 0

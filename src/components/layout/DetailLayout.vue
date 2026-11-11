@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n'
 import MainPanel from './MainPanel.vue'
 import BaseBtn from '../items/BaseBtn.vue'
-import type { DetailLayoutSlots, DetailLayoutEventMap, DetailLayoutProps } from '../../types/components'
+import type { FunctionHeaderEventMap, DetailLayoutSlots, DetailLayoutEventMap, DetailLayoutProps } from '../../types/components'
 
 const { t } = useI18n()
 
@@ -16,8 +16,8 @@ const saveDetailEdit = () => {
 const cancelDetailEdit = () => {
   emit('update:cancelEdit')
 }
-const handleBackClick = () => {
-  emit('click:back')
+const handleBackClick = (payload: FunctionHeaderEventMap['back'][0]) => {
+  emit('click:back', payload)
 }
 defineSlots<DetailLayoutSlots>()
 </script>
