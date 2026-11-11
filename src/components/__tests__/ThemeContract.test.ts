@@ -117,3 +117,11 @@ it('declares 44px icon targets, focus styles and pagination wrapping without hid
   expect(pagination).toContain('prev, pager, next, total, sizes, jumper')
   expect(pagination).not.toMatch(/display:\s*none|overflow:\s*hidden/)
 })
+
+it('exposes layout heights as overridable CSS variables with the original values as fallback', () => {
+  const mainPanel = read('src/components/layout/MainPanel.vue')
+  const detail = read('src/components/layout/DetailLayout.vue')
+  expect(mainPanel).toContain('var(--rvtc-panel-max-height, calc(100vh - 180px))')
+  expect(detail).toContain('var(--rvtc-detail-min-height, calc(100vh - 200px))')
+  expect(detail).toContain('var(--rvtc-detail-content-max-height, calc(100vh - 100px))')
+})

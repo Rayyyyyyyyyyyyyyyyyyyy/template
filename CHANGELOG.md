@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- `--rvtc-panel-max-height`、`--rvtc-detail-min-height`、`--rvtc-detail-content-max-height` 三個 CSS 變數，可覆寫版面高度
+
 ### Fixed
 
 - TransferDialog 不再取消勾選沒有 `prop` 的欄位

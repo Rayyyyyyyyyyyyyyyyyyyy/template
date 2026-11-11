@@ -46,11 +46,11 @@ defineSlots<DetailLayoutSlots>()
 <style lang="scss" scoped>
 .detail-container {
   @apply h-full flex flex-col;
-  min-height: calc(100vh - 200px);
+  min-height: var(--rvtc-detail-min-height, calc(100vh - 200px));
 }
 
 .content-wrapper {
   @apply flex-1 overflow-y-auto;
-  max-height: calc(100vh - 100px);
+  max-height: var(--rvtc-detail-content-max-height, calc(100vh - 100px));
 }
 </style>

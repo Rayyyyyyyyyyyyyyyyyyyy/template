@@ -92,6 +92,20 @@ TransferItem 的獨立契約也保留於 [公開型別](src/types/components.ts)
 
 `setLocale`、套件 `useI18n`、`useComponentElementLocale` 與 plugin `locale` 選項為 deprecated 相容入口；它們不控制元件文字。詳細歷史基線與本次決策見 [package-contract](docs/package-contract.md)。
 
+## 版面高度
+
+以下 CSS 變數可覆寫版面高度；未設定時使用預設值，畫面不變。
+
+| 變數 | 作用 | 預設值 |
+| --- | --- | --- |
+| `--rvtc-panel-max-height` | MainPanel 內容區最大高度 | `calc(100vh - 180px)` |
+| `--rvtc-detail-min-height` | DetailLayout 容器最小高度 | `calc(100vh - 200px)` |
+| `--rvtc-detail-content-max-height` | DetailLayout 內容區最大高度 | `calc(100vh - 100px)` |
+
+```css
+:root { --rvtc-panel-max-height: calc(100vh - 120px); }
+```
+
 ## 開發與驗證
 
 驗證環境為 Node.js 22.16+、npm 11.6.0，與 CI 保持一致。`npm ci` 的 prepare 會安裝 Cypress；內部打包使用 `--ignore-scripts` 避免重新執行 lifecycle。
