@@ -160,3 +160,12 @@ it('BaseSelector keys options by value so equal labels do not warn about duplica
   expect(wrapper.findAllComponents({ name: 'ElOption' })).toHaveLength(2)
   warn.mockRestore()
 })
+
+it.each([['zh-TW', '序號'], ['en-US', 'No']])('BaseTable index column label follows host locale %s', async (locale, label) => {
+  const wrapper = mount(BaseTable, {
+    props: { data: [{ id: 1, name: 'Ada' }], columns: [{ prop: 'name', label: 'Name' }], showIndex: true },
+    global: { plugins: [ElementPlus, createHostI18n(locale)] },
+  })
+  await flushPromises()
+  expect(wrapper.find('.el-table__header').text()).toContain(label)
+})

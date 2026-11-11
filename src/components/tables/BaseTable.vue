@@ -103,7 +103,7 @@ const operatorWidth = computed(() => {
       <el-table-column v-if="showSelection" type="selection" width="60" fixed="left" align="center" />
 
       <!-- 索引列 -->
-      <el-table-column v-if="showIndex" type="index" width="60" fixed="left" align="center" label="No" />
+      <el-table-column v-if="showIndex" type="index" width="60" fixed="left" align="center" :label="t('table.index')" />
 
       <!-- 展開列 -->
       <el-table-column v-if="showExpand" type="expand">

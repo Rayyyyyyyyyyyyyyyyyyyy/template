@@ -35,6 +35,7 @@
   "common.save": "Save",
   "common.discard": "Discard",
   "table.empty": "No data",
+  "table.index": "No",
   "common.back": "Back",
   "search.label": "Search",
   "table.configureColumns": "Configure columns",

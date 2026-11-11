@@ -115,3 +115,13 @@ it('keeps TitleTable editing selection policy and toolbar events', async () => {
   await wrapper.setProps({ propIsEditable: false })
   expect(wrapper.find('.el-table-column--selection').exists()).toBe(false)
 })
+
+it('TitleTable header row wraps and grows instead of a fixed height', () => {
+  const wrapper = mount(TitleTable, {
+    props: { data: [], columns: [], tableTitle: 'People' },
+    global: global(),
+  })
+  onTestFinished(() => wrapper.unmount())
+  const header = wrapper.find('.bg-gray-200')
+  expect(header.classes()).toEqual(expect.arrayContaining(['flex-wrap', 'min-h-12']))
+})
