@@ -1,11 +1,7 @@
 import type { App, VNode } from 'vue'
 import type { TableColumnCtx } from 'element-plus'
-import type { Language } from 'element-plus/es/locale'
 import type { SortChangValue, TableColumn } from './index'
 import type { ElOptions } from './OptionDto'
-
-// Local named type so emitted .d.ts avoids element-plus's `es/locale/index.mjs` specifier (unresolvable under node10)
-export interface ElLanguage extends Language {}
 
 // Keep event names literal so Vue can extract runtime emits from consumer
 // defineEmits<...>() calls. Payload tuples still come from the shared event maps.
@@ -67,7 +63,7 @@ export interface BaseTableProps<T extends Record<string, unknown> = Record<strin
   showEditBtn?: boolean
   /** 是否保留展開內容 */
   preserveExpanded?: boolean
-  locale?: ElLanguage
+  locale?: import('element-plus/es/locale').Language
 }
 
 /** BaseTable 組件 Slots 類型 */
@@ -527,7 +523,7 @@ export interface SearchableListPanelProps {
   /** 視窗寬度小於此值（px）時 layout 改為 `'prev, pager, next'`；不傳時不切換 */
   compactPaginationBelow?: number
   /** Element Plus 語系設定 */
-  locale?: ElLanguage
+  locale?: import('element-plus/es/locale').Language
 }
 
 export interface SearchableListPanelEventMap {
