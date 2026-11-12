@@ -29,7 +29,7 @@ it('the documented title actions add a row and delete only selected rows', async
   onTestFinished(() => wrapper.unmount())
   await flushPromises()
   const table = wrapper.findComponent(ElTable)
-  const selected = (table.vm as TableInstance).data![0]
+  const selected = ((table.vm as TableInstance).data as any[])[0]
   ;(table.vm as TableInstance).toggleRowSelection(selected, true)
   await flushPromises()
   await wrapper.findAll('button')[0].trigger('click')
