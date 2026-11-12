@@ -186,6 +186,10 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
+.dark .row-action {
+  background-color: transparent;
+}
+
 .row-action:focus-visible {
   outline: 2px solid var(--main-color, var(--el-color-primary));
   outline-offset: 2px;

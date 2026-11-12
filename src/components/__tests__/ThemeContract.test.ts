@@ -190,3 +190,27 @@ it('SortTable excel icon is switched by CSS and uses no @/ alias', () => {
   expect(source).not.toContain('itemOnHover')
   expect(source).toContain(':focus-visible .excel-icon--active')
 })
+
+it('routes table header, dialog header and link colors through --rvtc tokens with the original light hex as fallback', () => {
+  const tables = read('src/assets/styles/_tables.scss')
+  const preset = createRequire(import.meta.url)(resolve(root, 'tailwind-preset.cjs')).theme.extend.colors
+  const bg = `var(--rvtc-table-header-bg, ${preset.primary[15]})`
+  const text = `var(--rvtc-table-header-text, ${preset.text.DEFAULT})`
+  const link = `var(--rvtc-link-text, ${preset.blue[10]})`
+  expect(tables.split(`background-color: ${bg}`)).toHaveLength(4)
+  expect(tables).toContain(`color: ${text}`)
+  expect(tables.split(`color: ${link}`)).toHaveLength(3)
+  expect(tables).not.toMatch(/bg-primary-15|text-text|text-blue-10/)
+  expect(read('src/assets/styles/_dialogs.scss')).toContain(`background-color: var(--rvtc-dialog-header-bg, ${preset.primary[15]})`)
+  expect(read('src/assets/styles/_base.scss')).toContain(`color: ${link}`)
+})
+
+it('declares the four new tokens under :root.dark with a link color readable on both dark surfaces', () => {
+  const dark = declarations(':root.dark', postcss.parse(compileString(read('src/assets/styles/element/index.scss')).css))
+  for (const name of ['--rvtc-table-header-bg', '--rvtc-table-header-text', '--rvtc-dialog-header-bg', '--rvtc-link-text']) {
+    expect(dark, name).toHaveProperty([name])
+  }
+  expect(contrast(dark['--rvtc-link-text'], '#141414')).toBeGreaterThanOrEqual(4.5)
+  expect(contrast(dark['--rvtc-link-text'], '#262727')).toBeGreaterThanOrEqual(4.5)
+  expect(read('src/components/tables/BaseTable.vue')).toMatch(/(?<!:root)\.dark \.row-action\s*\{\s*background-color: transparent/)
+})

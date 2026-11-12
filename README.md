@@ -126,6 +126,10 @@ TransferItem 的獨立契約也保留於 [公開型別](src/types/components.ts)
 | `--rvtc-text` | FunctionHeader 返回鈕文字色 | `var(--el-text-color-primary)` |
 | `--rvtc-on-fill` | BaseBtn 填充樣式禁用狀態文字色 | `var(--el-color-white)` |
 | `--rvtc-control-min-size` | 圖示按鈕最小點擊尺寸 | `44px` |
+| `--rvtc-table-header-bg` | BaseTable／SortTable／TitleTable 表頭背景（深色：var(--el-fill-color-light)） | `#f5f7fa` |
+| `--rvtc-table-header-text` | 表頭文字色（深色：var(--el-text-color-primary)） | `#333` |
+| `--rvtc-dialog-header-bg` | BaseDialog 系列標題列背景（深色：var(--el-fill-color-light)） | `#f5f7fa` |
+| `--rvtc-link-text` | 表格內 `.blue-text` 連結色（深色：#79bbff） | `#256fc0` |
 
 ## 開發與驗證
 

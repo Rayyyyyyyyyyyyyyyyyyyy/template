@@ -18,6 +18,7 @@
 
 ### Fixed
 
+- 深色模式下表格表頭、對話框標題列、表格連結色與操作欄按鈕底色改跟隨主題（新增 `--rvtc-table-header-bg`、`--rvtc-table-header-text`、`--rvtc-dialog-header-bg`、`--rvtc-link-text`，淺色外觀不變）
 - `/styles/core` 的主題變數引用都加上 fallback，只載 core 時元件跟隨宿主的 Element Plus 主色
 - TransferDialog 不再取消勾選沒有 `prop` 的欄位
 - TransferDialog 欄位搜尋不分大小寫

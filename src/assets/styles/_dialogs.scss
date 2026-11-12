@@ -11,7 +11,8 @@
   @apply p-0;
 
   .el-dialog__header {
-    @apply h-12 pt-2 bg-primary-15 border-b;
+    @apply h-12 pt-2 border-b;
+    background-color: var(--rvtc-dialog-header-bg, #f5f7fa);
     @apply border-solid border-x-0 border-t-0 ;
 
     .el-dialog__title {
