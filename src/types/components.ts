@@ -510,6 +510,10 @@ export interface SearchableListPanelProps {
   pageSizeList?: number[]
   /** 是否顯示分頁 */
   showPagination?: boolean
+  /** el-pagination 的 layout，預設 `'prev, pager, next, total, sizes, jumper'` */
+  paginationLayout?: string
+  /** 視窗寬度小於此值（px）時 layout 改為 `'prev, pager, next'`；不傳時不切換 */
+  compactPaginationBelow?: number
   /** Element Plus 語系設定 */
   locale?: import('element-plus/es/locale').Language
 }

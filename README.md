@@ -85,7 +85,7 @@ BaseTable、SortTable、TitleTable 的共同 props 與 expand slot 以 BaseTable
 
 元件文字跟隨宿主 `vue-i18n` composer。建立 `legacy: false` 的宿主 i18n，並在各語系內合併套件 messages；覆寫 common 等 namespace 時也需合併該層。修改宿主 locale 即可切換文字。
 
-分頁未傳 `locale` 時繼承外層 `ElConfigProvider`；有傳時只覆寫該面板。`showPagination` 為三態：未提供依 totalCount 判斷，true 強制顯示，false 隱藏。
+分頁未傳 `locale` 時繼承外層 `ElConfigProvider`；有傳時只覆寫該面板。`showPagination` 為三態：未提供依 totalCount 判斷，true 強制顯示，false 隱藏。`paginationLayout` 可覆寫 el-pagination 的 layout，例如 `pagination-layout="prev, next"`；`compactPaginationBelow` 設定視窗寬度門檻（px），小於時 layout 改為 `prev, pager, next`，例如 `:compact-pagination-below="640"`，不傳則不切換。
 
 BaseDialog 明確傳入 `customWidth` 時優先使用；未傳時，視窗小於 500px 使用 100%，其餘 50%。確認發出 `click:submit`，是否關閉與如何儲存由宿主決定。
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { toRefs, computed } from 'vue'
+import { toRefs, computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import MainPanel from './MainPanel.vue'
 import SearchBar from '../items/SearchBar.vue'
 import type {
@@ -18,6 +18,21 @@ const props = withDefaults(
 )
 
 const { pagination } = toRefs(props)
+
+const viewportWidth = ref(typeof window === 'undefined' ? 1024 : window.innerWidth)
+const updateViewportWidth = () => {
+  viewportWidth.value = window.innerWidth
+}
+
+onMounted(() => window.addEventListener('resize', updateViewportWidth))
+onBeforeUnmount(() => window.removeEventListener('resize', updateViewportWidth))
+
+const DEFAULT_LAYOUT = 'prev, pager, next, total, sizes, jumper'
+const layout = computed(() =>
+  props.compactPaginationBelow !== undefined && viewportWidth.value < props.compactPaginationBelow
+    ? 'prev, pager, next'
+    : props.paginationLayout ?? DEFAULT_LAYOUT,
+)
 
 const emits = defineEmits<SearchableListPanelEventMap>()
 
@@ -69,7 +84,7 @@ const showPager = computed(() => {
         <el-pagination
           v-if="showPager"
           class="list-pagination"
-          layout="prev, pager, next, total, sizes, jumper"
+          :layout="layout"
           :pager-count="5"
           :page-sizes="pageSizeList"
           :current-page="pagination.page"
@@ -82,7 +97,7 @@ const showPager = computed(() => {
       <el-pagination
         v-else-if="showPager"
         class="list-pagination"
-        layout="prev, pager, next, total, sizes, jumper"
+        :layout="layout"
         :pager-count="5"
         :page-sizes="pageSizeList"
         :current-page="pagination.page"

@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import SearchableListPanel from '../layout/SearchableListPanel.vue'
@@ -10,7 +10,7 @@ const MainPanel = defineComponent({
 const SearchBar = defineComponent({ name: 'SearchBar', template: '<div><slot name="button" /></div>' })
 const ElPagination = defineComponent({
   name: 'ElPagination',
-  props: ['total', 'currentPage', 'pageSize'],
+  props: ['total', 'currentPage', 'pageSize', 'layout'],
   emits: ['current-change', 'size-change'],
   template: '<div class="pagination" />',
 })
@@ -63,5 +63,37 @@ describe('SearchableListPanel', () => {
     const localLocale = { name: 'fixture-locale', el: {} }
     const overridden = mountPanel({ showPagination: true, locale: localLocale })
     expect(overridden.findComponent(ElConfigProvider).props('locale')).toEqual(localLocale)
+  })
+
+  describe('pagination layout', () => {
+    const DEFAULT_LAYOUT = 'prev, pager, next, total, sizes, jumper'
+    const layoutOf = (wrapper: ReturnType<typeof mountPanel>) =>
+      wrapper.findComponent(ElPagination).props('layout')
+
+    it('uses the default layout without new props', () => {
+      expect(layoutOf(mountPanel({ showPagination: true }))).toBe(DEFAULT_LAYOUT)
+    })
+
+    it('uses paginationLayout when provided', () => {
+      const wrapper = mountPanel({ showPagination: true, paginationLayout: 'prev, next' })
+      expect(layoutOf(wrapper)).toBe('prev, next')
+    })
+
+    it('compacts below compactPaginationBelow and follows resize', async () => {
+      const original = window.innerWidth
+      const setWidth = (w: number) => Object.defineProperty(window, 'innerWidth', { value: w, configurable: true, writable: true })
+      try {
+        setWidth(500)
+        const wrapper = mountPanel({ showPagination: true, compactPaginationBelow: 640 })
+        expect(layoutOf(wrapper)).toBe('prev, pager, next')
+        setWidth(1024)
+        window.dispatchEvent(new Event('resize'))
+        await nextTick()
+        expect(layoutOf(wrapper)).toBe(DEFAULT_LAYOUT)
+        wrapper.unmount()
+      } finally {
+        setWidth(original)
+      }
+    })
   })
 })
