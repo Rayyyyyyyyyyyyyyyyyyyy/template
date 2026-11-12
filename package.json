@@ -46,6 +46,8 @@
       "require": "./dist/lib/locales.cjs"
     },
     "./styles": "./dist/lib/rayyy-vue-table-components.css",
+    "./styles/core": "./dist/lib/styles-core.css",
+    "./styles/theme": "./dist/lib/styles-theme.css",
     "./styles/element": "./src/assets/styles/element/index.scss"
   },
   "sideEffects": ["**/*.css", "**/*.scss"],
@@ -80,7 +82,7 @@
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-lib {@}\" --",
-    "build-lib": "vite build --mode lib",
+    "build-lib": "vite build --mode lib && node scripts/split-styles.mjs",
     "build-demo": "vite build",
     "build:netlify": "run-p type-check \"build-demo {@}\" --",
     "preview": "vite preview --host 127.0.0.1 --outDir dist/demo",

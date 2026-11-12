@@ -53,8 +53,12 @@ npm install rayyy-vue-table-components vue element-plus vue-i18n
 | `/utils/styles` | 歷史樣式 helpers 與 STYLE_CLASSES |
 | `/locales` | messages、zhTW、enUS、LocaleType |
 | `/styles` | 完整編譯 CSS；搭配宿主的 Element Plus CSS |
+| `/styles/core` | 去掉 `:root`／`:root.dark` 主題變數的組件 CSS；仍引用 `var(--main-color)`、`var(--control-*)` 等無 fallback 變數，需宿主自行定義（或搭配 `/styles/theme`） |
+| `/styles/theme` | 只有主題變數（`:root`、`:root.dark`） |
 | `/styles/element` | Element Plus SCSS 主題入口 |
 | `/tailwind-preset` | Tailwind CSS preset |
+
+宿主自己有 Element Plus 主題時用 `/styles/core`（需自行定義上述無 fallback 的變數，或改載 `/styles/theme`）。
 
 JS 與 declarations 來自建置產物。`/styles/table`、`/styles/dialog` 與 `/styles/components` 不是公開入口。完整組件樣式請使用 `/styles`；主題與 Tailwind 配置見 [SCSS](src/assets/styles/element/index.scss) 與 [preset](tailwind-preset.cjs)。
 
