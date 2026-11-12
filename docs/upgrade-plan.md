@@ -367,7 +367,7 @@ src/main.ts、src/views、src/router、src/layout、src/const   （demo，只能
 | 3.4 | `24ec981` | vite 8.3.8 與建置外掛；`vite.config.ts` 未改，CJS/ESM 匯出形狀與升級前一致 |
 | 3.5 | `d794054`、`17e5233` | TypeScript 6.0.3、vue-tsc 3、@vue/tsconfig 0.9；.d.ts 用 `tsconfig.dts.json` 產出，與升級前逐位元組相同 |
 | 3.6 | `4a35c23` | ESLint 10.14、Prettier 3.10.1；`eslint.config.ts` 未改，邊界規則仍有效 |
-| 3.7 | 本 PR 最後一個 commit（`chore: upgrade Cypress to 16`） | Cypress 16.3.0（用 tsx 載入 config，不再強制 `moduleResolution: node`、ES5 target，TS 6 下不再強制 `downlevelIteration`）；移除根 `tsconfig.json`（含只給舊重現腳本用的 `rootDir`）和 `cypress/tsconfig.json` 的 `ignoreDeprecations`；`tsconfig.dts.json` 不動 |
+| 3.7 | `724d6b2`、`41b1bd4`、`c2fc57e` | 先以 `ignoreDeprecations` 讓 Cypress 14 在 TS 6 可編譯，再升 Cypress 16.3.0（用 tsx 載入 config，不再強制 `moduleResolution: node`、ES5 target，TS 6 下不再強制 `downlevelIteration`）；CI e2e 4/4 通過；移除根 `tsconfig.json`（含只給舊重現腳本用的 `rootDir`）和 `cypress/tsconfig.json` 的 `ignoreDeprecations`；`tsconfig.dts.json` 不動 |
 | 待決 10.2 | `01c92c5` | 刪除 `yarn.lock`，只用 npm |
 | 8.2 補洞 | `e66b9a1` | 瀏覽器驗收發現：表頭、固定欄表頭、對話框標題列、表格連結色在深色模式沒跟上。新增 `--rvtc-table-header-bg`／`-text`、`--rvtc-dialog-header-bg`、`--rvtc-link-text`，淺色值不變 |
 | demo | `e6f768e` | demo 深色文字可讀；示範 `dangerSubmit`、`compactPaginationBelow`、`unfixColumnsBelow` |
