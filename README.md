@@ -58,6 +58,10 @@ npm install rayyy-vue-table-components vue element-plus vue-i18n
 
 JS 與 declarations 來自建置產物。`/styles/table`、`/styles/dialog` 與 `/styles/components` 不是公開入口。完整組件樣式請使用 `/styles`；主題與 Tailwind 配置見 [SCSS](src/assets/styles/element/index.scss) 與 [preset](tailwind-preset.cjs)。
 
+## 深色模式
+
+宿主載入 `element-plus/theme-chalk/dark/css-vars.css`，並在 `<html>` 切換 `dark` class，元件就會跟著變。套件的深色色值寫在 `:root.dark`，優先權高於 Element Plus 深色預設的 `html.dark`，確保主色色階不被蓋掉。
+
 ## Table family 的共同契約
 
 BaseTable、SortTable、TitleTable 的共同 props 與 expand slot 以 BaseTable 契約為來源。新增共同設定時，兩個 adapter 自動繼承並傳給 BaseTable；只有各自的工具列設定、事件轉換與選取政策留在 adapter。

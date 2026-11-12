@@ -5,6 +5,7 @@ import App from './App.vue'
 import router from './router'
 import { messages as componentMessages } from './locales'
 import '@/assets/base.css'
+import 'element-plus/theme-chalk/dark/css-vars.css'
 import '@/assets/styles/tailwind.scss'
 import '@/assets/demo.css'
 

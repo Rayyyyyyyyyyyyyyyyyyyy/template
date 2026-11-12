@@ -7,7 +7,7 @@ import { expect, it } from 'vitest'
 
 const root = resolve(import.meta.dirname, '../../..')
 const read = (file: string) => readFileSync(resolve(root, file), 'utf8')
-const tokens = Object.fromEntries([...read('src/assets/styles/element/index.scss').matchAll(/(--[\w-]+):\s*(#[\da-f]{6})/gi)].map((match) => [match[1], match[2]]))
+const tokens = Object.fromEntries([...read('src/assets/styles/element/index.scss').split(':root.dark')[0].matchAll(/(--[\w-]+):\s*(#[\da-f]{6})/gi)].map((match) => [match[1], match[2]]))
 const button = read('src/components/items/BaseBtn.vue')
 const css = compileString(button.match(/<style[^>]*>([\s\S]*?)<\/style>/)![1]).css
 const rules = postcss.parse(css)
@@ -99,6 +99,19 @@ it('reads the primary palette from element/index.scss instead of hard-coding it'
     expect(primary[key.slice(1) || 'DEFAULT'], key).toBe(tokens[`--color-primary${key}`])
   }
   expect(read('tailwind-preset.cjs')).not.toMatch(/#f5f7fa|#d9e8f7|#a8c8e9/)
+})
+
+it('redeclares the primary and control tokens under :root.dark with readable control colors', () => {
+  const stylesheet = postcss.parse(compileString(read('src/assets/styles/element/index.scss')).css)
+  const light = declarations(':root', stylesheet)
+  const dark = declarations(':root.dark', stylesheet)
+  for (const name of Object.keys(light).filter((name) => /^--(main-color|el-color-primary|control-)/.test(name))) {
+    expect(dark, name).toHaveProperty([name])
+  }
+  for (const name of ['success', 'warning', 'danger', 'info'].flatMap((variant) => [`--control-${variant}`, `--control-${variant}-hover`])) {
+    expect(contrast(dark[name], '#141414'), name).toBeGreaterThanOrEqual(4.5)
+  }
+  expect(dark['--el-color-primary-light-3']).toBe('var(--main-color-light-3)')
 })
 
 it('keeps the explicit demo light theme outside the library style import graph', () => {

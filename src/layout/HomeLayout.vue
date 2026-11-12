@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ROUTES } from '@/router/constants'
 import { useRoute } from 'vue-router'
+import { useDemoTheme } from '@/views/docs/useDemoTheme'
 
 const route = useRoute()
+const { theme } = useDemoTheme()
 </script>
 
 <template>
@@ -16,6 +18,11 @@ const route = useRoute()
           <RouterLink :to="ROUTES.INSTALL_GUIDE">安裝指南</RouterLink>
           <RouterLink :to="ROUTES.DOCS_CENTER">文件中心</RouterLink>
         </nav>
+        <el-radio-group v-model="theme" size="small" aria-label="色彩模式">
+          <el-radio-button value="light">淺色</el-radio-button>
+          <el-radio-button value="dark">深色</el-radio-button>
+          <el-radio-button value="system">跟隨系統</el-radio-button>
+        </el-radio-group>
       </div>
     </header>
     <main id="main-content" tabindex="-1">

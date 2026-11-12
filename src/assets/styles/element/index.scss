@@ -104,3 +104,33 @@
   --el-box-shadow-lighter: 0px 0px 6px rgba(0, 0, 0, 0.12);
   --el-box-shadow-dark: 0px 16px 48px 16px rgba(0, 0, 0, 0.08), 0px 12px 32px rgba(0, 0, 0, 0.12);
 }
+
+// 跟隨宿主在 <html> 上切換的 dark class；:root.dark (0,2,0) 高於 Element Plus 的 html.dark (0,1,1)
+:root.dark {
+  --main-color: #256fc0;
+  --main-color-light-3: #20548c;
+  --main-color-light-5: #1c416a;
+  --main-color-light-7: #192f48;
+  --main-color-light-8: #172636;
+  --main-color-light-9: #161d25;
+  --main-color-dark-2: #518ccd;
+  --main-color-border: #4c4d4f;
+
+  --el-color-primary: var(--main-color);
+  --el-color-primary-rgb: 37, 111, 192;
+  --el-color-primary-light-3: var(--main-color-light-3);
+  --el-color-primary-light-5: var(--main-color-light-5);
+  --el-color-primary-light-7: var(--main-color-light-7);
+  --el-color-primary-light-8: var(--main-color-light-8);
+  --el-color-primary-light-9: var(--main-color-light-9);
+  --el-color-primary-dark-2: var(--main-color-dark-2);
+
+  --control-success: #5d9549;
+  --control-success-hover: #72a260;
+  --control-warning: #a1793c;
+  --control-warning-hover: #ad8954;
+  --control-danger: #ce5959;
+  --control-danger-hover: #d46e6e;
+  --control-info: #808185;
+  --control-info-hover: #909194;
+}

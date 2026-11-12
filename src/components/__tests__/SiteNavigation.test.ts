@@ -1,9 +1,21 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
-import { expect, it } from 'vitest'
+import { effectScope, nextTick } from 'vue'
+import { afterEach, expect, it, vi } from 'vitest'
 import HomeLayout from '../../layout/HomeLayout.vue'
+import { useDemoTheme } from '../../views/docs/useDemoTheme'
+
+const stubMatchMedia = (matches: boolean) =>
+  vi.stubGlobal('matchMedia', () => ({ matches, addEventListener: vi.fn(), removeEventListener: vi.fn() }))
+
+afterEach(() => {
+  vi.unstubAllGlobals()
+  localStorage.clear()
+  document.documentElement.classList.remove('dark')
+})
 
 it('keeps the demo, install and documentation reachable and shows a return link on nested demos', async () => {
+  stubMatchMedia(false)
   const component = { template: '<h1>Page</h1>' }
   const router = createRouter({
     history: createMemoryHistory(),
@@ -32,5 +44,27 @@ it('keeps the demo, install and documentation reachable and shows a return link 
     expect(wrapper.get('nav .router-link-exact-active').text()).toBe('文件中心')
   } finally {
     wrapper.unmount()
+  }
+})
+
+it('toggles the dark class on <html> from the demo theme choice', async () => {
+  stubMatchMedia(true)
+  const scope = effectScope()
+  const { theme } = scope.run(useDemoTheme)!
+  const dark = () => document.documentElement.classList.contains('dark')
+  try {
+    expect(dark()).toBe(false)
+    theme.value = 'dark'
+    await nextTick()
+    expect(dark()).toBe(true)
+    theme.value = 'light'
+    await nextTick()
+    expect(dark()).toBe(false)
+    theme.value = 'system'
+    await nextTick()
+    expect(dark()).toBe(true)
+    expect(localStorage.getItem('rvtc-demo-theme')).toBe('system')
+  } finally {
+    scope.stop()
   }
 })
