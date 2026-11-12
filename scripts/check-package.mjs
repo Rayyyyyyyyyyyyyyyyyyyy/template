@@ -43,20 +43,26 @@ try {
   assert.equal(errors.length, 0, errors.join('\n'))
   console.log(`Bundle size within budget: esm=${sizes.esm} cjs=${sizes.cjs} css=${sizes.css}`)
 
-  const consumer = join(temp, 'consumer')
-  cpSync(join(root, 'tests/consumer'), consumer, { recursive: true })
-  const fixturePath = join(consumer, 'package.json')
-  const fixture = JSON.parse(readFileSync(fixturePath, 'utf8'))
-  fixture.dependencies[pkg.name] = `file:${join(packDir, pack.filename)}`
-  writeFileSync(fixturePath, JSON.stringify(fixture, null, 2) + '\n')
   // Real dependency resolution in a new directory: no repo aliases, symlinks,
   // NODE_PATH, legacy-peer-deps, or borrowing the repository's node_modules.
   delete env.NODE_PATH
-  run('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund', '--fetch-retries=0'], consumer)
-  run('npm', ['run', 'type-check'], consumer)
-  run('npm', ['run', 'build'], consumer)
-  run('node', ['runtime-check.mjs'], consumer)
-  run('node', ['treeshake-check.mjs'], consumer)
+  const checkConsumer = (i18nVersion) => {
+    console.log(`Consumer check with vue-i18n ${i18nVersion}`)
+    const consumer = join(temp, 'consumer-' + i18nVersion)
+    cpSync(join(root, 'tests/consumer'), consumer, { recursive: true })
+    const fixturePath = join(consumer, 'package.json')
+    const fixture = JSON.parse(readFileSync(fixturePath, 'utf8'))
+    fixture.dependencies[pkg.name] = `file:${join(packDir, pack.filename)}`
+    fixture.dependencies['vue-i18n'] = i18nVersion
+    writeFileSync(fixturePath, JSON.stringify(fixture, null, 2) + '\n')
+    run('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund', '--fetch-retries=0'], consumer)
+    run('npm', ['run', 'type-check'], consumer)
+    run('npm', ['run', 'build'], consumer)
+    run('node', ['runtime-check.mjs'], consumer)
+    run('node', ['treeshake-check.mjs'], consumer)
+  }
+  checkConsumer('10.0.8')
+  checkConsumer('11.4.18')
   console.log(`Verified ${Object.keys(pkg.exports).length} public entries from installed ${pack.filename}`)
 } finally {
   rmSync(temp, { recursive: true, force: true })
