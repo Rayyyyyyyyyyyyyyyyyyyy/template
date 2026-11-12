@@ -1,10 +1,16 @@
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, onTestFinished, expect, it, vi } from 'vitest'
 import ElementPlus from 'element-plus'
 import MainPanelDemo from '../../views/demo/MainPanelDemo.vue'
 import FunctionHeaderDemo from '../../views/demo/FunctionHeaderDemo.vue'
+import BaseDialogDemo from '../../views/demo/BaseDialogDemo.vue'
+import SearchableListPanelDemo from '../../views/demo/SearchableListPanelDemo.vue'
+import TableDemo from '../../views/demo/TableDemo.vue'
+import BaseDialog from '../items/BaseDialog.vue'
+import SearchableListPanel from '../layout/SearchableListPanel.vue'
+import SortTable from '../tables/SortTable.vue'
 import MainPanel from '../layout/MainPanel.vue'
 import FunctionHeader from '../layout/FunctionHeader.vue'
 import { createHostI18n } from './testHelpers'
@@ -55,4 +61,28 @@ it('renders only supported header demonstrations and preserves all back payloads
   expect(wrapper.get('pre code').element.textContent).toBe(source('HeaderExample.vue'))
   expect(wrapper.text()).not.toMatch(/副標題|麵包屑|返回深度/)
   expect(wrapper.find('[sub-title], [breadcrumbs]').exists()).toBe(false)
+})
+
+it('gives every Tailwind text/bg utility used by the demo views a dark-mode override', () => {
+  const root = resolve(import.meta.dirname, '../../..')
+  const views = resolve(root, 'src/views')
+  const used = new Set<string>()
+  for (const file of readdirSync(views, { recursive: true, encoding: 'utf8' })) {
+    if (file.endsWith('.vue')) for (const m of readFileSync(resolve(views, file), 'utf8').matchAll(/(?<![\w-])(?:text|bg)-(?:slate|gray|white)[-0-9]*/g)) used.add(m[0])
+  }
+  expect(used.size).toBeGreaterThan(10)
+  const css = readFileSync(resolve(root, 'src/assets/demo.css'), 'utf8')
+  expect([...used].filter((name) => !css.includes(`html.dark .${name}`))).toEqual([])
+})
+
+it('demonstrates dangerSubmit, compactPaginationBelow and unfixColumnsBelow', async () => {
+  const dialog = mount(BaseDialogDemo, { global: global() })
+  onTestFinished(() => dialog.unmount())
+  expect(dialog.findAllComponents(BaseDialog).some((d) => d.props('dangerSubmit') === true)).toBe(true)
+  const list = mount(SearchableListPanelDemo, { global: global() })
+  onTestFinished(() => list.unmount())
+  expect(list.findComponent(SearchableListPanel).props('compactPaginationBelow')).toBe(640)
+  const table = mount(TableDemo, { global: global() })
+  onTestFinished(() => table.unmount())
+  expect((table.findComponent(SortTable).props() as Record<string, unknown>).unfixColumnsBelow).toBe(768)
 })

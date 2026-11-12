@@ -7,6 +7,7 @@ const showDialog2 = ref(false)
 const showDialog3 = ref(false)
 const showDialog4 = ref(false)
 const showDialog5 = ref(false)
+const showDialog6 = ref(false)
 
 const form = ref({
   name: '',
@@ -56,6 +57,7 @@ const handleWarningCancel = () => {
             <BaseBtn type="success" @click="showDialog3 = true">打開自定義對話框</BaseBtn>
             <BaseBtn type="warning" @click="showDialog4 = true">打開確認對話框</BaseBtn>
             <BaseBtn type="danger" @click="showDialog5 = true">打開警告對話框</BaseBtn>
+            <BaseBtn type="danger" @click="showDialog6 = true">危險確認（dangerSubmit）</BaseBtn>
           </div>
         </div>
       </el-card>
@@ -161,6 +163,17 @@ const handleWarningCancel = () => {
           </div>
           <p>請確保您已經備份了重要數據。</p>
         </div>
+      </BaseDialog>
+
+      <!-- 危險確認對話框 -->
+      <BaseDialog
+        v-model="showDialog6"
+        title="危險確認"
+        danger-submit
+        @confirm="showDialog6 = false"
+        @cancel="showDialog6 = false"
+      >
+        <p>確認鈕為 danger 色；打開後焦點在取消。</p>
       </BaseDialog>
     </div>
   </div>
