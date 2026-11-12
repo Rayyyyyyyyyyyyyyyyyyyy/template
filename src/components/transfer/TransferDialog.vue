@@ -29,15 +29,15 @@ const state = reactive<State>({
   localColumns: props.columnsValue.map((column) => ({ ...column })),
   clickItemProp: '',
   checkList: props.columnsValue
-    .filter((item) => item.checkActive)
-    .map((item) => item.prop || ''),
+    .filter((item) => item.checkActive && item.prop)
+    .map((item) => item.prop as string),
 })
 
 const searchKeyword = ref('')
 const displayedColumns = computed(() => {
   const keyword = searchKeyword.value.trim()
   if (!keyword) return state.localColumns
-  return state.localColumns.filter((column) => column.label.includes(keyword))
+  return state.localColumns.filter((column) => column.label.toLowerCase().includes(keyword.toLowerCase()))
 })
 
 const resolveDraftIndex = (displayIndex: number) => {
@@ -97,8 +97,8 @@ const handleReorder = (columns: TableColumn<T>[]) => {
 const initializeState = () => {
   state.localColumns = props.columnsValue.map((column) => ({ ...column }))
   state.checkList = props.columnsValue
-    .filter((item) => item.checkActive)
-    .map((item) => item.prop || '') as string[]
+    .filter((item) => item.checkActive && item.prop)
+    .map((item) => item.prop as string)
   searchKeyword.value = ''
 }
 
@@ -120,15 +120,17 @@ const handlerSubmit = () => {
 }
 
 const handleCheckAllChange = (val: CheckboxValueType) => {
-  const allProp = state.localColumns.map((item) => item.prop)
-  state.checkList = val ? (allProp as string[]) : ([] as string[])
+  state.checkList = val
+    ? state.localColumns.filter((item) => item.prop).map((item) => item.prop as string)
+    : []
   handleCheckChange(state.checkList)
 }
 const handleCheckChange = (val: CheckboxValueType[]) => {
   const stringValues = val.map((v) => String(v))
   state.checkList = stringValues
   state.localColumns.forEach((column) => {
-    column.checkActive = stringValues.includes(column.prop as string)
+    if (!column.prop) return
+    column.checkActive = stringValues.includes(column.prop)
   })
   // 即時 emit checkbox 狀態變更
   emit('update:checkChange', {
@@ -138,7 +140,7 @@ const handleCheckChange = (val: CheckboxValueType[]) => {
 }
 
 const isAllChecked = computed(() => {
-  return state.localColumns.length > 0 && state.checkList.length === state.localColumns.length
+  return state.localColumns.length > 0 && state.checkList.length === state.localColumns.filter((c) => c.prop).length
 })
 
 const checkAll = computed({
@@ -158,6 +160,7 @@ const doFilterColumn = (keyword: string) => {
     <div class="search-bar">
       <search-bar
         :show-search="true"
+        search-on-input
         @update:clear="resetFilterColumn"
         @keydown:enter="doFilterColumn"
       />
@@ -183,6 +186,7 @@ const doFilterColumn = (keyword: string) => {
               :columns-value="element"
               :columns-index="state.localColumns.indexOf(element)"
               :columns-len="state.localColumns.length"
+              :draggable="false"
               :class="{
                 'transfer-active-bg': element.checkActive,
                 'transfer-active-border': state.clickItemProp == element.prop,

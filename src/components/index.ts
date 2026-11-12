@@ -16,22 +16,22 @@ import SearchableListPanelSfc from './layout/SearchableListPanel.vue'
 import DetailLayoutSfc from './layout/DetailLayout.vue'
 import FilterLayoutSfc from './layout/FilterLayout.vue'
 
-export const BaseTable = withInstall(BaseTableSfc, 'BaseTable')
-export const BaseBtn = withInstall(BaseBtnSfc, 'BaseBtn')
-export const BaseInput = withInstall(BaseInputSfc, 'BaseInput')
-export const BaseSelector = withInstall(BaseSelectorSfc, 'BaseSelector')
-export const BaseDialog = withInstall(BaseDialogSfc, 'BaseDialog')
-export const BaseWaringDialog = withInstall(BaseWaringDialogSfc, 'BaseWaringDialog')
-export const SortTable = withInstall(SortTableSfc, 'SortTable')
-export const TitleTable = withInstall(TitleTableSfc, 'TitleTable')
-export const SearchBar = withInstall(SearchBarSfc, 'SearchBar')
-export const TransferDialog = withInstall(TransferDialogSfc, 'TransferDialog')
-export const TransferItem = withInstall(TransferItemSfc, 'TransferItem')
-export const FunctionHeader = withInstall(FunctionHeaderSfc, 'FunctionHeader')
-export const MainPanel = withInstall(MainPanelSfc, 'MainPanel')
-export const SearchableListPanel = withInstall(SearchableListPanelSfc, 'SearchableListPanel')
-export const DetailLayout = withInstall(DetailLayoutSfc, 'DetailLayout')
-export const FilterLayout = withInstall(FilterLayoutSfc, 'FilterLayout')
+export const BaseTable = /*#__PURE__*/ withInstall(BaseTableSfc, 'BaseTable')
+export const BaseBtn = /*#__PURE__*/ withInstall(BaseBtnSfc, 'BaseBtn')
+export const BaseInput = /*#__PURE__*/ withInstall(BaseInputSfc, 'BaseInput')
+export const BaseSelector = /*#__PURE__*/ withInstall(BaseSelectorSfc, 'BaseSelector')
+export const BaseDialog = /*#__PURE__*/ withInstall(BaseDialogSfc, 'BaseDialog')
+export const BaseWaringDialog = /*#__PURE__*/ withInstall(BaseWaringDialogSfc, 'BaseWaringDialog')
+export const SortTable = /*#__PURE__*/ withInstall(SortTableSfc, 'SortTable')
+export const TitleTable = /*#__PURE__*/ withInstall(TitleTableSfc, 'TitleTable')
+export const SearchBar = /*#__PURE__*/ withInstall(SearchBarSfc, 'SearchBar')
+export const TransferDialog = /*#__PURE__*/ withInstall(TransferDialogSfc, 'TransferDialog')
+export const TransferItem = /*#__PURE__*/ withInstall(TransferItemSfc, 'TransferItem')
+export const FunctionHeader = /*#__PURE__*/ withInstall(FunctionHeaderSfc, 'FunctionHeader')
+export const MainPanel = /*#__PURE__*/ withInstall(MainPanelSfc, 'MainPanel')
+export const SearchableListPanel = /*#__PURE__*/ withInstall(SearchableListPanelSfc, 'SearchableListPanel')
+export const DetailLayout = /*#__PURE__*/ withInstall(DetailLayoutSfc, 'DetailLayout')
+export const FilterLayout = /*#__PURE__*/ withInstall(FilterLayoutSfc, 'FilterLayout')
 
 // 導出組件類型
 export type {
@@ -39,6 +39,7 @@ export type {
   BaseTableProps,
   BaseTableEmits,
   BaseTableInstance,
+  TableExposed,
   BaseTableSlots,
   // BaseBtn 組件類型
   BaseBtnProps,

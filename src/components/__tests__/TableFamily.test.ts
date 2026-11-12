@@ -2,6 +2,7 @@ import { h, nextTick, toRaw } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
 import { onTestFinished, describe, expect, it, vi } from 'vitest'
 import ElementPlus, { ElTable } from 'element-plus'
+import type { TableInstance } from 'element-plus'
 import SortTable from '../tables/SortTable.vue'
 import TitleTable from '../tables/TitleTable.vue'
 import { createHostI18n } from './testHelpers'
@@ -29,7 +30,7 @@ describe.each([
     onTestFinished(() => wrapper.unmount())
     await flushPromises()
     expect(wrapper.find('tr.family-row').exists()).toBe(true)
-    wrapper.findComponent(ElTable).vm.toggleRowSelection(row, true)
+    ;(wrapper.findComponent(ElTable).vm as TableInstance).toggleRowSelection(row, true)
     await nextTick()
     expect(wrapper.emitted('update:selectRow')?.at(-1)?.[0]).toEqual([row])
     expect(toRaw((wrapper.emitted('update:selectRow')!.at(-1)![0] as typeof row[])[0])).toBe(row)
@@ -58,6 +59,42 @@ describe.each([
     await wrapper.setProps({ loading: false })
     expect(wrapper.find('.el-empty').exists()).toBe(true)
     expect(wrapper.find('[role=status]').exists()).toBe(false)
+  })
+
+  const columns = [{ prop: 'name', label: 'Name' }]
+  const mountState = (props: Record<string, unknown>, slots: Record<string, () => unknown> = {}) => {
+    const wrapper = mount(component, { props: { columns, ...props } as never, slots, global: global() })
+    onTestFinished(() => wrapper.unmount())
+    return wrapper
+  }
+
+  it('shows the default empty text when data is empty and error is not set', () => {
+    expect(mountState({ data: [] }).text()).toContain('暫無資料')
+  })
+
+  it('renders the empty slot instead of the default empty text', () => {
+    const wrapper = mountState({ data: [] }, { empty: () => h('i', { class: 'my-empty' }, 'nothing') })
+    expect(wrapper.get('.my-empty').text()).toBe('nothing')
+    expect(wrapper.text()).not.toContain('暫無資料')
+  })
+
+  it('shows the default load-failed text, or the error slot, when error is true', () => {
+    expect(mountState({ data: [], error: true }).text()).toContain('資料載入失敗')
+    const wrapper = mountState({ data: [], error: true }, { error: () => h('i', { class: 'my-error' }, 'oops') })
+    expect(wrapper.get('.my-error').text()).toBe('oops')
+    expect(wrapper.text()).not.toContain('資料載入失敗')
+  })
+
+  it('hides the table with rows when error is true', () => {
+    const wrapper = mountState({ data: [{ id: 1, name: 'Ada' }, { id: 2, name: 'Bob' }], error: true })
+    expect(wrapper.find('.data-table').exists()).toBe(false)
+    expect(wrapper.text()).toContain('資料載入失敗')
+  })
+
+  it('prefers the loading text over the error state while loading', () => {
+    const wrapper = mountState({ data: [], error: true, loading: true })
+    expect(wrapper.get('[role=status]').text()).toBe('數據加載中')
+    expect(wrapper.text()).not.toContain('資料載入失敗')
   })
 
   it('passes custom tree fields and the lazy loader through to the table', async () => {
@@ -92,7 +129,7 @@ it('keeps SortTable sorting and the historical row-class alias', async () => {
   onTestFinished(() => wrapper.unmount())
   await flushPromises()
   expect(wrapper.find('tr.legacy-row').exists()).toBe(true)
-  wrapper.findComponent(ElTable).vm.sort('name', 'ascending')
+  ;(wrapper.findComponent(ElTable).vm as TableInstance).sort('name', 'ascending')
   await nextTick()
   expect(wrapper.emitted('click:columnSort')?.at(-1)?.[0]).toMatchObject({ prop: 'name', order: 'ascending' })
 })
@@ -114,4 +151,30 @@ it('keeps TitleTable editing selection policy and toolbar events', async () => {
   expect(wrapper.emitted('click:delete')).toHaveLength(1)
   await wrapper.setProps({ propIsEditable: false })
   expect(wrapper.find('.el-table-column--selection').exists()).toBe(false)
+})
+
+it('TitleTable header row wraps and grows instead of a fixed height', () => {
+  const wrapper = mount(TitleTable, {
+    props: { data: [], columns: [], tableTitle: 'People' },
+    global: global(),
+  })
+  onTestFinished(() => wrapper.unmount())
+  const header = wrapper.find('.rvtc-toolbar')
+  expect(header.classes()).toEqual(expect.arrayContaining(['flex-wrap', 'min-h-12']))
+})
+
+it('SortTable shows settings and export buttons by default and hides them on request', async () => {
+  const wrapper = mount(SortTable, {
+    props: { data: [], columns: [] },
+    global: global(),
+  })
+  onTestFinished(() => wrapper.unmount())
+  expect(wrapper.find('[aria-label="設定欄位"]').exists()).toBe(true)
+  expect(wrapper.find('[aria-label="匯出 Excel"]').exists()).toBe(true)
+  await wrapper.setProps({ showSettings: false })
+  expect(wrapper.find('[aria-label="設定欄位"]').exists()).toBe(false)
+  expect(wrapper.find('[aria-label="匯出 Excel"]').exists()).toBe(true)
+  await wrapper.setProps({ showSettings: true, showExport: false })
+  expect(wrapper.find('[aria-label="設定欄位"]').exists()).toBe(true)
+  expect(wrapper.find('[aria-label="匯出 Excel"]').exists()).toBe(false)
 })

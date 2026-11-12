@@ -125,7 +125,7 @@ const handleBackClick = () => {
             </li>
             <li class="flex items-start">
               <span class="text-gray-600 mr-2 mt-0.5">•</span>
-              <span><strong>返回處理：</strong>click:back 不帶 payload，導頁由宿主決定</span>
+              <span><strong>返回處理：</strong>click:back 帶出 showBack 對應的目標（如 { path: '/users' }），導頁由宿主決定</span>
             </li>
             <li class="flex items-start">
               <span class="text-gray-600 mr-2 mt-0.5">•</span>

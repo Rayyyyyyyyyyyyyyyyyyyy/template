@@ -28,7 +28,7 @@
 
 // 文字顏色樣式
 .blue-text {
-  @apply text-blue-10;
+  color: var(--rvtc-link-text, #256fc0);
 }
 
 .red-text {

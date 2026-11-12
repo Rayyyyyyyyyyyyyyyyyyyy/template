@@ -14,6 +14,12 @@ import type { ElOptions } from './OptionDto'
 export interface BaseTableProps<T extends Record<string, unknown> = Record<string, unknown>> {
   /** 是否顯示加載狀態 */
   loading?: boolean
+  /** 為 true 且不在載入中時，顯示 `error` slot 取代表格；預設 false */
+  error?: boolean
+  /** 視窗寬度小於此值（px）時，選取欄、序號欄、操作欄不固定。不傳時一律固定（現狀） */
+  unfixColumnsBelow?: number
+  /** 用來組出每列查看／編輯按鈕的 aria-label，例如「編輯 張小明」 */
+  rowLabel?: (row: T) => string
   /** 表格數據 */
   data: T[]
   /** 表格列配置 */
@@ -64,6 +70,10 @@ export interface BaseTableProps<T extends Record<string, unknown> = Record<strin
 export interface BaseTableSlots<T extends Record<string, unknown> = Record<string, unknown>> {
   /** 展開行內容 slot */
   expand?: (props: { row: T; $index: number }) => VNode[]
+  /** 無資料時的內容 slot（取代預設空狀態） */
+  empty?: () => unknown
+  /** 載入失敗時的內容 slot（取代預設失敗訊息） */
+  error?: () => unknown
 }
 
 export interface BaseTableEventMap<
@@ -89,8 +99,15 @@ export interface BaseTableEmits<
   'click:editRow': (...args: BaseTableEventMap<T>['click:editRow']) => void
 }
 
+/** 表格透過 ref 開放的 el-table 方法 */
+export interface TableExposed<T extends Record<string, unknown> = Record<string, unknown>> {
+  clearSelection: () => void
+  toggleRowSelection: (row: T, selected?: boolean) => void
+  doLayout: () => void
+}
+
 /** BaseTable 組件實例類型 */
-export interface BaseTableInstance<T extends Record<string, unknown> = Record<string, unknown>> {
+export interface BaseTableInstance<T extends Record<string, unknown> = Record<string, unknown>> extends TableExposed<T> {
   /** 組件 Props */
   $props: BaseTableProps<T>
   /** 組件 Emits */
@@ -106,6 +123,10 @@ export interface SortTableProps<T extends Record<string, unknown> = Record<strin
   tableTitle?: string
   /** 舊名稱優先於 baseTableRowClassName */
   sortTableRowClassName?: BaseTableProps<T>['baseTableRowClassName']
+  /** 是否顯示設定欄位按鈕，預設 true */
+  showSettings?: boolean
+  /** 是否顯示匯出 Excel 按鈕，預設 true */
+  showExport?: boolean
 }
 
 /** SortTable 組件 Slots 類型 */
@@ -136,7 +157,7 @@ export interface SortTableEmits<T extends Record<string, unknown> = Record<strin
 }
 
 /** SortTable 組件實例類型 */
-export interface SortTableInstance<T extends Record<string, unknown> = Record<string, unknown>> {
+export interface SortTableInstance<T extends Record<string, unknown> = Record<string, unknown>> extends TableExposed<T> {
   /** 組件 Props */
   $props: SortTableProps<T>
   /** 組件 Emits */
@@ -188,7 +209,7 @@ export interface TitleTableEmits<T extends Record<string, unknown> = Record<stri
 }
 
 /** TitleTable 組件實例類型 */
-export interface TitleTableInstance<T extends Record<string, unknown> = Record<string, unknown>> {
+export interface TitleTableInstance<T extends Record<string, unknown> = Record<string, unknown>> extends TableExposed<T> {
   /** 組件 Props */
   $props: TitleTableProps<T>
   /** 組件 Emits */
@@ -267,6 +288,8 @@ export interface BaseDialogProps {
   submitLoading?: boolean
   /** 是否顯示關閉按鈕 */
   showClose?: boolean
+  /** 確認鈕改用 danger 色，並讓取消鈕取得初始焦點 */
+  dangerSubmit?: boolean
 }
 
 export interface BaseDialogEventMap {
@@ -300,6 +323,8 @@ export interface BaseWaringDialogProps {
   subWaringText?: string
   /** 標題文字 */
   titleText?: string
+  /** 確認鈕改用 danger 色，並讓取消鈕取得初始焦點 */
+  dangerSubmit?: boolean
 }
 
 export interface BaseWaringDialogEventMap {
@@ -443,6 +468,10 @@ export interface BaseSelectorInstance {
 export interface SearchBarProps {
   /** 是否顯示搜尋功能 */
   showSearch?: boolean
+  /** 輸入後延遲 searchDelay 毫秒自動觸發 keydown:enter；預設 false */
+  searchOnInput?: boolean
+  /** searchOnInput 的延遲毫秒數；預設 300 */
+  searchDelay?: number
 }
 
 export interface SearchBarEventMap {
@@ -489,6 +518,10 @@ export interface SearchableListPanelProps {
   pageSizeList?: number[]
   /** 是否顯示分頁 */
   showPagination?: boolean
+  /** el-pagination 的 layout，預設 `'prev, pager, next, total, sizes, jumper'` */
+  paginationLayout?: string
+  /** 視窗寬度小於此值（px）時 layout 改為 `'prev, pager, next'`；不傳時不切換 */
+  compactPaginationBelow?: number
   /** Element Plus 語系設定 */
   locale?: import('element-plus/es/locale').Language
 }
@@ -497,7 +530,7 @@ export interface SearchableListPanelEventMap {
   search: [data: string | null]
   updatePage: [page: number]
   updatePageSize: [limit: number]
-  'click:back': []
+  'click:back': [payload: FunctionHeaderEventMap['back'][0]]
 }
 
 export interface SearchableListPanelEmits {
@@ -572,7 +605,7 @@ export interface MainPanelProps {
 }
 
 export interface MainPanelEventMap {
-  'click:back': []
+  'click:back': [payload: FunctionHeaderEventMap['back'][0]]
 }
 
 export interface MainPanelEmits {
@@ -604,7 +637,7 @@ export interface DetailLayoutProps {
 export interface DetailLayoutEventMap {
   'update:saveEdit': [value: boolean]
   'update:cancelEdit': []
-  'click:back': []
+  'click:back': [payload: FunctionHeaderEventMap['back'][0]]
 }
 
 export interface DetailLayoutEmits {
@@ -636,7 +669,7 @@ export interface FilterLayoutProps {
 export interface FilterLayoutEventMap {
   submitEmit: []
   resetEmit: []
-  'click:back': []
+  'click:back': [payload: FunctionHeaderEventMap['back'][0]]
 }
 
 export interface FilterLayoutEmits {
@@ -667,6 +700,8 @@ export interface TransferItemProps<T = Record<string, unknown>> {
   columnsIndex: number
   /** 列長度 */
   columnsLen: number
+  /** 是否顯示抓取游標；預設 true（相容）。TransferDialog 的預設清單不能拖曳，會傳 false */
+  draggable?: boolean
 }
 
 export interface TransferItemEventMap {

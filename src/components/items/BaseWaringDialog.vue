@@ -29,9 +29,10 @@ defineSlots<BaseWaringDialogSlots>()
     v-model="dialogVisible"
     :title="titleText || t('common.warning')"
     :is-waring="true"
+    :danger-submit="dangerSubmit"
     @click:submit="handleSubmit"
   >
-    <div class="w-full h-16 flex items-center justify-center flex-col">
+    <div class="w-full min-h-16 flex items-center justify-center flex-col">
       <slot>
         <p>{{ subWaringText }}</p>
         <p>{{ waringText || t('dialog.confirmRemoveUser') }} ?</p>

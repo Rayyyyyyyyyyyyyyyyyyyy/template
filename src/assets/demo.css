@@ -605,3 +605,38 @@
     transition: none;
   }
 }
+
+/* Dark mode: map the Tailwind neutrals used by demo views to Element Plus tokens. */
+html.dark .text-gray-800,
+html.dark .text-gray-900,
+html.dark .text-slate-700,
+html.dark .text-slate-800,
+html.dark .text-slate-900 {
+  color: var(--el-text-color-primary);
+}
+
+html.dark .text-gray-600,
+html.dark .text-gray-700,
+html.dark .text-slate-600 {
+  color: var(--el-text-color-regular);
+}
+
+html.dark .text-gray-400,
+html.dark .text-gray-500,
+html.dark .text-slate-500 {
+  color: var(--el-text-color-secondary);
+}
+
+html.dark .bg-white {
+  background-color: var(--el-bg-color);
+}
+
+html.dark .bg-gray-50,
+html.dark .bg-gray-100,
+html.dark .bg-slate-50 {
+  background-color: var(--el-fill-color-lighter);
+}
+
+html.dark .bg-gray-200 {
+  background-color: var(--el-fill-color);
+}

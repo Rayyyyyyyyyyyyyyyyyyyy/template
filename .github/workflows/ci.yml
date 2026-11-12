@@ -5,8 +5,8 @@ on:
     branches:
       - main
   push:
-    tags:
-      - 'v*' # 只在推送 v 開頭的 tag 時觸發
+    branches:
+      - main
   workflow_dispatch: # 允許手動觸發
 
 jobs:

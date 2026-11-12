@@ -13,9 +13,8 @@
   ],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "composite": true,
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "rayyy-vue-table-components/components": ["./src/components/index.ts"],

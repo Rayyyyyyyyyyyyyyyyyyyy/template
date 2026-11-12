@@ -1,10 +1,10 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { TableColumn } from '../../types'
 import BaseTable from './BaseTable.vue'
 import BaseBtn from '../items/BaseBtn.vue'
-import type { TitleTableEventMap, TitleTableProps, TitleTableSlots } from '../../types/components'
+import type { TitleTableEventMap, TitleTableProps, TitleTableSlots, TableExposed } from '../../types/components'
 
 const { t } = useI18n()
 
@@ -14,6 +14,8 @@ const tableProps = computed(() => {
   const { tableTitle: _title, propIsEditable, onlyDelete: _onlyDelete, showDelete: _showDelete, ...shared } = props
   return { ...shared, showSelection: propIsEditable || shared.showSelection }
 })
+
+const tableRef = ref<TableExposed<T>>()
 
 const emit = defineEmits<TitleTableEventMap<T>>()
 
@@ -43,13 +45,19 @@ const handleCheckClick = (row: T) => {
 const handleEditClick = (row: T) => {
   emit('click:editRow', row)
 }
+
+defineExpose({
+  clearSelection: () => tableRef.value?.clearSelection(),
+  toggleRowSelection: (row: T, selected?: boolean) => tableRef.value?.toggleRowSelection(row, selected),
+  doLayout: () => tableRef.value?.doLayout(),
+})
 </script>
 
 <template>
   <div class="w-full mb-4">
     <!-- 表格標題區域：包含標題文本和操作按鈕 -->
     <div
-      class="flex items-center h-12 bg-gray-200 px-1.5 rounded-t justify-between"
+      class="flex flex-wrap items-center min-h-12 rvtc-toolbar px-1.5 rounded-t justify-between"
       v-if="tableTitle"
     >
       <p class="font-bold text-xl">{{ tableTitle }}</p>
@@ -77,6 +85,7 @@ const handleEditClick = (row: T) => {
 
     <!-- 表格主體 -->
     <base-table
+      ref="tableRef"
       v-bind="tableProps"
       @selection-change="handleSelectionChange"
       @cell-click="handleCellClick"
@@ -84,7 +93,7 @@ const handleEditClick = (row: T) => {
       @click:editRow="handleEditClick"
     >
       <template v-for="(_, name) in tableSlots()" #[name]="scope">
-        <slot :name="name" v-bind="scope" />
+        <slot :name="name" v-bind="scope as any" />
       </template>
     </base-table>
   </div>

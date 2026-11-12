@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BaseBtn from './BaseBtn.vue'
 import type { BaseDialogSlots, BaseDialogEventMap, BaseDialogProps } from '../../types/components'
@@ -31,6 +31,13 @@ const getWidth = computed(() => {
 const handleCancel = () => {
   v.value = false
 }
+const cancelBtn = ref<InstanceType<typeof BaseBtn>>()
+// el-dialog's focus trap focuses the container on open; `opened` fires after the enter transition, so move focus then.
+const handleOpened = async () => {
+  if (!props.dangerSubmit) return
+  await nextTick()
+  ;(cancelBtn.value?.$el as HTMLElement | undefined)?.focus()
+}
 const handleSubmit = () => {
   emits('click:submit')
 }
@@ -54,6 +61,7 @@ defineSlots<BaseDialogSlots>()
     align-center
     destroy-on-close
     append-to-body
+    @opened="handleOpened"
   >
     <template #header="{ titleId, titleClass }">
       <slot name="customHeader">
@@ -71,7 +79,7 @@ defineSlots<BaseDialogSlots>()
       <slot></slot>
     </div>
     <template #footer>
-      <footer>
+      <footer :class="{ 'base-dialog-footer--stacked': viewportWidth < 500 }">
         <slot name="customFooter">
           <base-btn
             :text="t('common.close')"
@@ -83,12 +91,18 @@ defineSlots<BaseDialogSlots>()
           <template v-if="!showClose">
             <base-btn
               :text="t('common.confirm')"
-              type="primary"
+              :type="dangerSubmit ? 'danger' : 'primary'"
               is-fill
               @click="handleSubmit"
               :loading="submitLoading"
             />
-            <base-btn :text="t('common.cancel')" type="primary" @click="handleCancel" />
+            <base-btn
+              ref="cancelBtn"
+              :text="t('common.cancel')"
+              type="primary"
+              :autofocus="dangerSubmit"
+              @click="handleCancel"
+            />
           </template>
         </slot>
       </footer>
@@ -96,4 +110,14 @@ defineSlots<BaseDialogSlots>()
   </el-dialog>
 </template>
 
-<style scoped></style>
+<style scoped>
+.base-dialog-footer--stacked {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+.base-dialog-footer--stacked > * {
+  flex: 1 1 0;
+  margin: 0;
+}
+</style>

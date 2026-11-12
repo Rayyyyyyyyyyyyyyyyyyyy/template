@@ -34,3 +34,4 @@ components.d.ts
 
 # Local design direction and browser QA artifacts
 /.taste-skill/
+.vitest/

@@ -1,0 +1,10 @@
+// 只供 .d.ts 產出，維持舊 specifier 寫法給 node10/node16 宿主；TS 7 移除 node10 時要重新處理
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
+    "noUncheckedSideEffectImports": false
+  }
+}

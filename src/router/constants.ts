@@ -5,6 +5,9 @@ export const ROUTES = {
   DEMO: '/demo',
   INSTALL_GUIDE: '/install-guide',
   DOCS_CENTER: '/docs-center',
+  DOCS_API: '/docs/api',
+  DOCS_CHANGELOG: '/docs/changelog',
+  DOCS_THEME: '/docs/theme',
 
   // 組件示範頁面
   SEARCHABLE_LIST_PANEL: '/demo/searchable-list-panel',
@@ -33,6 +36,9 @@ export const ROUTE_NAMES = {
   DEMO: 'Demo',
   INSTALL_GUIDE: 'InstallGuide',
   DOCS_CENTER: 'DocsCenter',
+  DOCS_API: 'DocsApi',
+  DOCS_CHANGELOG: 'DocsChangelog',
+  DOCS_THEME: 'DocsTheme',
 
   // 組件示範頁面
   SEARCHABLE_LIST_PANEL: 'SearchableListPanel',

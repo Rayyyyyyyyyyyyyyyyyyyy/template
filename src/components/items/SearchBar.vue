@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getCurrentInstance, ref, useAttrs } from 'vue'
+import { getCurrentInstance, nextTick, onBeforeUnmount, ref, useAttrs, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BaseInput from '../form/BaseInput.vue'
 import type { SearchBarEventMap, SearchBarProps, SearchBarSlots } from '../../types/components'
@@ -7,7 +7,7 @@ import type { SearchBarEventMap, SearchBarProps, SearchBarSlots } from '../../ty
 const { t } = useI18n()
 defineOptions({ inheritAttrs: false })
 
-defineProps<SearchBarProps>()
+const props = defineProps<SearchBarProps>()
 
 const emits = defineEmits<SearchBarEventMap>()
 
@@ -23,12 +23,28 @@ const shellAttrs = () => {
 
 const keyword = ref('')
 
+let timer: ReturnType<typeof setTimeout> | undefined
+let clearing = false
+const cancelTimer = () => clearTimeout(timer)
+
 const doSearch = () => {
+  cancelTimer()
   emits('keydown:enter', keyword.value.trim())
 }
 const clearableClick = () => {
+  cancelTimer()
+  // 清除造成的 keyword 變化不再排程搜尋
+  clearing = true
+  nextTick(() => (clearing = false))
   emits('update:clear')
 }
+
+watch(keyword, () => {
+  if (!props.searchOnInput || clearing) return
+  cancelTimer()
+  timer = setTimeout(doSearch, props.searchDelay ?? 300)
+})
+onBeforeUnmount(cancelTimer)
 </script>
 
 <template>
@@ -68,13 +84,13 @@ const clearableClick = () => {
   @apply w-64 max-w-full;
 
   .el-input {
-    --el-input-border-color: var(--main-color-border);
-    --el-input-hover-border-color: var(--main-color);
-    --el-input-focus-border-color: var(--main-color);
-    --el-input-placeholder-color: var(--main-color);
+    --el-input-border-color: var(--main-color-border, var(--el-border-color));
+    --el-input-hover-border-color: var(--main-color, var(--el-color-primary));
+    --el-input-focus-border-color: var(--main-color, var(--el-color-primary));
+    --el-input-placeholder-color: var(--main-color, var(--el-color-primary));
 
     :deep(.el-input__prefix) {
-      color: var(--main-color);
+      color: var(--main-color, var(--el-color-primary));
     }
     :deep(.el-input__inner::placeholder) {
       @apply text-text-border;

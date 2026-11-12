@@ -296,7 +296,7 @@ const simulateLoading = () => {
             </div>
           </template>
           <p class="mb-4 text-sm text-slate-500">
-            支援列排序、選取、檢視/編輯按鈕，並可切換索引列與展開列。
+            支援列排序、選取、檢視/編輯按鈕，並可切換索引列與展開列。視窗小於 768px 時選取、序號、操作欄不固定。
           </p>
           <SortTable
             :data="tableData"
@@ -309,6 +309,7 @@ const simulateLoading = () => {
             :show-over-flow-tooltip="true"
             :show-check-btn="true"
             :show-edit-btn="true"
+            :unfix-columns-below="768"
             @open:transfer="handleSortTableTransfer"
             @update:select-row="handleSortTableSelectRow"
             @click:cell="handleSortTableCellClick"

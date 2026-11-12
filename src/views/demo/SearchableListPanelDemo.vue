@@ -163,7 +163,7 @@ const handleSearchableListBackClick = () => {
           <div>
             <h2 class="text-2xl font-semibold text-gray-900 mb-2">SearchableListPanel 示範</h2>
             <p class="text-gray-600 text-base leading-relaxed">
-              以本地 mock 資料展示可執行的搜尋與分頁，不包含 API 或持久化。
+              以本地 mock 資料展示可執行的搜尋與分頁，不包含 API 或持久化。視窗小於 640px 時分頁只留上一頁／頁碼／下一頁。
             </p>
           </div>
           <div class="flex items-center gap-4">
@@ -181,6 +181,7 @@ const handleSearchableListBackClick = () => {
           title="用戶管理"
           :pagination="{ ...state.pagination, totalCount: filteredUserData.length }"
           :page-size-list="[2, 5, 10]"
+          :compact-pagination-below="640"
           :show-back="true"
           :show-search="true"
           :locale="elementLocale"

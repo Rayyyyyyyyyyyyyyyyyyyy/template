@@ -52,6 +52,10 @@
 
 
 
+.rvtc-toolbar {
+  background-color: var(--rvtc-toolbar-bg, var(--el-fill-color));
+}
+
 .my-select-popper {
   z-index: 4000 !important; /* 比 dialog 高即可 */
 }

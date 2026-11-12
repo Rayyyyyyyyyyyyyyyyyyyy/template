@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { createApp } from 'vue'
 import { createRequire } from 'node:module'
+import { readFileSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { compileEmitsConsumer, emitContracts } from './emits-contract.mjs'
@@ -49,8 +50,23 @@ for (const value of [
   if (!value) throw new Error('A declared ESM/CJS public entry did not load')
 }
 
-require.resolve('rayyy-vue-table-components/styles')
+for (const { primary } of [esmPreset.default.theme.extend.colors, cjsPreset.theme.extend.colors]) {
+  assert.equal(primary.DEFAULT, '#256fc0')
+  assert.equal(primary.dark, '#1d599a')
+}
+
+const readCss = (entry) => readFileSync(require.resolve(`rayyy-vue-table-components/${entry}`), 'utf8')
+const fullCss = readCss('styles')
+const coreCss = readCss('styles/core')
+const themeCss = readCss('styles/theme')
 require.resolve('rayyy-vue-table-components/styles/element')
+for (const text of [':root', '--el-color-primary:', '--main-color:']) assert.ok(!coreCss.includes(text), `styles/core must not contain ${text}`)
+assert.doesNotMatch(coreCss, /var\(--(main-color|control-)[a-z0-9-]*\)/, 'styles/core theme variable references must have a fallback')
+for (const text of ['--el-color-primary:', ':root.dark']) assert.ok(themeCss.includes(text), `styles/theme must contain ${text}`)
+for (const text of ['--el-color-primary:', '.rvtc-toolbar']) assert.ok(fullCss.includes(text), `styles must still contain ${text}`)
+for (const [, body] of themeCss.matchAll(/\{([^}]*)\}/g)) {
+  for (const decl of body.split(';').map((d) => d.trim()).filter(Boolean)) assert.ok(decl.startsWith('--'), `styles/theme may only declare custom properties, found: ${decl}`)
+}
 
 // Type-only /types/components has no runtime contract; /types still supports both formats.
 await import('rayyy-vue-table-components/types')

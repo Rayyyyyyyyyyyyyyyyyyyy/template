@@ -1,6 +1,7 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { onTestFinished, expect, it } from 'vitest'
 import ElementPlus, { ElTable } from 'element-plus'
+import type { TableInstance } from 'element-plus'
 import SortExample from '../../../tests/consumer/src/examples/SortTableExample.vue'
 import TitleExample from '../../../tests/consumer/src/examples/TitleTableExample.vue'
 import ListExample from '../../../tests/consumer/src/examples/ListExample.vue'
@@ -13,7 +14,7 @@ it('the documented sort event actually reorders rows and reports its state', asy
   const wrapper = mount(SortExample, { global: global() })
   onTestFinished(() => wrapper.unmount())
   await flushPromises()
-  wrapper.findComponent(ElTable).vm.sort('name', 'descending')
+  ;(wrapper.findComponent(ElTable).vm as TableInstance).sort('name', 'descending')
   await flushPromises()
   expect(wrapper.get('output').text()).toBe('descending')
   expect(wrapper.findAll('.cell-content').map((cell) => cell.text())).toEqual(['Grace', 'Ada'])
@@ -28,8 +29,8 @@ it('the documented title actions add a row and delete only selected rows', async
   onTestFinished(() => wrapper.unmount())
   await flushPromises()
   const table = wrapper.findComponent(ElTable)
-  const selected = table.props('data')![0]
-  table.vm.toggleRowSelection(selected, true)
+  const selected = ((table.vm as TableInstance).data as any[])[0]
+  ;(table.vm as TableInstance).toggleRowSelection(selected, true)
   await flushPromises()
   await wrapper.findAll('button')[0].trigger('click')
   expect(wrapper.findAll('.cell-content').map((cell) => cell.text())).toEqual(['Ada', 'New user'])

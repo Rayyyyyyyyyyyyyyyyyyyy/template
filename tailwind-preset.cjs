@@ -1,4 +1,16 @@
 /** CommonJS preset so both import and require work in a type=module package. */
+// element/index.scss is the single source of the primary palette (ADR-002).
+/* eslint-disable @typescript-eslint/no-require-imports -- CommonJS file */
+const rootBlock = require('node:fs')
+  .readFileSync(require('node:path').join(__dirname, 'src/assets/styles/element/index.scss'), 'utf8')
+  .match(/:root\s*\{[\s\S]*?\n\}/)?.[0] ?? ''
+function primary(suffix) {
+  const name = `--color-primary${suffix}`
+  const hex = rootBlock.match(new RegExp(`${name}:\\s*(#[\\da-fA-F]{6})`))?.[1]
+  if (!hex) throw new Error(`tailwind-preset: missing ${name} in element/index.scss`)
+  return hex
+}
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [],
@@ -49,14 +61,14 @@ module.exports = {
       colors: {
         // Shared palette for Element Plus and library utilities
         primary: {
-          DEFAULT: '#256fc0',
-          10: '#f5f7fa', // function header background
-          15: '#f5f7fa', // table header background & Dialog title background
-          20: '#ebeef5', // table Frame background
-          40: '#d9e8f7',
-          60: '#a8c8e9',
-          80: '#6e9fd3',
-          dark: '#1d599a', // for element+
+          DEFAULT: primary(''),
+          10: primary('-10'),
+          15: primary('-15'),
+          20: primary('-20'),
+          40: primary('-40'),
+          60: primary('-60'),
+          80: primary('-80'),
+          dark: primary('-dark'),
         },
         navy: {
           DEFAULT: '#070f26',

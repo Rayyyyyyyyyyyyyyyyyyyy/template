@@ -1,17 +1,19 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
-import type { SortChangValue, TableColumn } from '@/types'
-import { computed, reactive } from 'vue'
+import type { SortChangValue, TableColumn } from '../../types'
+import { computed, ref } from 'vue'
 import { Setting } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import BaseTable from './BaseTable.vue'
-import type { SortTableEventMap, SortTableProps, SortTableSlots } from '../../types/components'
+import type { SortTableEventMap, SortTableProps, SortTableSlots, TableExposed } from '../../types/components'
 
-const props = defineProps<SortTableProps<T>>()
+const props = withDefaults(defineProps<SortTableProps<T>>(), { showSettings: true, showExport: true })
 const { t } = useI18n()
 const tableProps = computed(() => {
-  const { tableTitle: _title, sortTableRowClassName, ...shared } = props
+  const { tableTitle: _title, showSettings: _showSettings, showExport: _showExport, sortTableRowClassName, ...shared } = props
   return { ...shared, baseTableRowClassName: sortTableRowClassName ?? shared.baseTableRowClassName }
 })
+
+const tableRef = ref<TableExposed<T>>()
 
 const emit = defineEmits<SortTableEventMap<T>>()
 
@@ -46,17 +48,21 @@ const handleEditClick = (row: T) => {
 const handelExcelClick = () => {
   emit('click:downloadExcelFile')
 }
-const state = reactive({
-  itemOnHover: false,
+
+defineExpose({
+  clearSelection: () => tableRef.value?.clearSelection(),
+  toggleRowSelection: (row: T, selected?: boolean) => tableRef.value?.toggleRowSelection(row, selected),
+  doLayout: () => tableRef.value?.doLayout(),
 })
 </script>
 
 <template>
   <div class="w-full mb-4">
-    <div class="flex flex-wrap items-center min-h-12 bg-gray-200 px-1.5 rounded-t justify-end">
+    <div class="flex flex-wrap items-center min-h-12 rvtc-toolbar px-1.5 rounded-t justify-end">
       <div class="flex flex-wrap items-center gap-1">
         <slot name="firstButton"></slot>
         <button
+          v-if="showSettings"
           type="button"
           :aria-label="t('table.configureColumns')"
           class="table-icon-action cursor-pointer text-text text-xl flex items-center justify-center hover:text-blue-600"
@@ -68,30 +74,20 @@ const state = reactive({
         </button>
 
         <button
+          v-if="showExport"
           type="button"
           :aria-label="t('table.exportExcel')"
           class="table-icon-action cursor-pointer flex items-center justify-center"
-          @mouseenter="state.itemOnHover = true"
-          @mouseleave="state.itemOnHover = false"
           @click="handelExcelClick"
         >
-          <img
-            v-if="!state.itemOnHover"
-            src="@/assets/icons/excel.svg"
-            alt=""
-            class="w-6 h-6"
-          />
-          <img
-            v-if="state.itemOnHover"
-            src="@/assets/icons/excel-active.svg"
-            alt=""
-            class="w-6 h-6"
-          />
+          <img src="../../assets/icons/excel.svg" alt="" class="w-6 h-6 excel-icon" />
+          <img src="../../assets/icons/excel-active.svg" alt="" class="w-6 h-6 excel-icon--active" />
         </button>
       </div>
     </div>
 
     <base-table
+      ref="tableRef"
       v-bind="tableProps"
       @selection-change="handleSelectionChange"
       @cell-click="handleCellClick"
@@ -100,7 +96,7 @@ const state = reactive({
       @click:editRow="handleEditClick"
     >
       <template v-for="(_, name) in tableSlots()" #[name]="scope">
-        <slot :name="name" v-bind="scope" />
+        <slot :name="name" v-bind="scope as any" />
       </template>
     </base-table>
   </div>
@@ -108,12 +104,26 @@ const state = reactive({
 
 <style scoped lang="scss">
 .table-icon-action {
-  min-width: 44px;
-  min-height: 44px;
+  min-width: var(--rvtc-control-min-size, 44px);
+  min-height: var(--rvtc-control-min-size, 44px);
 
   &:focus-visible {
-    outline: 2px solid var(--main-color);
+    outline: 2px solid var(--main-color, var(--el-color-primary));
     outline-offset: 2px;
   }
+}
+
+.excel-icon--active {
+  display: none;
+}
+
+.table-icon-action:hover .excel-icon,
+.table-icon-action:focus-visible .excel-icon {
+  display: none;
+}
+
+.table-icon-action:hover .excel-icon--active,
+.table-icon-action:focus-visible .excel-icon--active {
+  display: block;
 }
 </style>

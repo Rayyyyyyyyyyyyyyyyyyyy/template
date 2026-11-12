@@ -1,5 +1,5 @@
 import { h, nextTick, ref } from 'vue'
-import { flushPromises, mount } from '@vue/test-utils'
+import { DOMWrapper, flushPromises, mount } from '@vue/test-utils'
 import { expect, it, onTestFinished, vi } from 'vitest'
 import {
   ElButton, ElConfigProvider, ElDialog, ElDivider, ElEmpty, ElIcon, ElInput,
@@ -22,20 +22,20 @@ it('runs loading, dialog, search, pagination and locale with named imports inste
     h(BaseDialog, { modelValue: true, title: 'Dialog', bodyLoading: loading.value }, () => 'Dialog content'),
     h(SearchableListPanel, { title: 'List', showSearch: true, pagination: { page: 1, limit: 10, totalCount: 30 } }),
   ]), {
+    // Element Plus >=2.14 teleports with the built-in Teleport; stubbing it remounts ElSelect's options in a loop, so read the dialog from the body.
+    attachTo: document.body,
     global: {
       plugins: [i18n],
       components: { ElButton, ElConfigProvider, ElDialog, ElDivider, ElEmpty, ElIcon, ElInput, ElPagination, ElScrollbar, ElTable, ElTableColumn },
       directives: { loading: ElLoadingDirective },
-      stubs: { teleport: true },
-      renderStubDefaultSlot: true,
       config: { warnHandler: warnings },
     },
   })
   onTestFinished(() => wrapper.unmount())
   await flushPromises()
   expect(wrapper.findComponent({ name: 'BaseTable' }).find('.el-loading-mask').exists()).toBe(true)
-  expect(wrapper.findComponent(BaseDialog).find('.el-loading-mask').exists()).toBe(true)
-  expect(wrapper.text()).toContain('Dialog content')
+  expect(document.body.querySelector('.el-dialog .el-loading-mask')).not.toBeNull()
+  expect(document.body.textContent).toContain('Dialog content')
   const list = wrapper.findComponent(SearchableListPanel)
   await list.get('input').setValue(' Ada ')
   await list.get('input').trigger('keydown', { key: 'Enter' })
@@ -51,7 +51,7 @@ it('runs loading, dialog, search, pagination and locale with named imports inste
   expect(list.get('.el-pagination__total').text()).toBe('Total 30')
   expect(list.get('label').text()).toBe('Search')
   const dialog = wrapper.findComponent(BaseDialog)
-  const cancel = dialog.findAll('button').find((button) => button.text() === 'Cancel')!
+  const cancel = new DOMWrapper(document.body).findAll('button').find((button) => button.text() === 'Cancel')!
   await cancel.trigger('click')
   expect(dialog.emitted('update:modelValue')).toEqual([[false]])
   expect(warnings.mock.calls.filter(([message]) => /resolve component|resolve directive/i.test(message))).toEqual([])

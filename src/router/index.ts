@@ -28,6 +28,21 @@ const routes = [
         component: () => import('@/views/DocsCenterPage.vue'),
       },
       {
+        path: ROUTES.DOCS_API,
+        name: ROUTE_NAMES.DOCS_API,
+        component: () => import('@/views/ApiReferencePage.vue'),
+      },
+      {
+        path: ROUTES.DOCS_CHANGELOG,
+        name: ROUTE_NAMES.DOCS_CHANGELOG,
+        component: () => import('@/views/ChangelogPage.vue'),
+      },
+      {
+        path: ROUTES.DOCS_THEME,
+        name: ROUTE_NAMES.DOCS_THEME,
+        component: () => import('@/views/ThemeTokensPage.vue'),
+      },
+      {
         path: ROUTES.SEARCHABLE_LIST_PANEL,
         name: ROUTE_NAMES.SEARCHABLE_LIST_PANEL,
         component: () => import('@/views/demo/SearchableListPanelDemo.vue'),

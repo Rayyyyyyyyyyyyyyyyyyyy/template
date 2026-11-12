@@ -22,17 +22,18 @@
 
   .el-table__header {
     th {
-      @apply bg-primary-15;
+      background-color: var(--rvtc-table-header-bg, #f5f7fa);
 
       .cell {
-        @apply font-bold text-text text-sm leading-4;
+        @apply font-bold text-sm leading-4;
+        color: var(--rvtc-table-header-text, #333);
         font-family: inherit;
       }
     }
 
     th.el-table-fixed-column--left,
     th.el-table-fixed-column--right {
-      @apply bg-primary-15;
+      background-color: var(--rvtc-table-header-bg, #f5f7fa);
     }
   }
 
@@ -45,7 +46,7 @@
 
     .el-table__cell:nth-child(n + 2) {
       .blue-text {
-        @apply text-blue-10;
+        color: var(--rvtc-link-text, #256fc0);
       }
       .red-text {
         @apply text-redText;
@@ -62,7 +63,9 @@
   }
 
   .header-class {
-    @apply bg-primary-15 font-bold text-text text-sm leading-4;
+    @apply font-bold text-sm leading-4;
+    background-color: var(--rvtc-table-header-bg, #f5f7fa);
+    color: var(--rvtc-table-header-text, #333);
   }
 
   // 內容相關類名
@@ -80,7 +83,7 @@
 
   // 文字顏色類名
   .blue-text-class {
-    @apply text-blue-10;
+    color: var(--rvtc-link-text, #256fc0);
   }
 
   .red-text-class {

@@ -1,37 +1,5 @@
 // ==================== 表格相關常量配置 ====================
 
-// 側邊導航配置
-export const NAVIGATION_ITEMS = [
-  {
-    id: 'transfer-dialog',
-    title: 'TransferDialog 示範',
-    description: '表格列配置功能',
-    icon: '⚙️',
-    section: 'transfer-demo',
-  },
-  {
-    id: 'sort-table',
-    title: '排序表格示範',
-    description: '排序和選擇功能',
-    icon: '📊',
-    section: 'sort-table-demo',
-  },
-  {
-    id: 'search-bar',
-    title: '搜尋欄示範',
-    description: '搜尋和篩選功能',
-    icon: '🔍',
-    section: 'search-bar-demo',
-  },
-  {
-    id: 'buttons-dialogs',
-    title: '按鈕和對話框示範',
-    description: '基礎組件展示',
-    icon: '🎯',
-    section: 'buttons-dialogs-demo',
-  },
-] as const
-
 // 常量定義
 export const DEMO_CONSTANTS = {
   LOADING_DURATION: 2000,
@@ -110,19 +78,3 @@ export const DEMO_USER_DATA: User[] = [
     joinDate: '2023-06-15',
   },
 ]
-
-// 部門選項
-export const DEPARTMENT_OPTIONS = [
-  { label: '全部', value: '' },
-  { label: '工程部', value: 'engineering' },
-  { label: '設計部', value: 'design' },
-  { label: '行銷部', value: 'marketing' },
-] as const
-
-// 狀態選項
-export const STATUS_OPTIONS = [
-  { label: '全部', value: '' },
-  { label: '啟用', value: 'active' },
-  { label: '停用', value: 'inactive' },
-  { label: '待處理', value: 'pending' },
-] as const

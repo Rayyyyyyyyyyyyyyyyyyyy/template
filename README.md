@@ -53,10 +53,18 @@ npm install rayyy-vue-table-components vue element-plus vue-i18n
 | `/utils/styles` | 歷史樣式 helpers 與 STYLE_CLASSES |
 | `/locales` | messages、zhTW、enUS、LocaleType |
 | `/styles` | 完整編譯 CSS；搭配宿主的 Element Plus CSS |
+| `/styles/core` | 去掉 `:root`／`:root.dark` 主題變數的組件 CSS；主題變數引用都有 fallback，只載 core 時元件跟隨宿主的 Element Plus 主色，狀態色退回套件的淺色預設值 |
+| `/styles/theme` | 只有主題變數（`:root`、`:root.dark`） |
 | `/styles/element` | Element Plus SCSS 主題入口 |
 | `/tailwind-preset` | Tailwind CSS preset |
 
+宿主自己有 Element Plus 主題時用 `/styles/core`（主題變數引用都有 fallback，只載 core 時元件跟隨宿主的 Element Plus 主色；狀態色退回套件的淺色預設值）。
+
 JS 與 declarations 來自建置產物。`/styles/table`、`/styles/dialog` 與 `/styles/components` 不是公開入口。完整組件樣式請使用 `/styles`；主題與 Tailwind 配置見 [SCSS](src/assets/styles/element/index.scss) 與 [preset](tailwind-preset.cjs)。
+
+## 深色模式
+
+宿主載入 `element-plus/theme-chalk/dark/css-vars.css`，並在 `<html>` 切換 `dark` class，元件就會跟著變。套件的深色色值寫在 `:root.dark`，優先權高於 Element Plus 深色預設的 `html.dark`，確保主色色階不被蓋掉。
 
 ## Table family 的共同契約
 
@@ -67,6 +75,9 @@ BaseTable、SortTable、TitleTable 的共同 props 與 expand slot 以 BaseTable
 - BaseTable 的排序事件為 `column-sort-change`，SortTable 為 `click:columnSort`。公開事件維持原有名稱與 payload，不自動統一。
 - SortTable 的設定與下載操作只發出 `open:transfer`、`click:downloadExcelFile`；實際對話框與匯出由宿主處理。
 - 排序 payload 型別為 `SortChangValue<Row>`，沒有 `SortInfo` 公開型別。
+- `cell-click` 掛在儲存格的 `div` 上，只供滑鼠輔助；需要鍵盤操作時，用欄位的 `template` 放 `<button>`。
+- `unfixColumnsBelow`：視窗寬度小於此值（px）時，選取欄、序號欄、操作欄不固定，例如 `:unfix-columns-below="768"`。
+- `rowLabel`：組出查看／編輯按鈕的 aria-label，例如 `:row-label="(row) => row.name"` 會得到「編輯 張小明」。
 
 完整 props、events、slots 與相容型別見 [契約定義](src/types/components.ts)、[共用資料型別](src/types/index.ts) 與編輯器的生成 declarations；避免另維護一份手工型別鏡像。
 
@@ -74,7 +85,7 @@ BaseTable、SortTable、TitleTable 的共同 props 與 expand slot 以 BaseTable
 
 元件文字跟隨宿主 `vue-i18n` composer。建立 `legacy: false` 的宿主 i18n，並在各語系內合併套件 messages；覆寫 common 等 namespace 時也需合併該層。修改宿主 locale 即可切換文字。
 
-分頁未傳 `locale` 時繼承外層 `ElConfigProvider`；有傳時只覆寫該面板。`showPagination` 為三態：未提供依 totalCount 判斷，true 強制顯示，false 隱藏。
+分頁未傳 `locale` 時繼承外層 `ElConfigProvider`；有傳時只覆寫該面板。`showPagination` 為三態：未提供依 totalCount 判斷，true 強制顯示，false 隱藏。`paginationLayout` 可覆寫 el-pagination 的 layout，例如 `pagination-layout="prev, next"`；`compactPaginationBelow` 設定視窗寬度門檻（px），小於時 layout 改為 `prev, pager, next`，例如 `:compact-pagination-below="640"`，不傳則不切換。
 
 BaseDialog 明確傳入 `customWidth` 時優先使用；未傳時，視窗小於 500px 使用 100%，其餘 50%。確認發出 `click:submit`，是否關閉與如何儲存由宿主決定。
 
@@ -91,6 +102,34 @@ TransferItem 的獨立契約也保留於 [公開型別](src/types/components.ts)
 保留公開名稱、事件與既有 subpaths，包含 `BaseWaringDialog` 的歷史拼字、BaseTableEmits 的 handler map、BaseDialogEmits 的 callable 形狀，以及舊 instance 型別。預設 plugin 的歷史數字索引也保留原順序。
 
 `setLocale`、套件 `useI18n`、`useComponentElementLocale` 與 plugin `locale` 選項為 deprecated 相容入口；它們不控制元件文字。詳細歷史基線與本次決策見 [package-contract](docs/package-contract.md)。
+
+## 版面高度
+
+以下 CSS 變數可覆寫版面高度；未設定時使用預設值，畫面不變。
+
+| 變數 | 作用 | 預設值 |
+| --- | --- | --- |
+| `--rvtc-panel-max-height` | MainPanel 內容區最大高度 | `calc(100vh - 180px)` |
+| `--rvtc-detail-min-height` | DetailLayout 容器最小高度 | `calc(100vh - 200px)` |
+| `--rvtc-detail-content-max-height` | DetailLayout 內容區最大高度 | `calc(100vh - 100px)` |
+
+```css
+:root { --rvtc-panel-max-height: calc(100vh - 120px); }
+```
+
+以下 CSS 變數可覆寫元件顏色與控制項尺寸；宿主沒設定時跟隨 Element Plus 變數（深色模式也會自動跟上）。
+
+| 變數 | 用途 | fallback |
+| --- | --- | --- |
+| `--rvtc-toolbar-bg` | SortTable／TitleTable 工具列背景 | `var(--el-fill-color)` |
+| `--rvtc-header-bg` | FunctionHeader 背景 | `var(--el-fill-color-light)` |
+| `--rvtc-text` | FunctionHeader 返回鈕文字色 | `var(--el-text-color-primary)` |
+| `--rvtc-on-fill` | BaseBtn 填充樣式禁用狀態文字色 | `var(--el-color-white)` |
+| `--rvtc-control-min-size` | 圖示按鈕最小點擊尺寸 | `44px` |
+| `--rvtc-table-header-bg` | BaseTable／SortTable／TitleTable 表頭背景（深色：var(--el-fill-color-light)） | `#f5f7fa` |
+| `--rvtc-table-header-text` | 表頭文字色（深色：var(--el-text-color-primary)） | `#333` |
+| `--rvtc-dialog-header-bg` | BaseDialog 系列標題列背景（深色：var(--el-fill-color-light)） | `#f5f7fa` |
+| `--rvtc-link-text` | 表格內 `.blue-text` 連結色（深色：#79bbff） | `#256fc0` |
 
 ## 開發與驗證
 
