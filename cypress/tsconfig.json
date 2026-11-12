@@ -4,6 +4,7 @@
   "exclude": ["./support/component.*"],
   "compilerOptions": {
     "isolatedModules": false,
+    "ignoreDeprecations": "6.0",
     "types": ["cypress"]
   }
 }
