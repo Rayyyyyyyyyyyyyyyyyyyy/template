@@ -14,12 +14,13 @@ const BaseDialog = defineComponent({
 })
 const SearchBar = defineComponent({
   name: 'SearchBar',
+  props: { searchOnInput: Boolean },
   emits: ['keydown:enter', 'update:clear'],
   template: '<div />',
 })
 const TransferItem = defineComponent({
   name: 'TransferItem',
-  props: ['columnsValue'],
+  props: ['columnsValue', 'draggable'],
   emits: ['update:toTop', 'update:toBottom', 'update:toPre', 'update:toNext', 'update:toLock', 'update:toUnLock'],
   template: '<div class="transfer-item">{{ columnsValue.label }}</div>',
 })
@@ -76,6 +77,14 @@ describe('TransferDialog draft contract', () => {
     expect(submitted.map((column) => column.prop)).toEqual(['b', 'a', 'c'])
     expect(submitted.map((column) => column.checkActive)).toEqual([true, false, false])
     expect(original).toEqual(before)
+  })
+
+  it('turns on searchOnInput and hides the grab cursor in the default list', () => {
+    const wrapper = mountDialog()
+    expect(wrapper.findComponent(SearchBar).props('searchOnInput')).toBe(true)
+    const items = wrapper.findAllComponents(TransferItem)
+    expect(items).toHaveLength(3)
+    for (const item of items) expect(item.props('draggable')).toBe(false)
   })
 
   it('discards only the draft when cancelled and reopened from new host columns', async () => {

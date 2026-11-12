@@ -6,7 +6,7 @@ import BaseBtn from '../items/BaseBtn.vue'
 import type { Component } from 'vue'
 import type { TransferItemEventMap, TransferItemProps } from '../../types/components'
 
-const props = defineProps<TransferItemProps<T>>()
+const props = withDefaults(defineProps<TransferItemProps<T>>(), { draggable: true })
 const { t } = useI18n()
 const state = reactive({
   itemOnHover: false,
@@ -98,8 +98,8 @@ const onItemBtnClick = (key: TEmitKey) => {
     @mousedown="onMouseDown"
     @mouseup="onMouseUp"
     :class="{
-      'cursor-grab': state.itemOnHover,
-      'cursor-grabbing': state.itemOnClick,
+      'cursor-grab': draggable && state.itemOnHover,
+      'cursor-grabbing': draggable && state.itemOnClick,
     }"
   >
     <el-checkbox :label="columnsValue.label" :value="columnsValue.prop" :key="columnsValue.prop" />
@@ -120,4 +120,9 @@ const onItemBtnClick = (key: TEmitKey) => {
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.transfer-arrow-wrapper :deep(.el-button) {
+  min-width: var(--rvtc-control-min-size, 44px);
+  min-height: var(--rvtc-control-min-size, 44px);
+}
+</style>

@@ -184,3 +184,53 @@ it.each([
     expect(wrapper.emitted('click:back')).toEqual([[payload]])
   }
 })
+
+it('SearchBar searchOnInput debounces keydown:enter by searchDelay', async () => {
+  vi.useFakeTimers()
+  const wrapper = mount(SearchBar, { props: { showSearch: true, searchOnInput: true }, global: global() })
+  onTestFinished(() => { wrapper.unmount(); vi.useRealTimers() })
+  const input = wrapper.get('input')
+  await input.setValue('a')
+  vi.advanceTimersByTime(200)
+  await input.setValue('ab')
+  vi.advanceTimersByTime(299)
+  expect(wrapper.emitted('keydown:enter')).toBeUndefined()
+  vi.advanceTimersByTime(1)
+  expect(wrapper.emitted('keydown:enter')).toEqual([['ab']])
+})
+
+it('SearchBar without searchOnInput does not search while typing', async () => {
+  vi.useFakeTimers()
+  const wrapper = mount(SearchBar, { props: { showSearch: true }, global: global() })
+  onTestFinished(() => { wrapper.unmount(); vi.useRealTimers() })
+  await wrapper.get('input').setValue('ab')
+  vi.advanceTimersByTime(1000)
+  expect(wrapper.emitted('keydown:enter')).toBeUndefined()
+})
+
+it('SearchBar searchOnInput does not search again after the clear button', async () => {
+  vi.useFakeTimers()
+  const wrapper = mount(SearchBar, { props: { showSearch: true, searchOnInput: true }, global: global() })
+  onTestFinished(() => { wrapper.unmount(); vi.useRealTimers() })
+  await wrapper.get('input').setValue('ab')
+  vi.advanceTimersByTime(300)
+  expect(wrapper.emitted('keydown:enter')).toEqual([['ab']])
+  wrapper.findComponent(ElInput).vm.$emit('update:modelValue', '')
+  wrapper.findComponent(ElInput).vm.$emit('clear')
+  await nextTick()
+  vi.advanceTimersByTime(1000)
+  expect(wrapper.emitted('update:clear')).toEqual([[]])
+  expect(wrapper.emitted('keydown:enter')).toEqual([['ab']])
+})
+
+it('TransferItem shows the grab cursor on hover unless draggable is false', async () => {
+  for (const [props, expected] of [[{}, true], [{ draggable: false }, false]] as const) {
+    const wrapper = mount(TransferItem, {
+      props: { dialogModalVisible: true, columnsValue: { prop: 'a', label: 'A' }, columnsIndex: 0, columnsLen: 2, ...props },
+      global: global(),
+    })
+    await wrapper.trigger('mouseenter')
+    expect(wrapper.classes().includes('cursor-grab')).toBe(expected)
+    wrapper.unmount()
+  }
+})

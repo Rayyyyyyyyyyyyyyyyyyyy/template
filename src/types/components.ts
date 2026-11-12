@@ -464,6 +464,10 @@ export interface BaseSelectorInstance {
 export interface SearchBarProps {
   /** 是否顯示搜尋功能 */
   showSearch?: boolean
+  /** 輸入後延遲 searchDelay 毫秒自動觸發 keydown:enter；預設 false */
+  searchOnInput?: boolean
+  /** searchOnInput 的延遲毫秒數；預設 300 */
+  searchDelay?: number
 }
 
 export interface SearchBarEventMap {
@@ -692,6 +696,8 @@ export interface TransferItemProps<T = Record<string, unknown>> {
   columnsIndex: number
   /** 列長度 */
   columnsLen: number
+  /** 是否顯示抓取游標；預設 true（相容）。TransferDialog 的預設清單不能拖曳，會傳 false */
+  draggable?: boolean
 }
 
 export interface TransferItemEventMap {

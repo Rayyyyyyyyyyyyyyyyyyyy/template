@@ -160,6 +160,7 @@ const doFilterColumn = (keyword: string) => {
     <div class="search-bar">
       <search-bar
         :show-search="true"
+        search-on-input
         @update:clear="resetFilterColumn"
         @keydown:enter="doFilterColumn"
       />
@@ -185,6 +186,7 @@ const doFilterColumn = (keyword: string) => {
               :columns-value="element"
               :columns-index="state.localColumns.indexOf(element)"
               :columns-len="state.localColumns.length"
+              :draggable="false"
               :class="{
                 'transfer-active-bg': element.checkActive,
                 'transfer-active-border': state.clickItemProp == element.prop,

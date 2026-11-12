@@ -179,3 +179,7 @@ it('gives every theme variable reference in core sources a fallback', () => {
     expect(read(file), file).not.toMatch(/var\(--(main-color|control-)[a-z0-9-]*\)/)
   }
 })
+
+it('gives TransferItem buttons a 44px touch target', () => {
+  expect(read('src/components/transfer/transferItem.vue')).toContain('min-width: var(--rvtc-control-min-size, 44px)')
+})
