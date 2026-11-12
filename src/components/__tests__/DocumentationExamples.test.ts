@@ -75,11 +75,6 @@ const declares = (text: string, name: string) =>
   new RegExp(`^\\s*['"]?${name.replace(/[$]/g, '\\$&')}['"]?\\??:`, 'm').test(text)
 
 it('only documents props, events and slots that exist in the public types', () => {
-  // BaseDialog and TransferDialog have no *Slots interface, so their slots are checked against the template.
-  const slotSource: Record<string, string> = {
-    BaseDialog: 'src/components/items/BaseDialog.vue',
-    TransferDialog: 'src/components/transfer/TransferDialog.vue',
-  }
   for (const { name, props, events, slots } of apiReference) {
     const sections = [
       [props, `${name}Props`],
@@ -91,10 +86,8 @@ it('only documents props, events and slots that exist in the public types', () =
       for (const row of rows) expect(declares(text!, row.name), `${iface}.${row.name}`).toBe(true)
     }
     const slotText = block(`${name}Slots`)
-    for (const row of slots.filter((slot) => slot.name !== 'default')) {
-      if (slotText) expect(declares(slotText, row.name), `${name}Slots.${row.name}`).toBe(true)
-      else expect(readFileSync(resolve(root, slotSource[name]), 'utf8'), `${name} slot ${row.name}`).toContain(`name="${row.name}"`)
-    }
+    expect(slotText, `${name}Slots`).not.toBeNull()
+    for (const row of slots) expect(declares(slotText!, row.name), `${name}Slots.${row.name}`).toBe(true)
   }
 })
 
