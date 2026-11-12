@@ -16,6 +16,10 @@ export interface BaseTableProps<T extends Record<string, unknown> = Record<strin
   loading?: boolean
   /** 為 true 且不在載入中時，顯示 `error` slot 取代表格；預設 false */
   error?: boolean
+  /** 視窗寬度小於此值（px）時，選取欄、序號欄、操作欄不固定。不傳時一律固定（現狀） */
+  unfixColumnsBelow?: number
+  /** 用來組出每列查看／編輯按鈕的 aria-label，例如「編輯 張小明」 */
+  rowLabel?: (row: T) => string
   /** 表格數據 */
   data: T[]
   /** 表格列配置 */

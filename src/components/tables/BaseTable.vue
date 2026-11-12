@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends Record<string, unknown> = Record<string, unknown>">
 import type { FunctionalComponent, VNode } from 'vue'
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { TableColumnCtx, TableInstance } from 'element-plus'
 import type { SortChangValue, TableColumn } from '../../types'
@@ -40,6 +40,16 @@ const props = withDefaults(defineProps<BaseTableProps<T>>(), {
 const emit = defineEmits<BaseTableEventMap<T>>()
 
 const tableRef = ref<TableInstance>()
+
+const viewportWidth = ref(typeof window === 'undefined' ? 1024 : window.innerWidth)
+const updateViewportWidth = () => {
+  viewportWidth.value = window.innerWidth
+}
+
+onMounted(() => window.addEventListener('resize', updateViewportWidth))
+onBeforeUnmount(() => window.removeEventListener('resize', updateViewportWidth))
+
+const fixedEnabled = computed(() => props.unfixColumnsBelow === undefined || viewportWidth.value >= props.unfixColumnsBelow)
 
 defineSlots<BaseTableSlots<T>>()
 
@@ -110,10 +120,10 @@ defineExpose({
       @sort-change="onSortChange"
     >
       <!-- 選擇列 -->
-      <el-table-column v-if="showSelection" type="selection" width="60" fixed="left" align="center" />
+      <el-table-column v-if="showSelection" type="selection" width="60" :fixed="fixedEnabled ? 'left' : false" align="center" />
 
       <!-- 索引列 -->
-      <el-table-column v-if="showIndex" type="index" width="60" fixed="left" align="center" :label="t('table.index')" />
+      <el-table-column v-if="showIndex" type="index" width="60" :fixed="fixedEnabled ? 'left' : false" align="center" :label="t('table.index')" />
 
       <!-- 展開列 -->
       <el-table-column v-if="showExpand" type="expand">
@@ -138,7 +148,7 @@ defineExpose({
         v-if="props.showCheckBtn || props.showEditBtn"
         :width="operatorWidth"
         align="center"
-        fixed="right"
+        :fixed="fixedEnabled ? 'right' : false"
       >
         <template #default="{ row }">
           <div class="flex items-center justify-center">
@@ -146,6 +156,7 @@ defineExpose({
               type="button"
               class="blue-text cursor-pointer font-bold row-action"
               @click="handleOperateClick(row, 'check')"
+              :aria-label="rowLabel ? `${t('common.view')} ${rowLabel(row)}` : undefined"
               v-if="showCheckBtn"
             >
               {{ t('common.view') }}
@@ -155,6 +166,7 @@ defineExpose({
               type="button"
               class="blue-text cursor-pointer font-bold row-action"
               @click="handleOperateClick(row, 'edit')"
+              :aria-label="rowLabel ? `${t('common.edit')} ${rowLabel(row)}` : undefined"
               v-if="showEditBtn"
             >
               {{ t('common.edit') }}

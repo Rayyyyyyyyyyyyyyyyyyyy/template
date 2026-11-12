@@ -75,6 +75,9 @@ BaseTable、SortTable、TitleTable 的共同 props 與 expand slot 以 BaseTable
 - BaseTable 的排序事件為 `column-sort-change`，SortTable 為 `click:columnSort`。公開事件維持原有名稱與 payload，不自動統一。
 - SortTable 的設定與下載操作只發出 `open:transfer`、`click:downloadExcelFile`；實際對話框與匯出由宿主處理。
 - 排序 payload 型別為 `SortChangValue<Row>`，沒有 `SortInfo` 公開型別。
+- `cell-click` 掛在儲存格的 `div` 上，只供滑鼠輔助；需要鍵盤操作時，用欄位的 `template` 放 `<button>`。
+- `unfixColumnsBelow`：視窗寬度小於此值（px）時，選取欄、序號欄、操作欄不固定，例如 `:unfix-columns-below="768"`。
+- `rowLabel`：組出查看／編輯按鈕的 aria-label，例如 `:row-label="(row) => row.name"` 會得到「編輯 張小明」。
 
 完整 props、events、slots 與相容型別見 [契約定義](src/types/components.ts)、[共用資料型別](src/types/index.ts) 與編輯器的生成 declarations；避免另維護一份手工型別鏡像。
 

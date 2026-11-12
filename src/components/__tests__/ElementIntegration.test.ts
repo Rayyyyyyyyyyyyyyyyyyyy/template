@@ -1,7 +1,7 @@
 import { defineComponent, h, nextTick, ref } from 'vue'
 import { flushPromises, mount, enableAutoUnmount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import ElementPlus, { ElConfigProvider, ElPagination, ElSelect, ElTable } from 'element-plus'
+import ElementPlus, { ElConfigProvider, ElPagination, ElSelect, ElTable, ElTableColumn } from 'element-plus'
 import type { TableInstance } from 'element-plus'
 import type { Language } from 'element-plus/es/locale'
 import en from 'element-plus/es/locale/lang/en'
@@ -174,6 +174,52 @@ it.each([['zh-TW', '序號'], ['en-US', 'No']])('BaseTable index column label fo
   })
   await flushPromises()
   expect(wrapper.find('.el-table__header').text()).toContain(label)
+})
+
+describe('BaseTable responsive fixed columns and row labels', () => {
+  const row = { id: 1, name: 'Ada' }
+  const baseProps = { data: [row], columns: [{ prop: 'name', label: 'Name' }], showSelection: true, showIndex: true, showEditBtn: true }
+  // columns in order: selection, index, data, action
+  const fixedOf = (wrapper: ReturnType<typeof mount>) => {
+    const fixed = wrapper.findAllComponents(ElTableColumn).map((c) => (c.props() as { fixed?: unknown }).fixed)
+    return [fixed[0], fixed[1], fixed[3]]
+  }
+  const setWidth = (value: number) => Object.defineProperty(window, 'innerWidth', { value, configurable: true })
+  const originalWidth = window.innerWidth
+  afterEach(() => setWidth(originalWidth))
+
+  it('keeps selection, index and action columns fixed when unfixColumnsBelow is not set', async () => {
+    const wrapper = mount(BaseTable, { props: baseProps, global: global() })
+    await flushPromises()
+    expect(fixedOf(wrapper)).toEqual(['left', 'left', 'right'])
+  })
+
+  it('unfixes the three columns when the viewport is already narrower than unfixColumnsBelow', async () => {
+    setWidth(500)
+    const wrapper = mount(BaseTable, { props: { ...baseProps, unfixColumnsBelow: 768 }, global: global() })
+    await flushPromises()
+    expect(fixedOf(wrapper)).toEqual([false, false, false])
+  })
+
+  it('unfixes the three columns after a resize below unfixColumnsBelow', async () => {
+    setWidth(1024)
+    const wrapper = mount(BaseTable, { props: { ...baseProps, unfixColumnsBelow: 768 }, global: global() })
+    await flushPromises()
+    expect(fixedOf(wrapper)).toEqual(['left', 'left', 'right'])
+    setWidth(500)
+    window.dispatchEvent(new Event('resize'))
+    await nextTick()
+    expect(fixedOf(wrapper)).toEqual([false, false, false])
+  })
+
+  it('adds the row label to the edit button aria-label only when rowLabel is given', async () => {
+    const withLabel = mount(BaseTable, { props: { ...baseProps, rowLabel: (r: Record<string, unknown>) => String(r.name) }, global: global() })
+    await flushPromises()
+    expect(withLabel.get('.row-action').attributes('aria-label')).toBe('編輯 Ada')
+    const withoutLabel = mount(BaseTable, { props: baseProps, global: global() })
+    await flushPromises()
+    expect(withoutLabel.get('.row-action').attributes('aria-label')).toBeUndefined()
+  })
 })
 
 describe('table exposed methods with real ElTable', () => {
