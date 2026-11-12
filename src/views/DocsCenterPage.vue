@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ROUTES } from '../router/constants'
 import ExampleCode from './docs/ExampleCode.vue'
 
 const sources = import.meta.glob<string>('../../tests/consumer/src/examples/*.{vue,ts}', {
@@ -19,6 +20,11 @@ const examples = Object.entries(sources).map(([path, source]) => ({
           請先依 main.ts 安裝 Element Plus、宿主 i18n 與樣式，再選擇需要的 Vue 範例。
         </p>
         <p class="text-gray-600">範例資料只保留於宿主記憶體；沒有 API、檔案匯出或持久化。</p>
+        <nav aria-label="文件頁面" class="flex flex-wrap gap-x-4 gap-y-2">
+          <RouterLink :to="ROUTES.DOCS_API" class="text-blue-700 underline">API 參考</RouterLink>
+          <RouterLink :to="ROUTES.DOCS_CHANGELOG" class="text-blue-700 underline">變更紀錄</RouterLink>
+          <RouterLink :to="ROUTES.DOCS_THEME" class="text-blue-700 underline">主題 token</RouterLink>
+        </nav>
         <nav aria-label="範例目錄" class="flex flex-wrap gap-x-4 gap-y-2">
           <a v-for="example in examples" :key="example.name" :href="`#${example.name}`"
             class="text-blue-700 underline">{{ example.name }}</a>
