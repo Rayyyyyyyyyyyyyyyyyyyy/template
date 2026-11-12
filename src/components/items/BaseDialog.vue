@@ -71,7 +71,7 @@ defineSlots<BaseDialogSlots>()
       <slot></slot>
     </div>
     <template #footer>
-      <footer>
+      <footer :class="{ 'base-dialog-footer--stacked': viewportWidth < 500 }">
         <slot name="customFooter">
           <base-btn
             :text="t('common.close')"
@@ -83,12 +83,17 @@ defineSlots<BaseDialogSlots>()
           <template v-if="!showClose">
             <base-btn
               :text="t('common.confirm')"
-              type="primary"
+              :type="dangerSubmit ? 'danger' : 'primary'"
               is-fill
               @click="handleSubmit"
               :loading="submitLoading"
             />
-            <base-btn :text="t('common.cancel')" type="primary" @click="handleCancel" />
+            <base-btn
+              :text="t('common.cancel')"
+              type="primary"
+              :autofocus="dangerSubmit"
+              @click="handleCancel"
+            />
           </template>
         </slot>
       </footer>
@@ -96,4 +101,14 @@ defineSlots<BaseDialogSlots>()
   </el-dialog>
 </template>
 
-<style scoped></style>
+<style scoped>
+.base-dialog-footer--stacked {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+.base-dialog-footer--stacked > * {
+  flex: 1 1 0;
+  margin: 0;
+}
+</style>

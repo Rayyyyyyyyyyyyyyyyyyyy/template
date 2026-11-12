@@ -12,6 +12,8 @@ import SortTable from '../tables/SortTable.vue'
 import TitleTable from '../tables/TitleTable.vue'
 import SearchableListPanel from '../layout/SearchableListPanel.vue'
 import TransferDialog from '../transfer/TransferDialog.vue'
+import BaseDialog from '../items/BaseDialog.vue'
+import BaseWaringDialog from '../items/BaseWaringDialog.vue'
 import type { TableColumn } from '../../types'
 import type { TableExposed } from '../../types/components'
 import { createHostI18n } from './testHelpers'
@@ -258,5 +260,42 @@ describe('table exposed methods with real ElTable', () => {
       exposed.toggleRowSelection(row, true)
       exposed.doLayout()
     }).not.toThrow()
+  })
+})
+
+describe('dialog dangerSubmit and narrow footer with real ElButton', () => {
+  const buttons = (wrapper: ReturnType<typeof mount>) => wrapper.findAll('.base-dialog button')
+  const find = (wrapper: ReturnType<typeof mount>, text: string) => buttons(wrapper).find((button) => button.text() === text)!
+  it('dangerSubmit makes confirm danger and gives cancel autofocus', async () => {
+    const wrapper = mount(BaseDialog, { props: { modelValue: true, dangerSubmit: true }, global: global() })
+    await flushPromises()
+    expect(find(wrapper, '確定').classes()).toContain('el-button--danger')
+    expect(find(wrapper, '取消').attributes('autofocus')).toBeDefined()
+  })
+  it('keeps primary confirm and no autofocus by default', async () => {
+    const wrapper = mount(BaseDialog, { props: { modelValue: true }, global: global() })
+    await flushPromises()
+    expect(find(wrapper, '確定').classes()).toContain('el-button--primary')
+    expect(find(wrapper, '取消').attributes('autofocus')).toBeUndefined()
+  })
+  it('BaseWaringDialog forwards dangerSubmit', async () => {
+    const wrapper = mount(BaseWaringDialog, { props: { modelValue: true, dangerSubmit: true }, global: global() })
+    await flushPromises()
+    expect(find(wrapper, '確定').classes()).toContain('el-button--danger')
+  })
+  it('stacks the footer below 500px only', async () => {
+    const original = window.innerWidth
+    try {
+      Object.defineProperty(window, 'innerWidth', { configurable: true, value: 400 })
+      const narrow = mount(BaseDialog, { props: { modelValue: true }, global: global() })
+      await flushPromises()
+      expect(narrow.find('.base-dialog-footer--stacked').exists()).toBe(true)
+      Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1024 })
+      const wide = mount(BaseDialog, { props: { modelValue: true }, global: global() })
+      await flushPromises()
+      expect(wide.find('.base-dialog-footer--stacked').exists()).toBe(false)
+    } finally {
+      Object.defineProperty(window, 'innerWidth', { configurable: true, value: original })
+    }
   })
 })

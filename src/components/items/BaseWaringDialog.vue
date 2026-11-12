@@ -29,6 +29,7 @@ defineSlots<BaseWaringDialogSlots>()
     v-model="dialogVisible"
     :title="titleText || t('common.warning')"
     :is-waring="true"
+    :danger-submit="dangerSubmit"
     @click:submit="handleSubmit"
   >
     <div class="w-full min-h-16 flex items-center justify-center flex-col">

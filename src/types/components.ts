@@ -284,6 +284,8 @@ export interface BaseDialogProps {
   submitLoading?: boolean
   /** 是否顯示關閉按鈕 */
   showClose?: boolean
+  /** 確認鈕改用 danger 色，並讓取消鈕取得初始焦點 */
+  dangerSubmit?: boolean
 }
 
 export interface BaseDialogEventMap {
@@ -317,6 +319,8 @@ export interface BaseWaringDialogProps {
   subWaringText?: string
   /** 標題文字 */
   titleText?: string
+  /** 確認鈕改用 danger 色，並讓取消鈕取得初始焦點 */
+  dangerSubmit?: boolean
 }
 
 export interface BaseWaringDialogEventMap {
