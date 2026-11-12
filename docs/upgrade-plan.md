@@ -367,6 +367,7 @@ src/main.ts、src/views、src/router、src/layout、src/const   （demo，只能
 | 3.4 | `24ec981` | vite 8.3.8 與建置外掛；`vite.config.ts` 未改，CJS/ESM 匯出形狀與升級前一致 |
 | 3.5 | `d794054`、`17e5233` | TypeScript 6.0.3、vue-tsc 3、@vue/tsconfig 0.9；.d.ts 用 `tsconfig.dts.json` 產出，與升級前逐位元組相同 |
 | 3.6 | `4a35c23` | ESLint 10.14、Prettier 3.10.1；`eslint.config.ts` 未改，邊界規則仍有效 |
+| 3.7 | 本 PR 最後一個 commit（`chore: upgrade Cypress to 16`） | Cypress 16.3.0（用 tsx 載入 config，不再強制 `moduleResolution: node`、ES5 target，TS 6 下不再強制 `downlevelIteration`）；移除根 `tsconfig.json`（含只給舊重現腳本用的 `rootDir`）和 `cypress/tsconfig.json` 的 `ignoreDeprecations`；`tsconfig.dts.json` 不動 |
 | 待決 10.2 | `01c92c5` | 刪除 `yarn.lock`，只用 npm |
 | 8.2 補洞 | `e66b9a1` | 瀏覽器驗收發現：表頭、固定欄表頭、對話框標題列、表格連結色在深色模式沒跟上。新增 `--rvtc-table-header-bg`／`-text`、`--rvtc-dialog-header-bg`、`--rvtc-link-text`，淺色值不變 |
 | demo | `e6f768e` | demo 深色文字可讀；示範 `dangerSubmit`、`compactPaginationBelow`、`unfixColumnsBelow` |
@@ -408,7 +409,7 @@ R2 的處理：U3.6、U4.1 改成宿主開啟（`dangerSubmit`、`compactPaginat
 
 - cjs 82125 bytes，距離預算 85000 只剩約 2.9KB。
 - build 時出現 `__dirname` 在 native config loader 將不支援的警告，以及 Rolldown 的 `MIXED_EXPORTS` 雜訊。
-- npm audit 有 19 個漏洞（17 moderate、2 high），全在 devDependencies，`npm audit --omit=dev` 為 0。2 個 high 來自 cypress→extract-zip，隨 3.7 升 Cypress 16 處理。
+- npm audit 剩 14 個 moderate、0 high（3.7 升 Cypress 16 前是 19 個：17 moderate、2 high），全在 devDependencies。
 - 操作欄按鈕在淺色仍是瀏覽器預設按鈕外觀（灰底、邊框），對話框標題文字貼近標題列底部；皆為本輪前既有，改外觀留到 3.0。
 - 變更紀錄頁直接顯示 Markdown 原文。
 - `publish.yml` 用已封存的 `actions/create-release@v1`。
@@ -416,4 +417,4 @@ R2 的處理：U3.6、U4.1 改成宿主開啟（`dangerSubmit`、`compactPaginat
 - SearchBar 的「backspace 刪到空字串」與「清除後立即輸入」沒有 repo 測試。
 - `useDemoTheme` 沒有對 `matchMedia` 做防護。
 - node16 ESM 宿主原本就有 42 個 TS2307：.d.ts 的相對 specifier 沒有副檔名。
-- 本次不做：項目 2.5–2.7、A4、3.7 Cypress、3.8 Tailwind 4、vue-router 5、vueuse 15。
+- 本次不做：項目 2.5–2.7、A4、3.8 Tailwind 4、vue-router 5、vueuse 15。
