@@ -342,3 +342,72 @@ src/main.ts、src/views、src/router、src/layout、src/const   （demo，只能
 - `SortTable.vue` 模板用 `@/assets/icons/*.svg`，ESLint 抓不到，產物仍隱性依賴 alias。
 - TransferDialog 所有欄位都沒有 `prop` 時，全選框會顯示為已勾選。
 - 沒有 BaseSelector 傳 `placeholder: ''` 的測試。
+
+## 13. 第二輪執行紀錄（2026-11-12）
+
+### 13.1 已完成（branch `ft/upgrade-2x`）
+
+行為改動都有先失敗再通過的測試；每項經另一個 reviewer 驗收。工具鏈升級以「與升級前產物比對」驗收。
+
+| 項目 | commit | 說明 |
+| --- | --- | --- |
+| 3.1 | `b4639bd` | semver 範圍內更新 |
+| 3.2 | `b460c3d` | vue-i18n 11 開發；`check:package` 的 consumer 分兩次跑（10.0.8 + EP 2.11.1、11.4.18 + EP 2.14.8） |
+| 3.3 | `91c8f0d` | vitest 5、jsdom 29，合併 vitest 設定 |
+| CI | `6b7787f` | push 到 main 時跑 CI，移除 tag 觸發 |
+| EP 2.14 | `411dafd` | devDependency 改 element-plus 2.14.8，2.11.1 仍通過；失敗都是測試寫法（Teleport stub、`__expose`），不是元件問題 |
+| A3 | `daa238d` | Tailwind preset 從 `element/index.scss` 讀主色（ADR-002） |
+| 8.1 | `da908b7` | `--rvtc-*` 元件 token，fallback 到 `--el-*` |
+| 8.2 | `5bc23c6` | `:root.dark` 跟隨宿主 `html.dark`（含 R1 的主色色階） |
+| 項目 2.2 | `1549a60`、`8b22451` | `/styles/core`、`/styles/theme` 入口（ADR-001）；core 的主題變數引用都有 fallback |
+| 8.3 | `9853575`、`230ecb1` | BaseTable `error` 與 empty/error slot；`unfixColumnsBelow`、`rowLabel` |
+| 8.4 | `6d51b01`、`f56e76a`、`0f21a4a` | `dangerSubmit`（開啟後焦點落在取消）、500px 以下 footer 直排；`paginationLayout`、`compactPaginationBelow` |
+| 8.5 | `1f7ee65`、`7f3f973` | SearchBar `searchOnInput`／`searchDelay`；TransferItem `draggable`、44px 觸控目標；SortTable `showSettings`／`showExport`，Excel 圖示改 CSS，lib 內已無 `@/` |
+| 8.6 U6.1（R4 第一步） | `d2e81f1`、`ace02ed` | demo 新增 API 參考、Changelog、主題 token 三頁 |
+| 3.4 | `24ec981` | vite 8.3.8 與建置外掛；`vite.config.ts` 未改，CJS/ESM 匯出形狀與升級前一致 |
+| 3.5 | `d794054`、`17e5233` | TypeScript 6.0.3、vue-tsc 3、@vue/tsconfig 0.9；.d.ts 用 `tsconfig.dts.json` 產出，與升級前逐位元組相同 |
+| 3.6 | `4a35c23` | ESLint 10.14、Prettier 3.10.1；`eslint.config.ts` 未改，邊界規則仍有效 |
+
+R2 的處理：U3.6、U4.1 改成宿主開啟（`dangerSubmit`、`compactPaginationBelow`），預設行為不變。U3.4 在 2.x 不做，相容做法只能再加 prop，效益等同宿主自己傳 `waringText`，移到 3.0。
+
+### 13.2 決策
+
+- TypeScript 選 6.0 不選 7：7.0 不提供 vue-tsc 需要的 JS API；typescript-eslint 的 peer 是 `<6.1.0`。
+- `tsconfig.app.json` 用 `bundler`（TS 6 棄用 `node`），但 `bundler` 讓 .d.ts 的 specifier 改變，`moduleResolution: node10` 的宿主會把 `locale` prop 解析成 any，node16 的宿主也有類似情況。所以 dts 外掛另外用 `tsconfig.dts.json`（`node` + `ignoreDeprecations: "6.0"`）。TS 7 移除 node10 時要重新處理。
+- vite 8 會丟棄 `esbuild.target`，所以從 `vitest.config.ts` 移除，不影響行為。
+- vite-plugin-dts 5 需要 `@vue/language-core`（optional peer），已加入 devDependencies。
+
+### 13.3 相容性例外（D5）
+
+- `ThemeContract.test.ts` 兩行、`TableFamily.test.ts` 一個選擇器：斷言的字面值正是被 token 取代的寫死值。改寫後的斷言仍檢查原本的 44px 與工具列預設值。
+- 測試寫法調整，期望值沒有改：EP 2.14 的 Teleport stub 與 `vm.$.exposed`、深色模式的 `matchMedia` stub、stub 補 props。
+
+### 13.4 驗證
+
+非瀏覽器門檻全過：lint、type-check、test:unit:ci（143）、build-lib、build-demo、check:package（esm 86245、cjs 82125、css 38371；tree-shake 1784 bytes）。
+
+未驗證（需要瀏覽器）：
+- token 換色後的工具列、header、返回鈕
+- 深色模式與 demo 主題切換
+- 只載入 `/styles/core` 的畫面
+- `unfixColumnsBelow` 在 resize 時的表現
+- danger 按鈕與焦點
+- 對話框 footer 直排
+- 精簡分頁
+- 輸入即搜尋
+- TransferItem 觸控目標
+- Excel 圖示的 hover／focus
+- 三個文件頁
+- 第一輪的 U3.5、U4.2、項目 2.3
+
+### 13.5 後續項目
+
+- cjs 82125 bytes，距離預算 85000 只剩約 2.9KB。
+- build 時出現 `__dirname` 在 native config loader 將不支援的警告，以及 Rolldown 的 `MIXED_EXPORTS` 雜訊。
+- npm audit 有約 19 個漏洞（2 high）。
+- `publish.yml` 用已封存的 `actions/create-release@v1`。
+- `SortChangValue.column` 型別寫成陣列，實際是單一欄位。
+- SearchBar 的「backspace 刪到空字串」與「清除後立即輸入」沒有 repo 測試。
+- `useDemoTheme` 沒有對 `matchMedia` 做防護。
+- node16 ESM 宿主原本就有 42 個 TS2307：.d.ts 的相對 specifier 沒有副檔名。
+- 本次不做：項目 2.5–2.7、A4、3.7 Cypress、3.8 Tailwind 4、vue-router 5、vueuse 15。
