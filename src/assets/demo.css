@@ -627,8 +627,13 @@ html.dark .text-slate-500 {
   color: var(--el-text-color-secondary);
 }
 
-html.dark .site-button {
+html.dark .site-button:not(.site-button--primary) {
   background: var(--el-bg-color);
+}
+
+html.dark .site-button:not(.site-button--primary):hover {
+  background: var(--el-fill-color-light);
+  color: #79bbff;
 }
 
 html.dark .bg-white {

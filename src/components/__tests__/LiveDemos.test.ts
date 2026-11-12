@@ -82,7 +82,9 @@ it('lets body background and color-scheme follow html.dark', () => {
   expect(base).toMatch(/body\s*{[^}]*background:\s*var\(--el-bg-color/)
   expect(base).toMatch(/html\.dark\s*{[^}]*color-scheme:\s*dark/)
   expect(demo).toMatch(/\.skip-link\s*{[^}]*background:\s*var\(--el-bg-color/)
-  expect(demo).toMatch(/html\.dark \.site-button\s*{[^}]*background:\s*var\(--el-bg-color/)
+  expect(demo).toMatch(/html\.dark \.site-button:not\(\.site-button--primary\)\s*{[^}]*background:\s*var\(--el-bg-color/)
+  expect(demo).not.toMatch(/html\.dark \.site-button\s*[,{]/)
+  expect(demo).toMatch(/html\.dark \.site-button:not\(\.site-button--primary\):hover\s*{[^}]*color:\s*#79bbff/)
 })
 
 it('demonstrates dangerSubmit, compactPaginationBelow and unfixColumnsBelow', async () => {
