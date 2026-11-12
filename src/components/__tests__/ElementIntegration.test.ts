@@ -2,6 +2,7 @@ import { defineComponent, h, nextTick, ref } from 'vue'
 import { flushPromises, mount, enableAutoUnmount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import ElementPlus, { ElConfigProvider, ElPagination, ElSelect, ElTable } from 'element-plus'
+import type { TableInstance } from 'element-plus'
 import type { Language } from 'element-plus/es/locale'
 import en from 'element-plus/es/locale/lang/en'
 import zhTw from 'element-plus/es/locale/lang/zh-tw'
@@ -17,6 +18,8 @@ import { createHostI18n } from './testHelpers'
 
 enableAutoUnmount(afterEach)
 const global = () => ({ plugins: [ElementPlus, createHostI18n()], stubs: { teleport: true }, renderStubDefaultSlot: true })
+// Element Plus >=2.14 teleports ElSelect's popper with the built-in Teleport; stubbing it remounts the options in a loop, so pager tests leave it real.
+const pagerGlobal = () => ({ plugins: [ElementPlus, createHostI18n()] })
 
 it('real Element Plus pager inherits a reactive host locale and locally overrides only one pager', async () => {
   const locale = ref<Language>(en)
@@ -27,7 +30,7 @@ it('real Element Plus pager inherits a reactive host locale and locally override
       h(ElPagination, { total: 20, layout: 'total' }),
     ]),
   })
-  const wrapper = mount(Host, { global: global() })
+  const wrapper = mount(Host, { global: pagerGlobal() })
   const totals = () => wrapper.findAll('.el-pagination__total').map((node) => node.text())
   expect(totals()).toEqual(['Total 20', '共 20 項', 'Total 20'])
   locale.value = zhTw
@@ -41,7 +44,7 @@ it('real Element Plus pager inherits a reactive host locale and locally override
 it('keeps controlled paging and all controls through locale and visibility changes without extra events', async () => {
   const wrapper = mount(SearchableListPanel, {
     props: { title: 'Controlled', pagination: { page: 3, limit: 25, totalCount: 1000000 }, pageSizeList: [10, 25, 50], showPagination: true },
-    global: global(),
+    global: pagerGlobal(),
   })
   await flushPromises()
   const pager = () => wrapper.findComponent(ElPagination)
@@ -76,8 +79,8 @@ it('real table selection, sort, template, expand and cell click retain row ident
     global: global(),
   })
   await flushPromises()
-  wrapper.findComponent(ElTable).vm.toggleRowSelection(row, true)
-  wrapper.findComponent(ElTable).vm.sort('name', 'ascending')
+  ;(wrapper.findComponent(ElTable).vm as TableInstance).toggleRowSelection(row, true)
+  ;(wrapper.findComponent(ElTable).vm as TableInstance).sort('name', 'ascending')
   await nextTick()
   expect(wrapper.emitted('selection-change')?.at(-1)).toEqual([[row]])
   expect(wrapper.emitted('column-sort-change')?.at(-1)?.[0]).toMatchObject({ prop: 'name', order: 'ascending' })
@@ -193,7 +196,9 @@ describe('table exposed methods with real ElTable', () => {
   it.each([['SortTable', SortTable], ['TitleTable', TitleTable]])('%s forwards clearSelection to the inner ElTable', async (_name, Comp) => {
     const wrapper = mount(Comp as typeof SortTable, { props: { data: [row], columns }, global: global() })
     await flushPromises()
-    const spy = vi.spyOn(wrapper.findComponent(ElTable).vm, 'clearSelection')
+    // 2.14 exposes ElTable's methods only through expose(); 2.11.1 puts them on the instance.
+    const table = wrapper.findComponent(ElTable).vm as TableInstance
+    const spy = vi.spyOn((table.$.exposed ?? table) as TableInstance, 'clearSelection')
     ;(wrapper.vm as unknown as TableExposed<typeof row>).clearSelection()
     expect(spy).toHaveBeenCalledTimes(1)
   })

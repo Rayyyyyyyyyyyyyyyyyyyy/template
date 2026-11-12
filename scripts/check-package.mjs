@@ -46,14 +46,15 @@ try {
   // Real dependency resolution in a new directory: no repo aliases, symlinks,
   // NODE_PATH, legacy-peer-deps, or borrowing the repository's node_modules.
   delete env.NODE_PATH
-  const checkConsumer = (i18nVersion) => {
-    console.log(`Consumer check with vue-i18n ${i18nVersion}`)
+  const checkConsumer = (i18nVersion, elementPlusVersion) => {
+    console.log(`Consumer check with vue-i18n ${i18nVersion} element-plus ${elementPlusVersion}`)
     const consumer = join(temp, 'consumer-' + i18nVersion)
     cpSync(join(root, 'tests/consumer'), consumer, { recursive: true })
     const fixturePath = join(consumer, 'package.json')
     const fixture = JSON.parse(readFileSync(fixturePath, 'utf8'))
     fixture.dependencies[pkg.name] = `file:${join(packDir, pack.filename)}`
     fixture.dependencies['vue-i18n'] = i18nVersion
+    fixture.dependencies['element-plus'] = elementPlusVersion
     writeFileSync(fixturePath, JSON.stringify(fixture, null, 2) + '\n')
     run('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund', '--fetch-retries=0'], consumer)
     run('npm', ['run', 'type-check'], consumer)
@@ -61,8 +62,8 @@ try {
     run('node', ['runtime-check.mjs'], consumer)
     run('node', ['treeshake-check.mjs'], consumer)
   }
-  checkConsumer('10.0.8')
-  checkConsumer('11.4.18')
+  checkConsumer('10.0.8', '2.11.1')
+  checkConsumer('11.4.18', '2.14.8')
   console.log(`Verified ${Object.keys(pkg.exports).length} public entries from installed ${pack.filename}`)
 } finally {
   rmSync(temp, { recursive: true, force: true })

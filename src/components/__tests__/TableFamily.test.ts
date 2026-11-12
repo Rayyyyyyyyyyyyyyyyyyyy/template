@@ -2,6 +2,7 @@ import { h, nextTick, toRaw } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
 import { onTestFinished, describe, expect, it, vi } from 'vitest'
 import ElementPlus, { ElTable } from 'element-plus'
+import type { TableInstance } from 'element-plus'
 import SortTable from '../tables/SortTable.vue'
 import TitleTable from '../tables/TitleTable.vue'
 import { createHostI18n } from './testHelpers'
@@ -29,7 +30,7 @@ describe.each([
     onTestFinished(() => wrapper.unmount())
     await flushPromises()
     expect(wrapper.find('tr.family-row').exists()).toBe(true)
-    wrapper.findComponent(ElTable).vm.toggleRowSelection(row, true)
+    ;(wrapper.findComponent(ElTable).vm as TableInstance).toggleRowSelection(row, true)
     await nextTick()
     expect(wrapper.emitted('update:selectRow')?.at(-1)?.[0]).toEqual([row])
     expect(toRaw((wrapper.emitted('update:selectRow')!.at(-1)![0] as typeof row[])[0])).toBe(row)
@@ -92,7 +93,7 @@ it('keeps SortTable sorting and the historical row-class alias', async () => {
   onTestFinished(() => wrapper.unmount())
   await flushPromises()
   expect(wrapper.find('tr.legacy-row').exists()).toBe(true)
-  wrapper.findComponent(ElTable).vm.sort('name', 'ascending')
+  ;(wrapper.findComponent(ElTable).vm as TableInstance).sort('name', 'ascending')
   await nextTick()
   expect(wrapper.emitted('click:columnSort')?.at(-1)?.[0]).toMatchObject({ prop: 'name', order: 'ascending' })
 })

@@ -2,7 +2,7 @@
 import type { FunctionalComponent, VNode } from 'vue'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { ElTable, TableColumnCtx } from 'element-plus'
+import type { TableColumnCtx, TableInstance } from 'element-plus'
 import type { SortChangValue, TableColumn } from '../../types'
 import type {
   BaseTableEventMap,
@@ -38,7 +38,7 @@ const props = withDefaults(defineProps<BaseTableProps<T>>(), {
 
 const emit = defineEmits<BaseTableEventMap<T>>()
 
-const tableRef = ref<InstanceType<typeof ElTable>>()
+const tableRef = ref<TableInstance>()
 
 defineSlots<BaseTableSlots<T>>()
 
@@ -46,8 +46,8 @@ const handleCellClick = (column: TableColumn<T>, row: T) => {
   emit('cell-click', column, row)
 }
 
-const getSummaries = (param: { columns: TableColumnCtx<Record<string, unknown>>[]; data: T[] }) => {
-  return props.summaryMethod ? props.summaryMethod(param) : []
+const getSummaries = (param: { columns: TableColumnCtx<T>[]; data: T[] }) => {
+  return props.summaryMethod ? props.summaryMethod(param as never) : []
 }
 
 const handleSelectionChange = (selection: T[]) => {
@@ -59,8 +59,8 @@ type RowClassNameData<T> = { row: T; rowIndex: number }
 const tableRowClassName = (data: RowClassNameData<T>) => {
   return props.baseTableRowClassName?.(data) ?? ''
 }
-const onSortChange = (value: SortChangValue<T>) => {
-  emit('column-sort-change', value)
+const onSortChange = (value: unknown) => {
+  emit('column-sort-change', value as SortChangValue<T>)
 }
 const handleOperateClick = (value: T, clickType: 'check' | 'edit') => {
   if (clickType === 'check') emit('click:checkRow', value)
