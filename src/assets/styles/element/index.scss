@@ -2,13 +2,13 @@
 :root {
   // Tailwind 自定義顏色
   --color-primary: #256fc0;
-  --color-primary-10: #f5f7fa;
-  --color-primary-15: #f5f7fa;
-  --color-primary-20: #ebeef5;
+  --color-primary-10: #f5f7fa; // function header background
+  --color-primary-15: #f5f7fa; // table header background & Dialog title background
+  --color-primary-20: #ebeef5; // table Frame background
   --color-primary-40: #d9e8f7;
   --color-primary-60: #a8c8e9;
   --color-primary-80: #6e9fd3;
-  --color-primary-dark: #1d599a;
+  --color-primary-dark: #1d599a; // for element+
 
   // 主色系
   --main-color: #256fc0;

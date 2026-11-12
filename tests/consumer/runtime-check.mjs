@@ -49,6 +49,11 @@ for (const value of [
   if (!value) throw new Error('A declared ESM/CJS public entry did not load')
 }
 
+for (const { primary } of [esmPreset.default.theme.extend.colors, cjsPreset.theme.extend.colors]) {
+  assert.equal(primary.DEFAULT, '#256fc0')
+  assert.equal(primary.dark, '#1d599a')
+}
+
 require.resolve('rayyy-vue-table-components/styles')
 require.resolve('rayyy-vue-table-components/styles/element')
 

@@ -93,6 +93,14 @@ it('shares the primary palette between native Element Plus, wrapped controls and
   }
 })
 
+it('reads the primary palette from element/index.scss instead of hard-coding it', () => {
+  const { primary } = createRequire(import.meta.url)(resolve(root, 'tailwind-preset.cjs')).theme.extend.colors
+  for (const key of ['', '-10', '-15', '-20', '-40', '-60', '-80', '-dark']) {
+    expect(primary[key.slice(1) || 'DEFAULT'], key).toBe(tokens[`--color-primary${key}`])
+  }
+  expect(read('tailwind-preset.cjs')).not.toMatch(/#f5f7fa|#d9e8f7|#a8c8e9/)
+})
+
 it('keeps the explicit demo light theme outside the library style import graph', () => {
   const base = read('src/assets/base.css')
   expect(base).toContain('color-scheme: light')
