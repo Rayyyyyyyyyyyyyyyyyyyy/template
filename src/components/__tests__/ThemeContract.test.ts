@@ -183,3 +183,10 @@ it('gives every theme variable reference in core sources a fallback', () => {
 it('gives TransferItem buttons a 44px touch target', () => {
   expect(read('src/components/transfer/transferItem.vue')).toContain('min-width: var(--rvtc-control-min-size, 44px)')
 })
+
+it('SortTable excel icon is switched by CSS and uses no @/ alias', () => {
+  const source = read('src/components/tables/SortTable.vue')
+  expect(source).not.toContain('@/assets')
+  expect(source).not.toContain('itemOnHover')
+  expect(source).toContain(':focus-visible .excel-icon--active')
+})

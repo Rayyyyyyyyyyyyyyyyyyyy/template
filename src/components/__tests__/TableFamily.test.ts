@@ -162,3 +162,19 @@ it('TitleTable header row wraps and grows instead of a fixed height', () => {
   const header = wrapper.find('.rvtc-toolbar')
   expect(header.classes()).toEqual(expect.arrayContaining(['flex-wrap', 'min-h-12']))
 })
+
+it('SortTable shows settings and export buttons by default and hides them on request', async () => {
+  const wrapper = mount(SortTable, {
+    props: { data: [], columns: [] },
+    global: global(),
+  })
+  onTestFinished(() => wrapper.unmount())
+  expect(wrapper.find('[aria-label="設定欄位"]').exists()).toBe(true)
+  expect(wrapper.find('[aria-label="匯出 Excel"]').exists()).toBe(true)
+  await wrapper.setProps({ showSettings: false })
+  expect(wrapper.find('[aria-label="設定欄位"]').exists()).toBe(false)
+  expect(wrapper.find('[aria-label="匯出 Excel"]').exists()).toBe(true)
+  await wrapper.setProps({ showSettings: true, showExport: false })
+  expect(wrapper.find('[aria-label="設定欄位"]').exists()).toBe(true)
+  expect(wrapper.find('[aria-label="匯出 Excel"]').exists()).toBe(false)
+})

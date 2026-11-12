@@ -14,6 +14,7 @@
 - SearchableListPanel 新增 `paginationLayout`、`compactPaginationBelow` prop，可自訂分頁 layout 並在窄視窗精簡
 - SearchBar 新增 `searchOnInput`、`searchDelay` prop，輸入後延遲自動搜尋
 - TransferItem 新增 `draggable` prop（預設 true），false 時不顯示抓取游標
+- SortTable 新增 `showSettings`、`showExport` prop（預設 true），可隱藏設定欄位與匯出 Excel 按鈕
 
 ### Fixed
 
@@ -26,6 +27,7 @@
 - BaseTable 序號欄標題跟隨語系
 - BaseWaringDialog 內容超過兩行不再溢出
 - TitleTable 標題列在窄寬度下會換行
+- SortTable 的 Excel 圖示在鍵盤聚焦時也會切換狀態，且元件不再依賴 `@/` alias
 
 ### Changed
 

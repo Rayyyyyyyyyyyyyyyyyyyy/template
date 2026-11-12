@@ -123,6 +123,10 @@ export interface SortTableProps<T extends Record<string, unknown> = Record<strin
   tableTitle?: string
   /** 舊名稱優先於 baseTableRowClassName */
   sortTableRowClassName?: BaseTableProps<T>['baseTableRowClassName']
+  /** 是否顯示設定欄位按鈕，預設 true */
+  showSettings?: boolean
+  /** 是否顯示匯出 Excel 按鈕，預設 true */
+  showExport?: boolean
 }
 
 /** SortTable 組件 Slots 類型 */
