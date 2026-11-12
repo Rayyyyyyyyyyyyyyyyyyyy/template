@@ -57,7 +57,7 @@ defineExpose({
   <div class="w-full mb-4">
     <!-- 表格標題區域：包含標題文本和操作按鈕 -->
     <div
-      class="flex flex-wrap items-center min-h-12 bg-gray-200 px-1.5 rounded-t justify-between"
+      class="flex flex-wrap items-center min-h-12 rvtc-toolbar px-1.5 rounded-t justify-between"
       v-if="tableTitle"
     >
       <p class="font-bold text-xl">{{ tableTitle }}</p>

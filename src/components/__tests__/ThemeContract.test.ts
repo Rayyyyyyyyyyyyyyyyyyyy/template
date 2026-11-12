@@ -116,8 +116,8 @@ it('keeps the explicit demo light theme outside the library style import graph',
 it('declares 44px icon targets, focus styles and pagination wrapping without hiding controls', () => {
   for (const file of ['src/components/layout/FunctionHeader.vue', 'src/components/tables/SortTable.vue']) {
     const source = read(file)
-    expect(source).toContain('min-width: 44px')
-    expect(source).toContain('min-height: 44px')
+    expect(source).toContain('min-width: var(--rvtc-control-min-size, 44px)')
+    expect(source).toContain('min-height: var(--rvtc-control-min-size, 44px)')
     expect(source).toContain(':focus-visible')
   }
   const pagination = read('src/components/layout/SearchableListPanel.vue')
@@ -132,4 +132,26 @@ it('exposes layout heights as overridable CSS variables with the original values
   expect(mainPanel).toContain('var(--rvtc-panel-max-height, calc(100vh - 180px))')
   expect(detail).toContain('var(--rvtc-detail-min-height, calc(100vh - 200px))')
   expect(detail).toContain('var(--rvtc-detail-content-max-height, calc(100vh - 100px))')
+})
+
+it('exposes component colors and control size as overridable --rvtc tokens with Element Plus fallbacks', () => {
+  const sort = read('src/components/tables/SortTable.vue')
+  const title = read('src/components/tables/TitleTable.vue')
+  const header = read('src/components/layout/FunctionHeader.vue')
+  const btn = read('src/components/items/BaseBtn.vue')
+  expect(read('src/assets/styles/_components.scss')).toContain('var(--rvtc-toolbar-bg, var(--el-fill-color))')
+  expect(header).toContain('var(--rvtc-header-bg, var(--el-fill-color-light))')
+  expect(header).toContain('var(--rvtc-text, var(--el-text-color-primary))')
+  expect(btn).toContain('var(--rvtc-on-fill, var(--el-color-white))')
+  for (const source of [header, sort]) {
+    expect(source).toContain('min-width: var(--rvtc-control-min-size, 44px)')
+    expect(source).toContain('min-height: var(--rvtc-control-min-size, 44px)')
+  }
+  for (const source of [sort, title]) {
+    expect(source).not.toContain('bg-gray-200')
+    expect(source).toContain('rvtc-toolbar')
+  }
+  expect(header).not.toContain('bg-primary-10')
+  expect(header).not.toContain('text-black')
+  expect(btn).not.toContain('color: white')
 })

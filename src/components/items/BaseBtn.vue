@@ -252,7 +252,7 @@ defineSlots<BaseBtnSlots>()
 
   // 填充樣式的禁用狀態 - 使用白色文字
   &.is-fill.is-disabled {
-    color: white !important;
+    color: var(--rvtc-on-fill, var(--el-color-white)) !important;
   }
 }
 </style>

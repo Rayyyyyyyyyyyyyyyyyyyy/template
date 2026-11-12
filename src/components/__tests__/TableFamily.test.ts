@@ -123,6 +123,6 @@ it('TitleTable header row wraps and grows instead of a fixed height', () => {
     global: global(),
   })
   onTestFinished(() => wrapper.unmount())
-  const header = wrapper.find('.bg-gray-200')
+  const header = wrapper.find('.rvtc-toolbar')
   expect(header.classes()).toEqual(expect.arrayContaining(['flex-wrap', 'min-h-12']))
 })

@@ -61,7 +61,7 @@ defineExpose({
 
 <template>
   <div class="w-full mb-4">
-    <div class="flex flex-wrap items-center min-h-12 bg-gray-200 px-1.5 rounded-t justify-end">
+    <div class="flex flex-wrap items-center min-h-12 rvtc-toolbar px-1.5 rounded-t justify-end">
       <div class="flex flex-wrap items-center gap-1">
         <slot name="firstButton"></slot>
         <button
@@ -117,8 +117,8 @@ defineExpose({
 
 <style scoped lang="scss">
 .table-icon-action {
-  min-width: 44px;
-  min-height: 44px;
+  min-width: var(--rvtc-control-min-size, 44px);
+  min-height: var(--rvtc-control-min-size, 44px);
 
   &:focus-visible {
     outline: 2px solid var(--main-color);

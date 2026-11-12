@@ -106,6 +106,16 @@ TransferItem 的獨立契約也保留於 [公開型別](src/types/components.ts)
 :root { --rvtc-panel-max-height: calc(100vh - 120px); }
 ```
 
+以下 CSS 變數可覆寫元件顏色與控制項尺寸；宿主沒設定時跟隨 Element Plus 變數（深色模式也會自動跟上）。
+
+| 變數 | 用途 | fallback |
+| --- | --- | --- |
+| `--rvtc-toolbar-bg` | SortTable／TitleTable 工具列背景 | `var(--el-fill-color)` |
+| `--rvtc-header-bg` | FunctionHeader 背景 | `var(--el-fill-color-light)` |
+| `--rvtc-text` | FunctionHeader 返回鈕文字色 | `var(--el-text-color-primary)` |
+| `--rvtc-on-fill` | BaseBtn 填充樣式禁用狀態文字色 | `var(--el-color-white)` |
+| `--rvtc-control-min-size` | 圖示按鈕最小點擊尺寸 | `44px` |
+
 ## 開發與驗證
 
 驗證環境為 Node.js 22.16+、npm 11.6.0，與 CI 保持一致。`npm ci` 的 prepare 會安裝 Cypress；內部打包使用 `--ignore-scripts` 避免重新執行 lifecycle。

@@ -33,10 +33,10 @@ defineSlots<FunctionHeaderSlots>()
 </script>
 
 <template>
-  <div class="function-header px-4 py-2 flex flex-wrap gap-3 justify-between items-center bg-primary-10">
+  <div class="function-header px-4 py-2 flex flex-wrap gap-3 justify-between items-center">
     <div class="flex items-center gap-2 min-w-0">
       <button v-if="showBack" type="button" :aria-label="t('common.back')"
-        class="back-action flex shrink-0 items-center justify-center text-black" @click="handleClick">
+        class="back-action flex shrink-0 items-center justify-center" @click="handleClick">
         <el-icon :size="16" aria-hidden="true"><ArrowLeftBold /></el-icon>
       </button>
       <div class="font-semibold text-text text-lg break-words min-w-0">{{ props.title }}</div>
@@ -50,11 +50,13 @@ defineSlots<FunctionHeaderSlots>()
 <style scoped>
 .function-header {
   min-height: 60px;
+  background-color: var(--rvtc-header-bg, var(--el-fill-color-light));
   border-bottom: 1px solid var(--el-border-color-lighter);
 }
 .back-action {
-  min-width: 44px;
-  min-height: 44px;
+  min-width: var(--rvtc-control-min-size, 44px);
+  min-height: var(--rvtc-control-min-size, 44px);
+  color: var(--rvtc-text, var(--el-text-color-primary));
 }
 .back-action:focus-visible {
   outline: 2px solid var(--main-color);
