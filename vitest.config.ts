@@ -8,17 +8,11 @@ export default defineConfig({
     environment: 'jsdom',
     exclude: [...configDefaults.exclude, 'e2e/**'],
     root: fileURLToPath(new URL('./', import.meta.url)),
-    // 使用 vmThreads 避免 rollup 問題
-    pool: 'vmThreads',
-    poolOptions: {
-      vmThreads: {
-        singleThread: true
-      }
-    },
-    // 設置超時時間
-    testTimeout: 10000,
-    // 設置 hook 超時時間
-    hookTimeout: 10000,
+    pool: 'forks',
+    // 單一 worker
+    maxWorkers: 1,
+    testTimeout: 30000,
+    hookTimeout: 30000,
     // 禁用並發
     maxConcurrency: 1
   },
