@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BaseBtn from './BaseBtn.vue'
 import type { BaseDialogSlots, BaseDialogEventMap, BaseDialogProps } from '../../types/components'
@@ -31,6 +31,13 @@ const getWidth = computed(() => {
 const handleCancel = () => {
   v.value = false
 }
+const cancelBtn = ref<InstanceType<typeof BaseBtn>>()
+// el-dialog's focus trap focuses the container on open; `opened` fires after the enter transition, so move focus then.
+const handleOpened = async () => {
+  if (!props.dangerSubmit) return
+  await nextTick()
+  ;(cancelBtn.value?.$el as HTMLElement | undefined)?.focus()
+}
 const handleSubmit = () => {
   emits('click:submit')
 }
@@ -54,6 +61,7 @@ defineSlots<BaseDialogSlots>()
     align-center
     destroy-on-close
     append-to-body
+    @opened="handleOpened"
   >
     <template #header="{ titleId, titleClass }">
       <slot name="customHeader">
@@ -89,6 +97,7 @@ defineSlots<BaseDialogSlots>()
               :loading="submitLoading"
             />
             <base-btn
+              ref="cancelBtn"
               :text="t('common.cancel')"
               type="primary"
               :autofocus="dangerSubmit"

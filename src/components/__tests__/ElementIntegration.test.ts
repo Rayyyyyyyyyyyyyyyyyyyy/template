@@ -1,7 +1,7 @@
 import { defineComponent, h, nextTick, ref } from 'vue'
 import { flushPromises, mount, enableAutoUnmount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import ElementPlus, { ElConfigProvider, ElPagination, ElSelect, ElTable, ElTableColumn } from 'element-plus'
+import ElementPlus, { ElConfigProvider, ElDialog, ElPagination, ElSelect, ElTable, ElTableColumn } from 'element-plus'
 import type { TableInstance } from 'element-plus'
 import type { Language } from 'element-plus/es/locale'
 import en from 'element-plus/es/locale/lang/en'
@@ -282,6 +282,14 @@ describe('dialog dangerSubmit and narrow footer with real ElButton', () => {
     const wrapper = mount(BaseWaringDialog, { props: { modelValue: true, dangerSubmit: true }, global: global() })
     await flushPromises()
     expect(find(wrapper, '確定').classes()).toContain('el-button--danger')
+  })
+  it.each([[true, '取消'], [false, null]])('dangerSubmit=%s focuses cancel after opened', async (dangerSubmit, expected) => {
+    const wrapper = mount(BaseDialog, { props: { modelValue: true, dangerSubmit }, global: global(), attachTo: document.body })
+    await flushPromises()
+    wrapper.findComponent(ElDialog).vm.$emit('opened')
+    await nextTick()
+    const cancel = find(wrapper, '取消').element
+    expect(document.activeElement === cancel).toBe(expected !== null)
   })
   it('stacks the footer below 500px only', async () => {
     const original = window.innerWidth
