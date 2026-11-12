@@ -380,7 +380,7 @@ R2 的處理：U3.6、U4.1 改成宿主開啟（`dangerSubmit`、`compactPaginat
 ### 13.3 相容性例外（D5）
 
 - `ThemeContract.test.ts` 兩行、`TableFamily.test.ts` 一個選擇器：斷言的字面值正是被 token 取代的寫死值。改寫後的斷言仍檢查原本的 44px 與工具列預設值。
-- 測試寫法調整，期望值沒有改：EP 2.14 的 Teleport stub 與 `vm.$.exposed`、深色模式的 `matchMedia` stub、stub 補 props。
+- 測試寫法調整，期望值沒有改：EP 2.14 的 Teleport stub 與 `vm.$.exposed`、深色模式的 `matchMedia` stub、stub 補 props、`ThemeContract.test.ts` 的 `tokens()`（排除 `:root.dark`）與 `color()`（解析 fallback）兩個輔助函式、consumer 的 `require.resolve('.../styles')` 改走 `readCss('styles')`（仍驗證可解析）。
 
 ### 13.4 驗證
 
