@@ -15,7 +15,6 @@
 - SearchBar 新增 `searchOnInput`、`searchDelay` prop，輸入後延遲自動搜尋
 - TransferItem 新增 `draggable` prop（預設 true），false 時不顯示抓取游標
 - SortTable 新增 `showSettings`、`showExport` prop（預設 true），可隱藏設定欄位與匯出 Excel 按鈕
-- 匯出 `ElLanguage` 型別（element-plus `Language` 的別名），BaseTable、SortTable、TitleTable 的 `locale` prop 改用它，讓 .d.ts 在 `moduleResolution: node10` 的宿主也解析得到
 
 ### Fixed
 
