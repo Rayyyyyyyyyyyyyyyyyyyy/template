@@ -48,7 +48,7 @@ export default defineConfig(({ mode }) => {
           ],
           exclude: ['src/**/*.spec.ts', 'src/**/*.test.ts', 'src/**/__tests__/**', 'src/types/usage-examples.ts'],
           copyDtsFiles: true,
-          tsconfigPath: './tsconfig.app.json'
+          tsconfigPath: './tsconfig.dts.json'
         })
       ] : [])
     ],
