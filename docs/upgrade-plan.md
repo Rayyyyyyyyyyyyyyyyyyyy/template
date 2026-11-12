@@ -367,6 +367,9 @@ src/main.ts、src/views、src/router、src/layout、src/const   （demo，只能
 | 3.4 | `24ec981` | vite 8.3.8 與建置外掛；`vite.config.ts` 未改，CJS/ESM 匯出形狀與升級前一致 |
 | 3.5 | `d794054`、`17e5233` | TypeScript 6.0.3、vue-tsc 3、@vue/tsconfig 0.9；.d.ts 用 `tsconfig.dts.json` 產出，與升級前逐位元組相同 |
 | 3.6 | `4a35c23` | ESLint 10.14、Prettier 3.10.1；`eslint.config.ts` 未改，邊界規則仍有效 |
+| 待決 10.2 | `01c92c5` | 刪除 `yarn.lock`，只用 npm |
+| 8.2 補洞 | `e66b9a1` | 瀏覽器驗收發現：表頭、固定欄表頭、對話框標題列、表格連結色在深色模式沒跟上。新增 `--rvtc-table-header-bg`／`-text`、`--rvtc-dialog-header-bg`、`--rvtc-link-text`，淺色值不變 |
+| demo | `e6f768e` | demo 深色文字可讀；示範 `dangerSubmit`、`compactPaginationBelow`、`unfixColumnsBelow` |
 
 R2 的處理：U3.6、U4.1 改成宿主開啟（`dangerSubmit`、`compactPaginationBelow`），預設行為不變。U3.4 在 2.x 不做，相容做法只能再加 prop，效益等同宿主自己傳 `waringText`，移到 3.0。
 
@@ -386,25 +389,28 @@ R2 的處理：U3.6、U4.1 改成宿主開啟（`dangerSubmit`、`compactPaginat
 
 非瀏覽器門檻全過：lint、type-check、test:unit:ci（143）、build-lib、build-demo、check:package（esm 86245、cjs 82125、css 38371；tree-shake 1784 bytes）。
 
-未驗證（需要瀏覽器）：
-- token 換色後的工具列、header、返回鈕
-- 深色模式與 demo 主題切換
-- 只載入 `/styles/core` 的畫面
-- `unfixColumnsBelow` 在 resize 時的表現
-- danger 按鈕與焦點
-- 對話框 footer 直排
-- 精簡分頁
-- 輸入即搜尋
-- TransferItem 觸控目標
-- Excel 圖示的 hover／focus
-- 三個文件頁
-- 第一輪的 U3.5、U4.2、項目 2.3
+票 32、33 之後為 147 個測試。
+
+瀏覽器驗收（2026-11-12，使用者授權；Chrome 對本機 dev server，窄視窗用同源 iframe 模擬）：
+- 通過：
+  - 工具列 44px 圖示鈕；token 換色後工具列為 `#f0f2f5`（原 `bg-gray-200`，票 17 已知的些微色差）
+  - 深色模式：修正後表頭 `#262727`／字 `#e5eaf3`、操作鈕透明底配 `#79bbff`、對話框標題列變暗；淺色值與修正前相同
+  - `dangerSubmit`：確定鈕 danger 色，開啟後焦點在「取消」
+  - 418px 時對話框 footer 兩鈕等寬
+  - `compactPaginationBelow=640`：600px 只剩上一頁／頁碼／下一頁，800px 完整
+  - `unfixColumnsBelow=768`：700px 時 SortTable 的固定欄取消
+  - TransferDialog 輸入即過濾（不按 Enter）、6 顆按鈕 44×44、無抓取游標
+  - Excel 圖示 hover 切換為 active 圖
+  - 警告對話框 `min-h-16`；三個文件頁
+- 未驗證：只載入 `/styles/core` 的畫面（需要另一個宿主頁）、Excel 圖示的 focus-visible、TitleTable 標題列換行（U4.2）、項目 2.3 的高度變數
 
 ### 13.5 後續項目
 
 - cjs 82125 bytes，距離預算 85000 只剩約 2.9KB。
 - build 時出現 `__dirname` 在 native config loader 將不支援的警告，以及 Rolldown 的 `MIXED_EXPORTS` 雜訊。
-- npm audit 有約 19 個漏洞（2 high）。
+- npm audit 有 19 個漏洞（17 moderate、2 high），全在 devDependencies，`npm audit --omit=dev` 為 0。2 個 high 來自 cypress→extract-zip，隨 3.7 升 Cypress 16 處理。
+- 操作欄按鈕在淺色仍是瀏覽器預設按鈕外觀（灰底、邊框），對話框標題文字貼近標題列底部；皆為本輪前既有，改外觀留到 3.0。
+- 變更紀錄頁直接顯示 Markdown 原文。
 - `publish.yml` 用已封存的 `actions/create-release@v1`。
 - `SortChangValue.column` 型別寫成陣列，實際是單一欄位。
 - SearchBar 的「backspace 刪到空字串」與「清除後立即輸入」沒有 repo 測試。
