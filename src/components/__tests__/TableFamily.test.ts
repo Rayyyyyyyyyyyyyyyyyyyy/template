@@ -61,6 +61,42 @@ describe.each([
     expect(wrapper.find('[role=status]').exists()).toBe(false)
   })
 
+  const columns = [{ prop: 'name', label: 'Name' }]
+  const mountState = (props: Record<string, unknown>, slots: Record<string, () => unknown> = {}) => {
+    const wrapper = mount(component, { props: { columns, ...props } as never, slots, global: global() })
+    onTestFinished(() => wrapper.unmount())
+    return wrapper
+  }
+
+  it('shows the default empty text when data is empty and error is not set', () => {
+    expect(mountState({ data: [] }).text()).toContain('暫無資料')
+  })
+
+  it('renders the empty slot instead of the default empty text', () => {
+    const wrapper = mountState({ data: [] }, { empty: () => h('i', { class: 'my-empty' }, 'nothing') })
+    expect(wrapper.get('.my-empty').text()).toBe('nothing')
+    expect(wrapper.text()).not.toContain('暫無資料')
+  })
+
+  it('shows the default load-failed text, or the error slot, when error is true', () => {
+    expect(mountState({ data: [], error: true }).text()).toContain('資料載入失敗')
+    const wrapper = mountState({ data: [], error: true }, { error: () => h('i', { class: 'my-error' }, 'oops') })
+    expect(wrapper.get('.my-error').text()).toBe('oops')
+    expect(wrapper.text()).not.toContain('資料載入失敗')
+  })
+
+  it('hides the table with rows when error is true', () => {
+    const wrapper = mountState({ data: [{ id: 1, name: 'Ada' }, { id: 2, name: 'Bob' }], error: true })
+    expect(wrapper.find('.data-table').exists()).toBe(false)
+    expect(wrapper.text()).toContain('資料載入失敗')
+  })
+
+  it('prefers the loading text over the error state while loading', () => {
+    const wrapper = mountState({ data: [], error: true, loading: true })
+    expect(wrapper.get('[role=status]').text()).toBe('數據加載中')
+    expect(wrapper.text()).not.toContain('資料載入失敗')
+  })
+
   it('passes custom tree fields and the lazy loader through to the table', async () => {
     const row = { id: 1, name: 'Parent', more: true }
     const load = vi.fn((_row, _node, resolve) => resolve([{ id: 2, name: 'Child' }]))

@@ -109,7 +109,7 @@ defineExpose({
       @click:editRow="handleEditClick"
     >
       <template v-for="(_, name) in tableSlots()" #[name]="scope">
-        <slot :name="name" v-bind="scope" />
+        <slot :name="name" v-bind="scope as any" />
       </template>
     </base-table>
   </div>

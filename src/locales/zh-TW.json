@@ -35,6 +35,7 @@
   "common.save": "儲存",
   "common.discard": "捨棄",
   "table.empty": "暫無資料",
+  "table.loadFailed": "資料載入失敗",
   "table.index": "序號",
   "common.back": "返回",
   "search.label": "搜尋",

@@ -14,6 +14,8 @@ import type { ElOptions } from './OptionDto'
 export interface BaseTableProps<T extends Record<string, unknown> = Record<string, unknown>> {
   /** 是否顯示加載狀態 */
   loading?: boolean
+  /** 為 true 且不在載入中時，顯示 `error` slot 取代表格；預設 false */
+  error?: boolean
   /** 表格數據 */
   data: T[]
   /** 表格列配置 */
@@ -64,6 +66,10 @@ export interface BaseTableProps<T extends Record<string, unknown> = Record<strin
 export interface BaseTableSlots<T extends Record<string, unknown> = Record<string, unknown>> {
   /** 展開行內容 slot */
   expand?: (props: { row: T; $index: number }) => VNode[]
+  /** 無資料時的內容 slot（取代預設空狀態） */
+  empty?: () => unknown
+  /** 載入失敗時的內容 slot（取代預設失敗訊息） */
+  error?: () => unknown
 }
 
 export interface BaseTableEventMap<

@@ -35,6 +35,7 @@
   "common.save": "Save",
   "common.discard": "Discard",
   "table.empty": "No data",
+  "table.loadFailed": "Failed to load data",
   "table.index": "No",
   "common.back": "Back",
   "search.label": "Search",

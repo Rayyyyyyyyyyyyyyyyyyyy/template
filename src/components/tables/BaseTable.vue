@@ -17,6 +17,7 @@ const { t } = useI18n()
 // 組件屬性默認值
 const props = withDefaults(defineProps<BaseTableProps<T>>(), {
   loading: false,
+  error: false,
   data: () => [],
   defaultExpandAll: false,
   lazy: false,
@@ -88,7 +89,7 @@ defineExpose({
   <div v-loading="loading" :aria-busy="loading" :element-loading-text="t('common.loading')">
     <el-table
       ref="tableRef"
-      v-if="data.length > 0"
+      v-if="data.length > 0 && !(error && !loading)"
       :data="data"
       :row-key="rowKey"
       :tree-props="treeProps"
@@ -163,7 +164,12 @@ defineExpose({
       </el-table-column>
     </el-table>
     <p v-else-if="loading" role="status" class="p-4 text-center">{{ t('common.loading') }}</p>
-    <el-empty :description="t('table.empty')" v-else />
+    <template v-else-if="error">
+      <slot name="error"><el-empty :description="t('table.loadFailed')" /></slot>
+    </template>
+    <template v-else>
+      <slot name="empty"><el-empty :description="t('table.empty')" /></slot>
+    </template>
   </div>
 </template>
 
