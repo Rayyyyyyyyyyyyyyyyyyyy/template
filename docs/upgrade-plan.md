@@ -282,7 +282,7 @@ src/main.ts、src/views、src/router、src/layout、src/const   （demo，只能
 這些需要你決定，計劃裡先寫了我的建議：
 
 1. **樣式隔離的做法**：建議先拆入口（2.2 的第一步），3.0 再處理 utilities。另一個選擇是現在就加 Tailwind `prefix`，但等於提前做破壞性變更。
-2. **是否保留 `yarn.lock`**：`package-contract.md` 記載它是刻意同步的，但 CI 與 README 只用 npm，而且它已落後 `package-lock.json`。建議刪除。
+2. **是否保留 `yarn.lock`**：`package-contract.md` 記載它是刻意同步的，但 CI 與 README 只用 npm，而且它已落後 `package-lock.json`。建議刪除。**已決定（2026-11-12）：刪除，只保留 `package-lock.json`。**
 3. **3.0 是否放棄 CJS**：需要知道現有使用者的打包環境。
 4. **瀏覽器驗收**：2.2 的樣式變更、第 8 節的 UI/UX 項目、3.7 的 Cypress 升級都需要瀏覽器。依你的規範，這些要另外取得授權才會執行。
 

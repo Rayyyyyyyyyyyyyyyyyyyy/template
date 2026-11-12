@@ -33,7 +33,7 @@
 
 - Runtime root、components、types、utils、utils/styles、locales 全部使用 `dist/lib` 的 ESM `.js` 與 CJS `.cjs`；`types/components` 保留為型別入口。所有型別指向生成 declarations。
 - CSS 使用 `dist/lib/rayyy-vue-table-components.css`；SCSS 與 CommonJS Tailwind preset 維持明確的資產入口。tarball 排除測試、raw Vue/TS 元件與 demo 產物。
-- 外部依賴只有既有 Vue、Element Plus、vue-i18n peers。icons 明列 devDependency 並 bundled；沒有新增 peer。lodash 的兩處用途已移除；VueUse 仍供 demo clipboard 使用。npm/yarn lockfile 僅同步這些邊界及既有 manifest 的 vue-i18n peer 範圍，沒有升級版本。
+- 外部依賴只有既有 Vue、Element Plus、vue-i18n peers。icons 明列 devDependency 並 bundled；沒有新增 peer。lodash 的兩處用途已移除；VueUse 仍供 demo clipboard 使用。npm/yarn lockfile 僅同步這些邊界及既有 manifest 的 vue-i18n peer 範圍，沒有升級版本。（2026-11-12：`yarn.lock` 已刪除，專案只用 npm 與 `package-lock.json`。）
 - `src/types/components.ts` 是元件 props、event tuple maps、slots 的共同來源；所有元件 macro 使用它，公開 callable／handler aliases 由 event maps 衍生。保留歷史 72 個公開型別／元件名稱、BaseTableEmits 與 BaseSelectorEmits handler map、BaseTableInstance.$emit 的舊 handler-map 形狀，以及分頁 callable 的舊 boolean 回傳宣告。
 - `BaseDialog.customWidth` 明確值優先；未傳時 <500px 為 100%，其餘為 50%。`showPagination` 使用 `default: undefined` 與 nullish fallback。
 - TransferDialog 完整草稿獨立於搜尋顯示集合；移動以草稿物件 identity 找原位置，自訂拖曳接受顯示集合的完整排列，拒絕遺失／重複 identity。確認與 check-change payload 是草稿複本，宿主應只在 `update:submit` 套用。
