@@ -75,6 +75,16 @@ it('gives every Tailwind text/bg utility used by the demo views a dark-mode over
   expect([...used].filter((name) => !css.includes(`html.dark .${name}`))).toEqual([])
 })
 
+it('lets body background and color-scheme follow html.dark', () => {
+  const root = resolve(import.meta.dirname, '../../..')
+  const base = readFileSync(resolve(root, 'src/assets/base.css'), 'utf8')
+  const demo = readFileSync(resolve(root, 'src/assets/demo.css'), 'utf8')
+  expect(base).toMatch(/body\s*{[^}]*background:\s*var\(--el-bg-color/)
+  expect(base).toMatch(/html\.dark\s*{[^}]*color-scheme:\s*dark/)
+  expect(demo).toMatch(/\.skip-link\s*{[^}]*background:\s*var\(--el-bg-color/)
+  expect(demo).toMatch(/html\.dark \.site-button\s*{[^}]*background:\s*var\(--el-bg-color/)
+})
+
 it('demonstrates dangerSubmit, compactPaginationBelow and unfixColumnsBelow', async () => {
   const dialog = mount(BaseDialogDemo, { global: global() })
   onTestFinished(() => dialog.unmount())
