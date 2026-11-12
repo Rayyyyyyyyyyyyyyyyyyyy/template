@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import { compileString } from 'sass-embedded'
@@ -27,7 +27,7 @@ function contrast(a: string, b: string) {
   const [light, dark] = [luminance(a), luminance(b)].sort((a, b) => b - a)
   return (light + 0.05) / (dark + 0.05)
 }
-const color = (value: string) => value.startsWith('var(') ? tokens[value.slice(4, -1)] : value
+const color = (value: string) => value.startsWith('var(') ? tokens[value.slice(4, -1).split(',')[0].trim()] : value
 
 it('keeps enabled button token pairs above 4.5 for normal, filled, hover and focus colors', () => {
   expect(contrast('#000000', '#ffffff')).toBe(21)
@@ -167,4 +167,15 @@ it('exposes component colors and control size as overridable --rvtc tokens with 
   expect(header).not.toContain('bg-primary-10')
   expect(header).not.toContain('text-black')
   expect(btn).not.toContain('color: white')
+})
+
+it('gives every theme variable reference in core sources a fallback', () => {
+  const walk = (dir: string): string[] => readdirSync(resolve(root, dir), { withFileTypes: true }).flatMap((entry) => {
+    const path = `${dir}/${entry.name}`
+    if (entry.isDirectory()) return entry.name === '__tests__' ? [] : walk(path)
+    return path.endsWith('.vue') || /\/_[^/]*\.scss$/.test(path) ? [path] : []
+  })
+  for (const file of [...walk('src/components'), ...walk('src/assets/styles').filter((path) => !path.includes('/element/'))]) {
+    expect(read(file), file).not.toMatch(/var\(--(main-color|control-)[a-z0-9-]*\)/)
+  }
 })

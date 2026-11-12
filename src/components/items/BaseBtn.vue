@@ -58,30 +58,30 @@ defineSlots<BaseBtnSlots>()
 
   // 主要按钮样式
   &.el-button--primary {
-    --control-text: var(--main-color);
-    --el-button-hover-link-text-color: var(--main-color-dark-2);
-    --el-button-active-color: var(--main-color-dark-2);
+    --control-text: var(--main-color, var(--el-color-primary));
+    --el-button-hover-link-text-color: var(--main-color-dark-2, var(--el-color-primary-dark-2));
+    --el-button-active-color: var(--main-color-dark-2, var(--el-color-primary-dark-2));
     --el-button-bg-color: var(--el-fill-color-blank);
-    --el-button-border-color: var(--main-color);
-    --el-button-hover-bg-color: var(--main-color);
-    --el-button-hover-border-color: var(--main-color);
-    --el-button-active-bg-color: var(--main-color-dark-2);
-    --el-button-active-border-color: var(--main-color-dark-2);
+    --el-button-border-color: var(--main-color, var(--el-color-primary));
+    --el-button-hover-bg-color: var(--main-color, var(--el-color-primary));
+    --el-button-hover-border-color: var(--main-color, var(--el-color-primary));
+    --el-button-active-bg-color: var(--main-color-dark-2, var(--el-color-primary-dark-2));
+    --el-button-active-border-color: var(--main-color-dark-2, var(--el-color-primary-dark-2));
     --el-button-disabled-bg-color: var(--el-fill-color-blank);
-    --el-button-disabled-border-color: var(--main-color-light-7);
-    --el-button-disabled-text-color: var(--main-color-light-7);
-    --el-button-text-color: var(--main-color);
+    --el-button-disabled-border-color: var(--main-color-light-7, var(--el-color-primary-light-7));
+    --el-button-disabled-text-color: var(--main-color-light-7, var(--el-color-primary-light-7));
+    --el-button-text-color: var(--main-color, var(--el-color-primary));
     --el-button-hover-text-color: var(--el-fill-color-blank);
 
     &.is-fill {
-      --el-button-bg-color: var(--main-color);
-      --el-button-border-color: var(--main-color);
-      --el-button-hover-bg-color: var(--main-color-dark-2);
-      --el-button-hover-border-color: var(--main-color-dark-2);
-      --el-button-active-bg-color: var(--main-color-dark-2);
-      --el-button-active-border-color: var(--main-color-dark-2);
-      --el-button-disabled-bg-color: var(--main-color-light-7);
-      --el-button-disabled-border-color: var(--main-color-light-7);
+      --el-button-bg-color: var(--main-color, var(--el-color-primary));
+      --el-button-border-color: var(--main-color, var(--el-color-primary));
+      --el-button-hover-bg-color: var(--main-color-dark-2, var(--el-color-primary-dark-2));
+      --el-button-hover-border-color: var(--main-color-dark-2, var(--el-color-primary-dark-2));
+      --el-button-active-bg-color: var(--main-color-dark-2, var(--el-color-primary-dark-2));
+      --el-button-active-border-color: var(--main-color-dark-2, var(--el-color-primary-dark-2));
+      --el-button-disabled-bg-color: var(--main-color-light-7, var(--el-color-primary-light-7));
+      --el-button-disabled-border-color: var(--main-color-light-7, var(--el-color-primary-light-7));
       --el-button-text-color: var(--el-fill-color-blank);
       --el-button-hover-text-color: var(--el-fill-color-blank);
     }
@@ -92,11 +92,11 @@ defineSlots<BaseBtnSlots>()
     --el-button-bg-color: var(--el-fill-color-blank);
     --el-button-border-color: var(--el-border-color);
     --el-button-hover-bg-color: var(--el-fill-color-light);
-    --el-button-hover-border-color: var(--main-color);
-    --el-button-hover-text-color: var(--main-color);
+    --el-button-hover-border-color: var(--main-color, var(--el-color-primary));
+    --el-button-hover-text-color: var(--main-color, var(--el-color-primary));
     --el-button-active-bg-color: var(--el-fill-color-light);
-    --el-button-active-border-color: var(--main-color);
-    --el-button-active-text-color: var(--main-color);
+    --el-button-active-border-color: var(--main-color, var(--el-color-primary));
+    --el-button-active-text-color: var(--main-color, var(--el-color-primary));
     --el-button-disabled-bg-color: var(--el-fill-color-blank);
     --el-button-disabled-border-color: var(--el-border-color-lighter);
     --el-button-disabled-text-color: var(--el-text-color-placeholder);
@@ -105,28 +105,28 @@ defineSlots<BaseBtnSlots>()
 
   // 成功按钮样式
   &.el-button--success {
-    --control-text: var(--control-success);
-    --el-button-hover-link-text-color: var(--control-success-hover);
-    --el-button-active-color: var(--control-success-hover);
+    --control-text: var(--control-success, #357a1c);
+    --el-button-hover-link-text-color: var(--control-success-hover, #2a6116);
+    --el-button-active-color: var(--control-success-hover, #2a6116);
     --el-button-bg-color: var(--el-fill-color-blank);
-    --el-button-border-color: var(--control-success);
-    --el-button-hover-bg-color: var(--control-success);
-    --el-button-hover-border-color: var(--control-success);
+    --el-button-border-color: var(--control-success, #357a1c);
+    --el-button-hover-bg-color: var(--control-success, #357a1c);
+    --el-button-hover-border-color: var(--control-success, #357a1c);
     --el-button-hover-text-color: var(--el-fill-color-blank);
-    --el-button-active-bg-color: var(--control-success-hover);
-    --el-button-active-border-color: var(--control-success-hover);
+    --el-button-active-bg-color: var(--control-success-hover, #2a6116);
+    --el-button-active-border-color: var(--control-success-hover, #2a6116);
     --el-button-disabled-bg-color: var(--el-fill-color-blank);
     --el-button-disabled-border-color: var(--el-color-success-light-7);
     --el-button-disabled-text-color: var(--el-color-success-light-7);
-    --el-button-text-color: var(--control-success);
+    --el-button-text-color: var(--control-success, #357a1c);
 
     &.is-fill {
-      --el-button-bg-color: var(--control-success);
-      --el-button-border-color: var(--control-success);
-      --el-button-hover-bg-color: var(--control-success-hover);
-      --el-button-hover-border-color: var(--control-success-hover);
-      --el-button-active-bg-color: var(--control-success-hover);
-      --el-button-active-border-color: var(--control-success-hover);
+      --el-button-bg-color: var(--control-success, #357a1c);
+      --el-button-border-color: var(--control-success, #357a1c);
+      --el-button-hover-bg-color: var(--control-success-hover, #2a6116);
+      --el-button-hover-border-color: var(--control-success-hover, #2a6116);
+      --el-button-active-bg-color: var(--control-success-hover, #2a6116);
+      --el-button-active-border-color: var(--control-success-hover, #2a6116);
       --el-button-disabled-bg-color: var(--el-color-success-light-7);
       --el-button-disabled-border-color: var(--el-color-success-light-7);
       --el-button-text-color: var(--el-fill-color-blank);
@@ -136,28 +136,28 @@ defineSlots<BaseBtnSlots>()
 
   // 警告按钮样式
   &.el-button--warning {
-    --control-text: var(--control-warning);
-    --el-button-hover-link-text-color: var(--control-warning-hover);
-    --el-button-active-color: var(--control-warning-hover);
+    --control-text: var(--control-warning, #8a570b);
+    --el-button-hover-link-text-color: var(--control-warning-hover, #6e4609);
+    --el-button-active-color: var(--control-warning-hover, #6e4609);
     --el-button-bg-color: var(--el-fill-color-blank);
-    --el-button-border-color: var(--control-warning);
-    --el-button-hover-bg-color: var(--control-warning);
-    --el-button-hover-border-color: var(--control-warning);
+    --el-button-border-color: var(--control-warning, #8a570b);
+    --el-button-hover-bg-color: var(--control-warning, #8a570b);
+    --el-button-hover-border-color: var(--control-warning, #8a570b);
     --el-button-hover-text-color: var(--el-fill-color-blank);
-    --el-button-active-bg-color: var(--control-warning-hover);
-    --el-button-active-border-color: var(--control-warning-hover);
+    --el-button-active-bg-color: var(--control-warning-hover, #6e4609);
+    --el-button-active-border-color: var(--control-warning-hover, #6e4609);
     --el-button-disabled-bg-color: var(--el-fill-color-blank);
     --el-button-disabled-border-color: var(--el-color-warning-light-7);
     --el-button-disabled-text-color: var(--el-color-warning-light-7);
-    --el-button-text-color: var(--control-warning);
+    --el-button-text-color: var(--control-warning, #8a570b);
 
     &.is-fill {
-      --el-button-bg-color: var(--control-warning);
-      --el-button-border-color: var(--control-warning);
-      --el-button-hover-bg-color: var(--control-warning-hover);
-      --el-button-hover-border-color: var(--control-warning-hover);
-      --el-button-active-bg-color: var(--control-warning-hover);
-      --el-button-active-border-color: var(--control-warning-hover);
+      --el-button-bg-color: var(--control-warning, #8a570b);
+      --el-button-border-color: var(--control-warning, #8a570b);
+      --el-button-hover-bg-color: var(--control-warning-hover, #6e4609);
+      --el-button-hover-border-color: var(--control-warning-hover, #6e4609);
+      --el-button-active-bg-color: var(--control-warning-hover, #6e4609);
+      --el-button-active-border-color: var(--control-warning-hover, #6e4609);
       --el-button-disabled-bg-color: var(--el-color-warning-light-7);
       --el-button-disabled-border-color: var(--el-color-warning-light-7);
       --el-button-text-color: var(--el-fill-color-blank);
@@ -167,28 +167,28 @@ defineSlots<BaseBtnSlots>()
 
   // 危险按钮样式
   &.el-button--danger {
-    --control-text: var(--control-danger);
-    --el-button-hover-link-text-color: var(--control-danger-hover);
-    --el-button-active-color: var(--control-danger-hover);
+    --control-text: var(--control-danger, #c23030);
+    --el-button-hover-link-text-color: var(--control-danger-hover, #9b2626);
+    --el-button-active-color: var(--control-danger-hover, #9b2626);
     --el-button-bg-color: var(--el-fill-color-blank);
-    --el-button-border-color: var(--control-danger);
-    --el-button-hover-bg-color: var(--control-danger);
-    --el-button-hover-border-color: var(--control-danger);
+    --el-button-border-color: var(--control-danger, #c23030);
+    --el-button-hover-bg-color: var(--control-danger, #c23030);
+    --el-button-hover-border-color: var(--control-danger, #c23030);
     --el-button-hover-text-color: var(--el-fill-color-blank);
-    --el-button-active-bg-color: var(--control-danger-hover);
-    --el-button-active-border-color: var(--control-danger-hover);
+    --el-button-active-bg-color: var(--control-danger-hover, #9b2626);
+    --el-button-active-border-color: var(--control-danger-hover, #9b2626);
     --el-button-disabled-bg-color: var(--el-fill-color-blank);
     --el-button-disabled-border-color: var(--el-color-danger-light-7);
     --el-button-disabled-text-color: var(--el-color-danger-light-7);
-    --el-button-text-color: var(--control-danger);
+    --el-button-text-color: var(--control-danger, #c23030);
 
     &.is-fill {
-      --el-button-bg-color: var(--control-danger);
-      --el-button-border-color: var(--control-danger);
-      --el-button-hover-bg-color: var(--control-danger-hover);
-      --el-button-hover-border-color: var(--control-danger-hover);
-      --el-button-active-bg-color: var(--control-danger-hover);
-      --el-button-active-border-color: var(--control-danger-hover);
+      --el-button-bg-color: var(--control-danger, #c23030);
+      --el-button-border-color: var(--control-danger, #c23030);
+      --el-button-hover-bg-color: var(--control-danger-hover, #9b2626);
+      --el-button-hover-border-color: var(--control-danger-hover, #9b2626);
+      --el-button-active-bg-color: var(--control-danger-hover, #9b2626);
+      --el-button-active-border-color: var(--control-danger-hover, #9b2626);
       --el-button-disabled-bg-color: var(--el-color-danger-light-7);
       --el-button-disabled-border-color: var(--el-color-danger-light-7);
       --el-button-text-color: var(--el-fill-color-blank);
@@ -198,28 +198,28 @@ defineSlots<BaseBtnSlots>()
 
   // 信息按钮样式
   &.el-button--info {
-    --control-text: var(--control-info);
-    --el-button-hover-link-text-color: var(--control-info-hover);
-    --el-button-active-color: var(--control-info-hover);
+    --control-text: var(--control-info, #606266);
+    --el-button-hover-link-text-color: var(--control-info-hover, #4d4e52);
+    --el-button-active-color: var(--control-info-hover, #4d4e52);
     --el-button-bg-color: var(--el-fill-color-blank);
-    --el-button-border-color: var(--control-info);
-    --el-button-hover-bg-color: var(--control-info);
-    --el-button-hover-border-color: var(--control-info);
+    --el-button-border-color: var(--control-info, #606266);
+    --el-button-hover-bg-color: var(--control-info, #606266);
+    --el-button-hover-border-color: var(--control-info, #606266);
     --el-button-hover-text-color: var(--el-fill-color-blank);
-    --el-button-active-bg-color: var(--control-info-hover);
-    --el-button-active-border-color: var(--control-info-hover);
+    --el-button-active-bg-color: var(--control-info-hover, #4d4e52);
+    --el-button-active-border-color: var(--control-info-hover, #4d4e52);
     --el-button-disabled-bg-color: var(--el-fill-color-blank);
     --el-button-disabled-border-color: var(--el-color-info-light-7);
     --el-button-disabled-text-color: var(--el-color-info-light-7);
-    --el-button-text-color: var(--control-info);
+    --el-button-text-color: var(--control-info, #606266);
 
     &.is-fill {
-      --el-button-bg-color: var(--control-info);
-      --el-button-border-color: var(--control-info);
-      --el-button-hover-bg-color: var(--control-info-hover);
-      --el-button-hover-border-color: var(--control-info-hover);
-      --el-button-active-bg-color: var(--control-info-hover);
-      --el-button-active-border-color: var(--control-info-hover);
+      --el-button-bg-color: var(--control-info, #606266);
+      --el-button-border-color: var(--control-info, #606266);
+      --el-button-hover-bg-color: var(--control-info-hover, #4d4e52);
+      --el-button-hover-border-color: var(--control-info-hover, #4d4e52);
+      --el-button-active-bg-color: var(--control-info-hover, #4d4e52);
+      --el-button-active-border-color: var(--control-info-hover, #4d4e52);
       --el-button-disabled-bg-color: var(--el-color-info-light-7);
       --el-button-disabled-border-color: var(--el-color-info-light-7);
       --el-button-text-color: var(--el-fill-color-blank);

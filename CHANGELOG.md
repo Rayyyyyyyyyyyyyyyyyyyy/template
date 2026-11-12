@@ -9,6 +9,7 @@
 
 ### Fixed
 
+- `/styles/core` 的主題變數引用都加上 fallback，只載 core 時元件跟隨宿主的 Element Plus 主色
 - TransferDialog 不再取消勾選沒有 `prop` 的欄位
 - TransferDialog 欄位搜尋不分大小寫
 - MainPanel、SearchableListPanel、DetailLayout、FilterLayout 的 `click:back` 會帶上返回 payload

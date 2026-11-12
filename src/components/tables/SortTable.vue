@@ -121,7 +121,7 @@ defineExpose({
   min-height: var(--rvtc-control-min-size, 44px);
 
   &:focus-visible {
-    outline: 2px solid var(--main-color);
+    outline: 2px solid var(--main-color, var(--el-color-primary));
     outline-offset: 2px;
   }
 }

@@ -11,4 +11,4 @@ Status: accepted
 
 ## Consequences
 - The split relies on the convention that theme variables live only in top-level `:root` / `:root.dark` rules. `scripts/split-styles.mjs` enforces it: it throws if those rules contain anything but `--` custom properties, or if no theme rule is found.
-- `styles-core.css` still has 91 references (12 distinct variables) without a fallback: `var(--main-color)` x18, `var(--main-color-dark-2)` x8, `var(--main-color-light-7)` x4, `var(--main-color-border)` x1, and `var(--control-{success,warning,danger,info}[-hover])` x60. Hosts that load only core must define these variables themselves, or also load `/styles/theme`.
+- Every theme variable reference in core has a fallback, so hosts that load only core get components that follow their Element Plus primary color; status colors fall back to the package light-mode defaults.

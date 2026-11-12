@@ -68,13 +68,13 @@ const clearableClick = () => {
   @apply w-64 max-w-full;
 
   .el-input {
-    --el-input-border-color: var(--main-color-border);
-    --el-input-hover-border-color: var(--main-color);
-    --el-input-focus-border-color: var(--main-color);
-    --el-input-placeholder-color: var(--main-color);
+    --el-input-border-color: var(--main-color-border, var(--el-border-color));
+    --el-input-hover-border-color: var(--main-color, var(--el-color-primary));
+    --el-input-focus-border-color: var(--main-color, var(--el-color-primary));
+    --el-input-placeholder-color: var(--main-color, var(--el-color-primary));
 
     :deep(.el-input__prefix) {
-      color: var(--main-color);
+      color: var(--main-color, var(--el-color-primary));
     }
     :deep(.el-input__inner::placeholder) {
       @apply text-text-border;

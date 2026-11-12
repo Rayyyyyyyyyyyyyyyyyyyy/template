@@ -61,6 +61,7 @@ const coreCss = readCss('styles/core')
 const themeCss = readCss('styles/theme')
 require.resolve('rayyy-vue-table-components/styles/element')
 for (const text of [':root', '--el-color-primary:', '--main-color:']) assert.ok(!coreCss.includes(text), `styles/core must not contain ${text}`)
+assert.doesNotMatch(coreCss, /var\(--(main-color|control-)[a-z0-9-]*\)/, 'styles/core theme variable references must have a fallback')
 for (const text of ['--el-color-primary:', ':root.dark']) assert.ok(themeCss.includes(text), `styles/theme must contain ${text}`)
 for (const text of ['--el-color-primary:', '.rvtc-toolbar']) assert.ok(fullCss.includes(text), `styles must still contain ${text}`)
 for (const [, body] of themeCss.matchAll(/\{([^}]*)\}/g)) {
