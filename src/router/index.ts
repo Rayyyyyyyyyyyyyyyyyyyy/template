@@ -130,7 +130,7 @@ const routes = [
       {
         path: ROUTES.I18N_TEST,
         name: ROUTE_NAMES.I18N_TEST,
-        meta: { title: 'i18n 測試頁面' },
+        meta: { title: '多語系' },
         component: () => import('@/views/demo/I18nTestDemo.vue'),
       },
     ],

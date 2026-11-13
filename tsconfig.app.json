@@ -19,6 +19,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "rayyy-vue-table-components/components": ["./src/components/index.ts"],
+      "rayyy-vue-table-components/types": ["./src/types/index.ts"],
       "tailwind.config.js": ["./tailwind.config.d.ts"]
     },
     "types": ["element-plus/global", "vitest/importMeta"]

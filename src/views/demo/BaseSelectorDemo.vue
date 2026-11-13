@@ -1,246 +1,45 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
-import { BaseSelector } from '@/components'
-import type { ElOptions } from '@/types/OptionDto'
-
-// 基本選項數據
-const basicOptions: ElOptions[] = [
-  { value: 'option1', label: '選項一' },
-  { value: 'option2', label: '選項二' },
-  { value: 'option3', label: '選項三' },
-  { value: 'option4', label: '選項四' },
-  { value: 'option5', label: '選項五' },
-]
-
-// 多選選項數據
-const multipleOptions: ElOptions[] = [
-  { value: 'apple', label: '蘋果' },
-  { value: 'banana', label: '香蕉' },
-  { value: 'orange', label: '橘子' },
-  { value: 'grape', label: '葡萄' },
-  { value: 'strawberry', label: '草莓' },
-]
-
-// 狀態管理
-const state = reactive({
-  basicValue: '',
-  multipleValue: [] as string[],
-  clearableValue: '',
-  disabledValue: 'option2',
-  collapseTagsValue: ['apple', 'banana', 'orange'],
-})
-
-// 事件處理
-const handleBasicChange = (value: string | string[] | undefined | null) => {
-  console.log('基本選擇器值變更:', value)
-  state.basicValue = value as string
-}
-
-const handleMultipleChange = (value: string | string[] | undefined | null) => {
-  console.log('多選選擇器值變更:', value)
-  state.multipleValue = value as string[]
-}
-
-const handleClearableChange = (value: string | string[] | undefined | null) => {
-  console.log('可清空選擇器值變更:', value)
-  state.clearableValue = value as string
-}
-
-const handleDisabledChange = (value: string | string[] | undefined | null) => {
-  console.log('禁用選擇器值變更:', value)
-  state.disabledValue = value as string
-}
-
-const handleCollapseTagsChange = (value: string | string[] | undefined | null) => {
-  console.log('折疊標籤選擇器值變更:', value)
-  state.collapseTagsValue = value as string[]
-}
+import DemoBlock from '../docs/DemoBlock.vue'
+import { ROUTES } from '@/router/constants'
+import SelectorBasic from '../../../tests/consumer/src/examples/demo/base-selector/SelectorBasic.vue'
+import basicSource from '../../../tests/consumer/src/examples/demo/base-selector/SelectorBasic.vue?raw'
+import SelectorClearable from '../../../tests/consumer/src/examples/demo/base-selector/SelectorClearable.vue'
+import clearableSource from '../../../tests/consumer/src/examples/demo/base-selector/SelectorClearable.vue?raw'
+import SelectorDisabled from '../../../tests/consumer/src/examples/demo/base-selector/SelectorDisabled.vue'
+import disabledSource from '../../../tests/consumer/src/examples/demo/base-selector/SelectorDisabled.vue?raw'
+import SelectorCollapseTags from '../../../tests/consumer/src/examples/demo/base-selector/SelectorCollapseTags.vue'
+import collapseSource from '../../../tests/consumer/src/examples/demo/base-selector/SelectorCollapseTags.vue?raw'
+import SelectorWidth from '../../../tests/consumer/src/examples/demo/base-selector/SelectorWidth.vue'
+import widthSource from '../../../tests/consumer/src/examples/demo/base-selector/SelectorWidth.vue?raw'
 </script>
 
 <template>
   <div class="demo-page">
     <div class="demo-container">
-      <h1 class="text-3xl font-bold text-gray-900 mb-8">BaseSelector 組件示範</h1>
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">BaseSelector 組件示範</h1>
+      <p class="text-gray-600 mb-8">
+        每個範例下方可複製或查看完整程式碼，內容與畫面上執行的是同一份檔案。BaseSelector 以 v-model 綁定單選字串或多選陣列，清空時單選會得到 undefined。範例需要宿主已安裝 Element Plus（全域註冊）與 vue-i18n（legacy: false），設定方式見<RouterLink :to="ROUTES.INSTALL_GUIDE" class="text-blue-700 underline">安裝指南</RouterLink>。
+      </p>
 
-      <!-- 基本用法 -->
-      <el-card class="mb-6">
-        <template #header>
-          <h2 class="text-xl font-semibold">基本用法</h2>
-        </template>
-        <div class="space-y-4">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">基本選擇器</label>
-              <BaseSelector
-                v-model="state.basicValue"
-                :options="basicOptions"
-                placeholder="請選擇選項"
-                @update:model-value="handleBasicChange"
-              />
-              <p class="text-sm text-gray-500 mt-1">當前值: {{ state.basicValue || '未選擇' }}</p>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">多選選擇器</label>
-              <BaseSelector
-                v-model="state.multipleValue"
-                :options="multipleOptions"
-                placeholder="請選擇水果"
-                :multiple="true"
-                @update:model-value="handleMultipleChange"
-              />
-              <p class="text-sm text-gray-500 mt-1">
-                當前值: {{ state.multipleValue.length ? state.multipleValue.join(', ') : '未選擇' }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </el-card>
+      <DemoBlock title="基本用法" description="單選與多選，下方顯示目前綁定的值。" :source="basicSource">
+        <SelectorBasic />
+      </DemoBlock>
 
-      <!-- 清空功能示範 -->
-      <el-card class="mb-6">
-        <template #header>
-          <h2 class="text-xl font-semibold">清空功能示範</h2>
-        </template>
-        <div class="space-y-4">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2"
-                >基本選擇器（可清空）</label
-              >
-              <BaseSelector
-                v-model="state.clearableValue"
-                :options="basicOptions"
-                placeholder="請選擇選項"
-                @update:model-value="handleClearableChange"
-              />
-              <p class="text-sm text-gray-500 mt-1">
-                當前值: {{ state.clearableValue || '未選擇' }}
-              </p>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2"
-                >多選選擇器（可清空）</label
-              >
-              <BaseSelector
-                v-model="state.multipleValue"
-                :options="multipleOptions"
-                placeholder="請選擇水果"
-                :multiple="true"
-                @update:model-value="handleMultipleChange"
-              />
-              <p class="text-sm text-gray-500 mt-1">
-                當前值: {{ state.multipleValue.length ? state.multipleValue.join(', ') : '未選擇' }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </el-card>
+      <DemoBlock title="清空功能示範" description="預設值可用清空圖示清除，單選與多選皆可清空。" :source="clearableSource">
+        <SelectorClearable />
+      </DemoBlock>
 
-      <!-- 禁用狀態 -->
-      <el-card class="mb-6">
-        <template #header>
-          <h2 class="text-xl font-semibold">禁用狀態</h2>
-        </template>
-        <div class="space-y-4">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">禁用選擇器</label>
-              <BaseSelector
-                v-model="state.disabledValue"
-                :options="basicOptions"
-                placeholder="請選擇選項"
-                :disabled="true"
-                @update:model-value="handleDisabledChange"
-              />
-              <p class="text-sm text-gray-500 mt-1">
-                當前值: {{ state.disabledValue || '未選擇' }}
-              </p>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">正常選擇器</label>
-              <BaseSelector
-                v-model="state.basicValue"
-                :options="basicOptions"
-                placeholder="請選擇選項"
-                :disabled="false"
-              />
-              <p class="text-sm text-gray-500 mt-1">當前值: {{ state.basicValue || '未選擇' }}</p>
-            </div>
-          </div>
-        </div>
-      </el-card>
+      <DemoBlock title="禁用狀態" description="disabled 為 true 時無法操作。" :source="disabledSource">
+        <SelectorDisabled />
+      </DemoBlock>
 
-      <!-- 折疊標籤 -->
-      <el-card class="mb-6">
-        <template #header>
-          <h2 class="text-xl font-semibold">折疊標籤功能</h2>
-        </template>
-        <div class="space-y-4">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2"
-                >折疊標籤（顯示提示）</label
-              >
-              <BaseSelector
-                v-model="state.collapseTagsValue"
-                :options="multipleOptions"
-                placeholder="請選擇水果"
-                :multiple="true"
-                :collapse-tags="true"
-                :collapse-tags-tooltip="true"
-                @update:model-value="handleCollapseTagsChange"
-              />
-              <p class="text-sm text-gray-500 mt-1">
-                當前值:
-                {{ state.collapseTagsValue.length ? state.collapseTagsValue.join(', ') : '未選擇' }}
-              </p>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">不折疊標籤</label>
-              <BaseSelector
-                v-model="state.multipleValue"
-                :options="multipleOptions"
-                placeholder="請選擇水果"
-                :multiple="true"
-                :collapse-tags="false"
-                @update:model-value="handleMultipleChange"
-              />
-              <p class="text-sm text-gray-500 mt-1">
-                當前值: {{ state.multipleValue.length ? state.multipleValue.join(', ') : '未選擇' }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </el-card>
+      <DemoBlock title="折疊標籤功能" description="多選時用 collapse-tags 折疊標籤，collapse-tags-tooltip 在滑過時顯示其餘項目。" :source="collapseSource">
+        <SelectorCollapseTags />
+      </DemoBlock>
 
-      <!-- 自定義樣式 -->
-      <el-card class="mb-6">
-        <template #header>
-          <h2 class="text-xl font-semibold">自定義樣式</h2>
-        </template>
-        <div class="space-y-4">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">自定義寬度</label>
-              <BaseSelector
-                v-model="state.basicValue"
-                :options="basicOptions"
-                placeholder="請選擇選項"
-                class="w-64"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">全寬度</label>
-              <BaseSelector
-                v-model="state.basicValue"
-                :options="basicOptions"
-                placeholder="請選擇選項"
-                class="w-full"
-              />
-            </div>
-          </div>
-        </div>
-      </el-card>
+      <DemoBlock title="自定義樣式" description="用 class 設定固定寬度或全寬度。" :source="widthSource">
+        <SelectorWidth />
+      </DemoBlock>
 
       <!-- 組件屬性說明 -->
       <el-card>
@@ -353,5 +152,3 @@ const handleCollapseTagsChange = (value: string | string[] | undefined | null) =
     </div>
   </div>
 </template>
-
-<style scoped></style>
