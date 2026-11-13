@@ -88,6 +88,8 @@ it('lets body background and color-scheme follow html.dark', () => {
   expect(demo).toMatch(/html\.dark \.text-blue-700\s*{[^}]*color:\s*#79bbff/)
   expect(demo).toMatch(/html\.dark \.text-black\s*{[^}]*color:\s*var\(--el-text-color-primary/)
   expect(demo).toMatch(/html\.dark \.bg-green-50 \.text-green-600\s*{[^}]*color:\s*#15803d/)
+  expect(demo).toMatch(/html\.dark \.bg-blue-50 \.text-blue-700\s*{[^}]*color:\s*#1d4ed8/)
+  expect(demo).toMatch(/html\.dark \.bg-blue-50\.text-gray-900,\s*html\.dark \.bg-blue-50 \.text-gray-900\s*{[^}]*color:\s*#111827/)
 })
 
 it('demonstrates dangerSubmit, compactPaginationBelow and unfixColumnsBelow', async () => {

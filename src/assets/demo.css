@@ -662,3 +662,12 @@ html.dark .text-black {
 html.dark .bg-green-50 .text-green-600 {
   color: #15803d;
 }
+
+html.dark .bg-blue-50 .text-blue-700 {
+  color: #1d4ed8;
+}
+
+html.dark .bg-blue-50.text-gray-900,
+html.dark .bg-blue-50 .text-gray-900 {
+  color: #111827;
+}
