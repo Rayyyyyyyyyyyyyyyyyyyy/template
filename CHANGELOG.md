@@ -2,6 +2,23 @@
 
 ## [Unreleased]
 
+## [3.0.0]
+
+### ⚠ BREAKING CHANGES
+
+本版含下列不相容改名，舊拼字不保留別名。
+
+| 舊名 | 新名 |
+| --- | --- |
+| `BaseWaringDialog`（元件、具名匯出、plugin 註冊名） | `BaseWarningDialog` |
+| `waringText` / `waring-text` | `warningText` / `warning-text` |
+| `subWaringText` / `sub-waring-text` | `subWarningText` / `sub-warning-text` |
+| BaseDialog 的 `isWaring` / `is-waring` | `isWarning` / `is-warning` |
+| CSS class `.waring-dialog` | `.warning-dialog` |
+| `BaseWaringDialogProps`、`EventMap`、`Emits`、`Instance`、`Slots`、`Type` | `BaseWarningDialogProps`、`EventMap`、`Emits`、`Instance`、`Slots`、`Type` |
+
+遷移：全域搜尋取代 `BaseWaringDialog`→`BaseWarningDialog`、`waring-text`/`waringText`→`warning-text`/`warningText`、`sub-waring-text`→`sub-warning-text`（`subWaringText`→`subWarningText`）、`is-waring`→`is-warning`（`isWaring`→`isWarning`）、`.waring-dialog`→`.warning-dialog`。
+
 ### Added
 
 - `--rvtc-panel-max-height`、`--rvtc-detail-min-height`、`--rvtc-detail-content-max-height` 三個 CSS 變數，可覆寫版面高度
@@ -9,7 +26,7 @@
 - BaseTable、SortTable、TitleTable 新增 `error` prop 與 `error`、`empty` slot，可自訂載入失敗與無資料畫面
 - BaseTable 新增 `unfixColumnsBelow` prop，視窗寬度小於該值時選取欄、序號欄、操作欄不固定
 - BaseTable 新增 `rowLabel` prop，為查看／編輯按鈕加上 aria-label
-- BaseDialog、BaseWaringDialog 新增 `dangerSubmit` prop（預設 false），確認鈕改用 danger 色並讓取消鈕取得初始焦點
+- BaseDialog、BaseWarningDialog 新增 `dangerSubmit` prop（預設 false），確認鈕改用 danger 色並讓取消鈕取得初始焦點
 - BaseDialog 在視窗寬度小於 500px 時頁尾按鈕並排等寬
 - SearchableListPanel 新增 `paginationLayout`、`compactPaginationBelow` prop，可自訂分頁 layout 並在窄視窗精簡
 - SearchBar 新增 `searchOnInput`、`searchDelay` prop，輸入後延遲自動搜尋

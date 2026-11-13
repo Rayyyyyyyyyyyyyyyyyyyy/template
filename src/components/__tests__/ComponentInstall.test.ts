@@ -10,4 +10,7 @@ it('installs every named component from /components without importing root', () 
     app.use(component)
     expect(app.component(name)).toBe(component)
   }
+  expect(components).toHaveProperty('BaseWarningDialog')
+  expect(components).not.toHaveProperty('BaseWaringDialog')
+  expect(app.component('BaseWarningDialog')).toBe(components.BaseWarningDialog)
 })

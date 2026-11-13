@@ -9,7 +9,7 @@ import ExampleCode from './docs/ExampleCode.vue'
   <div class="demo-page docs-page">
     <div class="demo-container space-y-8">
       <header class="space-y-3">
-        <h1 class="text-4xl font-bold text-gray-900">Vue Table Components 安裝指南</h1>
+        <h1 class="text-4xl font-bold text-gray-900">RayTable 安裝指南</h1>
         <p>安裝 rayyy-vue-table-components、Vue、Element Plus 與 vue-i18n。</p>
         <p class="text-gray-600">下方兩份完整入口都納入 tarball consumer 的型別檢查與建置，展示與複製直接讀取相同來源。</p>
       </header>

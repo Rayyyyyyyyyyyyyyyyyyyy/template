@@ -1,108 +1,45 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { FunctionHeader } from '@/components'
+import DemoBlock from '../docs/DemoBlock.vue'
+import { ROUTES } from '@/router/constants'
+import HeaderBasic from '../../../tests/consumer/src/examples/demo/function-header/HeaderBasic.vue'
+import basicSource from '../../../tests/consumer/src/examples/demo/function-header/HeaderBasic.vue?raw'
+import HeaderBack from '../../../tests/consumer/src/examples/demo/function-header/HeaderBack.vue'
+import backSource from '../../../tests/consumer/src/examples/demo/function-header/HeaderBack.vue?raw'
+import HeaderBackPath from '../../../tests/consumer/src/examples/demo/function-header/HeaderBackPath.vue'
+import pathSource from '../../../tests/consumer/src/examples/demo/function-header/HeaderBackPath.vue?raw'
+import HeaderBackObject from '../../../tests/consumer/src/examples/demo/function-header/HeaderBackObject.vue'
+import objectSource from '../../../tests/consumer/src/examples/demo/function-header/HeaderBackObject.vue?raw'
 import HeaderExample from '../../../tests/consumer/src/examples/HeaderExample.vue'
-import headerSource from '../../../tests/consumer/src/examples/HeaderExample.vue?raw'
-import ExampleCode from '../docs/ExampleCode.vue'
-
-const lastBack = ref('尚未返回')
-const handleBack = (payload: { path?: string; [key: string]: unknown }) => {
-  lastBack.value = JSON.stringify(payload)
-}
+import exampleSource from '../../../tests/consumer/src/examples/HeaderExample.vue?raw'
 </script>
 
 <template>
   <div class="demo-page">
     <div class="demo-container">
-      <h1 class="text-3xl font-bold text-gray-900 mb-8">FunctionHeader 組件示範</h1>
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">FunctionHeader 組件示範</h1>
+      <p class="text-gray-600 mb-8">
+        每個範例下方可複製或查看完整程式碼，內容與畫面上執行的是同一份檔案。返回操作只發出 payload，實際導頁由宿主決定；FunctionHeader 的 default slot 可放置自訂操作。範例需要宿主已安裝 Element Plus（全域註冊）與 vue-i18n（legacy: false），設定方式見<RouterLink :to="ROUTES.INSTALL_GUIDE" class="text-blue-700 underline">安裝指南</RouterLink>。
+      </p>
 
-      <!-- 基礎功能標題 -->
-      <el-card class="mb-8" shadow="never">
-        <template #header>
-          <h2 class="text-xl font-semibold">基礎功能標題</h2>
-        </template>
-        <FunctionHeader
-          title="用戶管理"
-        />
-      </el-card>
+      <DemoBlock title="基礎功能標題" description="只有標題，沒有返回按鈕。" :source="basicSource">
+        <HeaderBasic />
+      </DemoBlock>
 
-      <!-- 帶返回按鈕的標題 -->
-      <el-card class="mb-8" shadow="never">
-        <template #header>
-          <h2 class="text-xl font-semibold">帶返回按鈕的標題</h2>
-        </template>
-        <FunctionHeader
-          title="編輯用戶"
-          :show-back="true"
-          @back="handleBack"
-        />
-      </el-card>
+      <DemoBlock title="帶返回按鈕的標題" description="show-back 為 true 時顯示返回按鈕，back 事件帶出 payload。" :source="backSource">
+        <HeaderBack />
+      </DemoBlock>
 
-      <!-- 帶自定義返回路徑的標題 -->
-      <el-card class="mb-8" shadow="never">
-        <template #header>
-          <h2 class="text-xl font-semibold">帶自定義返回路徑的標題</h2>
-        </template>
-        <FunctionHeader
-          title="產品詳情"
-          :show-back="'/products'"
-          @back="handleBack"
-        />
-      </el-card>
+      <DemoBlock title="帶自定義返回路徑的標題" description="show-back 傳入字串路徑。" :source="pathSource">
+        <HeaderBackPath />
+      </DemoBlock>
 
-      <!-- 帶自定義返回對象的標題 -->
-      <el-card class="mb-8" shadow="never">
-        <template #header>
-          <h2 class="text-xl font-semibold">帶自定義返回對象的標題</h2>
-        </template>
-        <FunctionHeader
-          title="訂單管理"
-          :show-back="{ path: '/orders', query: { status: 'pending' } }"
-          @back="handleBack"
-        />
-      </el-card>
+      <DemoBlock title="帶自定義返回對象的標題" description="show-back 傳入含 path 與 query 的物件。" :source="objectSource">
+        <HeaderBackObject />
+      </DemoBlock>
 
-      <el-card class="mb-8" shadow="never">
-        <template #header><h2 class="text-xl font-semibold">完整使用範例與操作插槽</h2></template>
+      <DemoBlock title="完整使用範例與操作插槽" description="返回按鈕搭配 default slot 的操作按鈕。" :source="exampleSource">
         <HeaderExample />
-        <ExampleCode :source="headerSource" />
-      </el-card>
-      <p>上方返回操作只記錄 payload；實際導頁由宿主決定。</p>
-      <output aria-live="polite">{{ lastBack }}</output>
-
-      <!-- 功能展示說明 -->
-      <el-card class="mb-8" shadow="never">
-        <template #header>
-          <h2 class="text-xl font-semibold">功能展示說明</h2>
-        </template>
-        <div class="bg-gray-50 p-4 rounded-lg">
-          <h3 class="text-lg font-medium mb-2">FunctionHeader 功能特色</h3>
-          <ul class="space-y-2 text-gray-700">
-            <li class="flex items-start">
-              <span class="text-gray-600 mr-2 mt-0.5">•</span>
-              <span><strong>標題顯示：</strong>支持自定義標題文字</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-gray-600 mr-2 mt-0.5">•</span>
-              <span><strong>返回按鈕：</strong>支持布林值、字符串路徑或對象配置</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-gray-600 mr-2 mt-0.5">•</span>
-              <span><strong>操作插槽：</strong>使用 default slot 放置自訂操作</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-gray-600 mr-2 mt-0.5">•</span>
-              <span><strong>事件處理：</strong>支持返回按鈕點擊事件</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-gray-600 mr-2 mt-0.5">•</span>
-              <span><strong>響應式設計：</strong>適配不同螢幕尺寸</span>
-            </li>
-          </ul>
-        </div>
-      </el-card>
+      </DemoBlock>
     </div>
   </div>
 </template>
-
-<style scoped></style>

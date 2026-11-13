@@ -7,7 +7,7 @@ assert.ok(format === 'esm' || format === 'cjs')
 const require = createRequire(import.meta.url)
 const names = [
   'BaseTable', 'SortTable', 'TitleTable', 'BaseBtn', 'BaseInput', 'BaseSelector',
-  'BaseDialog', 'BaseWaringDialog', 'SearchBar', 'TransferDialog', 'TransferItem',
+  'BaseDialog', 'BaseWarningDialog', 'SearchBar', 'TransferDialog', 'TransferItem',
   'FunctionHeader', 'MainPanel', 'SearchableListPanel', 'DetailLayout', 'FilterLayout',
 ]
 let previous

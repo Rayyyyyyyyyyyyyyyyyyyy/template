@@ -13,7 +13,7 @@ import TitleTable from '../tables/TitleTable.vue'
 import SearchableListPanel from '../layout/SearchableListPanel.vue'
 import TransferDialog from '../transfer/TransferDialog.vue'
 import BaseDialog from '../items/BaseDialog.vue'
-import BaseWaringDialog from '../items/BaseWaringDialog.vue'
+import BaseWarningDialog from '../items/BaseWarningDialog.vue'
 import type { TableColumn } from '../../types'
 import type { TableExposed } from '../../types/components'
 import { createHostI18n } from './testHelpers'
@@ -278,8 +278,8 @@ describe('dialog dangerSubmit and narrow footer with real ElButton', () => {
     expect(find(wrapper, '確定').classes()).toContain('el-button--primary')
     expect(find(wrapper, '取消').attributes('autofocus')).toBeUndefined()
   })
-  it('BaseWaringDialog forwards dangerSubmit', async () => {
-    const wrapper = mount(BaseWaringDialog, { props: { modelValue: true, dangerSubmit: true }, global: global() })
+  it('BaseWarningDialog forwards dangerSubmit', async () => {
+    const wrapper = mount(BaseWarningDialog, { props: { modelValue: true, dangerSubmit: true }, global: global() })
     await flushPromises()
     expect(find(wrapper, '確定').classes()).toContain('el-button--danger')
   })

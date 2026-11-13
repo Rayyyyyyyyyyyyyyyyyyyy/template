@@ -1,30 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useClipboard } from '@vueuse/core'
 import BaseBtn from '../../components/items/BaseBtn.vue'
+import { useCopySource } from './useCopySource'
 
 const props = defineProps<{ source: string }>()
-const { copy, isSupported } = useClipboard()
-const copying = ref(false)
-const status = ref('')
-
-async function copySource() {
-  if (copying.value) return
-  if (!isSupported.value) {
-    status.value = '此環境無法複製，請手動選取下方程式碼。'
-    return
-  }
-  copying.value = true
-  status.value = '複製中…'
-  try {
-    await copy(props.source)
-    status.value = '已複製程式碼。'
-  } catch {
-    status.value = '複製失敗，請重試或手動選取下方程式碼。'
-  } finally {
-    copying.value = false
-  }
-}
+const { copying, status, copySource } = useCopySource(() => props.source)
 </script>
 
 <template>

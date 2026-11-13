@@ -3,14 +3,14 @@
 describe('component library demo smoke journey', () => {
   it('opens the real home page and a core component demo', () => {
     cy.visit('/')
-    cy.contains('h1', 'Vue Table Components').should('be.visible')
+    cy.contains('h1', 'RayTable').should('be.visible')
     cy.contains('button', '查看示範').click()
     cy.contains('h1', '組件目錄').should('be.visible')
     cy.contains('h3', 'SearchableListPanel')
       .parents('.demo-card')
       .contains('button', '查看示範')
       .click()
-    cy.contains('h2', 'SearchableListPanel 示範').should('be.visible')
+    cy.contains('h1', 'SearchableListPanel 組件示範').should('be.visible')
     cy.contains('用戶管理').should('be.visible')
   })
 })

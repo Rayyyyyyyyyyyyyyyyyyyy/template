@@ -22,7 +22,7 @@ export * from './locales'
 export * from './components'
 // 明確值導出優先於歷史 type-only barrel 的同名宣告。
 export {
-  BaseTable, BaseBtn, BaseInput, BaseSelector, BaseDialog, BaseWaringDialog,
+  BaseTable, BaseBtn, BaseInput, BaseSelector, BaseDialog, BaseWarningDialog,
   SortTable, TitleTable, SearchBar, TransferDialog, TransferItem, FunctionHeader,
   MainPanel, SearchableListPanel, DetailLayout, FilterLayout,
 } from './components'
@@ -30,7 +30,7 @@ export {
 // 保留歷史 default[0..15] 順序；module namespace 的 key 順序不同。
 const components = [
   componentMap.BaseTable, componentMap.BaseBtn, componentMap.BaseInput,
-  componentMap.BaseSelector, componentMap.BaseDialog, componentMap.BaseWaringDialog,
+  componentMap.BaseSelector, componentMap.BaseDialog, componentMap.BaseWarningDialog,
   componentMap.SortTable, componentMap.TitleTable, componentMap.SearchBar,
   componentMap.TransferDialog, componentMap.TransferItem, componentMap.FunctionHeader,
   componentMap.MainPanel, componentMap.SearchableListPanel, componentMap.DetailLayout,

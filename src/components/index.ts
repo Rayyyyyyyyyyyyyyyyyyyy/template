@@ -4,7 +4,7 @@ import BaseBtnSfc from './items/BaseBtn.vue'
 import BaseInputSfc from './form/BaseInput.vue'
 import BaseSelectorSfc from './form/BaseSelector.vue'
 import BaseDialogSfc from './items/BaseDialog.vue'
-import BaseWaringDialogSfc from './items/BaseWaringDialog.vue'
+import BaseWarningDialogSfc from './items/BaseWarningDialog.vue'
 import SortTableSfc from './tables/SortTable.vue'
 import TitleTableSfc from './tables/TitleTable.vue'
 import SearchBarSfc from './items/SearchBar.vue'
@@ -21,7 +21,7 @@ export const BaseBtn = /*#__PURE__*/ withInstall(BaseBtnSfc, 'BaseBtn')
 export const BaseInput = /*#__PURE__*/ withInstall(BaseInputSfc, 'BaseInput')
 export const BaseSelector = /*#__PURE__*/ withInstall(BaseSelectorSfc, 'BaseSelector')
 export const BaseDialog = /*#__PURE__*/ withInstall(BaseDialogSfc, 'BaseDialog')
-export const BaseWaringDialog = /*#__PURE__*/ withInstall(BaseWaringDialogSfc, 'BaseWaringDialog')
+export const BaseWarningDialog = /*#__PURE__*/ withInstall(BaseWarningDialogSfc, 'BaseWarningDialog')
 export const SortTable = /*#__PURE__*/ withInstall(SortTableSfc, 'SortTable')
 export const TitleTable = /*#__PURE__*/ withInstall(TitleTableSfc, 'TitleTable')
 export const SearchBar = /*#__PURE__*/ withInstall(SearchBarSfc, 'SearchBar')
@@ -49,10 +49,10 @@ export type {
   BaseDialogProps,
   BaseDialogEmits,
   BaseDialogInstance,
-  // BaseWaringDialog 組件類型
-  BaseWaringDialogProps,
-  BaseWaringDialogEmits,
-  BaseWaringDialogInstance,
+  // BaseWarningDialog 組件類型
+  BaseWarningDialogProps,
+  BaseWarningDialogEmits,
+  BaseWarningDialogInstance,
   // BaseInput 組件類型
   BaseInputProps,
   BaseInputEmits,
@@ -112,7 +112,7 @@ export type { default as BaseBtnType } from './items/BaseBtn.vue'
 export type { default as BaseInputType } from './form/BaseInput.vue'
 export type { default as BaseSelectorType } from './form/BaseSelector.vue'
 export type { default as BaseDialogType } from './items/BaseDialog.vue'
-export type { default as BaseWaringDialogType } from './items/BaseWaringDialog.vue'
+export type { default as BaseWarningDialogType } from './items/BaseWarningDialog.vue'
 export type { default as SortTableType } from './tables/SortTable.vue'
 export type { default as TitleTableType } from './tables/TitleTable.vue'
 export type { default as SearchBarType } from './items/SearchBar.vue'

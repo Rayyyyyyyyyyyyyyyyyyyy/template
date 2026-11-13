@@ -1,204 +1,45 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { BaseTable, BaseBtn, BaseDialog, SearchBar } from '@/components'
-import type { TableColumn } from '@/types'
-
-const { locale, t } = useI18n()
-const currentLocale = ref(locale.value)
-
-// 切換語系
-const switchLocale = () => {
-  currentLocale.value = currentLocale.value === 'zh-TW' ? 'en-US' : 'zh-TW'
-  locale.value = currentLocale.value
-}
-
-// 測試資料
-interface TestData {
-  id: number
-  name: string
-}
-
-const testData = ref<TestData[]>([
-  { id: 1, name: '測試 1' },
-  { id: 2, name: '測試 2' },
-  { id: 3, name: '測試 3' },
-])
-
-const testColumns = ref<TableColumn<TestData>[]>([
-  { prop: 'id', label: 'ID', align: 'center' },
-  { prop: 'name', label: '名稱', align: 'center' },
-])
-
-const loading = ref(false)
-const dialogVisible = ref(false)
-
-// 分頁相關
-const currentPage = ref(1)
-const pageSize = ref(10)
-const total = ref(50)
-
-const toggleLoading = () => {
-  loading.value = !loading.value
-}
-
-const openDialog = () => {
-  dialogVisible.value = true
-}
-
-const handlePageChange = (page: number) => {
-  currentPage.value = page
-  console.log('頁面變更:', page)
-}
-
-const handlePageSizeChange = (size: number) => {
-  pageSize.value = size
-  console.log('頁面大小變更:', size)
-}
+import DemoBlock from '../docs/DemoBlock.vue'
+import { ROUTES } from '@/router/constants'
+import LocaleSwitch from '../../../tests/consumer/src/examples/demo/i18n/LocaleSwitch.vue'
+import switchSource from '../../../tests/consumer/src/examples/demo/i18n/LocaleSwitch.vue?raw'
+import TableLocale from '../../../tests/consumer/src/examples/demo/i18n/TableLocale.vue'
+import tableSource from '../../../tests/consumer/src/examples/demo/i18n/TableLocale.vue?raw'
+import DialogLocale from '../../../tests/consumer/src/examples/demo/i18n/DialogLocale.vue'
+import dialogSource from '../../../tests/consumer/src/examples/demo/i18n/DialogLocale.vue?raw'
+import SearchLocale from '../../../tests/consumer/src/examples/demo/i18n/SearchLocale.vue'
+import searchSource from '../../../tests/consumer/src/examples/demo/i18n/SearchLocale.vue?raw'
+import PaginationLocale from '../../../tests/consumer/src/examples/demo/i18n/PaginationLocale.vue'
+import paginationSource from '../../../tests/consumer/src/examples/demo/i18n/PaginationLocale.vue?raw'
 </script>
 
 <template>
   <div class="demo-page">
-    <div class="max-w-4xl mx-auto">
-      <h1 class="text-3xl font-bold text-gray-900 mb-8">i18n 測試頁面</h1>
+    <div class="demo-container">
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">多語系</h1>
+      <p class="text-gray-600 mb-8">
+        每個範例下方可複製或查看完整程式碼，內容與畫面上執行的是同一份檔案。元件庫沿用宿主的 vue-i18n，切換宿主 locale 就會切換元件文字；Element Plus 自己的文字則要用 ElConfigProvider 傳入對應語言包。範例需要宿主已安裝 Element Plus（全域註冊）與 vue-i18n（legacy: false），設定方式見<RouterLink :to="ROUTES.INSTALL_GUIDE" class="text-blue-700 underline">安裝指南</RouterLink>。
+      </p>
 
-      <!-- 語系切換 -->
-      <el-card class="mb-8" shadow="never">
-        <template #header>
-          <h2 class="text-xl font-semibold">語系切換</h2>
-        </template>
-        <div class="flex items-center gap-4">
-          <base-btn
-            :text="`切換語系 (當前: ${currentLocale})`"
-            type="primary"
-            @click="switchLocale"
-          />
-          <span class="text-gray-600">點擊按鈕切換語系，觀察下方組件文字變化</span>
-        </div>
-      </el-card>
+      <DemoBlock title="語系切換" description="切換宿主 locale，並顯示目前的語系代碼與名稱。" :source="switchSource">
+        <LocaleSwitch />
+      </DemoBlock>
 
-      <!-- BaseTable 測試 -->
-      <el-card class="mb-8" shadow="never">
-        <template #header>
-          <h2 class="text-xl font-semibold">BaseTable 組件測試</h2>
-        </template>
-        <div class="mb-4">
-          <base-btn
-            :text="loading ? '停止載入' : '開始載入'"
-            type="primary"
-            @click="toggleLoading"
-          />
-          <p class="text-sm text-gray-600 mt-2">
-            測試項目：
-            <br />
-            1. loading 文字：{{ t('common.loading') }}
-            <br />
-            2. 查看按鈕：{{ t('common.view') }}
-            <br />
-            3. 編輯按鈕：{{ t('common.edit') }}
-          </p>
-        </div>
-        <base-table
-          :data="testData"
-          :columns="testColumns"
-          :loading="loading"
-          :show-check-btn="true"
-          :show-edit-btn="true"
-          @click:checkRow="(row) => console.log('查看', row)"
-          @click:editRow="(row) => console.log('編輯', row)"
-        />
-        <base-table
-          :data="[]"
-          :columns="testColumns"
-          :loading="loading"
-          :show-check-btn="true"
-          :show-edit-btn="true"
-          @click:checkRow="(row) => console.log('查看', row)"
-          @click:editRow="(row) => console.log('編輯', row)"
-        />
-      </el-card>
+      <DemoBlock title="BaseTable 語系" description="載入文字、查看與編輯按鈕會跟著 locale 變化，並示範空資料。" :source="tableSource">
+        <TableLocale />
+      </DemoBlock>
 
-      <!-- BaseDialog 測試 -->
-      <el-card class="mb-8" shadow="never">
-        <template #header>
-          <h2 class="text-xl font-semibold">BaseDialog 組件測試</h2>
-        </template>
-        <div>
-          <base-btn text="打開對話框" type="primary" @click="openDialog" />
-          <p class="text-sm text-gray-600 mt-2">
-            測試項目：
-            <br />
-            確定按鈕：{{ t('common.confirm') }}
-            <br />
-            取消按鈕：{{ t('common.cancel') }}
-          </p>
-        </div>
-        <base-dialog v-model="dialogVisible" title="測試對話框">
-          <p>這是測試內容</p>
-        </base-dialog>
-      </el-card>
+      <DemoBlock title="BaseDialog 語系" description="確定與取消按鈕會跟著 locale 變化。" :source="dialogSource">
+        <DialogLocale />
+      </DemoBlock>
 
-      <!-- SearchBar 測試 -->
-      <el-card class="mb-8" shadow="never">
-        <template #header>
-          <h2 class="text-xl font-semibold">SearchBar 組件測試</h2>
-        </template>
-        <div>
-          <p class="text-sm text-gray-600 mb-4">
-            測試項目：
-            <br />
-            placeholder：{{ t('search.placeholder') }}
-          </p>
-          <search-bar :show-search="true" />
-        </div>
-      </el-card>
+      <DemoBlock title="SearchBar 語系" description="搜尋框的 placeholder 會跟著 locale 變化。" :source="searchSource">
+        <SearchLocale />
+      </DemoBlock>
 
-      <!-- Element Plus Pagination 測試 -->
-      <el-card class="mb-8" shadow="never">
-        <template #header>
-          <h2 class="text-xl font-semibold">Element Plus Pagination 測試</h2>
-        </template>
-        <div>
-          <p class="text-sm text-gray-600 mb-4">
-            測試項目：
-            <br />
-            1. 切換語系觀察 pagination 文字變化
-            <br />
-            2. 繁體中文：顯示「共 50 條」等中文文字
-            <br />
-            3. 英文：顯示「Total 50」等英文文字
-          </p>
-          <div class="bg-gray-50 p-4 rounded-lg">
-            <el-pagination
-              v-model:current-page="currentPage"
-              v-model:page-size="pageSize"
-              :page-sizes="[10, 20, 50, 100]"
-              :total="total"
-              layout="total, sizes, prev, pager, next, jumper"
-              @current-change="handlePageChange"
-              @size-change="handlePageSizeChange"
-            />
-          </div>
-          <div class="mt-4 text-sm text-gray-600">
-            <p>當前頁面：{{ currentPage }}</p>
-            <p>每頁大小：{{ pageSize }}</p>
-            <p>總數：{{ total }}</p>
-          </div>
-        </div>
-      </el-card>
-
-      <!-- 當前語系資訊 -->
-      <el-card class="mb-8" shadow="never">
-        <template #header>
-          <h2 class="text-xl font-semibold">當前語系資訊</h2>
-        </template>
-        <div class="space-y-2">
-          <p><strong>語系代碼：</strong>{{ currentLocale }}</p>
-          <p><strong>語系名稱：</strong>{{ currentLocale === 'zh-TW' ? '繁體中文' : 'English' }}</p>
-        </div>
-      </el-card>
+      <DemoBlock title="Element Plus Pagination 語系" description="用 ElConfigProvider 讓分頁文字跟著宿主 locale。" :source="paginationSource">
+        <PaginationLocale />
+      </DemoBlock>
     </div>
   </div>
 </template>
-
-<style scoped></style>

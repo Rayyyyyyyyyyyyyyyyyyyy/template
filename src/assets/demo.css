@@ -658,16 +658,6 @@ html.dark .text-black {
   color: var(--el-text-color-primary);
 }
 
-/* The green card keeps its light bg in dark mode; green-600 on green-50 is only 3.15. */
-html.dark .bg-green-50 .text-green-600 {
-  color: #15803d;
-}
-
 html.dark .bg-blue-50 .text-blue-700 {
   color: #1d4ed8;
-}
-
-html.dark .bg-blue-50.text-gray-900,
-html.dark .bg-blue-50 .text-gray-900 {
-  color: #111827;
 }

@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
 import BaseDialog from '../items/BaseDialog.vue'
-import BaseWaringDialog from '../items/BaseWaringDialog.vue'
+import BaseWarningDialog from '../items/BaseWarningDialog.vue'
 import { commonStubs, createHostI18n } from './testHelpers'
 
 const originalWidth = window.innerWidth
@@ -49,11 +49,25 @@ describe('BaseDialog width contract', () => {
   })
 })
 
-it('BaseWaringDialog content area grows with its text instead of a fixed height', () => {
-  const wrapper = mount(BaseWaringDialog, {
+it('BaseWarningDialog content area grows with its text instead of a fixed height', () => {
+  const wrapper = mount(BaseWarningDialog, {
     props: { modelValue: true },
     global: { plugins: [createHostI18n()], stubs: commonStubs, directives: { loading: () => undefined } },
   })
   expect(wrapper.find('.min-h-16').exists()).toBe(true)
   expect(wrapper.find('.h-16').exists()).toBe(false)
+})
+
+it('BaseWarningDialog renders warningText and subWarningText', () => {
+  const wrapper = mount(BaseWarningDialog, {
+    props: { modelValue: true, warningText: 'W-text', subWarningText: 'S-text' },
+    global: { plugins: [createHostI18n()], stubs: commonStubs, directives: { loading: () => undefined } },
+  })
+  expect(wrapper.text()).toContain('W-text')
+  expect(wrapper.text()).toContain('S-text')
+})
+
+it('BaseDialog isWarning adds the warning-dialog class', () => {
+  const wrapper = mountDialog({ isWarning: true })
+  expect(wrapper.findComponent({ name: 'ElDialog' }).classes()).toContain('warning-dialog')
 })

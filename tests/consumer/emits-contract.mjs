@@ -14,7 +14,7 @@ export const emitContracts = [
   ['TitleTableEmits', ['click:add', 'click:delete', 'update:selectRow', 'click:cell', 'click:checkRow', 'click:editRow']],
   ['BaseBtnEmits', ['click']],
   ['BaseDialogEmits', ['update:modelValue', 'click:submit']],
-  ['BaseWaringDialogEmits', ['update:modelValue', 'update:submit']],
+  ['BaseWarningDialogEmits', ['update:modelValue', 'update:submit']],
   ['TransferDialogEmits', ['update:modelValue', 'update:submit', 'update:checkChange']],
   ['BaseInputEmits', ['update:modelValue', 'update:clearValue']],
   ['BaseSelectorEmits', ['update:modelValue']],

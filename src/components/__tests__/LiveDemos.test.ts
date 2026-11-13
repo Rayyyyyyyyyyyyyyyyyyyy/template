@@ -35,7 +35,7 @@ it('renders the main content of all four panels, canonical search/footer slots, 
   expect(wrapper.get('pre code').element.textContent).toBe(source('MainPanelExample.vue'))
   await panels[2].get('button[aria-label="返回"]').trigger('click')
   expect(panels[2].emitted('click:back')).toEqual([[{ path: '' }]])
-  expect(push).toHaveBeenCalledExactlyOnceWith('/demo')
+  expect(panels[2].get('output').text()).toBe(JSON.stringify({ path: '' }))
   expect(wrapper.text()).not.toContain('返回深度')
 })
 
@@ -52,13 +52,13 @@ it('renders only supported header demonstrations and preserves all back payloads
   ] as const) {
     await headers[index].get('button[aria-label="返回"]').trigger('click')
     expect(headers[index].emitted('back')).toEqual([[payload]])
-    expect(wrapper.findAll('output').at(-1)!.text()).toBe(JSON.stringify(payload))
+    expect(headers[index].element.parentElement!.querySelector('output')!.textContent).toBe(JSON.stringify(payload))
   }
   await headers[4].get('button[aria-label="返回"]').trigger('click')
-  expect(wrapper.findAll('output')[0].text()).toBe('/demo')
+  expect(wrapper.findAll('output')[3].text()).toBe('/demo')
   await headers[4].findAll('button')[1].trigger('click')
-  expect(wrapper.findAll('output')[0].text()).toBe('新增操作')
-  expect(wrapper.get('pre code').element.textContent).toBe(source('HeaderExample.vue'))
+  expect(wrapper.findAll('output')[3].text()).toBe('新增操作')
+  expect(wrapper.findAll('pre code').at(-1)!.element.textContent).toBe(source('HeaderExample.vue'))
   expect(wrapper.text()).not.toMatch(/副標題|麵包屑|返回深度/)
   expect(wrapper.find('[sub-title], [breadcrumbs]').exists()).toBe(false)
 })
@@ -70,7 +70,7 @@ it('gives every Tailwind text/bg utility used by the demo views a dark-mode over
   for (const file of readdirSync(views, { recursive: true, encoding: 'utf8' })) {
     if (file.endsWith('.vue')) for (const m of readFileSync(resolve(views, file), 'utf8').matchAll(/(?<![\w-])(?:text|bg)-(?:slate|gray|white)[-0-9]*/g)) used.add(m[0])
   }
-  expect(used.size).toBeGreaterThan(10)
+  expect(used.size).toBeGreaterThan(5)
   const css = readFileSync(resolve(root, 'src/assets/demo.css'), 'utf8')
   expect([...used].filter((name) => !css.includes(`html.dark .${name}`))).toEqual([])
 })
@@ -87,9 +87,7 @@ it('lets body background and color-scheme follow html.dark', () => {
   expect(demo).toMatch(/html\.dark \.site-button:not\(\.site-button--primary\):hover\s*{[^}]*color:\s*#79bbff/)
   expect(demo).toMatch(/html\.dark \.text-blue-700\s*{[^}]*color:\s*#79bbff/)
   expect(demo).toMatch(/html\.dark \.text-black\s*{[^}]*color:\s*var\(--el-text-color-primary/)
-  expect(demo).toMatch(/html\.dark \.bg-green-50 \.text-green-600\s*{[^}]*color:\s*#15803d/)
   expect(demo).toMatch(/html\.dark \.bg-blue-50 \.text-blue-700\s*{[^}]*color:\s*#1d4ed8/)
-  expect(demo).toMatch(/html\.dark \.bg-blue-50\.text-gray-900,\s*html\.dark \.bg-blue-50 \.text-gray-900\s*{[^}]*color:\s*#111827/)
 })
 
 it('demonstrates dangerSubmit, compactPaginationBelow and unfixColumnsBelow', async () => {

@@ -3,7 +3,7 @@ import type {
   BaseDialogEmits, BaseDialogProps, BaseDialogSlots, BaseTableInstance,
   BaseTableEmits, BaseTableSlots, BaseInputProps, BaseSelectorEmits,
   SearchableListPanelEmits, TransferDialogSlots, PluginOptions,
-  SortTableEmits, TitleTableEmits, BaseWaringDialogEmits,
+  SortTableEmits, TitleTableEmits, BaseWarningDialogEmits,
 } from 'rayyy-vue-table-components/types/components'
 import type { BaseTableProps } from 'rayyy-vue-table-components/components'
 import type { Pager, TableColumn } from 'rayyy-vue-table-components/types'
@@ -19,7 +19,7 @@ declare const dialog: BaseDialogEmits
 declare const panel: SearchableListPanelEmits
 declare const sort: SortTableEmits<Row>
 declare const title: TitleTableEmits<Row>
-declare const warning: BaseWaringDialogEmits
+declare const warning: BaseWarningDialogEmits
 declare const columnSlots: TransferDialogSlots<Row>
 declare const app: App
 declare const typedDialog: typeof TypedDialog

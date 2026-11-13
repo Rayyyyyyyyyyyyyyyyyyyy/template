@@ -54,9 +54,9 @@ defineSlots<BaseDialogSlots>()
     center
     class="rounded-md base-dialog"
     :class="{
-      'waring-dialog': props.isWaring,
+      'warning-dialog': props.isWarning,
       'upload-result-dialog': props.isPrimary,
-      'normal-header': !props.isPrimary && !props.isWaring,
+      'normal-header': !props.isPrimary && !props.isWarning,
     }"
     align-center
     destroy-on-close
