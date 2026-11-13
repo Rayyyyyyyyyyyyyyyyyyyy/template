@@ -214,3 +214,19 @@ it('declares the four new tokens under :root.dark with a link color readable on 
   expect(contrast(dark['--rvtc-link-text'], '#262727')).toBeGreaterThanOrEqual(4.5)
   expect(read('src/components/tables/BaseTable.vue')).toMatch(/(?<!:root)\.dark \.row-action\s*\{\s*background-color: transparent/)
 })
+
+it('routes FunctionHeader title color through --rvtc-header-title-text and declares it under :root.dark', () => {
+  const preset = createRequire(import.meta.url)(resolve(root, 'tailwind-preset.cjs')).theme.extend.colors
+  const vue = read('src/components/layout/FunctionHeader.vue')
+  expect(vue).toContain(`var(--rvtc-header-title-text, ${preset.text.DEFAULT})`)
+  expect(vue).not.toContain('text-text')
+  const dark = declarations(':root.dark', postcss.parse(compileString(read('src/assets/styles/element/index.scss')).css))
+  expect(dark).toHaveProperty(['--rvtc-header-title-text'])
+})
+
+it('aligns SearchBar items to the bottom and gives FunctionHeader back button a transparent borderless base', () => {
+  const bar = read('src/components/items/SearchBar.vue')
+  expect(bar).toMatch(/\.search-bar\s*\{[^}]*items-end/)
+  expect(bar).not.toContain('items-center')
+  expect(read('src/components/layout/FunctionHeader.vue')).toMatch(/\.back-action\s*\{[^}]*background: transparent;[^}]*border: 0;/)
+})

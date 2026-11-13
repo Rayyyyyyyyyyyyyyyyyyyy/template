@@ -39,7 +39,7 @@ defineSlots<FunctionHeaderSlots>()
         class="back-action flex shrink-0 items-center justify-center" @click="handleClick">
         <el-icon :size="16" aria-hidden="true"><ArrowLeftBold /></el-icon>
       </button>
-      <div class="font-semibold text-text text-lg break-words min-w-0">{{ props.title }}</div>
+      <div class="header-title font-semibold text-lg break-words min-w-0">{{ props.title }}</div>
     </div>
     <div class="flex items-center gap-3">
       <slot />
@@ -53,10 +53,20 @@ defineSlots<FunctionHeaderSlots>()
   background-color: var(--rvtc-header-bg, var(--el-fill-color-light));
   border-bottom: 1px solid var(--el-border-color-lighter);
 }
+.header-title {
+  color: var(--rvtc-header-title-text, #333);
+}
 .back-action {
   min-width: var(--rvtc-control-min-size, 44px);
   min-height: var(--rvtc-control-min-size, 44px);
   color: var(--rvtc-text, var(--el-text-color-primary));
+  background: transparent;
+  border: 0;
+  border-radius: var(--el-border-radius-base, 4px);
+  cursor: pointer;
+}
+.back-action:hover {
+  background: var(--el-fill-color);
 }
 .back-action:focus-visible {
   outline: 2px solid var(--main-color, var(--el-color-primary));

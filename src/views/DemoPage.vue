@@ -240,11 +240,8 @@ const goDemoPage = (path: string) => {
     <div class="demo-container">
       <header class="catalog-heading">
         <div>
-          <h1>組件示範中心</h1>
-          <p>
-            探索我們精心設計的 Vue 3 組件庫，每個組件都經過精心設計和測試，提供完整的 TypeScript
-            支持和現代化的用戶體驗。
-          </p>
+          <h1>組件目錄</h1>
+          <p>依分類列出所有組件與它們的功能特色。點「查看示範」開啟該組件可操作的示範頁。</p>
         </div>
         <base-btn
           :text="currentLocale === 'zh-TW' ? '中文 / English' : 'English / 中文'"

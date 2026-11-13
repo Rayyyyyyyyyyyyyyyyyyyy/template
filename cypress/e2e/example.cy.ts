@@ -5,7 +5,7 @@ describe('component library demo smoke journey', () => {
     cy.visit('/')
     cy.contains('h1', 'Vue Table Components').should('be.visible')
     cy.contains('button', '查看示範').click()
-    cy.contains('h1', '組件示範中心').should('be.visible')
+    cy.contains('h1', '組件目錄').should('be.visible')
     cy.contains('h3', 'SearchableListPanel')
       .parents('.demo-card')
       .contains('button', '查看示範')

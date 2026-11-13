@@ -83,7 +83,7 @@
   z-index: 100;
   padding: 8px 16px;
   color: var(--main-color);
-  background: white;
+  background: var(--el-bg-color, white);
   transform: translateY(-160%);
 }
 
@@ -627,6 +627,15 @@ html.dark .text-slate-500 {
   color: var(--el-text-color-secondary);
 }
 
+html.dark .site-button:not(.site-button--primary) {
+  background: var(--el-bg-color);
+}
+
+html.dark .site-button:not(.site-button--primary):hover {
+  background: var(--el-fill-color-light);
+  color: #79bbff;
+}
+
 html.dark .bg-white {
   background-color: var(--el-bg-color);
 }
@@ -639,4 +648,26 @@ html.dark .bg-slate-50 {
 
 html.dark .bg-gray-200 {
   background-color: var(--el-fill-color);
+}
+
+html.dark .text-blue-700 {
+  color: #79bbff;
+}
+
+html.dark .text-black {
+  color: var(--el-text-color-primary);
+}
+
+/* The green card keeps its light bg in dark mode; green-600 on green-50 is only 3.15. */
+html.dark .bg-green-50 .text-green-600 {
+  color: #15803d;
+}
+
+html.dark .bg-blue-50 .text-blue-700 {
+  color: #1d4ed8;
+}
+
+html.dark .bg-blue-50.text-gray-900,
+html.dark .bg-blue-50 .text-gray-900 {
+  color: #111827;
 }

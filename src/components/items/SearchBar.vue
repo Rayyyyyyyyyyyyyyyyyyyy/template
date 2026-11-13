@@ -53,7 +53,7 @@ onBeforeUnmount(cancelTimer)
       <slot name="button" />
     </div>
 
-    <div class="flex flex-wrap gap-2 min-w-0 max-w-full items-center justify-end">
+    <div class="flex flex-wrap gap-2 min-w-0 max-w-full items-end justify-end">
       <div v-if="showSearch" class="search-input">
         <label :for="(attrs.id as string) || generatedId" class="block text-sm font-bold mb-1">
           {{ t('search.label') }}
@@ -76,7 +76,7 @@ onBeforeUnmount(cancelTimer)
 </template>
 <style scoped lang="scss">
 .search-bar {
-  @apply flex justify-between gap-3;
+  @apply flex items-end justify-between gap-3;
   @apply flex-wrap;
 }
 

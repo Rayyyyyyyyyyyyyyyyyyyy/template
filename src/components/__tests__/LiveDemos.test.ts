@@ -75,6 +75,23 @@ it('gives every Tailwind text/bg utility used by the demo views a dark-mode over
   expect([...used].filter((name) => !css.includes(`html.dark .${name}`))).toEqual([])
 })
 
+it('lets body background and color-scheme follow html.dark', () => {
+  const root = resolve(import.meta.dirname, '../../..')
+  const base = readFileSync(resolve(root, 'src/assets/base.css'), 'utf8')
+  const demo = readFileSync(resolve(root, 'src/assets/demo.css'), 'utf8')
+  expect(base).toMatch(/body\s*{[^}]*background:\s*var\(--el-bg-color/)
+  expect(base).toMatch(/html\.dark\s*{[^}]*color-scheme:\s*dark/)
+  expect(demo).toMatch(/\.skip-link\s*{[^}]*background:\s*var\(--el-bg-color/)
+  expect(demo).toMatch(/html\.dark \.site-button:not\(\.site-button--primary\)\s*{[^}]*background:\s*var\(--el-bg-color/)
+  expect(demo).not.toMatch(/html\.dark \.site-button\s*[,{]/)
+  expect(demo).toMatch(/html\.dark \.site-button:not\(\.site-button--primary\):hover\s*{[^}]*color:\s*#79bbff/)
+  expect(demo).toMatch(/html\.dark \.text-blue-700\s*{[^}]*color:\s*#79bbff/)
+  expect(demo).toMatch(/html\.dark \.text-black\s*{[^}]*color:\s*var\(--el-text-color-primary/)
+  expect(demo).toMatch(/html\.dark \.bg-green-50 \.text-green-600\s*{[^}]*color:\s*#15803d/)
+  expect(demo).toMatch(/html\.dark \.bg-blue-50 \.text-blue-700\s*{[^}]*color:\s*#1d4ed8/)
+  expect(demo).toMatch(/html\.dark \.bg-blue-50\.text-gray-900,\s*html\.dark \.bg-blue-50 \.text-gray-900\s*{[^}]*color:\s*#111827/)
+})
+
 it('demonstrates dangerSubmit, compactPaginationBelow and unfixColumnsBelow', async () => {
   const dialog = mount(BaseDialogDemo, { global: global() })
   onTestFinished(() => dialog.unmount())

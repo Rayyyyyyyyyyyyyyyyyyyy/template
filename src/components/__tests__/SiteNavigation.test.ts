@@ -3,6 +3,8 @@ import { createRouter, createMemoryHistory } from 'vue-router'
 import { effectScope, nextTick } from 'vue'
 import { afterEach, expect, it, vi } from 'vitest'
 import HomeLayout from '../../layout/HomeLayout.vue'
+import DemoPage from '../../views/DemoPage.vue'
+import { createHostI18n } from './testHelpers'
 import { useDemoTheme } from '../../views/docs/useDemoTheme'
 
 const stubMatchMedia = (matches: boolean) =>
@@ -34,6 +36,8 @@ it('keeps the demo, install and documentation reachable and shows a return link 
         .findAll('a')
         .map((link) => link.attributes('href')),
     ).toEqual(['/demo', '/install-guide', '/docs-center'])
+    expect(wrapper.get('nav a[href="/demo"]').text()).toBe('組件目錄')
+    expect(wrapper.get('.site-breadcrumb a').text()).toBe('返回組件目錄')
     expect(wrapper.get('.site-breadcrumb a').attributes('href')).toBe('/demo')
     expect(wrapper.get('.skip-link').attributes('href')).toBe('#main-content')
     expect(wrapper.get('#main-content').attributes('tabindex')).toBe('-1')
@@ -66,5 +70,15 @@ it('toggles the dark class on <html> from the demo theme choice', async () => {
     expect(localStorage.getItem('rvtc-demo-theme')).toBe('system')
   } finally {
     scope.stop()
+  }
+})
+
+it('names the /demo page as the component catalog', () => {
+  const wrapper = mount(DemoPage, { global: { plugins: [createHostI18n()], stubs: { BaseBtn: true } } })
+  try {
+    expect(wrapper.get('h1').text()).toBe('組件目錄')
+    expect(wrapper.text()).not.toContain('示範中心')
+  } finally {
+    wrapper.unmount()
   }
 })
