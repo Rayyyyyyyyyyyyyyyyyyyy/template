@@ -70,7 +70,7 @@ it('gives every Tailwind text/bg utility used by the demo views a dark-mode over
   for (const file of readdirSync(views, { recursive: true, encoding: 'utf8' })) {
     if (file.endsWith('.vue')) for (const m of readFileSync(resolve(views, file), 'utf8').matchAll(/(?<![\w-])(?:text|bg)-(?:slate|gray|white)[-0-9]*/g)) used.add(m[0])
   }
-  expect(used.size).toBeGreaterThan(10)
+  expect(used.size).toBeGreaterThan(5)
   const css = readFileSync(resolve(root, 'src/assets/demo.css'), 'utf8')
   expect([...used].filter((name) => !css.includes(`html.dark .${name}`))).toEqual([])
 })

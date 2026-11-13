@@ -6,6 +6,7 @@ import zhTw from 'element-plus/es/locale/lang/zh-tw'
 import en from 'element-plus/es/locale/lang/en'
 import { BaseBtn } from 'rayyy-vue-table-components/components'
 
+// 切換的是宿主全域 locale（useI18n 未指定 scope），所有元件與範例一起跟著變。
 // Element Plus 自己的文字不吃 vue-i18n，要用 ElConfigProvider 跟著宿主 locale 傳入對應語言包。
 const { locale } = useI18n()
 const elementLocale = computed(() => (locale.value === 'zh-TW' ? zhTw : en))

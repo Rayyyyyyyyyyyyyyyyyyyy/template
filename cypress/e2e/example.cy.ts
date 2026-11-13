@@ -10,7 +10,7 @@ describe('component library demo smoke journey', () => {
       .parents('.demo-card')
       .contains('button', '查看示範')
       .click()
-    cy.contains('h2', 'SearchableListPanel 示範').should('be.visible')
+    cy.contains('h1', 'SearchableListPanel 組件示範').should('be.visible')
     cy.contains('用戶管理').should('be.visible')
   })
 })

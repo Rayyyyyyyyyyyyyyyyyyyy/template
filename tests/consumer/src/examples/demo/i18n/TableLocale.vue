@@ -6,6 +6,7 @@ import type { TableColumn } from 'rayyy-vue-table-components/types'
 
 type Row = { id: number; name: string }
 
+// 切換的是宿主全域 locale（useI18n 未指定 scope），所有元件與範例一起跟著變。
 const { locale, t } = useI18n()
 const rows: Row[] = [
   { id: 1, name: '測試 1' },

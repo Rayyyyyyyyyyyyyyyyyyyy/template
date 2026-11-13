@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { BaseBtn, BaseDialog } from 'rayyy-vue-table-components/components'
 
+// 切換的是宿主全域 locale（useI18n 未指定 scope），所有元件與範例一起跟著變。
 const { locale, t } = useI18n()
 const visible = ref(false)
 </script>
