@@ -12,7 +12,7 @@ const { theme } = useDemoTheme()
     <a class="skip-link" href="#main-content">跳至主要內容</a>
     <header class="site-header">
       <div class="site-header__inner">
-        <RouterLink :to="ROUTES.ROOT" class="site-brand">Vue Table Components</RouterLink>
+        <RouterLink :to="ROUTES.ROOT" class="site-brand">RayTable</RouterLink>
         <nav class="site-nav" aria-label="主要導覽">
           <RouterLink :to="ROUTES.DEMO">組件目錄</RouterLink>
           <RouterLink :to="ROUTES.INSTALL_GUIDE">安裝指南</RouterLink>

@@ -3,7 +3,7 @@
 describe('component library demo smoke journey', () => {
   it('opens the real home page and a core component demo', () => {
     cy.visit('/')
-    cy.contains('h1', 'Vue Table Components').should('be.visible')
+    cy.contains('h1', 'RayTable').should('be.visible')
     cy.contains('button', '查看示範').click()
     cy.contains('h1', '組件目錄').should('be.visible')
     cy.contains('h3', 'SearchableListPanel')

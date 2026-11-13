@@ -44,7 +44,7 @@ function resize(value: number) {
   <div class="home-page">
     <section class="home-showcase">
       <div class="home-intro">
-        <h1>Vue Table Components</h1>
+        <h1>RayTable</h1>
         <p>Vue 3 + Element Plus 表格組件庫。從資料表格到搜尋、分頁，直接在這裡試用。</p>
         <div class="home-actions">
           <button

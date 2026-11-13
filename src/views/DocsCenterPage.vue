@@ -14,7 +14,7 @@ const examples = Object.entries(sources).map(([path, source]) => ({
   <div class="demo-page docs-page">
     <div class="demo-container space-y-8">
       <header class="space-y-3">
-        <h1 class="text-4xl font-bold text-gray-900">Vue Table Components 文件中心</h1>
+        <h1 class="text-4xl font-bold text-gray-900">RayTable 文件中心</h1>
         <p class="text-gray-600">
           以下程式碼直接讀取 tarball consumer 的完整來源；展示、複製、型別檢查與建置使用同一份範例。
           請先依 main.ts 安裝 Element Plus、宿主 i18n 與樣式，再選擇需要的 Vue 範例。
