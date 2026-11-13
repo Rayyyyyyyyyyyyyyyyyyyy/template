@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import DemoBlock from '../docs/DemoBlock.vue'
+import { ROUTES } from '@/router/constants'
 import ButtonTypes from '../../../tests/consumer/src/examples/demo/button/ButtonTypes.vue'
 import typesSource from '../../../tests/consumer/src/examples/demo/button/ButtonTypes.vue?raw'
 import ButtonSizes from '../../../tests/consumer/src/examples/demo/button/ButtonSizes.vue'
@@ -16,7 +17,9 @@ import withIconSource from '../../../tests/consumer/src/examples/demo/button/Wit
   <div class="demo-page">
     <div class="demo-container">
       <h1 class="text-3xl font-bold text-gray-900 mb-4">BaseBtn 組件示範</h1>
-      <p class="text-gray-600 mb-8">每個範例下方可複製或查看完整程式碼，內容與畫面上執行的是同一份檔案。</p>
+      <p class="text-gray-600 mb-8">
+        每個範例下方可複製或查看完整程式碼，內容與畫面上執行的是同一份檔案。範例需要宿主已安裝 Element Plus（全域註冊）與 vue-i18n（legacy: false），設定方式見<RouterLink :to="ROUTES.INSTALL_GUIDE" class="text-blue-700 underline">安裝指南</RouterLink>。
+      </p>
 
       <DemoBlock title="按鈕樣式" description="六種 type 對應不同語意的按鈕。" :source="typesSource">
         <ButtonTypes />

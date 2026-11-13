@@ -1,174 +1,33 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { SearchBar, BaseBtn } from '@/components'
-
-const searchKeyword = ref('')
-const searchKeyword2 = ref('')
-const searchResult = ref('')
-const loading = ref(false)
-
-// 搜尋建議
-
-// 事件處理
-const handleSearch = (keyword: string) => {
-  console.log('搜尋:', keyword)
-  searchResult.value = `搜尋關鍵字: ${keyword}`
-}
-
-const handleSearch2 = (keyword: string) => {
-  console.log('搜尋2:', keyword)
-  searchResult.value = `搜尋關鍵字: ${keyword}`
-}
-
-
-
-const handleClear = () => {
-  console.log('清除搜尋')
-  searchResult.value = ''
-}
-
-const handleResetFilter = () => {
-  console.log('重置篩選')
-  searchKeyword.value = ''
-  searchResult.value = ''
-}
-
-// 模擬加載
+import DemoBlock from '../docs/DemoBlock.vue'
+import { ROUTES } from '@/router/constants'
+import SearchBasic from '../../../tests/consumer/src/examples/demo/search-bar/SearchBasic.vue'
+import basicSource from '../../../tests/consumer/src/examples/demo/search-bar/SearchBasic.vue?raw'
+import SearchButtonSlot from '../../../tests/consumer/src/examples/demo/search-bar/SearchButtonSlot.vue'
+import buttonSource from '../../../tests/consumer/src/examples/demo/search-bar/SearchButtonSlot.vue?raw'
+import SearchFilterSlot from '../../../tests/consumer/src/examples/demo/search-bar/SearchFilterSlot.vue'
+import filterSource from '../../../tests/consumer/src/examples/demo/search-bar/SearchFilterSlot.vue?raw'
 </script>
 
 <template>
   <div class="demo-page">
     <div class="demo-container">
-      <h1 class="text-3xl font-bold text-gray-900 mb-8">SearchBar 組件示範</h1>
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">SearchBar 組件示範</h1>
+      <p class="text-gray-600 mb-8">
+        每個範例下方可複製或查看完整程式碼，內容與畫面上執行的是同一份檔案。SearchBar 支援 Enter 觸發搜尋、清除搜尋內容，並提供 button 與 customerFilter 兩個插槽。範例需要宿主已安裝 Element Plus（全域註冊）與 vue-i18n（legacy: false），設定方式見<RouterLink :to="ROUTES.INSTALL_GUIDE" class="text-blue-700 underline">安裝指南</RouterLink>。
+      </p>
 
+      <DemoBlock title="基礎搜尋欄" description="按 Enter 觸發 keydown:enter，清除時觸發 update:clear。" :source="basicSource">
+        <SearchBasic />
+      </DemoBlock>
 
+      <DemoBlock title="帶自定義按鈕的搜尋欄" description="用 button 插槽放置自訂按鈕。" :source="buttonSource">
+        <SearchButtonSlot />
+      </DemoBlock>
 
-      <!-- 基礎搜尋欄 -->
-      <el-card class="mb-8" shadow="never">
-        <template #header>
-          <h2 class="text-xl font-semibold">基礎搜尋欄</h2>
-        </template>
-        <div class="space-y-4">
-          <SearchBar
-            v-model="searchKeyword"
-            placeholder="請輸入搜尋關鍵字"
-            :loading="loading"
-            :show-search="true"
-            @search="handleSearch"
-            @keydown:enter="handleSearch"
-            @update:clear="handleClear"
-            @update:reset-filter="handleResetFilter"
-          />
-          <div v-if="searchResult" class="mt-4">
-            <p class="text-sm text-gray-600">搜尋結果: {{ searchResult }}</p>
-          </div>
-        </div>
-      </el-card>
-
-
-
-
-      <!-- 帶自定義按鈕的搜尋欄 -->
-      <el-card class="mb-8" shadow="never">
-        <template #header>
-          <h2 class="text-xl font-semibold">帶自定義按鈕的搜尋欄</h2>
-        </template>
-        <div class="space-y-4">
-          <SearchBar
-            v-model="searchKeyword2"
-            placeholder="請輸入搜尋關鍵字"
-            :loading="loading"
-            :show-search="true"
-            @search="handleSearch2"
-            @keydown:enter="handleSearch2"
-            @update:clear="handleClear"
-            @update:reset-filter="handleResetFilter"
-          >
-            <template #button>
-              <div class="flex space-x-2">
-                <BaseBtn type="primary" >
-                  進階搜尋
-                </BaseBtn>
-                <BaseBtn type="success" >
-                  儲存搜尋
-                </BaseBtn>
-              </div>
-            </template>
-          </SearchBar>
-        </div>
-      </el-card>
-
-      <!-- 帶自定義篩選的搜尋欄 -->
-      <el-card class="mb-8" shadow="never">
-        <template #header>
-          <h2 class="text-xl font-semibold">帶自定義篩選的搜尋欄</h2>
-        </template>
-        <div class="space-y-4">
-          <SearchBar
-            v-model="searchKeyword"
-            placeholder="請輸入搜尋關鍵字"
-            :loading="loading"
-            :show-search="true"
-            @search="handleSearch"
-            @keydown:enter="handleSearch"
-            @update:clear="handleClear"
-            @update:reset-filter="handleResetFilter"
-          >
-            <template #customerFilter>
-              <div class="flex space-x-2 ml-2">
-                <select class="px-3 py-1 border border-gray-300 rounded text-sm">
-                  <option value="">選擇類別</option>
-                  <option value="user">用戶</option>
-                  <option value="product">產品</option>
-                  <option value="order">訂單</option>
-                </select>
-                <select class="px-3 py-1 border border-gray-300 rounded text-sm">
-                  <option value="">選擇狀態</option>
-                  <option value="active">啟用</option>
-                  <option value="inactive">停用</option>
-                </select>
-              </div>
-            </template>
-          </SearchBar>
-        </div>
-      </el-card>
-
-
-      <!-- 搜尋欄功能展示 -->
-      <el-card class="mb-8" shadow="never">
-        <template #header>
-          <h2 class="text-xl font-semibold">搜尋欄功能展示</h2>
-        </template>
-        <div class="space-y-4">
-          <div class="bg-gray-50 p-4 rounded-lg">
-            <h3 class="text-lg font-medium mb-2">功能說明</h3>
-            <ul class="space-y-2 text-gray-700">
-              <li class="flex items-start">
-                <span class="text-gray-600 mr-2 mt-0.5">•</span>
-                <span><strong>搜尋功能：</strong>支持 Enter 鍵觸發搜尋事件</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-gray-600 mr-2 mt-0.5">•</span>
-                <span><strong>清除功能：</strong>支持清除搜尋內容</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-gray-600 mr-2 mt-0.5">•</span>
-                <span><strong>重置篩選：</strong>支持重置所有篩選條件</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-gray-600 mr-2 mt-0.5">•</span>
-                <span><strong>按鈕插槽：</strong>支持自定義按鈕內容</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-gray-600 mr-2 mt-0.5">•</span>
-                <span><strong>篩選插槽：</strong>支持自定義篩選內容</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </el-card>
+      <DemoBlock title="帶自定義篩選的搜尋欄" description="用 customerFilter 插槽放置自訂篩選。" :source="filterSource">
+        <SearchFilterSlot />
+      </DemoBlock>
     </div>
   </div>
 </template>
-
-<style scoped></style>

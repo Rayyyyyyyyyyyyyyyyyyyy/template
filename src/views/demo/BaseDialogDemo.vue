@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import DemoBlock from '../docs/DemoBlock.vue'
+import { ROUTES } from '@/router/constants'
 import DialogBasic from '../../../tests/consumer/src/examples/demo/base-dialog/DialogBasic.vue'
 import basicSource from '../../../tests/consumer/src/examples/demo/base-dialog/DialogBasic.vue?raw'
 import DialogLarge from '../../../tests/consumer/src/examples/demo/base-dialog/DialogLarge.vue'
@@ -18,7 +19,9 @@ import dangerSubmitSource from '../../../tests/consumer/src/examples/demo/base-d
   <div class="demo-page">
     <div class="demo-container">
       <h1 class="text-3xl font-bold text-gray-900 mb-4">BaseDialog 組件示範</h1>
-      <p class="text-gray-600 mb-8">每個範例下方可複製或查看完整程式碼，內容與畫面上執行的是同一份檔案。</p>
+      <p class="text-gray-600 mb-8">
+        每個範例下方可複製或查看完整程式碼，內容與畫面上執行的是同一份檔案。範例需要宿主已安裝 Element Plus（全域註冊）與 vue-i18n（legacy: false），設定方式見<RouterLink :to="ROUTES.INSTALL_GUIDE" class="text-blue-700 underline">安裝指南</RouterLink>。
+      </p>
 
       <DemoBlock title="基礎對話框" description="用 title、sub-title 與 width 設定標題和寬度。" :source="basicSource">
         <DialogBasic />
