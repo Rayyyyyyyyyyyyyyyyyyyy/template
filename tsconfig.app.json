@@ -9,6 +9,7 @@
     "src/**/types/*",
     "tests/consumer/src/examples/HeaderExample.vue",
     "tests/consumer/src/examples/MainPanelExample.vue",
+    "tests/consumer/src/examples/demo/button/*.vue",
 
   ],
   "exclude": ["src/**/__tests__/*"],
