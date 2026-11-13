@@ -60,6 +60,13 @@ defineSlots<FunctionHeaderSlots>()
   min-width: var(--rvtc-control-min-size, 44px);
   min-height: var(--rvtc-control-min-size, 44px);
   color: var(--rvtc-text, var(--el-text-color-primary));
+  background: transparent;
+  border: 0;
+  border-radius: var(--el-border-radius-base, 4px);
+  cursor: pointer;
+}
+.back-action:hover {
+  background: var(--el-fill-color);
 }
 .back-action:focus-visible {
   outline: 2px solid var(--main-color, var(--el-color-primary));

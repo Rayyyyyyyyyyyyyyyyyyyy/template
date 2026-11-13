@@ -223,3 +223,10 @@ it('routes FunctionHeader title color through --rvtc-header-title-text and decla
   const dark = declarations(':root.dark', postcss.parse(compileString(read('src/assets/styles/element/index.scss')).css))
   expect(dark).toHaveProperty(['--rvtc-header-title-text'])
 })
+
+it('aligns SearchBar items to the bottom and gives FunctionHeader back button a transparent borderless base', () => {
+  const bar = read('src/components/items/SearchBar.vue')
+  expect(bar).toMatch(/\.search-bar\s*\{[^}]*items-end/)
+  expect(bar).not.toContain('items-center')
+  expect(read('src/components/layout/FunctionHeader.vue')).toMatch(/\.back-action\s*\{[^}]*background: transparent;[^}]*border: 0;/)
+})

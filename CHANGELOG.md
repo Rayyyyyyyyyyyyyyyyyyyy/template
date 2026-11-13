@@ -18,6 +18,7 @@
 
 ### Fixed
 
+- SearchBar 左側按鈕、搜尋框與篩選改為底部對齊；FunctionHeader 返回鈕不再顯示瀏覽器預設的按鈕底色與邊框
 - 深色模式下 FunctionHeader 標題色改跟隨主題（新增 `--rvtc-header-title-text`，淺色外觀不變）
 - 深色模式下表格表頭、對話框標題列、表格連結色與操作欄按鈕底色改跟隨主題（新增 `--rvtc-table-header-bg`、`--rvtc-table-header-text`、`--rvtc-dialog-header-bg`、`--rvtc-link-text`，淺色外觀不變）
 - `/styles/core` 的主題變數引用都加上 fallback，只載 core 時元件跟隨宿主的 Element Plus 主色
