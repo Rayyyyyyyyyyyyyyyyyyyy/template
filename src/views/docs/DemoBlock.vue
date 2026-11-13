@@ -20,13 +20,13 @@ const codeId = computed(() => `${anchor.value}-code`)
       <div class="demo-block__bar">
         <span role="status" class="demo-block__status">{{ status }}</span>
         <!-- span wrapper: el-tooltip strips aria-expanded/aria-controls from a focusable direct child -->
-        <el-tooltip content="複製程式碼" placement="top" :trigger="['hover', 'focus']">
+        <el-tooltip content="複製程式碼" placement="top" :trigger="['hover', 'focus']" :trigger-keys="[]">
           <span class="demo-block__tip"><button type="button" class="demo-block__icon" data-test="copy" aria-label="複製程式碼"
             :aria-busy="copying" @click="copySource">
             <CopyDocument aria-hidden="true" />
           </button></span>
         </el-tooltip>
-        <el-tooltip :content="toggleLabel" placement="top" :trigger="['hover', 'focus']">
+        <el-tooltip :content="toggleLabel" placement="top" :trigger="['hover', 'focus']" :trigger-keys="[]">
           <span class="demo-block__tip"><button type="button" class="demo-block__icon" :class="{ 'is-active': expanded }" data-test="toggle-code"
             :aria-label="toggleLabel" :aria-expanded="expanded" :aria-controls="codeId" @click="expanded = !expanded">
             <svg data-test="code-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"

@@ -73,3 +73,14 @@ it('wraps both icon buttons in tooltips that also open on focus', async () => {
   await wrapper.get('[data-test=toggle-code]').trigger('click')
   expect(tips[1].props('content')).toBe('隱藏程式碼')
 })
+
+it('does not cancel Enter or Space keydown on the buttons', () => {
+  const wrapper = mountBlock()
+  for (const sel of ['[data-test=copy]', '[data-test=toggle-code]']) {
+    for (const key of ['Enter', ' ']) {
+      const event = new KeyboardEvent('keydown', { key, code: key === ' ' ? 'Space' : 'Enter', bubbles: true, cancelable: true })
+      wrapper.get(sel).element.dispatchEvent(event)
+      expect(event.defaultPrevented, `${sel} ${key}`).toBe(false)
+    }
+  }
+})
