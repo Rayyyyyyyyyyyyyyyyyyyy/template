@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { BaseWaringDialog, BaseBtn } from '@/components'
+import { BaseWarningDialog, BaseBtn } from '@/components'
 
 const showDialog1 = ref(false)
 const showDialog2 = ref(false)
@@ -31,7 +31,7 @@ const handleSubmit4 = () => {
 <template>
   <div class="demo-page">
     <div class="demo-container">
-      <h1 class="text-3xl font-bold text-gray-900 mb-8">BaseWaringDialog 組件示範</h1>
+      <h1 class="text-3xl font-bold text-gray-900 mb-8">BaseWarningDialog 組件示範</h1>
 
       <!-- 基礎警告對話框 -->
       <el-card class="mb-8" shadow="never">
@@ -49,43 +49,43 @@ const handleSubmit4 = () => {
       </el-card>
 
       <!-- 移除使用者警告對話框 -->
-      <BaseWaringDialog
+      <BaseWarningDialog
         v-model="showDialog1"
         title-text="移除使用者"
-        waring-text="請問是否確認移除該使用者"
-        sub-waring-text="此操作將永久移除該使用者，且無法恢復"
+        warning-text="請問是否確認移除該使用者"
+        sub-warning-text="此操作將永久移除該使用者，且無法恢復"
         @update:submit="handleSubmit1"
       />
 
       <!-- 刪除檔案警告對話框 -->
-      <BaseWaringDialog
+      <BaseWarningDialog
         v-model="showDialog2"
         title-text="刪除檔案"
-        waring-text="請問是否確認刪除該檔案"
-        sub-waring-text="此操作將永久刪除該檔案，且無法恢復"
+        warning-text="請問是否確認刪除該檔案"
+        sub-warning-text="此操作將永久刪除該檔案，且無法恢復"
         @update:submit="handleSubmit2"
       />
 
       <!-- 重置設定警告對話框 -->
-      <BaseWaringDialog
+      <BaseWarningDialog
         v-model="showDialog3"
         title-text="重置設定"
-        waring-text="請問是否確認重置所有設定"
-        sub-waring-text="此操作將重置所有設定為預設值，且無法恢復"
+        warning-text="請問是否確認重置所有設定"
+        sub-warning-text="此操作將重置所有設定為預設值，且無法恢復"
         @update:submit="handleSubmit3"
       >
         <div class="w-full h-16 flex items-center justify-center flex-col">
           <p class="text-sm text-gray-600 mb-2">此操作將重置所有設定為預設值，且無法恢復</p>
           <p class="text-base font-medium">請問是否確認重置所有設定 ?</p>
         </div>
-      </BaseWaringDialog>
+      </BaseWarningDialog>
 
       <!-- 退出系統警告對話框 -->
-      <BaseWaringDialog
+      <BaseWarningDialog
         v-model="showDialog4"
         title-text="退出系統"
-        waring-text="請問是否確認退出系統"
-        sub-waring-text="您將失去所有未儲存的變更"
+        warning-text="請問是否確認退出系統"
+        sub-warning-text="您將失去所有未儲存的變更"
         @update:submit="handleSubmit4"
       >
         <div class="w-full h-16 flex items-center justify-center flex-col">
@@ -107,7 +107,7 @@ const handleSubmit4 = () => {
           </div>
           <p class="text-base font-medium">請問是否確認退出系統 ?</p>
         </div>
-      </BaseWaringDialog>
+      </BaseWarningDialog>
     </div>
   </div>
 </template>

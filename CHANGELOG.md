@@ -2,6 +2,21 @@
 
 ## [Unreleased]
 
+### ⚠ BREAKING CHANGES
+
+含下列不相容改名，下一版必須是 3.0.0。舊拼字不保留別名。
+
+| 舊名 | 新名 |
+| --- | --- |
+| `BaseWaringDialog`（元件、具名匯出、plugin 註冊名） | `BaseWarningDialog` |
+| `waringText` / `waring-text` | `warningText` / `warning-text` |
+| `subWaringText` / `sub-waring-text` | `subWarningText` / `sub-warning-text` |
+| BaseDialog 的 `isWaring` / `is-waring` | `isWarning` / `is-warning` |
+| CSS class `.waring-dialog` | `.warning-dialog` |
+| `BaseWaringDialogProps`、`EventMap`、`Emits`、`Instance`、`Slots`、`Type` | `BaseWarningDialogProps`、`EventMap`、`Emits`、`Instance`、`Slots`、`Type` |
+
+遷移：全域搜尋取代 `BaseWaringDialog`→`BaseWarningDialog`、`waring-text`/`waringText`→`warning-text`/`warningText`、`sub-waring-text`→`sub-warning-text`（`subWaringText`→`subWarningText`）、`is-waring`→`is-warning`（`isWaring`→`isWarning`）、`.waring-dialog`→`.warning-dialog`。
+
 ### Added
 
 - `--rvtc-panel-max-height`、`--rvtc-detail-min-height`、`--rvtc-detail-content-max-height` 三個 CSS 變數，可覆寫版面高度

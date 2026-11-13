@@ -89,7 +89,7 @@
 
 | 舊名稱 | 新名稱 | 做法 |
 | --- | --- | --- |
-| `BaseWaringDialog`、`isWaring`、`waringText`、`subWaringText` | `BaseWarningDialog`、`isWarning`、`warningText`、`subWarningText` | 兩者並存，舊名標 `@deprecated` |
+| `BaseWaringDialog`、`isWaring`、`waringText`、`subWaringText` | `BaseWarningDialog`、`isWarning`、`warningText`、`subWarningText` | 兩者並存，舊名標 `@deprecated`（2026-11-13 使用者決定在 3.0 直接改名，不經別名，見票 49） |
 | `SortChangValue` | `SortChangeValue` | 型別別名 |
 | `submitEmit`、`resetEmit`、`updatePage`、`updatePageSize` | `submit`、`reset`、`update:page`、`update:pageSize` | 兩個事件同時發出 |
 

@@ -1,4 +1,6 @@
-# Vue Table Components
+# RayTable
+
+`rayyy-vue-table-components` 的文件站名稱。
 
 Vue 3、Element Plus 與 TypeScript 組件庫，提供表格、表單、佈局與對話框，共 16 個公開組件。
 
@@ -32,7 +34,7 @@ npm install rayyy-vue-table-components vue element-plus vue-i18n
 | [按鈕](tests/consumer/src/examples/ButtonExample.vue) | BaseBtn 文字、slot、樣式、禁用與 click |
 | [搜尋](tests/consumer/src/examples/SearchExample.vue) | SearchBar 的 keydown:enter、update:clear 與 slots |
 | [對話框](tests/consumer/src/examples/DialogExample.vue) | customWidth、v-model 與 click:submit |
-| [警告對話框](tests/consumer/src/examples/WarningExample.vue) | 保留 BaseWaringDialog 拼字與 update:submit |
+| [警告對話框](tests/consumer/src/examples/WarningExample.vue) | BaseWarningDialog 與 update:submit（3.0 已由 BaseWaringDialog 改名，遷移見 CHANGELOG） |
 | [主面板](tests/consumer/src/examples/MainPanelExample.vue) | MainPanel 的 searchBar、main、footer slots |
 | [詳細頁](tests/consumer/src/examples/DetailExample.vue) | DetailLayout 的編輯、儲存與取消草稿 |
 | [篩選頁](tests/consumer/src/examples/FilterExample.vue) | FilterLayout 的 submitEmit、resetEmit |
@@ -99,7 +101,7 @@ TransferItem 的獨立契約也保留於 [公開型別](src/types/components.ts)
 
 ## 相容性
 
-保留公開名稱、事件與既有 subpaths，包含 `BaseWaringDialog` 的歷史拼字、BaseTableEmits 的 handler map、BaseDialogEmits 的 callable 形狀，以及舊 instance 型別。預設 plugin 的歷史數字索引也保留原順序。
+保留公開名稱、事件與既有 subpaths，包含 BaseTableEmits 的 handler map、BaseDialogEmits 的 callable 形狀，以及舊 instance 型別。預設 plugin 的歷史數字索引也保留原順序。`BaseWaringDialog` 的拼字在 3.0 已改名為 `BaseWarningDialog`，遷移方式見 CHANGELOG。
 
 `setLocale`、套件 `useI18n`、`useComponentElementLocale` 與 plugin `locale` 選項為 deprecated 相容入口；它們不控制元件文字。詳細歷史基線與本次決策見 [package-contract](docs/package-contract.md)。
 

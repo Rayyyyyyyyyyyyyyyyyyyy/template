@@ -18,8 +18,20 @@ describe('page titles', () => {
   })
 
   it('gives every child route except home a title', () => {
-    const children = router.getRoutes().filter((r) => r.name !== 'HomeLayout' && r.name !== 'Home')
+    const children = router.getRoutes().filter((r) => r.name !== 'HomeLayout' && r.name !== 'Home' && !r.redirect)
     expect(children.length).toBeGreaterThan(10)
     for (const r of children) expect(r.meta.title, String(r.name)).toBeTruthy()
+  })
+
+  it('redirects the old dialog demo path and titles the new one', async () => {
+    await router.push('/demo/base-waring-dialog')
+    expect(router.currentRoute.value.path).toBe('/demo/base-warning-dialog')
+    expect(titleOf('/demo/base-warning-dialog')).toBe('BaseWarningDialog · RayTable')
+  })
+
+  it('sets document.title on navigation', async () => {
+    await router.push('/demo/base-btn')
+    await router.isReady()
+    expect(document.title).toBe('BaseBtn · RayTable')
   })
 })

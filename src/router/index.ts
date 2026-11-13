@@ -84,11 +84,12 @@ const routes = [
         meta: { title: 'BaseDialog' },
         component: () => import('@/views/demo/BaseDialogDemo.vue'),
       },
+      { path: '/demo/base-waring-dialog', redirect: ROUTES.BASE_WARNING_DIALOG },
       {
-        path: ROUTES.BASE_WARING_DIALOG,
-        name: ROUTE_NAMES.BASE_WARING_DIALOG,
-        meta: { title: 'BaseWaringDialog' },
-        component: () => import('@/views/demo/BaseWaringDialogDemo.vue'),
+        path: ROUTES.BASE_WARNING_DIALOG,
+        name: ROUTE_NAMES.BASE_WARNING_DIALOG,
+        meta: { title: 'BaseWarningDialog' },
+        component: () => import('@/views/demo/BaseWarningDialogDemo.vue'),
       },
       {
         path: ROUTES.TABLE,

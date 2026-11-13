@@ -89,7 +89,7 @@ export const apiReference: ApiComponent[] = [
       row('subTitle', 'string', '—', '副標題'),
       row('beforeClose', '() => void', '—', '關閉前回調'),
       row('customWidth', 'string', '—', '明確指定對話框寬度；優先於響應式預設'),
-      row('isWaring', 'boolean', 'false', '是否為警告對話框'),
+      row('isWarning', 'boolean', 'false', '是否為警告對話框'),
       row('isPrimary', 'boolean', 'false', '是否為主要對話框'),
       row('bodyLoading', 'boolean', 'false', '內容區域加載狀態'),
       row('submitLoading', 'boolean', 'false', '提交按鈕加載狀態'),

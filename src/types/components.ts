@@ -279,7 +279,7 @@ export interface BaseDialogProps {
   /** 明確指定對話框寬度；優先於響應式預設 */
   customWidth?: string
   /** 是否為警告對話框 */
-  isWaring?: boolean
+  isWarning?: boolean
   /** 是否為主要對話框 */
   isPrimary?: boolean
   /** 內容區域加載狀態 */
@@ -311,38 +311,38 @@ export interface BaseDialogInstance {
   $emit: BaseDialogEmits
 }
 
-// ==================== BaseWaringDialog 組件類型 ====================
+// ==================== BaseWarningDialog 組件類型 ====================
 
-/** BaseWaringDialog 組件 Props 類型 */
-export interface BaseWaringDialogProps {
+/** BaseWarningDialog 組件 Props 類型 */
+export interface BaseWarningDialogProps {
   /** 是否顯示對話框 */
   modelValue: boolean
   /** 警告文字 */
-  waringText?: string
+  warningText?: string
   /** 副警告文字 */
-  subWaringText?: string
+  subWarningText?: string
   /** 標題文字 */
   titleText?: string
   /** 確認鈕改用 danger 色，並讓取消鈕取得初始焦點 */
   dangerSubmit?: boolean
 }
 
-export interface BaseWaringDialogEventMap {
+export interface BaseWarningDialogEventMap {
   'update:modelValue': [value: boolean]
   'update:submit': []
 }
 
-export interface BaseWaringDialogEmits {
-  (event: 'update:modelValue', ...args: BaseWaringDialogEventMap['update:modelValue']): void
-  (event: 'update:submit', ...args: BaseWaringDialogEventMap['update:submit']): void
+export interface BaseWarningDialogEmits {
+  (event: 'update:modelValue', ...args: BaseWarningDialogEventMap['update:modelValue']): void
+  (event: 'update:submit', ...args: BaseWarningDialogEventMap['update:submit']): void
 }
 
-/** BaseWaringDialog 組件實例類型 */
-export interface BaseWaringDialogInstance {
+/** BaseWarningDialog 組件實例類型 */
+export interface BaseWarningDialogInstance {
   /** 組件 Props */
-  $props: BaseWaringDialogProps
+  $props: BaseWarningDialogProps
   /** 組件 Emits */
-  $emit: BaseWaringDialogEmits
+  $emit: BaseWarningDialogEmits
 }
 
 // ==================== TransferDialog 組件類型 ====================
@@ -746,8 +746,8 @@ export declare const BaseBtn: typeof import('../components/items/BaseBtn.vue')['
 /** BaseDialog 組件定義 */
 export declare const BaseDialog: typeof import('../components/items/BaseDialog.vue')['default'] & { install: (app: App) => void }
 
-/** BaseWaringDialog 組件定義 */
-export declare const BaseWaringDialog: typeof import('../components/items/BaseWaringDialog.vue')['default'] & { install: (app: App) => void }
+/** BaseWarningDialog 組件定義 */
+export declare const BaseWarningDialog: typeof import('../components/items/BaseWarningDialog.vue')['default'] & { install: (app: App) => void }
 
 /** TransferDialog 組件定義 */
 export declare const TransferDialog: typeof import('../components/transfer/TransferDialog.vue')['default'] & { install: (app: App) => void }
@@ -808,8 +808,8 @@ export interface VueTableComponentsPlugin {
   BaseBtn: typeof BaseBtn
   /** BaseDialog 組件 */
   BaseDialog: typeof BaseDialog
-  /** BaseWaringDialog 組件 */
-  BaseWaringDialog: typeof BaseWaringDialog
+  /** BaseWarningDialog 組件 */
+  BaseWarningDialog: typeof BaseWarningDialog
   /** TransferDialog 組件 */
   TransferDialog: typeof TransferDialog
   /** BaseInput 組件 */
@@ -841,7 +841,7 @@ declare module '@vue/runtime-core' {
     TitleTable: typeof TitleTable
     BaseBtn: typeof BaseBtn
     BaseDialog: typeof BaseDialog
-    BaseWaringDialog: typeof BaseWaringDialog
+    BaseWarningDialog: typeof BaseWarningDialog
     TransferDialog: typeof TransferDialog
     BaseInput: typeof BaseInput
     BaseSelector: typeof BaseSelector
@@ -865,7 +865,7 @@ export interface BaseBtnSlots {
   default?: () => VNode[]
 }
 
-export interface BaseWaringDialogSlots {
+export interface BaseWarningDialogSlots {
   default?: () => VNode[]
 }
 

@@ -110,9 +110,9 @@ const demoPages = [
     ],
   },
   {
-    title: 'BaseWaringDialog',
+    title: 'BaseWarningDialog',
     description: '警告對話框組件',
-    route: ROUTES.BASE_WARING_DIALOG,
+    route: ROUTES.BASE_WARNING_DIALOG,
     group: 'dialogs',
     features: [
       '警告樣式：專門用於警告和確認操作',
