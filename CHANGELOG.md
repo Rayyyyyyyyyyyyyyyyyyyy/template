@@ -24,7 +24,7 @@
 - BaseTable、SortTable、TitleTable 新增 `error` prop 與 `error`、`empty` slot，可自訂載入失敗與無資料畫面
 - BaseTable 新增 `unfixColumnsBelow` prop，視窗寬度小於該值時選取欄、序號欄、操作欄不固定
 - BaseTable 新增 `rowLabel` prop，為查看／編輯按鈕加上 aria-label
-- BaseDialog、BaseWaringDialog 新增 `dangerSubmit` prop（預設 false），確認鈕改用 danger 色並讓取消鈕取得初始焦點
+- BaseDialog、BaseWarningDialog 新增 `dangerSubmit` prop（預設 false），確認鈕改用 danger 色並讓取消鈕取得初始焦點
 - BaseDialog 在視窗寬度小於 500px 時頁尾按鈕並排等寬
 - SearchableListPanel 新增 `paginationLayout`、`compactPaginationBelow` prop，可自訂分頁 layout 並在窄視窗精簡
 - SearchBar 新增 `searchOnInput`、`searchDelay` prop，輸入後延遲自動搜尋

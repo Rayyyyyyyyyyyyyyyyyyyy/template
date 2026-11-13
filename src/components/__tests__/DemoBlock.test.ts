@@ -25,6 +25,12 @@ it('renders heading anchor, description and slot, collapsed by default', () => {
   expect(wrapper.get('pre').element.parentElement!.style.display === 'none').toBe(true)
 })
 
+it('builds a URL-safe anchor from the title, or uses the id prop', () => {
+  const mountWith = (props: { title: string; id?: string }) => mount(DemoBlock, { props: { source, ...props }, global: { components: { ElTooltip } } })
+  expect(mountWith({ title: 'C# 是 100%? a/b' }).get('h2').attributes('id')).toBe('C-是-100-a-b')
+  expect(mountWith({ title: 'x', id: 'custom' }).get('h2').attributes('id')).toBe('custom')
+})
+
 it('toggles the source open and closed', async () => {
   const wrapper = mountBlock()
   const toggle = wrapper.get('[data-test=toggle-code]')

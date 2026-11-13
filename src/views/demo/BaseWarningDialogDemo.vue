@@ -1,115 +1,36 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { BaseWarningDialog, BaseBtn } from '@/components'
-
-const showDialog1 = ref(false)
-const showDialog2 = ref(false)
-const showDialog3 = ref(false)
-const showDialog4 = ref(false)
-
-const handleSubmit1 = () => {
-  console.log('確認移除使用者')
-  showDialog1.value = false
-}
-
-const handleSubmit2 = () => {
-  console.log('確認刪除檔案')
-  showDialog2.value = false
-}
-
-const handleSubmit3 = () => {
-  console.log('確認重置設定')
-  showDialog3.value = false
-}
-
-const handleSubmit4 = () => {
-  console.log('確認退出系統')
-  showDialog4.value = false
-}
+import DemoBlock from '../docs/DemoBlock.vue'
+import WarningRemoveUser from '../../../tests/consumer/src/examples/demo/base-warning-dialog/WarningRemoveUser.vue'
+import removeUserSource from '../../../tests/consumer/src/examples/demo/base-warning-dialog/WarningRemoveUser.vue?raw'
+import WarningDeleteFile from '../../../tests/consumer/src/examples/demo/base-warning-dialog/WarningDeleteFile.vue'
+import deleteFileSource from '../../../tests/consumer/src/examples/demo/base-warning-dialog/WarningDeleteFile.vue?raw'
+import WarningResetSettings from '../../../tests/consumer/src/examples/demo/base-warning-dialog/WarningResetSettings.vue'
+import resetSettingsSource from '../../../tests/consumer/src/examples/demo/base-warning-dialog/WarningResetSettings.vue?raw'
+import WarningExitSystem from '../../../tests/consumer/src/examples/demo/base-warning-dialog/WarningExitSystem.vue'
+import exitSystemSource from '../../../tests/consumer/src/examples/demo/base-warning-dialog/WarningExitSystem.vue?raw'
 </script>
 
 <template>
   <div class="demo-page">
     <div class="demo-container">
-      <h1 class="text-3xl font-bold text-gray-900 mb-8">BaseWarningDialog 組件示範</h1>
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">BaseWarningDialog 組件示範</h1>
+      <p class="text-gray-600 mb-8">每個範例下方可複製或查看完整程式碼，內容與畫面上執行的是同一份檔案。</p>
 
-      <!-- 基礎警告對話框 -->
-      <el-card class="mb-8" shadow="never">
-        <template #header>
-          <h2 class="text-xl font-semibold">基礎警告對話框</h2>
-        </template>
-        <div class="space-y-4">
-          <div class="flex flex-wrap gap-4">
-            <BaseBtn type="danger" @click="showDialog1 = true">移除使用者</BaseBtn>
-            <BaseBtn type="danger" @click="showDialog2 = true">刪除檔案</BaseBtn>
-            <BaseBtn type="warning" @click="showDialog3 = true">重置設定</BaseBtn>
-            <BaseBtn type="danger" @click="showDialog4 = true">退出系統</BaseBtn>
-          </div>
-        </div>
-      </el-card>
+      <DemoBlock title="移除使用者" description="用 title-text、warning-text、sub-warning-text 設定文案，確認時觸發 update:submit。" :source="removeUserSource">
+        <WarningRemoveUser />
+      </DemoBlock>
 
-      <!-- 移除使用者警告對話框 -->
-      <BaseWarningDialog
-        v-model="showDialog1"
-        title-text="移除使用者"
-        warning-text="請問是否確認移除該使用者"
-        sub-warning-text="此操作將永久移除該使用者，且無法恢復"
-        @update:submit="handleSubmit1"
-      />
+      <DemoBlock title="刪除檔案" description="與移除使用者相同的基本用法，換成刪除檔案的文案。" :source="deleteFileSource">
+        <WarningDeleteFile />
+      </DemoBlock>
 
-      <!-- 刪除檔案警告對話框 -->
-      <BaseWarningDialog
-        v-model="showDialog2"
-        title-text="刪除檔案"
-        warning-text="請問是否確認刪除該檔案"
-        sub-warning-text="此操作將永久刪除該檔案，且無法恢復"
-        @update:submit="handleSubmit2"
-      />
+      <DemoBlock title="重置設定" description="用預設 slot 自訂對話框內容。" :source="resetSettingsSource">
+        <WarningResetSettings />
+      </DemoBlock>
 
-      <!-- 重置設定警告對話框 -->
-      <BaseWarningDialog
-        v-model="showDialog3"
-        title-text="重置設定"
-        warning-text="請問是否確認重置所有設定"
-        sub-warning-text="此操作將重置所有設定為預設值，且無法恢復"
-        @update:submit="handleSubmit3"
-      >
-        <div class="w-full h-16 flex items-center justify-center flex-col">
-          <p class="text-sm text-gray-600 mb-2">此操作將重置所有設定為預設值，且無法恢復</p>
-          <p class="text-base font-medium">請問是否確認重置所有設定 ?</p>
-        </div>
-      </BaseWarningDialog>
-
-      <!-- 退出系統警告對話框 -->
-      <BaseWarningDialog
-        v-model="showDialog4"
-        title-text="退出系統"
-        warning-text="請問是否確認退出系統"
-        sub-warning-text="您將失去所有未儲存的變更"
-        @update:submit="handleSubmit4"
-      >
-        <div class="w-full h-16 flex items-center justify-center flex-col">
-          <div class="flex items-center mb-2">
-            <svg
-              class="w-5 h-5 text-orange-500 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
-              />
-            </svg>
-            <p class="text-sm text-orange-600">您將失去所有未儲存的變更</p>
-          </div>
-          <p class="text-base font-medium">請問是否確認退出系統 ?</p>
-        </div>
-      </BaseWarningDialog>
+      <DemoBlock title="退出系統" description="預設 slot 內容可加入圖示等自訂排版。" :source="exitSystemSource">
+        <WarningExitSystem />
+      </DemoBlock>
     </div>
   </div>
 </template>
-
-<style scoped></style>

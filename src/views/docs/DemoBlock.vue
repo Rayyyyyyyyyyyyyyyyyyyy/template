@@ -3,10 +3,10 @@ import { computed, ref } from 'vue'
 import { CopyDocument } from '@element-plus/icons-vue'
 import { useCopySource } from './useCopySource'
 
-const props = defineProps<{ title: string; description?: string; source: string }>()
+const props = defineProps<{ title: string; description?: string; source: string; id?: string }>()
 const { copying, status, copySource } = useCopySource(() => props.source)
 const expanded = ref(false)
-const anchor = computed(() => props.title.replace(/\s+/g, '-'))
+const anchor = computed(() => props.id ?? props.title.replace(/[\s#?%/]+/g, '-'))
 const toggleLabel = computed(() => (expanded.value ? '隱藏程式碼' : '查看程式碼'))
 const codeId = computed(() => `${anchor.value}-code`)
 </script>
