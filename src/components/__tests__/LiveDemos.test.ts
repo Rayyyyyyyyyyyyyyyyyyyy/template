@@ -85,6 +85,9 @@ it('lets body background and color-scheme follow html.dark', () => {
   expect(demo).toMatch(/html\.dark \.site-button:not\(\.site-button--primary\)\s*{[^}]*background:\s*var\(--el-bg-color/)
   expect(demo).not.toMatch(/html\.dark \.site-button\s*[,{]/)
   expect(demo).toMatch(/html\.dark \.site-button:not\(\.site-button--primary\):hover\s*{[^}]*color:\s*#79bbff/)
+  expect(demo).toMatch(/html\.dark \.text-blue-700\s*{[^}]*color:\s*#79bbff/)
+  expect(demo).toMatch(/html\.dark \.text-black\s*{[^}]*color:\s*var\(--el-text-color-primary/)
+  expect(demo).toMatch(/html\.dark \.bg-green-50 \.text-green-600\s*{[^}]*color:\s*#15803d/)
 })
 
 it('demonstrates dangerSubmit, compactPaginationBelow and unfixColumnsBelow', async () => {

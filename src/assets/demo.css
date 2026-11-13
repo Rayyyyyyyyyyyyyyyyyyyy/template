@@ -649,3 +649,16 @@ html.dark .bg-slate-50 {
 html.dark .bg-gray-200 {
   background-color: var(--el-fill-color);
 }
+
+html.dark .text-blue-700 {
+  color: #79bbff;
+}
+
+html.dark .text-black {
+  color: var(--el-text-color-primary);
+}
+
+/* The green card keeps its light bg in dark mode; green-600 on green-50 is only 3.15. */
+html.dark .bg-green-50 .text-green-600 {
+  color: #15803d;
+}
