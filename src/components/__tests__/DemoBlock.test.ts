@@ -1,4 +1,5 @@
 import { mount, flushPromises } from '@vue/test-utils'
+import { ElTooltip } from 'element-plus'
 import { afterEach, expect, it, vi } from 'vitest'
 import DemoBlock from '../../views/docs/DemoBlock.vue'
 
@@ -10,6 +11,7 @@ const source = '<script setup>const value = 1</script>'
 const mountBlock = () => mount(DemoBlock, {
   props: { title: '按鈕樣式', description: '說明文字', source },
   slots: { default: '<p class="live">live example</p>' },
+  global: { components: { ElTooltip } },
 })
 
 afterEach(() => { clipboard.copy.mockReset(); clipboard.supported = true })
@@ -19,13 +21,13 @@ it('renders heading anchor, description and slot, collapsed by default', () => {
   expect(wrapper.get('h2').attributes('id')).toBe('按鈕樣式')
   expect(wrapper.text()).toContain('說明文字')
   expect(wrapper.find('.live').exists()).toBe(true)
-  expect(wrapper.get('[aria-controls]').attributes('aria-expanded')).toBe('false')
+  expect(wrapper.get('[data-test=toggle-code]').attributes('aria-expanded')).toBe('false')
   expect(wrapper.get('pre').element.parentElement!.style.display === 'none').toBe(true)
 })
 
 it('toggles the source open and closed', async () => {
   const wrapper = mountBlock()
-  const toggle = wrapper.get('[aria-controls]')
+  const toggle = wrapper.get('[data-test=toggle-code]')
   await toggle.trigger('click')
   expect(toggle.attributes('aria-expanded')).toBe('true')
   expect(wrapper.get('pre').element.parentElement!.style.display === 'none').toBe(false)
@@ -52,4 +54,22 @@ it('reports failure', async () => {
   await wrapper.get('[data-test=copy]').trigger('click')
   await flushPromises()
   expect(wrapper.get('[role=status]').text()).toContain('複製失敗')
+})
+
+it('toggle button label follows state and uses an inline svg icon', async () => {
+  const wrapper = mountBlock()
+  const toggle = wrapper.get('[data-test=toggle-code]')
+  expect(toggle.attributes('aria-label')).toBe('查看程式碼')
+  expect(toggle.find('svg[data-test=code-icon]').attributes('aria-hidden')).toBe('true')
+  await toggle.trigger('click')
+  expect(toggle.attributes('aria-label')).toBe('隱藏程式碼')
+})
+
+it('wraps both icon buttons in tooltips that also open on focus', async () => {
+  const wrapper = mountBlock()
+  const tips = wrapper.findAllComponents(ElTooltip)
+  expect(tips.map(t => t.props('content'))).toEqual(['複製程式碼', '查看程式碼'])
+  expect(tips.every(t => t.props('placement') === 'top' && (t.props('trigger') as string[]).includes('focus'))).toBe(true)
+  await wrapper.get('[data-test=toggle-code]').trigger('click')
+  expect(tips[1].props('content')).toBe('隱藏程式碼')
 })
